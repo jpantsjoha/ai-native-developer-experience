@@ -31,7 +31,7 @@ Shared contracts, validation, and discipline are not optional.
 
 ## What’s inside
 
-- **`DEVELOPER_EXPERIENCE.md`**  
+- **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)**  
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration.
 
 - Future additions will cover:

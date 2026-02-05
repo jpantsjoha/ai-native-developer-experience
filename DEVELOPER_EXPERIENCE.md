@@ -1176,8 +1176,6 @@ When project structure changes:
 
 ---
 
----
-
 ## Additional Resources
 
 ### Project Resources

@@ -3,26 +3,41 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.0.0  
- - **Last Updated**: 2026-02-04  
- - **Pricing Verified**: 2026-02-04 (Gemini 3 Flash $0.50/$3.00, Gemini 3 Pro $2.00/$12.00 - Preview)  
+ - **Version**: 1.1.0
+ - **Last Updated**: 2026-02-05
+ - **Pricing Verified**: 2026-02-05 (Gemini 3 Flash $0.50/$3.00, Gemini 3 Pro $2.00/$12.00 - Preview)  
  - **Audience**: Developers adopting AI-augmented development workflows  
  - **Purpose**: Bootstrap new team members to deliver rapid value from day one
 ---
 
 ## Table of Contents
 
+**Philosophy & Strategy**
 1. [Introduction](#introduction)
 2. [Development Philosophy](#development-philosophy)
-3. [AI-Assisted Development Workflow](#ai-assisted-development-workflow)
-4. [MCP Tools Configuration](#mcp-tools-configuration)
-5. [Three Musketeers Pattern](#three-musketeers-pattern)
-6. [Pre-Commit Hooks](#pre-commit-hooks)
-7. [Testing & Validation](#testing--validation)
-8. [Branch-Based Development](#branch-based-development)
-9. [Spec-Driven Development](#spec-driven-development)
-10. [Project Tracking](#project-tracking)
-11. [Quick Reference](#quick-reference)
+3. [Spec-Driven Development](#spec-driven-development)
+
+**Workflow & Process**
+4. [AI-Assisted Development Workflow](#ai-assisted-development-workflow)
+5. [MCP Tools Configuration](#mcp-tools-configuration)
+6. [ClickOps Engineering](#clickops-engineering)
+
+**Build & Validation**
+7. [Three Musketeers Pattern](#three-musketeers-pattern)
+8. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
+9. [Testing & Validation](#testing--validation)
+10. [Branch-Based Development](#branch-based-development)
+
+**Deployment & Operations**
+11. [Project Tracking](#project-tracking)
+12. [Release Management & Tagging](#release-management--tagging)
+
+**Reference**
+13. [Quick Reference](#quick-reference)
+14. [Project Structure & Folder Relationships](#project-structure--folder-relationships)
+15. [CLAUDE.md Configuration](#claudemd-configuration)
+16. [Additional Resources](#additional-resources)
+17. [Agent Instructions](#agent-instructions)
 
 ---
 
@@ -82,300 +97,11 @@ gh api repos/{owner}/{repo}/branches/main/protection \
 
 ---
 
-## AI-Assisted Development Workflow
-
-This guide covers **two enterprise-grade AI CLIs** for development. Both connect through enterprise endpoints (Vertex AI), not personal subscriptions.
-
-### AI CLI Comparison
-
-| Capability              | Claude Code (Anthropic)           | Gemini CLI (Google)                  |
-| ----------------------- | --------------------------------- | ------------------------------------ |
-| **Enterprise Endpoint** | Vertex AI Claude                  | Vertex AI Gemini                     |
-| **Context File**        | `CLAUDE.md`                       | `GEMINI.md`                          |
-| **Configuration**       | `~/.claude/settings.json`           | `~/.gemini/settings.json`              |
-| **MCP Support**         | Built-in                          | Built-in                             |
-| **Sub-Agents**          | Explore, Plan, QA Agents          | Orchestrator Plugin (multi-agent)    |
-| **Background Tasks**    | ❌                                | ✅ Background Agents                 |
-| **Custom Commands**     | Skills (slash commands)           | Slash commands                       |
-| **Interactive Mode**    | Default                           | `/chat` or shell mode                |
-| **Best For**            | Deep reasoning, complex refactors | Parallel workflows, GCP integrations |
-
-### Claude Code (Primary)
-
-Claude Code connects via **Vertex AI Enterprise** endpoint for enterprise-compliant consumption.
-
-#### Agents & Subagents
-
-| Agent Type               | Purpose                                      | When to Use                  |
-| ------------------------ | -------------------------------------------- | ---------------------------- |
-| **Main Agent**           | Primary conversation, orchestration          | Default interaction          |
-| **Explore Agent**        | Codebase search, context gathering           | "Where is X implemented?"    |
-| **Plan Agent**           | Architecture design, implementation planning | Before significant changes   |
-| **QA Validation Agent**  | Post-implementation testing                  | After completing features    |
-| **Docs Quality Auditor** | Documentation review                         | After creating/updating docs |
-
-#### Model Selection
-
-| Model                | Use Case                                               | Cost    |
-| -------------------- | ------------------------------------------------------ | ------- |
-| **Sonnet** (default) | 95% of tasks — implementation, config, code generation | Higher  |
-| **Haiku**            | Trivial tasks — formatting, simple CRUD, file moving   | Lower   |
-| **Opus**             | Complex reasoning, architecture decisions, debugging   | Highest |
-
-**Rule**: Default to Sonnet. Use Haiku only for truly trivial operations.
-
-### Gemini CLI + Conductor Plugin
-
-**Conductor** ([github.com/gemini-cli-extensions/conductor](https://github.com/gemini-cli-extensions/conductor)) enables **context-driven development** — formalizing specs and plans as persistent Markdown files.
-Install: `gemini extensions install https://github.com/gemini-cli-extensions/conductor`
-
-**What it does**: Breaks objectives into Tracks → Phases → Tasks, stored in `conductor/spec.md` and `conductor/plan.md`. Tasks should be **atomic enough for parallel execution**.
-
-#### Model Selection (February 2026)
-
-| Provider | Model | Context | Input $/MTok | Output $/MTok | Long Context (>200K) | Best For |
-|----------|-------|---------|--------------|---------------|---------------------|----------|
-| **Google** | Gemini 3 Flash | 1M | $0.50 | $3.00 | N/A (flat rate) | 95% of coding |
-| **Google** | Gemini 3 Pro* | 1M | $2.00 | $12.00 | $4.00/$18.00 | Complex reasoning |
-| **Anthropic** | Claude Sonnet 4.5 | 200K/1M† | $3.00 | $15.00 | $6.00/$22.50 | Balanced quality |
-| **Anthropic** | Claude Opus 4.5 | 200K | $5.00 | $25.00 | N/A | Deep analysis |
-
-*Preview pricing - may reduce Q2 2026  
-†1M context in beta for organizations in usage tier 4
-
-> **Cost Guidance**: Gemini 3 Flash offers the best value for routine coding. Use higher-tier models only when reasoning depth is insufficient.
-> ⚠️ Preview pricing as of February 2026 - verify before production use
-
-#### Essential Plugins
-
-Install: `gemini extensions install <github-url>`
-
-| Plugin                                                         | Purpose                                |
-| -------------------------------------------------------------- | -------------------------------------- |
-| [Conductor](https://github.com/gemini-cli-extensions/conductor)          | Context-driven specs, plans, tracks    |
-| [GitHub MCP](https://github.com/modelcontextprotocol/servers)  | PR reviews, issue triage               |
-| [Playwright MCP](https://github.com/microsoft/playwright-mcp) | E2E testing, browser automation        |
-| [Jules](https://github.com/google/gemini-cli-extensions)       | Async agent for refactoring, bug fixes |
-
-### Parallel Agent Execution
-
-Both CLIs support launching multiple agents for independent tasks:
-
-```
-# Example: Parallel work on 3 independent tracks
-Agent 1: Track 1 — Backend API (Task 2.1: Create BullMQ job)
-Agent 2: Track 2 — Frontend UI (Task 2.1: Bulk selection component)
-Agent 3: Track 3 — Testing (Task 1.1: Unit tests)
-```
-
-**Critical**: After parallel work, ALWAYS validate integration:
-
-```bash
-# Single command for full regression validation
-e.g. make tests; make validate-regression-suite
-```
-
-> **📋 Definition of Done — Validation Requirements**
->
-> Both `GEMINI.md` and `CLAUDE.md` must instruct agents to:
->
-> 1. Run validation automatically at the end of every task
-> 2. Include **test harness/suite** coverage for new features
-> 3. Add **integration tests** for API changes
-> 4. Add **UI/UX validation** (E2E tests) for frontend changes
-> 5. Execute full regression suite before marking task complete
->
-> Agents should run `make validate-regression-suite` autonomously — or prompt the user to approve execution.
-
-#### Validation Makefile Targets
-
-| Target                           | Scope                                            | When to Use                  |
-| -------------------------------- | ------------------------------------------------ | ---------------------------- |
-| `make validate-regression-suite` | Full regression (lint + typecheck + unit + E2E)  | After any feature completion |
-| `make ci-validate`               | Quick CI checks (lint + typecheck + TF validate) | Before commits               |
-| `make validate-staging`          | Staging health + E2E smoke                       | After deployments            |
-| `make e2e`                       | Full E2E suite only                              | UI/UX validation             |
-
-### Skills (Slash Commands)
-
-Custom skills provide specialized workflows:
-
-| Skill              | Trigger            | Purpose                      |
-| ------------------ | ------------------ | ---------------------------- |
-| `/commit`          | After code changes | Guided git commit workflow   |
-| `/review-pr`       | PR review          | Structured code review       |
-| `/release`         | Deployment time    | Release management workflow  |
-| `/speckit.specify` | New feature        | Create feature specification |
-| `/speckit.plan`    | After spec         | Generate implementation plan |
-| `/speckit.tasks`   | After plan         | Generate actionable tasks    |
-
-#### Spec-Kit Workflow
-
-```bash
-# 1. Define what to build
-/speckit.specify "Add bulk image ALT text regeneration"
-
-# 2. Plan the implementation
-/speckit.plan
-
-# 3. Generate tasks
-/speckit.tasks
-
-# 4. Implement
-/speckit.implement
-```
-
----
-
-## MCP Tools Configuration
-
-### What is MCP?
-
-Model Context Protocol (MCP) extends AI coding assistants with external capabilities. MCP servers provide domain-specific tools for schema introspection, code validation, browser automation, and documentation search.
-
-### Categories of MCP Tools
-
-| Category               | Purpose                                                             |
-| ---------------------- | ------------------------------------------------------------------- |
-| **API & Schema**       | GraphQL introspection, schema validation, type-safe code generation |
-| **Browser Automation** | E2E testing, visual validation, session management                  |
-| **Infrastructure**     | Cloud deployment, IaC validation, security scanning                 |
-| **Documentation**      | Official docs search, API reference lookup                          |
-
-### Configuration
-
-MCP servers are configured in:
-
-- **Global**: `~/.claude/settings.json` (Claude Code) or `~/.gemini/settings.json` (Gemini CLI)
-- **Project**: `.claude/settings.json` or `.gemini/settings.json`
-
-Refer to each MCP server's documentation for installation and setup instructions.
-
----
-
-## ClickOps Engineering
-
-### What is ClickOps Engineering?
-
-ClickOps Engineering transforms manual UI interactions into **codified, deterministic automation**. Rather than ad-hoc clicking through interfaces, every UI journey is captured as executable test code.
-
-### How It Works
-
-1. **Session Reuse**: Launch a browser (Playwright, Selenium) using an existing logged-in Chrome profile via CDP (Chrome DevTools Protocol)
-2. **Journey Recording**: Navigate through complete user flows—the AI observes and can generate equivalent test code
-3. **Codified Automation**: The resulting tests are version-controlled, repeatable, and CI-ready
-4. **Future Conversion**: AI can evaluate these journeys and convert them to equivalent IaC automation (Terraform, Pulumi) when APIs become available
-
-### Benefits
-
-| Benefit           | Description                                                   |
-| ----------------- | ------------------------------------------------------------- |
-| **Deterministic** | Same journey produces same result every time                  |
-| **Auditable**     | Every UI action is logged and version-controlled              |
-| **Convertible**   | Journeys can be analyzed and converted to API/IaC equivalents |
-| **AI-Evaluable**  | AI can review recordings and suggest optimizations            |
-
-> **Note**: Gemini Enterprise has strong UI click operation capabilities, making it particularly suited for ClickOps workflows.
-
----
-
-## Three Musketeers Pattern
-
-### What is Three Musketeers?
-
-A pattern where all development tasks are executed through three tools:
-
-1. **Make** — Task orchestration
-2. **Docker** — Environment consistency
-3. **Compose** — Service orchestration
-
-### Why We Use It
-
-| Benefit               | Explanation                                            |
-| --------------------- | ------------------------------------------------------ |
-| **Human Reusability** | Any developer runs `make dev` — same result everywhere |
-| **CI/CD Alignment**   | GitHub Actions use same Makefile targets               |
-| **Documentation**     | `make help` shows all available commands               |
-| **Abstraction**       | Complex commands hidden behind simple targets          |
-
-### Makefile Targets
-
-Run `make help` to see all available targets. Common categories:
-
-- **Development**: `make dev`, `make setup`
-- **Testing**: `make test`, `make e2e`, `make lint`, `make typecheck`
-- **Database**: `make db-migrate`, `make db-studio`
-- **Infrastructure**: `make tf-plan-*`, `make tf-apply-*`
-- **Deployment**: `make deploy-staging`, `make health-check-staging`
-- **Validation**: `make validate-regression-suite` (full regression)
-
----
-
-## Pre-Commit Hooks
-
-Use `lint-staged` + `husky` to enforce linting and formatting on every commit. This catches issues early, ensures consistent formatting, and provides fast feedback (<10 seconds).
-
-Bypass only for emergencies: `git commit --no-verify`
-
----
-
-## Testing & Validation
-
-Use a **testing pyramid**: many fast unit tests at the base, fewer integration tests in the middle, and targeted E2E tests at the top.
-
-| Layer           | Purpose                                |
-| --------------- | -------------------------------------- |
-| **Unit**        | Fast, mocked, high coverage            |
-| **Integration** | Real external APIs                     |
-| **E2E**         | Browser automation, full user journeys |
-
-For authenticated session testing, use CDP (Chrome DevTools Protocol) to reuse existing browser sessions—no credentials in test files.
-
----
-
-## Branch-Based Development
-
-### Branch Naming
-
-| Prefix      | Purpose                |
-| ----------- | ---------------------- |
-| `feat/`     | New features           |
-| `fix/`      | Bug fixes              |
-| `refactor/` | Code improvements      |
-| `docs/`     | Documentation only     |
-| `infra/`    | Infrastructure changes |
-
-### Workflow
-
-`main` (protected) ← PR ← feature branch ← commits
-
-### Commit Message Format
-
-```
-type(scope): Brief description
-
-- Detailed bullet point 1
-- Detailed bullet point 2
-
-Fixes #123
-Refs #456
-```
-
-**Types**: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `infra`
-
-### Branch Lifecycle
-
-1. **Create**: `git checkout -b feat/my-feature`
-2. **Develop**: Make changes, commit frequently
-3. **Push**: `git push -u origin feat/my-feature`
-4. **PR**: Create PR via `gh pr create`
-5. **Review**: Address feedback
-6. **Merge**: Squash merge to main
-7. **Delete**: Branch auto-deleted after merge
-
----
-
 ## Spec-Driven Development
+
+> 📚 **Reference**: [Specification by Example](https://gojko.net/books/specification-by-example/) | [BDD](https://cucumber.io/docs/bdd/)
+
+Spec-driven development ensures **traceability** (every line of code traces to a requirement), **alignment** (technical decisions match business goals), and **quality** (acceptance criteria defined before coding).
 
 ### Artifact Hierarchy
 
@@ -422,6 +148,22 @@ Vision & Strategy
 └─────────────────────┘
 ```
 
+### When to Use Spec-Kit
+
+| Scenario                    | Use Spec-Kit? | Reason                             |
+| --------------------------- | ------------- | ---------------------------------- |
+| New feature (>1 day effort) | ✅ Yes        | Full spec → plan → tasks flow      |
+| Bug fix                     | ❌ No         | Just fix and document              |
+| Refactoring                 | 🟡 Maybe      | Use /speckit.plan if architectural |
+| Documentation update        | ❌ No         | Direct update                      |
+| Infrastructure change       | ✅ Yes        | Use for Terraform changes >4h      |
+
+> ⚠️ **Context efficiency note**: Plan mode + ADRs + high-level architecture may provide sufficient context without full spec documents. Evaluate whether spec artifact overhead is justified for your workflow.
+
+### ADR (Architecture Decision Record)
+
+Document significant technical decisions with: **Context** (why), **Decision** (what), **Consequences** (trade-offs). Keep ADRs concise and numbered sequentially.
+
 ### Spec-Kit Workflow
 
 Use Spec-Kit skills to convert requirements into actionable work:
@@ -433,9 +175,636 @@ Use Spec-Kit skills to convert requirements into actionable work:
 5. **Tasks** → GitHub issues
 6. **Implement** → Execute tasks
 
-### ADR (Architecture Decision Record)
+**Example workflow**:
 
-Document significant technical decisions with: **Context** (why), **Decision** (what), **Consequences** (trade-offs). Keep ADRs concise and numbered sequentially.
+```bash
+/speckit.specify "Add bulk image ALT text regeneration"  # Define what
+/speckit.clarify                                          # Refine requirements
+/speckit.plan                                             # Design how
+/speckit.tasks                                            # Create work items
+/speckit.implement                                        # Execute
+```
+
+---
+
+## AI-Assisted Development Workflow
+
+This guide covers **two enterprise-grade AI CLIs** for development. Both connect through enterprise endpoints (Vertex AI), not personal subscriptions.
+
+### AI CLI Comparison
+
+| Capability              | Claude Code (Anthropic)           | Gemini CLI (Google)                  |
+| ----------------------- | --------------------------------- | ------------------------------------ |
+| **Enterprise Endpoint** | Vertex AI Claude                  | Vertex AI Gemini                     |
+| **Context File**        | `CLAUDE.md`                       | `GEMINI.md`                          |
+| **Configuration**       | `~/.claude/settings.json`           | `~/.gemini/settings.json`              |
+| **MCP Support**         | Built-in                          | Built-in                             |
+| **Sub-Agents**          | Explore, Plan, QA Agents          | Orchestrator Plugin (multi-agent)    |
+| **Background Tasks**    | ✅ Ctrl+B backgrounding           | ✅ Jules async agents                |
+| **Custom Commands**     | Skills (merged with /commands)    | Slash commands                       |
+| **Interactive Mode**    | Default                           | `/chat` or shell mode                |
+| **Best For**            | Deep reasoning, complex refactors | Parallel workflows, GCP integrations |
+
+### Claude Code (Primary)
+
+Claude Code connects via **Vertex AI Enterprise** endpoint for enterprise-compliant consumption.
+
+> 📚 **Official Documentation**: [code.claude.com/docs](https://code.claude.com/docs/en/overview) | [Quickstart](https://code.claude.com/docs/en/quickstart) | [Settings](https://code.claude.com/docs/en/settings)
+
+#### Agents & Subagents
+
+| Agent Type               | Purpose                                      | When to Use                  |
+| ------------------------ | -------------------------------------------- | ---------------------------- |
+| **Main Agent**           | Primary conversation, orchestration          | Default interaction          |
+| **Explore Agent**        | Codebase search, context gathering           | "Where is X implemented?"    |
+| **Plan Agent**           | Architecture design, implementation planning | Before significant changes   |
+| **QA Validation Agent**  | Post-implementation testing                  | After completing features    |
+| **Docs Quality Auditor** | Documentation review                         | After creating/updating docs |
+
+#### Model Selection
+
+| Model                | Use Case                                               | Cost    |
+| -------------------- | ------------------------------------------------------ | ------- |
+| **Sonnet** (default) | 95% of tasks — implementation, config, code generation | Higher  |
+| **Haiku**            | Trivial tasks — formatting, simple CRUD, file moving   | Lower   |
+| **Opus**             | Complex reasoning, architecture decisions, debugging   | Highest |
+
+**Rule**: Default to Sonnet. Use Haiku only for truly trivial operations.
+
+### Context Management
+
+> 📚 **Further reading**: [How Claude Code Works](https://code.claude.com/docs/en/how-claude-code-works) | [Subagents](https://code.claude.com/docs/en/sub-agents)
+
+#### Progressive Context via Plan Mode
+
+Plan mode maintains an evolving plan document that serves as just-enough context:
+
+1. **Planning phase**: Accumulate intent and constraints as work unfolds
+2. **Execution phase**: Plan becomes the living spec, actively reasoned over
+3. **Session resume**: Reopen sessions days later with full ticket context preserved
+
+> **Practitioner insight**: With solid planning, code generation often becomes a 2–3 minute exercise. The heavy lifting is in the structured planning phase.
+
+#### Subagent Context Isolation
+
+Use subagents to keep execution output out of the main context:
+
+| Pattern | Benefit |
+|---------|---------|
+| QA tests in subagent | Test output stays isolated; only pass/fail returns |
+| Exploration in subagent | File contents don't pollute main conversation |
+| Refactoring in subagent | Large diffs summarized, not inline |
+
+**Example**: Run QA tests in a subagent context—verbose output stays isolated, only the result (pass/fail + summary) returns to the orchestrating agent. This dramatically improves signal quality.
+
+#### Context Bloat Warning
+
+> ⚠️ **Practitioner caveat**: Context proliferation can increase noise and decrease result quality. Consider whether you need full spec-driven documents or whether ADRs, high-level architecture, and plan mode provide sufficient context. Feed as little context as needed while providing all context necessary.
+
+### Gemini CLI + Conductor Plugin
+
+> 📚 **Official Documentation**: [geminicli.com/docs](https://geminicli.com/docs/) | [Google Cloud Docs](https://docs.cloud.google.com/gemini/docs/codeassist/gemini-cli) | [GitHub](https://github.com/google-gemini/gemini-cli)
+
+**Conductor** ([github.com/gemini-cli-extensions/conductor](https://github.com/gemini-cli-extensions/conductor)) enables **context-driven development** — formalizing specs and plans as persistent Markdown files.
+Install: `gemini extensions install https://github.com/gemini-cli-extensions/conductor`
+
+**What it does**: Breaks objectives into Tracks → Phases → Tasks, stored in `conductor/spec.md` and `conductor/plan.md`. Tasks should be **atomic enough for parallel execution**.
+
+#### Model Selection (February 2026)
+
+| Provider | Model | Context | Input $/MTok | Output $/MTok | Long Context (>200K) | Best For |
+|----------|-------|---------|--------------|---------------|---------------------|----------|
+| **Google** | Gemini 3 Flash | 1M | $0.50 | $3.00 | N/A (flat rate) | 95% of coding |
+| **Google** | Gemini 3 Pro* | 1M | $2.00 | $12.00 | $4.00/$18.00 | Complex reasoning |
+| **Anthropic** | Claude Sonnet 4.5 | 200K/1M† | $3.00 | $15.00 | $6.00/$22.50 | Balanced quality |
+| **Anthropic** | Claude Opus 4.5 | 200K | $5.00 | $25.00 | N/A | Deep analysis |
+
+*Preview pricing - may reduce Q2 2026  
+†1M context in beta for organizations in usage tier 4
+
+> **Cost Guidance**: Gemini 3 Flash offers the best value for routine coding. Use higher-tier models only when reasoning depth is insufficient.
+> ⚠️ Preview pricing as of February 2026 - verify before production use
+
+#### Essential Plugins
+
+Install: `gemini extensions install <github-url>`
+
+| Plugin                                                         | Purpose                                |
+| -------------------------------------------------------------- | -------------------------------------- |
+| [Conductor](https://github.com/gemini-cli-extensions/conductor)          | Context-driven specs, plans, tracks    |
+| [GitHub MCP](https://github.com/modelcontextprotocol/servers)  | PR reviews, issue triage               |
+| [Playwright MCP](https://github.com/microsoft/playwright-mcp) | E2E testing, browser automation        |
+| [Jules](https://github.com/google/gemini-cli-extensions)       | Async agent for refactoring, bug fixes |
+
+### Parallel Agent Execution
+
+Both CLIs support launching multiple agents for independent tasks:
+
+```
+# Example: Parallel work on 3 independent tracks
+Agent 1: Track 1 — Backend API (Task 2.1: Create BullMQ job)
+Agent 2: Track 2 — Frontend UI (Task 2.1: Bulk selection component)
+Agent 3: Track 3 — Testing (Task 1.1: Unit tests)
+```
+
+#### Scaling with Git Worktrees
+
+For true parallel development across multiple features:
+
+1. **Workspace skill**: Create a skill that sets up new worktrees with isolated environments
+2. **Port isolation**: Assign unique ports and database instances per worktree
+3. **Agent isolation**: Each agent works in its own worktree without conflicts
+
+```bash
+# Example: workspace setup skill assigns unique resources
+Worktree: feature-auth   → ports 3001-3009, db: app_auth
+Worktree: feature-search → ports 3011-3019, db: app_search
+Worktree: feature-export → ports 3021-3029, db: app_export
+```
+
+> **Practitioner tip**: Build a skill that calls your worktree setup scripts and starts your program. This lets tools like agent-browser work in isolated spaces without conflicts.
+
+**Critical**: After parallel work, ALWAYS validate integration:
+
+```bash
+# Single command for full regression validation
+e.g. make tests; make validate-regression-suite
+```
+
+> **📋 Definition of Done — Validation Requirements**
+>
+> Both `GEMINI.md` and `CLAUDE.md` must instruct agents to:
+>
+> 1. Run validation automatically at the end of every task
+> 2. Include **test harness/suite** coverage for new features
+> 3. Add **integration tests** for API changes
+> 4. Add **UI/UX validation** (E2E tests) for frontend changes
+> 5. Execute full regression suite before marking task complete
+>
+> Agents should run `make validate-regression-suite` autonomously — or prompt the user to approve execution.
+
+#### Validation Makefile Targets
+
+| Target                           | Scope                                            | When to Use                  |
+| -------------------------------- | ------------------------------------------------ | ---------------------------- |
+| `make validate-regression-suite` | Full regression (lint + typecheck + unit + E2E)  | After any feature completion |
+| `make ci-validate`               | Quick CI checks (lint + typecheck + TF validate) | Before commits               |
+| `make validate-staging`          | Staging health + E2E smoke                       | After deployments            |
+| `make e2e`                       | Full E2E suite only                              | UI/UX validation             |
+
+### Skills (Slash Commands)
+
+> 📚 **Official Documentation**: [code.claude.com/docs/en/skills](https://code.claude.com/docs/en/skills)
+
+> **Note**: Custom slash commands have been **merged into skills**. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review`. Existing `.claude/commands/` files continue working. Skills add: directory structure for supporting files, frontmatter for invocation control, and automatic loading when relevant.
+
+#### Skill Directory Structure
+
+Skills are **directories** containing a `SKILL.md` file and optional supporting resources:
+
+```
+.claude/skills/
+└── my-skill/
+    ├── SKILL.md           # Main instructions (required)
+    ├── template.md        # Template for Claude to fill in
+    ├── examples/
+    │   └── sample.md      # Example output
+    └── scripts/
+        └── validate.sh    # Script Claude can execute
+```
+
+**Storage locations**:
+
+| Location | Path | Scope |
+|----------|------|-------|
+| Personal | `~/.claude/skills/<skill-name>/` | All your projects |
+| Project | `.claude/skills/<skill-name>/` | This project only |
+| Plugin | `<plugin>/skills/<skill-name>/` | Where plugin enabled |
+
+#### Common Skills
+
+| Skill              | Trigger            | Purpose                      |
+| ------------------ | ------------------ | ---------------------------- |
+| `/commit`          | After code changes | Guided git commit workflow   |
+| `/review-pr`       | PR review          | Structured code review       |
+| `/release`         | Deployment time    | Release management workflow  |
+| `/speckit.specify` | New feature        | Create feature specification |
+| `/speckit.plan`    | After spec         | Generate implementation plan |
+| `/speckit.tasks`   | After plan         | Generate actionable tasks    |
+
+#### Spec-Kit Workflow
+
+```bash
+# 1. Define what to build
+/speckit.specify "Add bulk image ALT text regeneration"
+
+# 2. Plan the implementation
+/speckit.plan
+
+# 3. Generate tasks
+/speckit.tasks
+
+# 4. Implement
+/speckit.implement
+```
+
+---
+
+## MCP Tools Configuration
+
+> 📚 **Official Documentation**: [Claude Code MCP](https://code.claude.com/docs/en/mcp) | [MCP Specification](https://modelcontextprotocol.io/) | [MCP Servers Registry](https://github.com/modelcontextprotocol/servers)
+
+### What is MCP?
+
+Model Context Protocol (MCP) extends AI coding assistants with external capabilities. MCP servers provide domain-specific tools for schema introspection, code validation, browser automation, and documentation search.
+
+### Categories of MCP Tools
+
+| Category               | Purpose                                                             |
+| ---------------------- | ------------------------------------------------------------------- |
+| **API & Schema**       | GraphQL introspection, schema validation, type-safe code generation |
+| **Browser Automation** | E2E testing, visual validation, session management                  |
+| **Infrastructure**     | Cloud deployment, IaC validation, security scanning                 |
+| **Documentation**      | Official docs search, API reference lookup                          |
+
+### Configuration
+
+MCP servers are configured in:
+
+- **Global**: `~/.claude/settings.json` (Claude Code) or `~/.gemini/settings.json` (Gemini CLI)
+- **Project**: `.claude/settings.json` or `.gemini/settings.json`
+
+Refer to each MCP server's documentation for installation and setup instructions.
+
+---
+
+## ClickOps Engineering
+
+> 📚 **MCP Tools**: [Playwright MCP](https://github.com/microsoft/playwright-mcp) | [Selenium MCP](https://github.com/angiejones/mcp-selenium) | [Browser Tools MCP](https://github.com/anthropics/anthropic-quickstarts/tree/main/browser-use)
+
+### What is ClickOps Engineering?
+
+ClickOps Engineering transforms manual UI interactions into **codified, deterministic automation**. Rather than ad-hoc clicking through interfaces, every UI journey is captured as executable test code.
+
+### How It Works
+
+1. **Session Reuse**: Launch a browser via CDP (Chrome DevTools Protocol) using an existing logged-in profile
+2. **Journey Recording**: AI observes navigation and generates equivalent test code
+3. **Codified Automation**: Tests are version-controlled, repeatable, and CI-ready
+4. **Future Conversion**: AI converts journeys to API/IaC automation when endpoints become available
+
+### MCP Tools for ClickOps
+
+| Tool | Use Case | Install |
+|------|----------|---------|
+| [Playwright MCP](https://github.com/microsoft/playwright-mcp) | E2E tests, cross-browser | `npx @playwright/mcp@latest` |
+| [Selenium MCP](https://github.com/angiejones/mcp-selenium) | Legacy browser automation | `npm i -g @angiejones/mcp-selenium` |
+| [Browserbase MCP](https://github.com/anthropics/anthropic-quickstarts) | Cloud browser sessions | Via Anthropic quickstarts |
+
+### Benefits
+
+| Benefit           | Description                                                   |
+| ----------------- | ------------------------------------------------------------- |
+| **Deterministic** | Same journey produces same result every time                  |
+| **Auditable**     | Every UI action is logged and version-controlled              |
+| **Convertible**   | Journeys can be analyzed and converted to API/IaC equivalents |
+| **AI-Evaluable**  | AI can review recordings and suggest optimizations            |
+
+> **Note**: Gemini Enterprise has strong UI click operation capabilities, making it particularly suited for ClickOps workflows.
+
+---
+
+## Three Musketeers Pattern
+
+> 📚 **Reference**: [3musketeers.io](https://3musketeers.io/) | [GitHub](https://github.com/flemay/3musketeers)
+
+### What is Three Musketeers?
+
+A pattern where all development tasks are executed through three tools:
+
+1. **Make** — Task orchestration
+2. **Docker** — Environment consistency
+3. **Compose** — Service orchestration
+
+### Why We Use It
+
+| Benefit               | Explanation                                            |
+| --------------------- | ------------------------------------------------------ |
+| **Human Reusability** | Any developer runs `make dev` — same result everywhere |
+| **CI/CD Alignment**   | GitHub Actions use same Makefile targets               |
+| **Documentation**     | `make help` shows all available commands               |
+| **Abstraction**       | Complex commands hidden behind simple targets          |
+
+### Makefile Targets
+
+Run `make help` to see all available targets. Common categories:
+
+- **Development**: `make dev`, `make setup`
+- **Testing**: `make test`, `make e2e`, `make lint`, `make typecheck`
+- **Database**: `make db-migrate`, `make db-studio`
+- **Infrastructure**: `make tf-plan-*`, `make tf-apply-*`
+- **Deployment**: `make deploy-staging`, `make health-check-staging`
+- **Validation**: `make validate-regression-suite` (full regression)
+
+---
+
+## Pre-Commit Hooks & CI Quality Gates
+
+This section covers the **two layers of automated validation** that protect code quality:
+
+1. **Local pre-commit hooks** — Fast feedback before code leaves your machine
+2. **CI quality gates** — Comprehensive validation before code enters the repository
+
+### Quality Gate Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           DEVELOPER WORKSTATION                                  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│   ┌──────────┐    ┌──────────┐    ┌──────────────────────────────────────────┐  │
+│   │  Code    │───▶│   git    │───▶│         PRE-COMMIT HOOKS                 │  │
+│   │  Change  │    │   add    │    │         (lint-staged + husky)            │  │
+│   └──────────┘    └──────────┘    │                                          │  │
+│                                    │  ┌────────────┐  ┌────────────────────┐ │  │
+│                                    │  │  ESLint    │  │  Prettier          │ │  │
+│                                    │  │  --fix     │  │  --write           │ │  │
+│                                    │  └─────┬──────┘  └─────────┬──────────┘ │  │
+│                                    │        │                   │            │  │
+│                                    │        ▼                   ▼            │  │
+│                                    │     ┌─────────────────────────┐         │  │
+│                                    │     │  Pass? ──▶ git commit   │         │  │
+│                                    │     │  Fail? ──▶ Block commit │         │  │
+│                                    │     └─────────────────────────┘         │  │
+│                                    └──────────────────────────────────────────┘  │
+│                                                        │                         │
+│                                                        ▼                         │
+│                                               ┌──────────────┐                   │
+│                                               │   git push   │                   │
+│                                               └───────┬──────┘                   │
+└───────────────────────────────────────────────────────┼─────────────────────────┘
+                                                        │
+                                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           GITHUB ACTIONS CI/CD                                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                    DETERMINISTIC GATES (must all pass)                    │  │
+│  ├───────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                           │  │
+│  │   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐  │  │
+│  │   │ TypeScript  │   │   ESLint    │   │  Security   │   │   Secret    │  │  │
+│  │   │ tsc --noEmit│   │  npm lint   │   │  npm audit  │   │  Detection  │  │  │
+│  │   │             │   │             │   │             │   │             │  │  │
+│  │   │ Zero errors │   │ Zero errors │   │ High sev.   │   │ No leaks    │  │  │
+│  │   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘  │  │
+│  │          │                 │                 │                 │         │  │
+│  │          └────────────┬────┴────────┬────────┴─────────────────┘         │  │
+│  │                       ▼             ▼                                    │  │
+│  │   ┌─────────────────────────────────────────────────────────────────┐   │  │
+│  │   │                      TESTING SUITE                               │   │  │
+│  │   │  ┌──────────┐    ┌─────────────┐    ┌────────────────────────┐  │   │  │
+│  │   │  │  Unit    │    │ Integration │    │    Critical Path       │  │   │  │
+│  │   │  │  Tests   │───▶│   Tests     │───▶│       Tests            │  │   │  │
+│  │   │  │  (85%+)  │    │             │    │                        │  │   │  │
+│  │   │  └──────────┘    └─────────────┘    └────────────────────────┘  │   │  │
+│  │   └─────────────────────────────────────────────────────────────────┘   │  │
+│  │                                    │                                     │  │
+│  │                                    ▼                                     │  │
+│  │   ┌─────────────────────────────────────────────────────────────────┐   │  │
+│  │   │                    BUILD VERIFICATION                            │   │  │
+│  │   │  ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐   │   │  │
+│  │   │  │  Production  │    │   Artifact   │    │   Bundle Size    │   │   │  │
+│  │   │  │    Build     │───▶│  Validation  │───▶│     Check        │   │   │  │
+│  │   │  │  npm build   │    │  dist/ check │    │   < threshold    │   │   │  │
+│  │   │  └──────────────┘    └──────────────┘    └──────────────────┘   │   │  │
+│  │   └─────────────────────────────────────────────────────────────────┘   │  │
+│  │                                                                          │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                         │                                        │
+│                                         ▼                                        │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │              NON-DETERMINISTIC GATE (AI-powered, PRs only)                │  │
+│  ├───────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                           │  │
+│  │   ┌─────────────────────────────────────────────────────────────────┐    │  │
+│  │   │              🤖 AI ARCHITECTURE REVIEW                           │    │  │
+│  │   │                  (Claude Code / Gemini CLI)                      │    │  │
+│  │   │                                                                  │    │  │
+│  │   │   ┌────────────────┐  ┌────────────────┐  ┌────────────────┐   │    │  │
+│  │   │   │ ADR Alignment  │  │    Pattern     │  │   Boundary     │   │    │  │
+│  │   │   │                │  │   Coherence    │  │    Respect     │   │    │  │
+│  │   │   │ Does change    │  │                │  │                │   │    │  │
+│  │   │   │ follow ADRs?   │  │ Follows repo   │  │ No cross-layer │   │    │  │
+│  │   │   │                │  │ conventions?   │  │  violations?   │   │    │  │
+│  │   │   └────────────────┘  └────────────────┘  └────────────────┘   │    │  │
+│  │   │                                                                  │    │  │
+│  │   │   Output: ✅ Aligned | ⚠️ Deviation | ❌ Violation              │    │  │
+│  │   └─────────────────────────────────────────────────────────────────┘    │  │
+│  │                                                                           │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                         │                                        │
+│                                         ▼                                        │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                         DEPLOYMENT READINESS                              │  │
+│  ├───────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                           │  │
+│  │    All gates passed?                                                      │  │
+│  │         │                                                                 │  │
+│  │         ├──── YES ───▶  🚀 READY FOR MERGE                               │  │
+│  │         │                   │                                             │  │
+│  │         │                   ├──▶ Auto-merge (if configured)              │  │
+│  │         │                   └──▶ Manual review + merge                   │  │
+│  │         │                                                                 │  │
+│  │         └──── NO ────▶  🚫 BLOCKED                                       │  │
+│  │                             │                                             │  │
+│  │                             └──▶ Fix issues, push again                  │  │
+│  │                                                                           │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              PROTECTED BRANCH (main)                             │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│   ✅ Code Quality Verified    ✅ Tests Passed    ✅ Build Verified              │
+│   ✅ Security Scanned         ✅ Architecture Coherent                          │
+│                                                                                  │
+│   ───────────────────────────────────────────────────────────────────────────   │
+│                        Production-Ready Code Only                                │
+│   ───────────────────────────────────────────────────────────────────────────   │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Local Pre-Commit Hooks
+
+Use `lint-staged` + `husky` to enforce linting and formatting on every commit:
+
+```bash
+# .husky/pre-commit
+npx lint-staged
+```
+
+```json
+// package.json
+{
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md}": ["prettier --write"]
+  }
+}
+```
+
+**Benefits**: Catches issues early, ensures consistent formatting, provides fast feedback (<10 seconds).
+
+**Bypass only for emergencies**: `git commit --no-verify`
+
+> 📚 **Further reading**: [Claude Code Hooks](https://code.claude.com/docs/en/hooks) for AI-assisted pre-commit workflows
+
+---
+
+### CI/CD Quality Gates
+
+> 📂 **Live Example**: See [`.github/workflows/dx-validation.yml`](.github/workflows/dx-validation.yml) in this repo
+
+### Validation Layers
+
+| Layer | Type | Purpose |
+|-------|------|---------|
+| **Lint** | Deterministic | Syntax, style, formatting |
+| **Security** | Deterministic | Vulnerabilities, secrets |
+| **Tests** | Deterministic | Behaviour verification |
+| **Build** | Deterministic | Compilation check |
+| **AI Review** | Non-deterministic | Coherence, alignment |
+
+### Sample Workflow
+
+```yaml
+# .github/workflows/dx-validation.yml
+name: DX Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # DETERMINISTIC
+  lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+
+  # NON-DETERMINISTIC (PRs only)
+  ai-review:
+    name: AI Coherence Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: AI Review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # Review changed files for DX best practices
+          CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} -- '*.md')
+          echo "Reviewing: $CHANGED"
+```
+
+### Deterministic vs Non-Deterministic
+
+| Aspect | Deterministic | Non-Deterministic |
+|--------|---------------|-------------------|
+| **Tools** | markdownlint, ESLint, Jest | Claude Code, Gemini CLI |
+| **Output** | Pass/Fail | Assessment |
+| **When** | Every push | PRs only |
+| **Purpose** | Syntax/style | Architectural drift |
+
+### AI Review Checks
+
+| Check | Question |
+|-------|----------|
+| **ADR Alignment** | Does change follow documented decisions? |
+| **Pattern Coherence** | Does it follow established patterns? |
+| **Boundary Respect** | Does it respect component boundaries? |
+| **Doc Sync** | Are docs updated with code changes? |
+
+### Headless AI Commands
+
+```bash
+# Claude Code
+npx @anthropic-ai/claude-code --print --prompt "Review for coherence"
+
+# Gemini CLI
+gemini --headless --prompt "Check against ADRs"
+```
+
+---
+
+## Testing & Validation
+
+Use a **testing pyramid**: many fast unit tests at the base, fewer integration tests in the middle, and targeted E2E tests at the top.
+
+| Layer           | Purpose                                |
+| --------------- | -------------------------------------- |
+| **Unit**        | Fast, mocked, high coverage            |
+| **Integration** | Real external APIs                     |
+| **E2E**         | Browser automation, full user journeys |
+
+For authenticated session testing, use CDP (Chrome DevTools Protocol) to reuse existing browser sessions—no credentials in test files.
+
+---
+
+## Branch-Based Development
+
+> 📚 **Reference**: [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow) | [Trunk-Based Development](https://trunkbaseddevelopment.com/)
+
+### Branch Naming
+
+| Prefix      | Purpose                |
+| ----------- | ---------------------- |
+| `feat/`     | New features           |
+| `fix/`      | Bug fixes              |
+| `refactor/` | Code improvements      |
+| `docs/`     | Documentation only     |
+| `infra/`    | Infrastructure changes |
+
+### Workflow
+
+`main` (protected) ← PR ← feature branch ← commits
+
+### Commit Message Format
+
+```
+type(scope): Brief description
+
+- Detailed bullet point 1
+- Detailed bullet point 2
+
+Fixes #123
+Refs #456
+```
+
+**Types**: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `infra`
+
+### Branch Lifecycle
+
+1. **Create**: `git checkout -b feat/my-feature`
+2. **Develop**: Make changes, commit frequently
+3. **Push**: `git push -u origin feat/my-feature`
+4. **PR**: Create PR via `gh pr create`
+5. **Review**: Address feedback
+6. **Merge**: Squash merge to main
+7. **Delete**: Branch auto-deleted after merge
 
 ---
 
@@ -595,10 +964,14 @@ project-root/
 │
 ├── .claude/                      # Claude Code configuration
 │   ├── settings.json             # MCP servers, permissions
-│   └── skills/                   # Custom slash command skills
-│       ├── release-management.md
-│       ├── qa-agent-browser.md
-│       └── *.skill               # Skill definitions
+│   ├── commands/                 # Legacy slash commands (still supported)
+│   │   └── *.md                  # Single-file commands
+│   └── skills/                   # Custom skills (recommended)
+│       ├── release-management/   # Each skill is a directory
+│       │   ├── SKILL.md          # Main instructions (required)
+│       │   └── scripts/          # Optional supporting files
+│       └── qa-agent-browser/
+│           └── SKILL.md
 │
 ├── .github/                      # GitHub configuration
 │   ├── workflows/                # CI/CD pipelines
@@ -756,6 +1129,7 @@ Related: Architecture Decision Records (ADRs) and GitHub Issues for tracking.
 | **Project Overview**          | What the project is (and isn't)              |
 | **Tech Stack**                | Technologies in use                          |
 | **Development Commands**      | Makefile targets reference                   |
+| **Parallel Planning**         | Instruct agents to plan atomic, parallelizable units |
 | **Project Structure**         | Folder layout (synced with this doc)         |
 | **Documentation Conventions** | Naming rules for ADRs, HLDs, etc.            |
 | **Architecture**              | Component responsibilities, workflows        |
@@ -771,6 +1145,26 @@ Related: Architecture Decision Records (ADRs) and GitHub Issues for tracking.
 3. **Cross-Reference Rules**: Requires ADR for decisions, issue refs in commits
 4. **Definition of Done**: Mandates doc updates (STATUS.md, CHANGELOG.md)
 
+### Atomic Parallel Planning Directive
+
+Include in your CLAUDE.md to enable parallel agent execution:
+
+```markdown
+### Parallel Work Planning
+
+When planning implementation:
+1. Decompose work into atomic, independent units
+2. Identify tasks that can execute in parallel (no dependencies)
+3. Group dependent tasks sequentially
+4. Design for subagent delegation where appropriate
+
+Example decomposition:
+- ✅ Parallel: Backend API, Frontend UI, Infrastructure (independent)
+- ❌ Sequential: Schema design → Migrations → Queries (dependent)
+```
+
+This directive enables delivery speed improvements through parallel agent execution.
+
 ### Updating CLAUDE.md
 
 When project structure changes:
@@ -782,124 +1176,11 @@ When project structure changes:
 
 ---
 
-## How Spec-Driven Development Supports This Approach
-
-### The Spec-Kit Philosophy
-
-Spec-driven development ensures:
-
-1. **Traceability**: Every line of code traces back to a requirement
-2. **Alignment**: Technical decisions align with business goals
-3. **Quality**: Specs define acceptance criteria before coding
-
-### Artifact Flow with Spec-Kit
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ 1. CONSTITUTION                                                 │
-│    └── .specify/memory/constitution.md                          │
-│        Defines: Core principles, quality gates, decision rules  │
-│        Command: /speckit.constitution                           │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 2. SPECIFICATION                                                │
-│    └── .specify/features/<feature>/spec.md                      │
-│        Defines: What to build, user stories, acceptance criteria│
-│        Command: /speckit.specify "Feature description"          │
-│        Clarify: /speckit.clarify (ask 5 questions)              │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 3. PLAN                                                         │
-│    └── .specify/features/<feature>/plan.md                      │
-│        Defines: How to build, architecture, component design    │
-│        Command: /speckit.plan                                   │
-│        Cross-ref: Links to ADRs, HLDs                           │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 4. TASKS                                                        │
-│    └── .specify/features/<feature>/tasks.md                     │
-│        Defines: Actionable work items, dependencies, effort     │
-│        Command: /speckit.tasks                                  │
-│        Convert: /speckit.taskstoissues → GitHub Issues          │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 5. IMPLEMENTATION                                               │
-│    └── src/...                                                  │
-│        Command: /speckit.implement                              │
-│        Validation: Tests, lint, typecheck                       │
-│        Documentation: ADR if architectural decision made        │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 6. ANALYSIS                                                     │
-│    └── Cross-artifact consistency check                         │
-│        Command: /speckit.analyze                                │
-│        Checks: Spec ↔ Plan ↔ Tasks alignment                    │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### Integration with Existing Docs
-
-| Spec-Kit Artifact | Maps To              | Typical Location               |
-| ----------------- | -------------------- | ------------------------------ |
-| Constitution      | Project principles   | `CLAUDE.md`, `GEMINI.md`       |
-| Specification     | Feature requirements | `requirements/FEATURE_SPEC.md` |
-| Plan              | Technical design     | `architecture/HLD-*.md`        |
-| Tasks             | Work items           | `gh issue list`                |
-| Analysis          | Quality audit        | `reports/`                     |
-
-### When to Use Spec-Kit
-
-| Scenario                    | Use Spec-Kit? | Reason                             |
-| --------------------------- | ------------- | ---------------------------------- |
-| New feature (>1 day effort) | ✅ Yes        | Full spec → plan → tasks flow      |
-| Bug fix                     | ❌ No         | Just fix and document              |
-| Refactoring                 | 🟡 Maybe      | Use /speckit.plan if architectural |
-| Documentation update        | ❌ No         | Direct update                      |
-| Infrastructure change       | ✅ Yes        | Use for Terraform changes >4h      |
-
-### Example: Adding a New Feature
-
-```bash
-# 1. Create spec
-/speckit.specify "Add bulk image ALT text regeneration with preview"
-
-# 2. Clarify requirements (asks 5 targeted questions)
-/speckit.clarify
-
-# 3. Generate technical plan
-/speckit.plan
-# → Creates plan.md with component design, API changes, test strategy
-
-# 4. Generate tasks
-/speckit.tasks
-# → Creates tasks.md with ordered, dependency-aware work items
-
-# 5. Convert to GitHub issues
-/speckit.taskstoissues
-# → Creates GitHub issues with labels, cross-references
-
-# 6. Implement (task by task)
-/speckit.implement
-# → AI implements each task, runs tests, commits
-
-# 7. Analyze consistency
-/speckit.analyze
-# → Verifies spec ↔ plan ↔ tasks ↔ code alignment
-```
-
 ---
 
 ## Additional Resources
+
+### Project Resources
 
 - **CLAUDE.md** — AI agent instructions
 - **GEMINI.md** — Commercial grounding directive
@@ -908,62 +1189,111 @@ Spec-driven development ensures:
 - **engineering/testing/** — E2E testing guides
 - **engineering/runbooks/** — Release and operations procedures
 
+### Official Documentation
+
+**Claude Code**:
+- [Overview & Quickstart](https://code.claude.com/docs/en/overview)
+- [Skills](https://code.claude.com/docs/en/skills) — Custom slash commands
+- [Subagents](https://code.claude.com/docs/en/sub-agents) — Explore, Plan, QA agents
+- [MCP Integration](https://code.claude.com/docs/en/mcp) — External tools
+- [Hooks](https://code.claude.com/docs/en/hooks) — Workflow automation
+- [Plugins](https://code.claude.com/docs/en/plugins) — Packaging & distribution
+- [Permissions](https://code.claude.com/docs/en/permissions) — Access control
+- [Pricing](https://platform.claude.com/docs/en/about-claude/pricing) — API costs
+
+**Gemini CLI**:
+- [Documentation](https://geminicli.com/docs/) — Main docs site
+- [Google Cloud Docs](https://docs.cloud.google.com/gemini/docs/codeassist/gemini-cli) — Enterprise setup
+- [GitHub Repository](https://github.com/google-gemini/gemini-cli) — Source & issues
+- [CLI Commands](https://geminicli.com/docs/cli/commands/) — Command reference
+- [Pricing](https://ai.google.dev/gemini-api/docs/pricing) — API costs
+
+**Model Context Protocol**:
+- [MCP Specification](https://modelcontextprotocol.io/) — Protocol docs
+- [MCP Servers Registry](https://github.com/modelcontextprotocol/servers) — Available servers
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp) — Browser automation
+
 
 ---
 
 ## Agent Instructions
 
-> **This section is for AI agents (Claude Code, Gemini CLI, etc.) consuming this document as grounding context.**
+> **For AI agents (Claude Code, Gemini CLI) consuming this document as grounding context.**
 
-### Document Authority
+### Your Stance
 
-This Developer Experience Guide defines the **canonical ways of working**. The workflows, patterns, conventions, and quality gates documented here are **stable and authoritative** — do not deviate from them unless explicitly instructed by the user.
+You are a **proactive, quality-focused development partner** — not a passive tool.
 
-### What to Verify via Web Search
+```
+BE PROACTIVE:
+├── Run validation without being asked
+├── Update docs when code changes
+├── Fix violations, don't just report them
+└── Decompose work into parallel-ready tasks
 
-The following information is **transient and must be verified** before citing or using:
+NEVER:
+├── Mark complete without passing gates
+├── Skip tests or disable lint rules
+├── Assume — ask when uncertain
+└── Deviate from documented patterns
+```
 
-| Always Verify | Why |
-|---------------|-----|
-| Model pricing ($/MTok) | Changes frequently; preview → GA pricing shifts |
-| Context window limits | Models evolve; long-context tiers affect cost |
-| Plugin/extension URLs | Repositories move, get renamed, or deprecated |
-| API capabilities | New features, deprecations, breaking changes |
-| Tool versions | Syntax changes, new flags, compatibility |
+### Definition of Done
 
-**Rule**: If it has a version number, a price, or a URL — search before stating.
+**Task is NOT complete until:**
 
-### What NOT to Change
+| Gate | Check | Command |
+|------|-------|---------|
+| **Compiles** | Zero TypeScript errors | `npx tsc --noEmit` |
+| **Lints** | Zero ESLint errors | `npm run lint` |
+| **Tests** | All pass + coverage | `make validate-regression-suite` |
+| **Builds** | Production build succeeds | `npm run build` |
+| **Secure** | No secrets, no vulns | `npm audit` |
+| **Coherent** | Aligns with ADRs | Manual check |
+| **Documented** | STATUS/CHANGELOG updated | Manual check |
 
-- Branch naming conventions
-- Quality gate requirements
-- Commit message format
-- Document naming patterns (ADR-NNN, HLD-NNN, etc.)
-- Folder structure hierarchy
-- Definition of Done criteria
+### Error Handling
 
-These are **project standards**, not suggestions.
+| Problem | Action |
+|---------|--------|
+| Tests fail | Fix it. Don't skip. Ask if non-trivial. |
+| Lint errors | Auto-fix → manual fix → NEVER disable |
+| Build fails | Check types → imports → ask with details |
+| Uncertain | Check ADRs → check patterns → propose options |
 
 ### Priority Hierarchy
+
 ```
 1. User's direct instruction        (highest)
 2. CLAUDE.md / GEMINI.md            (project-specific)
-3. This document                    (workflows & patterns)
-4. Agent training knowledge         (lowest — verify if uncertain)
+3. This document                    (workflows)
+4. Agent training                   (lowest — verify)
 ```
 
-### Before Completing Any Task
-```
-□ Verified transient info (pricing, versions, URLs) via web search?
-□ Ran validation suite (make validate-regression-suite)?
-□ Followed branch/commit conventions?
-□ Updated STATUS.md / CHANGELOG.md if applicable?
-□ Referenced GitHub issue in commit?
-```
+### What to Verify via Web Search
+
+**If it has a version, price, or URL — search first:**
+- Model pricing (changes frequently)
+- Context limits (models evolve)
+- Plugin URLs (repos move)
+- Tool versions (syntax changes)
+
+### Immutable Standards
+
+Do NOT change without explicit user approval:
+- Branch naming (`feat/`, `fix/`, etc.)
+- Commit format (`type(scope): description`)
+- Document patterns (`ADR-NNN-`, `HLD-NNN-`)
+- Quality gate requirements
+- Definition of Done criteria
 
 ### When Uncertain
 
-Ask the user rather than assume. Propose options with trade-offs. Reference which section of this guide informed your reasoning.
+1. Check this document
+2. Check CLAUDE.md / GEMINI.md
+3. Check existing code patterns
+4. Check ADRs
+5. **Ask the user** — propose options with trade-offs
 
 ---
 

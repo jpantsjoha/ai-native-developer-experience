@@ -1,0 +1,51 @@
+name: DX Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ════════════════════════════════════════════════════
+  # DETERMINISTIC: Markdown Quality
+  # ════════════════════════════════════════════════════
+  lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: '**/*.md'
+
+  # ════════════════════════════════════════════════════
+  # NON-DETERMINISTIC: AI Coherence Review (PRs only)
+  # ════════════════════════════════════════════════════
+  ai-review:
+    name: AI Coherence Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: AI Review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "::notice::AI review skipped - GEMINI_API_KEY not configured"
+            exit 0
+          fi
+
+          CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} -- '*.md')
+          if [ -z "$CHANGED" ]; then
+            echo "No markdown changes to review"
+            exit 0
+          fi
+
+          echo "Reviewing: $CHANGED"
+          # Gemini CLI review for DX coherence
+          # References: https://code.claude.com/docs, https://geminicli.com/docs

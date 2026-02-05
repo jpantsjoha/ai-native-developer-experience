@@ -3,7 +3,7 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.1.0
+ - **Version**: 1.1.1
  - **Last Updated**: 2026-02-05
  - **Pricing Verified**: 2026-02-05 (Gemini 3 Flash $0.50/$3.00, Gemini 3 Pro $2.00/$12.00 - Preview)  
  - **Audience**: Developers adopting AI-augmented development workflows  
@@ -19,29 +19,29 @@
 
 **Workflow & Process**
 
-4. [AI-Assisted Development Workflow](#ai-assisted-development-workflow)
-5. [MCP Tools Configuration](#mcp-tools-configuration)
-6. [ClickOps Engineering](#clickops-engineering)
+1. [AI-Assisted Development Workflow](#ai-assisted-development-workflow)
+2. [MCP Tools Configuration](#mcp-tools-configuration)
+3. [ClickOps Engineering](#clickops-engineering)
 
 **Build & Validation**
 
-7. [Three Musketeers Pattern](#three-musketeers-pattern)
-8. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
-9. [Testing & Validation](#testing--validation)
-10. [Branch-Based Development](#branch-based-development)
+1. [Three Musketeers Pattern](#three-musketeers-pattern)
+2. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
+3. [Testing & Validation](#testing--validation)
+4. [Branch-Based Development](#branch-based-development)
 
 **Deployment & Operations**
 
-11. [Project Tracking](#project-tracking)
-12. [Release Management & Tagging](#release-management--tagging)
+1. [Project Tracking](#project-tracking)
+2. [Release Management & Tagging](#release-management--tagging)
 
 **Reference**
 
-13. [Quick Reference](#quick-reference)
-14. [Project Structure & Folder Relationships](#project-structure--folder-relationships)
-15. [CLAUDE.md Configuration](#claudemd-configuration)
-16. [Additional Resources](#additional-resources)
-17. [Agent Instructions](#agent-instructions)
+1. [Quick Reference](#quick-reference)
+2. [Project Structure & Folder Relationships](#project-structure--folder-relationships)
+3. [CLAUDE.md Configuration](#claudemd-configuration)
+4. [Additional Resources](#additional-resources)
+5. [Agent Instructions](#agent-instructions)
 
 ---
 

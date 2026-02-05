@@ -299,6 +299,7 @@ Install: `gemini extensions install <github-url>`
 | [GitHub MCP](https://github.com/modelcontextprotocol/servers)  | PR reviews, issue triage               |
 | [Playwright MCP](https://github.com/microsoft/playwright-mcp) | E2E testing, browser automation        |
 | [Jules](https://github.com/google/gemini-cli-extensions)       | Async agent for refactoring, bug fixes |
+| [Google Developer Knowledge](https://developers.google.com/knowledge/mcp) | **Essential for GCP**: Search official docs to ground agents |
 
 ### Parallel Agent Execution
 
@@ -1214,6 +1215,7 @@ When project structure changes:
 - [MCP Specification](https://modelcontextprotocol.io/) — Protocol docs
 - [MCP Servers Registry](https://github.com/modelcontextprotocol/servers) — Available servers
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp) — Browser automation
+- [Google Developer Knowledge](https://developers.google.com/knowledge/mcp) — **Critical for GCP Development**. Connects agents to official Google documentation for grounded, accurate answers on architecture and configuration.
 
 
 ---

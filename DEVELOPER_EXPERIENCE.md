@@ -18,21 +18,25 @@
 3. [Spec-Driven Development](#spec-driven-development)
 
 **Workflow & Process**
+
 4. [AI-Assisted Development Workflow](#ai-assisted-development-workflow)
 5. [MCP Tools Configuration](#mcp-tools-configuration)
 6. [ClickOps Engineering](#clickops-engineering)
 
 **Build & Validation**
+
 7. [Three Musketeers Pattern](#three-musketeers-pattern)
 8. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
 9. [Testing & Validation](#testing--validation)
 10. [Branch-Based Development](#branch-based-development)
 
 **Deployment & Operations**
+
 11. [Project Tracking](#project-tracking)
 12. [Release Management & Tagging](#release-management--tagging)
 
 **Reference**
+
 13. [Quick Reference](#quick-reference)
 14. [Project Structure & Folder Relationships](#project-structure--folder-relationships)
 15. [CLAUDE.md Configuration](#claudemd-configuration)

@@ -3,11 +3,12 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.1.1
- - **Last Updated**: 2026-02-05
- - **Pricing Verified**: 2026-02-05 (Gemini 3 Flash $0.50/$3.00, Gemini 3 Pro $2.00/$12.00 - Preview)  
- - **Audience**: Developers adopting AI-augmented development workflows  
+ - **Version**: 1.2.0
+ - **Last Updated**: 2026-03-22
+ - **Pricing Verified**: 2026-02-05 (Gemini 3 Flash $0.50/$3.00, Gemini 3 Pro $2.00/$12.00 - Preview)
+ - **Audience**: Developers adopting AI-augmented development workflows
  - **Purpose**: Bootstrap new team members to deliver rapid value from day one
+ - **Changelog**: v1.2.0 adds VoiceMode integration, advanced Claude Code hooks, multi-phase skill orchestration, automated meeting minutes processing, and enhanced Makefile patterns
 ---
 
 ## Table of Contents
@@ -20,13 +21,20 @@
 **Workflow & Process**
 
 1. [AI-Assisted Development Workflow](#ai-assisted-development-workflow)
-2. [MCP Tools Configuration](#mcp-tools-configuration)
-3. [ClickOps Engineering](#clickops-engineering)
+   - [Parallel Agent Execution](#parallel-agent-execution)
+   - [Automated Meeting Minutes Processing](#automated-meeting-minutes-processing)
+   - [Skills (Slash Commands)](#skills-slash-commands)
+     - [Multi-Phase Orchestration](#advanced-pattern-multi-phase-orchestration)
+2. [VoiceMode: Hands-Free Development](#voicemode-hands-free-development) ⭐ NEW
+3. [MCP Tools Configuration](#mcp-tools-configuration)
+4. [ClickOps Engineering](#clickops-engineering)
 
 **Build & Validation**
 
 1. [Three Musketeers Pattern](#three-musketeers-pattern)
+   - [Enhanced Makefile Patterns](#enhanced-makefile-patterns) ⭐ NEW
 2. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
+   - [Advanced Claude Code Hooks](#advanced-claude-code-hooks) ⭐ NEW
 3. [Testing & Validation](#testing--validation)
 4. [Branch-Based Development](#branch-based-development)
 
@@ -34,6 +42,7 @@
 
 1. [Project Tracking](#project-tracking)
 2. [Release Management & Tagging](#release-management--tagging)
+3. [Documentation Export & Presentation](#documentation-export--presentation) ⭐ NEW
 
 **Reference**
 
@@ -357,6 +366,72 @@ e.g. make tests; make validate-regression-suite
 | `make validate-staging`          | Staging health + E2E smoke                       | After deployments            |
 | `make e2e`                       | Full E2E suite only                              | UI/UX validation             |
 
+### Automated Meeting Minutes Processing
+
+When stakeholders provide meeting notes, feedback, or delivery-relevant updates, Claude can automatically distill and apply changes across your documentation ecosystem.
+
+#### Processing Workflow
+
+1. **Read & Classify** — Identify actionable items by impact area
+2. **Update Documents** — Apply changes with dated entries
+3. **Create Issues** — Raise GitHub issues for risks/blockers
+4. **Report Changes** — Summarize what was updated
+
+#### Impact Area Classification
+
+| Impact Area | Target Document(s) | Update Type |
+|-------------|-------------------|-------------|
+| Risk / Blocker | `planning/STATUS.md`, risk register | Add/update RAID entry |
+| Milestone / Timeline | `planning/ROADMAP.md` | Adjust dates, add notes |
+| Architecture Decision | `architecture/decisions/ADR-*.md` | New ADR or update existing |
+| Requirement / Scope | Feature specs, roadmap | New epic or scope note |
+| Team / Stakeholder | `README.md` | Update team table |
+| General Progress | `planning/STATUS.md` | Update status summary |
+
+#### CLAUDE.md Configuration
+
+Add to your `CLAUDE.md` to enable this workflow:
+
+```markdown
+## Meeting Minutes & Feedback Processing
+
+When the user provides meeting minutes, stakeholder feedback, or delivery updates:
+
+1. **Read** the input and identify actionable items
+2. **Classify** each item by impact area (table above)
+3. **Apply updates** to relevant documents with dated entries
+4. **Raise GitHub Issues** for Medium/High risks or blockers
+5. **Do NOT** fabricate or speculate beyond what is explicitly stated
+6. **Report** what was updated and any items flagged for follow-up
+
+### Scope Boundary
+Only update documents relevant to project deliverables unless explicitly instructed otherwise.
+```
+
+#### Example Processing
+
+**Input:**
+```
+Meeting with product team - 2026-03-15
+- Discussed database migration timeline
+- Risk identified: Third-party API rate limit lower than expected (500/hr vs 1000/hr)
+- Decision: Move from PostgreSQL to MongoDB for session storage
+- New requirement: Export feature needed by Q2
+```
+
+**AI Actions:**
+1. **Risk Register** → Add new risk: "Third-party API rate limit constraint"
+2. **ADR** → Create `ADR-007-mongodb-session-storage.md`
+3. **ROADMAP.md** → Add Q2 milestone: "Export feature"
+4. **GitHub Issue** → Create issue #42 labeled `risk:high`, `api:integration`
+5. **STATUS.md** → Update "Decisions This Week" section
+
+**Benefits:**
+- **Traceability:** Every decision documented with date/context
+- **Automation:** Eliminates manual doc updates after meetings
+- **Consistency:** Same format across all updates
+- **Accountability:** Clear audit trail from conversation to docs
+
 ### Skills (Slash Commands)
 
 > 📚 **Official Documentation**: [code.claude.com/docs/en/skills](https://code.claude.com/docs/en/skills)
@@ -412,6 +487,169 @@ Skills are **directories** containing a `SKILL.md` file and optional supporting 
 # 4. Implement
 /speckit.implement
 ```
+
+#### Advanced Pattern: Multi-Phase Orchestration
+
+Skills can orchestrate multiple domain validators in a structured workflow:
+
+```
+.claude/skills/pr-reviewer/
+├── SKILL.md           # Orchestration logic
+└── REFERENCE.md       # Cross-reference mappings
+```
+
+**Example orchestration flow:**
+
+```markdown
+## Phase 1: Context Gathering
+- Fetch PR metadata via `gh pr view`
+- Categorize changed files by domain
+- Map to appropriate validator skills
+
+## Phase 2: Parallel Domain Validation
+Run independent validators concurrently:
+- Infrastructure → terraform-expert skill
+- Architecture → architecture-validator skill
+- Security → security-scanner skill
+- Documentation → docs-auditor skill
+
+## Phase 3: Cross-Cutting Compliance
+- Check against coding standards
+- Validate traceability (PR → Issue → Spec)
+- Verify documentation updates
+
+## Phase 4: Synthesis & Reporting
+- Aggregate findings from all validators
+- Produce approval verdict with remediation list
+- Generate actionable feedback
+```
+
+**Benefits:**
+- **Modularity:** Each validator focuses on single domain
+- **Parallelization:** Independent checks run concurrently
+- **Consistency:** Same validation logic across all PRs
+- **Extensibility:** Add new validators without touching orchestrator
+
+**Example skill structure:**
+
+```markdown
+---
+name: pr-reviewer
+description: "Multi-phase PR audit orchestrating domain skills"
+argument-hint: "<PR-number>"
+context: fork
+---
+
+# Phase 1: Scope Analysis
+1. Fetch PR: `gh pr view <N> --json title,body,author,changedFiles`
+2. Categorize files:
+   - `terraform/**` → Call `/terraform-expert`
+   - `architecture/**` → Call `/architecture-validator`
+   - `*.py` → Call `/python-lint`
+3. Output scope summary
+
+# Phase 2: Domain Validation (Parallel)
+For each category, invoke relevant skill and collect results
+
+# Phase 3: Aggregate & Report
+Synthesize all findings into unified approval report
+```
+
+This pattern enables **deterministic quality gates** while maintaining clean separation of concerns.
+
+---
+
+## VoiceMode: Hands-Free Development
+
+> 📚 **Official Documentation**: [VoiceMode Docs](https://voice-mode.readthedocs.io/) | [Claude Code Integration](https://voice-mode.readthedocs.io/en/stable/integrations/claude-code/)
+
+VoiceMode enables natural voice conversations with Claude Code for hands-free coding, accessible development, and reduced keyboard strain.
+
+### Quick Setup
+
+Simply ask Claude:
+
+> _"Set up voice mode for me"_
+
+Claude will autonomously:
+1. Check system capabilities (RAM, architecture)
+2. Install VoiceMode and dependencies
+3. Select optimal Whisper model for your hardware
+4. Configure and start voice services (STT/TTS)
+5. Add `make voice` target to Makefile
+6. Verify installation with test conversation
+
+### Architecture: Model Selection
+
+| System RAM | Model | Download | Memory Usage | Accuracy | Apple Silicon |
+|------------|-------|----------|--------------|----------|---------------|
+| < 8 GB | base | ~150 MB | ~300 MB | Good | ✓ |
+| 8-16 GB | large-v3-turbo | ~1.5 GB | ~3 GB | Very Good | ✓ |
+| 16+ GB | large-v2 | ~3 GB | ~5 GB | Best | ✓✓ (Core ML + Metal) |
+
+**Cost:** Fully local — no per-minute API costs
+**Privacy:** All voice processing runs locally (no cloud STT/TTS)
+
+### Makefile Integration
+
+Add to your Makefile:
+
+```makefile
+.PHONY: voice
+
+voice: ## Start Claude Code with voice conversation mode
+	@echo "$(CYAN)Starting voice conversation...$(RESET)"
+	@claude converse
+```
+
+For projects using enterprise endpoints (Vertex AI):
+
+```makefile
+voice: ## Start Claude Code with voice via Vertex AI
+	@echo "$(CYAN)Starting voice conversation...$(RESET)"
+	@CLAUDE_CODE_USE_VERTEX=1 CLOUD_ML_REGION=global \
+	  ANTHROPIC_VERTEX_PROJECT_ID=your-project claude converse
+```
+
+### Service Management
+
+| Command | Purpose |
+|---------|---------|
+| `voicemode service status whisper` | Check STT status |
+| `voicemode service status kokoro` | Check TTS status |
+| `voicemode service restart whisper` | Restart speech recognition |
+| `voicemode whisper model` | View/change Whisper model |
+| `voicemode service logs whisper` | View STT service logs |
+
+### Benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Accessibility** | Enables coding for developers with mobility impairments |
+| **Reduced RSI** | Less typing, more natural conversation |
+| **Multitasking** | Review code while away from keyboard |
+| **Pair Programming** | Natural conversation flow with AI assistant |
+| **Context Switching** | Maintain focus while gathering information |
+
+### Troubleshooting
+
+**Service won't start:**
+```bash
+voicemode service logs whisper  # Check error logs
+voicemode service restart whisper
+```
+
+**Poor transcription quality:**
+```bash
+# Upgrade to better model (if RAM allows)
+voicemode whisper model large-v2
+voicemode service restart whisper
+```
+
+**Microphone permissions:**
+1. Check System Settings → Privacy & Security → Microphone
+2. Ensure Terminal/iTerm2 has microphone permission
+3. Restart terminal and retry
 
 ---
 
@@ -510,6 +748,52 @@ Run `make help` to see all available targets. Common categories:
 - **Infrastructure**: `make tf-plan-*`, `make tf-apply-*`
 - **Deployment**: `make deploy-staging`, `make health-check-staging`
 - **Validation**: `make validate-regression-suite` (full regression)
+
+### Enhanced Makefile Patterns for AI Workflows
+
+Focus on patterns that enable **AI agents to autonomously validate and execute** while maintaining human oversight.
+
+#### Composite Validation Targets
+
+AI agents can execute comprehensive validation suites autonomously:
+
+```makefile
+validate-all: lint typecheck test security-scan ## Full validation suite
+	@echo "✅ All validation checks passed"
+
+validate-pr: lint typecheck test ## Quick PR checks
+	@echo "✅ PR validation passed"
+
+validate-regression: lint typecheck test e2e ## Complete regression
+	@echo "✅ Full regression suite passed"
+```
+
+**Why this matters for AI workflows:**
+- Single command AI can execute without ambiguity
+- Clear pass/fail signal (no interpretation needed)
+- Parallel-friendly (lint + typecheck + test can run concurrently)
+
+#### Context Snapshot for Large Codebases
+
+Aggregate project context for AI agent grounding:
+
+```makefile
+context-snapshot: ## Build project context for AI agents
+	@python3 scripts/build-context-snapshot.py
+```
+
+**Pattern:** Collect ADRs, roadmap, status, and specs into a single snapshot file that AI agents can read for complete project context without token bloat.
+
+**Example use:** Before starting a complex refactor, AI runs `make context-snapshot`, reads the output, then plans the work with full architectural context.
+
+#### Voice Mode Integration
+
+```makefile
+voice: ## Start AI voice conversation
+	@claude converse
+```
+
+**Human-AI workflow:** Verbal planning session → AI captures requirements → Auto-generates tasks → Confirms before execution
 
 ---
 
@@ -669,6 +953,115 @@ npx lint-staged
 **Bypass only for emergencies**: `git commit --no-verify`
 
 > 📚 **Further reading**: [Claude Code Hooks](https://code.claude.com/docs/en/hooks) for AI-assisted pre-commit workflows
+
+### Advanced Claude Code Hooks for AI Workflows
+
+Claude Code hooks enable **automated quality enforcement** and context management. These patterns improve human-AI collaboration by encoding team practices as executable guardrails.
+
+#### Four Key Hook Patterns
+
+| Hook Type | When It Runs | AI Workflow Benefit |
+|-----------|--------------|---------------------|
+| **PreToolUse** | Before AI edits/writes files | Warns before modifying critical files (settings, CI workflows) |
+| **PostToolUse** | After AI edits/writes files | Auto-formats code (no manual cleanup needed) |
+| **Stop** | When session ends | Checks for missing doc updates (STATUS.md, CHANGELOG.md) |
+| **SessionStart** | When session begins | Auto-loads project context (blockers, current sprint) |
+
+#### Example: SessionStart Context Loading
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Read planning/STATUS.md and identify current sprint goals, blockers, and any stale documentation (>14 days)."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Human-AI workflow:**
+1. Developer opens Claude Code
+2. SessionStart hook fires automatically
+3. AI reads STATUS.md, identifies blockers
+4. First message: "I see we're blocked on API key provisioning. How can I help?"
+
+**Result:** Zero "catch me up" overhead - AI is context-aware from session start.
+
+#### Example: Stop Hook Documentation Check
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/stop-hygiene.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Pattern:** Shell script checks if `planning/` files were modified without updating `STATUS.md`.
+
+**Human-AI workflow:**
+1. AI helps update roadmap
+2. Session ends
+3. Stop hook: "⚠️ ROADMAP.md changed but STATUS.md not updated"
+4. Developer fixes before signing off
+
+**Result:** Documentation stays synchronized automatically.
+
+#### Example: PostToolUse Auto-Formatting
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-format.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Pattern:** After every AI edit, run code formatter appropriate for file type.
+
+**Human-AI workflow:**
+1. AI implements feature
+2. PostToolUse hook runs `prettier` or `terraform fmt`
+3. Code is auto-formatted before human reviews
+
+**Result:** Zero formatting drift, no pre-commit hook failures.
+
+#### Implementation Pattern
+
+**Keep hooks simple and fast:**
+- ✅ Check file existence: `[ -f STATUS.md ]`
+- ✅ Run formatters: `prettier --write`
+- ✅ Validate structure: `terraform validate`
+- ❌ Don't run full test suites (too slow)
+- ❌ Don't make external API calls (fragile)
+
+**Focus on guardrails, not gates** - hooks guide behavior, validation gates enforce quality.
 
 ---
 
@@ -1178,6 +1571,48 @@ When project structure changes:
 2. Update this DEVELOPER_EXPERIENCE.md
 3. Update any affected ADRs
 4. Commit all changes together
+
+---
+
+## Documentation Export for Stakeholders
+
+**Pattern:** Maintain markdown as single source of truth, generate stakeholder formats on demand.
+
+### Human-AI Workflow
+
+1. **Human:** "Export HLD-001 to .docx for architecture review board"
+2. **AI:** Reads `architecture/HLD-001.md`, runs export script, generates `HLD-001.docx`
+3. **AI:** Appends git commit history (shows document evolution)
+4. **Human:** Reviews .docx, sends to stakeholders
+5. **Source of truth:** Markdown stays in repo, .docx is ephemeral deliverable
+
+### Pattern: Single Command Export
+
+```makefile
+docx: ## Export markdown to stakeholder format
+	@python3 scripts/export-docx.py $(FILE)
+```
+
+**AI agent can autonomously:**
+- Read markdown source
+- Apply organization branding/templates
+- Generate table of contents
+- Append git-derived changelog
+- Output polished deliverable
+
+### Why This Matters for AI Workflows
+
+| Benefit | Description |
+|---------|-------------|
+| **Delegation** | "Export all ADRs to .docx" - AI handles formatting |
+| **Consistency** | Same template every time, no manual formatting |
+| **Traceability** | Git history embedded automatically |
+| **Efficiency** | Generate 10 docs in seconds, not hours |
+
+**Example delegation:**
+> "Export STATUS.md, ROADMAP.md, and all ADRs to .docx for monthly stakeholder review"
+
+AI runs the export pipeline and reports completion. Human just reviews outputs.
 
 ---
 

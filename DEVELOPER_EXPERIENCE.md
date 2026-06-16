@@ -3,9 +3,9 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.2.0
- - **Last Updated**: 2026-03-22
- - **Pricing Verified**: 2026-02-05 (Gemini 3 Flash $0.50/$3.00, Gemini 3 Pro $2.00/$12.00 - Preview)
+ - **Version**: 1.2.2
+ - **Last Updated**: 2026-06-16
+ - **Pricing Verified**: 2026-06-16 (Gemini 3.5 Flash $1.50/$9.00, Gemini 3.1 Pro $2.00/$12.00; Claude Sonnet 4.6 $3.00/$15.00, Claude Opus 4.8 $5.00/$25.00)
  - **Audience**: Developers adopting AI-augmented development workflows
  - **Purpose**: Bootstrap new team members to deliver rapid value from day one
  - **Changelog**: v1.2.0 adds VoiceMode integration, advanced Claude Code hooks, multi-phase skill orchestration, automated meeting minutes processing, and enhanced Makefile patterns
@@ -32,9 +32,9 @@
 **Build & Validation**
 
 1. [Three Musketeers Pattern](#three-musketeers-pattern)
-   - [Enhanced Makefile Patterns](#enhanced-makefile-patterns) ⭐ NEW
+   - [Enhanced Makefile Patterns](#enhanced-makefile-patterns-for-ai-workflows) ⭐ NEW
 2. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
-   - [Advanced Claude Code Hooks](#advanced-claude-code-hooks) ⭐ NEW
+   - [Advanced Claude Code Hooks](#advanced-claude-code-hooks-for-ai-workflows) ⭐ NEW
 3. [Testing & Validation](#testing--validation)
 4. [Branch-Based Development](#branch-based-development)
 
@@ -42,7 +42,7 @@
 
 1. [Project Tracking](#project-tracking)
 2. [Release Management & Tagging](#release-management--tagging)
-3. [Documentation Export & Presentation](#documentation-export--presentation) ⭐ NEW
+3. [Documentation Export & Presentation](#documentation-export-for-stakeholders) ⭐ NEW
 
 **Reference**
 
@@ -64,6 +64,7 @@ This guide documents an **AI-augmented development workflow** that combines huma
 2. **Validation First**: Every change must pass automated gates before commit
 3. **Documentation as Code**: ADRs, specs, and roadmaps are living documents
 4. **Trunk-Based + Feature Branches**: Short-lived branches, frequent merges
+5. **Debug the Harness First**: When an agent misbehaves, look at the harness before you blame the model. Nine times out of ten it is a missing tool, a vague rule, or a guardrail that never fired
 
 ---
 
@@ -115,6 +116,8 @@ gh api repos/{owner}/{repo}/branches/main/protection \
 > 📚 **Reference**: [Specification by Example](https://gojko.net/books/specification-by-example/) | [BDD](https://cucumber.io/docs/bdd/)
 
 Spec-driven development ensures **traceability** (every line of code traces to a requirement), **alignment** (technical decisions match business goals), and **quality** (acceptance criteria defined before coding).
+
+> **Review the spec harder than the code.** The cheapest place to be wrong is the spec. Let the agent draft the spec and a first cut of the implementation together, then go at the spec first. A loose spec is where most of the confident-but-wrong output comes from.
 
 ### Artifact Hierarchy
 
@@ -204,6 +207,8 @@ Use Spec-Kit skills to convert requirements into actionable work:
 
 This guide covers **two enterprise-grade AI CLIs** for development. Both connect through enterprise endpoints (Vertex AI), not personal subscriptions.
 
+> **Keep the architecture ladder human-owned.** Hand an agent the implementation and it does fine. Architecture is a different thing. Let it draft the high-level and low-level design, diagram it, and validate-test it, but remember that judgment and the sign-off is still your call and as SME you're the accountable for the ultimate results.
+
 ### AI CLI Comparison
 
 | Capability              | Claude Code (Anthropic)           | Gemini CLI (Google)                  |
@@ -283,20 +288,19 @@ Install: `gemini extensions install https://github.com/gemini-cli-extensions/con
 
 **What it does**: Breaks objectives into Tracks → Phases → Tasks, stored in `conductor/spec.md` and `conductor/plan.md`. Tasks should be **atomic enough for parallel execution**.
 
-#### Model Selection (February 2026)
+#### Model Selection (June 2026)
 
 | Provider | Model | Context | Input $/MTok | Output $/MTok | Long Context (>200K) | Best For |
 |----------|-------|---------|--------------|---------------|---------------------|----------|
-| **Google** | Gemini 3 Flash | 1M | $0.50 | $3.00 | N/A (flat rate) | 95% of coding |
-| **Google** | Gemini 3 Pro* | 1M | $2.00 | $12.00 | $4.00/$18.00 | Complex reasoning |
-| **Anthropic** | Claude Sonnet 4.5 | 200K/1M† | $3.00 | $15.00 | $6.00/$22.50 | Balanced quality |
-| **Anthropic** | Claude Opus 4.5 | 200K | $5.00 | $25.00 | N/A | Deep analysis |
+| **Google** | Gemini 3.5 Flash | 1M | $1.50 | $9.00* | higher >200K | High-volume coding |
+| **Google** | Gemini 3.1 Pro | 1M | $2.00 | $12.00 | higher >200K | Complex reasoning |
+| **Anthropic** | Claude Sonnet 4.6 | 1M | $3.00 | $15.00 | no premium | Balanced quality |
+| **Anthropic** | Claude Opus 4.8 | 1M | $5.00 | $25.00 | no premium | Deep analysis |
 
-*Preview pricing - may reduce Q2 2026  
-†1M context in beta for organizations in usage tier 4
+*Gemini 3.5 Flash output price includes thinking tokens. Gemini >200K-context pricing is higher — verify exact rates before relying on them. Claude Opus 4.8 / Sonnet 4.6 serve the full 1M window at standard pricing (no long-context premium).
 
-> **Cost Guidance**: Gemini 3 Flash offers the best value for routine coding. Use higher-tier models only when reasoning depth is insufficient.
-> ⚠️ Preview pricing as of February 2026 - verify before production use
+> **Cost Guidance**: Gemini 3.5 Flash offers the best value for routine high-volume coding. Use higher-tier models only when reasoning depth is insufficient.
+> ⚠️ Pricing verified June 2026 — confirm current rates at ai.google.dev/gemini-api/docs/pricing and platform.claude.com before production use.
 
 #### Essential Plugins
 
@@ -1678,6 +1682,8 @@ NEVER:
 ```
 
 ### Definition of Done
+
+> **Treat the Definition of Done as a contract the agent answers to.** Left alone, an agent calls it done the moment the code runs. The contract is what makes 'done' mean shipped: it names the tests, the evidence, the docs to update, and the bar the work has to clear before review.
 
 **Task is NOT complete until:**
 

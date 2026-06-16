@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#
+# Pre-commit hook: Markdown lint gate.
+#
+# Mirrors the CI "Markdown Lint" job (.github/workflows/dx-validation.yml),
+# which runs markdownlint-cli2 with the repo's .markdownlint.json config.
+# Lints only the markdown files staged for this commit, so it stays fast.
+#
+# This hook is version-controlled under .githooks/ so it travels with the repo.
+# To activate it after cloning, run once:
+#
+#     git config core.hooksPath .githooks
+#
+set -euo pipefail
+
+# Collect staged markdown files (Added, Copied, Modified, Renamed).
+# NUL-delimited read so it stays correct for paths with spaces, and portable
+# back to bash 3.2 (macOS default) which lacks `mapfile`.
+STAGED_MD=()
+while IFS= read -r -d '' f; do
+  STAGED_MD+=("$f")
+done < <(git diff --cached --name-only -z --diff-filter=ACMR -- '*.md' '*.markdown')
+
+if [ "${#STAGED_MD[@]}" -eq 0 ]; then
+  exit 0
+fi
+
+echo "pre-commit: linting ${#STAGED_MD[@]} staged markdown file(s)..."
+
+# Prefer markdownlint-cli2 (what CI uses); fall back to markdownlint-cli;
+# last resort, run cli2 via npx if Node is available.
+if command -v markdownlint-cli2 >/dev/null 2>&1; then
+  LINT=(markdownlint-cli2)
+elif command -v markdownlint >/dev/null 2>&1; then
+  LINT=(markdownlint)
+elif command -v npx >/dev/null 2>&1; then
+  LINT=(npx --yes markdownlint-cli2)
+else
+  echo "pre-commit: ERROR - no markdown linter found." >&2
+  echo "  Install one of:" >&2
+  echo "    npm install -g markdownlint-cli2   # matches CI" >&2
+  echo "    npm install -g markdownlint-cli" >&2
+  exit 1
+fi
+
+if ! "${LINT[@]}" "${STAGED_MD[@]}"; then
+  echo "" >&2
+  echo "pre-commit: markdown lint failed. Fix the issues above and re-stage, or" >&2
+  echo "            bypass intentionally with: git commit --no-verify" >&2
+  exit 1
+fi
+
+echo "pre-commit: markdown lint passed."

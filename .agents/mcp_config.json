@@ -1,0 +1,26 @@
+{
+  "_about": "Governed-data-seam pattern. Agents reach data through a named MCP server, never raw credentials. Point each server at ONE source, expose ONLY the tools that source needs, and keep secrets in env vars — not in this file. Copy an entry, rename it, fill in your source. Your mileage may vary.",
+
+  "mcpServers": {
+    "data-warehouse": {
+      "_note": "Example governed read seam. Swap the command/args for your source: BigQuery, Spanner, AlloyDB, or Cloud SQL. Credentials come from the environment, never hardcoded.",
+      "command": "npx",
+      "args": ["-y", "@example/mcp-data-server", "--project", "${GCP_PROJECT_ID}"],
+      "env": {
+        "GCP_PROJECT_ID": "your-project-id",
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}"
+      },
+      "_exposedTools": [
+        "list_datasets",
+        "describe_schema",
+        "run_readonly_query"
+      ],
+      "_exampleSources": {
+        "bigquery": "read-only analytics queries over a warehouse dataset",
+        "spanner": "strongly-consistent relational reads",
+        "alloydb": "PostgreSQL-compatible operational reads",
+        "cloudsql": "managed MySQL/PostgreSQL reads"
+      }
+    }
+  }
+}

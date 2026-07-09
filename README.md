@@ -29,11 +29,16 @@ Shared contracts, validation, and discipline are not optional.
 
 I’ve been building and writing under the banner of **#HarnessEngineering** for a while now — the idea that the model is the easy, commoditised part - relatively speaking, and the durable engineering lives in the scaffolding you wrap around it. So the rule files, the tools and MCP servers, the sandboxes, the orchestration, the hooks, the evals. This repo is the firsthand version of that argument — a reflection of over a year working hands-on across a variety of agent systems, coding copilots, and orchestrated multi-agent delivery.
 
+If you want the narrative rather than the code, the write-ups that unpack this harness live here:
+
+- **Part 2 — [Harness Engineering with Google Antigravity](https://medium.com/google-cloud/the-ai-native-developer-experience-part-2-harness-engineering-with-google-antigravity-7fb72dab243f)** (Medium, Google Cloud Community) — one harness across three surfaces: the IDE, the Agent Manager, the CLI.
+- **Companion — [Supercharging Your Harness: Skills, Rules and MCP with Google Antigravity](https://itnext.io/supercharging-your-harness-skills-rules-and-mcp-with-google-antigravity-d2142e61c4fd)** (ITNEXT) — how the Skills, Rules and MCP primitives in this repo actually come together to make the harness invocable.
+
 The industry has now caught up to the same narrative, fast. The clearest recent marker is Google’s 2026 paper **“The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic Engineering”** (Addy Osmani, Shubham Saboo, and Sokratis Kartakis).
 
 A few of its headline findings in this report for your perusal, which line up closely with what this repo has been saying from the field:
 
-- **The model is roughly 10% of a working agent; the harness is the other ~90%.** The behaviour you experience using Claude Code, Cursor, Codex, Gemini, or Cline is dominated by the harness, not the model underneath. **( i think its more 35:65 split but thats just me )**
+- **The model is roughly 10% of a working agent; the harness is the other ~90%.** The behaviour you experience using Claude Code, Cursor, Codex, Gemini, or Cline is dominated by the harness, not the model underneath. My own read from the field puts it closer to a 35:65 split — but that's just me.
 - **Most agent failures are configuration failures.** Examined honestly, the cause is usually a missing tool, a vague rule, an absent guardrail, or a context window stuffed with noise — not the model.
 - **The harness effect is measurable.** On Terminal Bench 2.0, one team moved a coding agent from outside the Top 30 to the Top 5 by changing *only the harness*, no model change; a separate LangChain study lifted an agent’s score by 13.7 points the same way.
 - **Adoption is already mainstream.** As of early 2026, ~85% of professional developers regularly use AI coding agents, ~51% daily, and an estimated ~41% of new code is AI-generated.
@@ -115,6 +120,8 @@ These ideas were not written in isolation — they were forged while building, s
   - Applied AI
 
 Relevant posts will be cross-linked here as this harness evolves.
+
+- [Supercharging Your Harness: Skills, Rules and MCP with Google Antigravity](https://itnext.io/supercharging-your-harness-skills-rules-and-mcp-with-google-antigravity-d2142e61c4fd) (ITNEXT) — how the Skills, Rules and MCP primitives come together to make the harness ship safe, consistent output.
 
 
 

@@ -25,16 +25,16 @@
    - [Automated Meeting Minutes Processing](#automated-meeting-minutes-processing)
    - [Skills (Slash Commands)](#skills-slash-commands)
      - [Multi-Phase Orchestration](#advanced-pattern-multi-phase-orchestration)
-2. [VoiceMode: Hands-Free Development](#voicemode-hands-free-development) ⭐ NEW
+2. [VoiceMode: Hands-Free Development](#voicemode-hands-free-development)
 3. [MCP Tools Configuration](#mcp-tools-configuration)
 4. [ClickOps Engineering](#clickops-engineering)
 
 **Build & Validation**
 
 1. [Three Musketeers Pattern](#three-musketeers-pattern)
-   - [Enhanced Makefile Patterns](#enhanced-makefile-patterns-for-ai-workflows) ⭐ NEW
+   - [Enhanced Makefile Patterns](#enhanced-makefile-patterns-for-ai-workflows)
 2. [Pre-Commit Hooks & CI Quality Gates](#pre-commit-hooks--ci-quality-gates)
-   - [Advanced Claude Code Hooks](#advanced-claude-code-hooks-for-ai-workflows) ⭐ NEW
+   - [Advanced Claude Code Hooks](#advanced-claude-code-hooks-for-ai-workflows)
 3. [Testing & Validation](#testing--validation)
 4. [Branch-Based Development](#branch-based-development)
 
@@ -42,7 +42,7 @@
 
 1. [Project Tracking](#project-tracking)
 2. [Release Management & Tagging](#release-management--tagging)
-3. [Documentation Export & Presentation](#documentation-export-for-stakeholders) ⭐ NEW
+3. [Documentation Export & Presentation](#documentation-export-for-stakeholders)
 
 **Reference**
 
@@ -288,7 +288,7 @@ Install: `gemini extensions install https://github.com/gemini-cli-extensions/con
 
 **What it does**: Breaks objectives into Tracks → Phases → Tasks, stored in `conductor/spec.md` and `conductor/plan.md`. Tasks should be **atomic enough for parallel execution**.
 
-#### Model Selection (June 2026)
+#### Model Selection
 
 | Provider | Model | Context | Input $/MTok | Output $/MTok | Long Context (>200K) | Best For |
 |----------|-------|---------|--------------|---------------|---------------------|----------|

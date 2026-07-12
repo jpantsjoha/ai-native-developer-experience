@@ -3,20 +3,21 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.2.2
- - **Last Updated**: 2026-06-16
+ - **Version**: 1.3.0
+ - **Last Updated**: 2026-07-11
  - **Pricing Verified**: 2026-06-16 (Gemini 3.5 Flash $1.50/$9.00, Gemini 3.1 Pro $2.00/$12.00; Claude Sonnet 4.6 $3.00/$15.00, Claude Opus 4.8 $5.00/$25.00)
  - **Audience**: Developers adopting AI-augmented development workflows
  - **Purpose**: Bootstrap new team members to deliver rapid value from day one
- - **Changelog**: v1.2.0 adds VoiceMode integration, advanced Claude Code hooks, multi-phase skill orchestration, automated meeting minutes processing, and enhanced Makefile patterns
+ - **Changelog**: v1.3.0 adds a portable operating model for mixed human–AI squads: authority, risk tiers, isolated mutation, exact evidence/review, delivery, and observation
 ---
 
 ## Table of Contents
 
 **Philosophy & Strategy**
 1. [Introduction](#introduction)
-2. [Development Philosophy](#development-philosophy)
-3. [Spec-Driven Development](#spec-driven-development)
+2. [Operating Model for Human–AI Delivery](#operating-model-for-humanai-delivery)
+3. [Development Philosophy](#development-philosophy)
+4. [Spec-Driven Development](#spec-driven-development)
 
 **Workflow & Process**
 
@@ -65,6 +66,110 @@ This guide documents an **AI-augmented development workflow** that combines huma
 3. **Documentation as Code**: ADRs, specs, and roadmaps are living documents
 4. **Trunk-Based + Feature Branches**: Short-lived branches, frequent merges
 5. **Debug the Harness First**: When an agent misbehaves, look at the harness before you blame the model. Nine times out of ten it is a missing tool, a vague rule, or a guardrail that never fired
+
+---
+
+## Operating Model for Human–AI Delivery
+
+The harness explains *how* agents work. The operating model explains **who may decide,
+who owns each change, what evidence makes it trustworthy, and when work is actually
+complete**. Treat developers, product/domain experts, operators, AI agents, skills,
+tools, CI, and reviewers as one squad with a machine-readable contract.
+
+### Two layers, one contract
+
+Use two deliberately separate artifacts:
+
+1. **Universal operating manual** — vendor- and model-neutral rules for authority,
+   R0–R3 rigor, lifecycle, isolation, evidence, review, security, delivery, and
+   observation. It should transfer unchanged between projects.
+2. **Tracked project profile** — the project's protected paths, invariants, exact
+   commands, human approval roles, data gates, deployment/rollback, budgets, and
+   retention. This is where local truth belongs.
+
+Agent-surface files such as `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` should be thin
+adapters to that contract, not competing constitutions. Add a deterministic drift
+check that fails when authority, risk invariants, version/digest, or critical current
+facts disagree.
+
+The templates and adoption procedure live in
+[`operating-model-bootstrap`](.agents/skills/operating-model-bootstrap/SKILL.md).
+
+### Squad roles
+
+| Role | Owns | Does not own |
+|---|---|---|
+| **Accountable human/operator** | Outcome, scope, protected authority, external effects, production and spend | Implementation detail by default |
+| **Domain/product expert** | Intent, invariants, acceptance criteria, trade-offs | Unreviewed merge authority |
+| **Integration owner** | Exact assembled candidate, interface contract, merge order, convergence gate | Independent approval of their own R3 work |
+| **Mutating human/AI lane** | One worktree, named files/resources, falsifiable success test | Another lane's git state or shared resources |
+| **Independent reviewer** | Refutation of the exact candidate in a declared domain | Scope expansion or operator authority |
+| **Skill/tool** | Repeatable capability and deterministic procedure | Permission, accountability, or a passing verdict |
+
+Use the strongest available specialist for a lane, whether human or agent. The control
+is the role, evidence, and boundary—not the model label.
+
+### Risk-proportionate lifecycle
+
+Classify the highest-risk strand, not the average task:
+
+| Tier | Typical work | Minimum operating bar |
+|---|---|---|
+| **R0 — inspect** | Bounded read-only analysis | Ground and verify the load-bearing claim |
+| **R1 — reversible** | Small local edit with loud failure | Isolated change, focused check, rollback |
+| **R2 — consequential** | Multi-file/interface/data change | Durable checkpoint, worktree, regression, convergence gate |
+| **R3 — protected** | Security, money, production, destructive/external or constitutional work | Explicit authority, domain invariants, independent exact review, rollback and observation |
+
+The operating state is explicit:
+
+`intake → grounded → authorised → risk-classified → planned → isolated → implemented
+→ locally verified → integrated → convergence-verified → independently reviewed
+→ approved → delivered → observed → complete`
+
+Blocked, aborted, and superseded are honest states. A changed candidate returns to
+implementation and invalidates prior review. A conditional verdict is work, not
+approval.
+
+### Safe parallelism
+
+Parallelise independent reasoning freely; isolate every mutation:
+
+- one branch/worktree per mutating lane;
+- one owner for each file, port, database, cache, dataset, queue, cloud resource, and
+  generated-output path;
+- read-only reviewers may share a checkout;
+- one integration owner assembles pinned lane commits in a clean worktree;
+- the complete integrated candidate reruns the convergence gate.
+
+“Different lines” is not isolation when two lanes share an interface or state. Sequence
+that work or give the interface to one owner.
+
+### Receipts bound to the candidate
+
+For consequential/protected work, retain the base and candidate identity, exact
+commands and exit codes, environment, data provenance, artifacts, reviewers, open
+conditions, rollback, and observation plan. A green label from another tree, dataset,
+or configuration is not evidence for this candidate.
+
+Verdicts have strict semantics:
+
+- **PASS** — zero conditions remain.
+- **Conditional/amendment** — block, fix, and re-review the changed candidate.
+- **REJECT/BLOCKING** — halt.
+- **Override** — a separate accountable-human path with a durable reason; never a
+  passing reviewer token.
+
+Prefer required remote checks or signed attestations for protected approvals. Local
+hooks are useful defence in depth, but they are bypassable and do not authenticate a
+reviewer.
+
+### Adoption outcome
+
+An adopted operating model leaves concrete artifacts: a versioned universal manual, a
+completed project profile, thin surface adapters, semantic drift enforcement, a
+checkpoint for R2/R3 work, exact validation commands, and explicit delivery/rollback
+observation. “Tests pass” is not complete while authority, docs, delivery, surviving
+risk, or observation remains unresolved.
 
 ---
 
@@ -573,7 +678,7 @@ VoiceMode enables natural voice conversations with Claude Code for hands-free co
 
 Simply ask Claude:
 
-> _"Set up voice mode for me"_
+> *"Set up voice mode for me"*
 
 Claude will autonomously:
 1. Check system capabilities (RAM, architecture)
@@ -1743,5 +1848,3 @@ Do NOT change without explicit user approval:
 ---
 
 **Welcome to the team! Start with `make setup` and you'll be delivering value within the hour.**
-
-

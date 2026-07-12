@@ -66,6 +66,10 @@ Borrow the patterns. As ever — your mileage may vary.
 
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)  
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
+- **[Operating Model Bootstrap](.agents/skills/operating-model-bootstrap/SKILL.md)**
+  The reusable universal-manual + project-profile templates for assigning authority,
+  isolating parallel human/agent lanes, binding evidence and review, and carrying work
+  through delivery, observation, and honest completion.
 
 This repository is expected to **evolve** as tools, models, and workflows change.
 

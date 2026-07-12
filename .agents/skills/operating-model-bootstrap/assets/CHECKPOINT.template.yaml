@@ -1,0 +1,37 @@
+task_id: <stable-id>
+objective: <one-sentence outcome>
+artifact_and_decision: <artifact and downstream decision/action>
+authority:
+  granted_by: <human/role>
+  allowed_actions: []
+  excluded_actions: []
+risk_tier: <R0|R1|R2|R3>
+highest_silent_failure: <failure and blast radius>
+governing_sources: []
+base_sha: <full-sha>
+integration:
+  owner: <owner>
+  branch: <branch>
+  worktree: <absolute-path>
+  merge_order: []
+lanes:
+  - owner: <owner>
+    branch: <branch>
+    worktree: <absolute-path>
+    owned_files: []
+    owned_resources: []
+    success_test: <command-or-observable>
+decisions: []
+evidence_required:
+  commands: []
+  data_provenance: []
+  review_roles: []
+docs_impact: []
+delivery:
+  destination: <destination>
+  observation: <signals-and-window>
+rollback: <method-and-owner>
+cost_and_time_ceiling: <limit>
+state: <INTAKE|GROUNDED|AUTHORIZED|RISK_CLASSIFIED|PLANNED|ISOLATED|IMPLEMENTED|LOCALLY_VERIFIED|INTEGRATED|CONVERGENCE_VERIFIED|INDEPENDENTLY_REVIEWED|APPROVED|DELIVERED|OBSERVED|COMPLETE|BLOCKED|ABORTED|SUPERSEDED>
+open_conditions: []
+next_action: <single-next-step>

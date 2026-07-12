@@ -1,0 +1,4 @@
+interface:
+  display_name: "Operating Model Bootstrap"
+  short_description: "Adopt evidence-bound human-agent delivery"
+  default_prompt: "Use $operating-model-bootstrap to adopt an evidence-bound operating model in this project."

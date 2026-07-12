@@ -10,7 +10,7 @@ Each skill is a `SKILL.md` in its own directory. Drop any skill into `.agents/sk
 
 ---
 
-## The 12 Skills
+## The 13 Skills
 
 | Skill | One-line purpose |
 |---|---|
@@ -26,6 +26,7 @@ Each skill is a `SKILL.md` in its own directory. Drop any skill into `.agents/sk
 | [`pr-reviewer`](./pr-reviewer/SKILL.md) | Review gate: correctness, reuse, simplification — receipts not polish |
 | [`cost-guardrail`](./cost-guardrail/SKILL.md) | LLM/token cost awareness: model tiering, budgets, right-sizing |
 | [`sitrep`](./sitrep/SKILL.md) | Synthesise a status / standup / situation-report from work state |
+| [`operating-model-bootstrap`](./operating-model-bootstrap/SKILL.md) | Install the authority, risk, isolation, evidence, review, and delivery contract for a human–AI squad |
 
 ---
 

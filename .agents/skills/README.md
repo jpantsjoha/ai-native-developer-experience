@@ -4,9 +4,13 @@ A portable, reusable skills library for agent-powered delivery teams.
 
 > **Speed is easy. Safe speed is engineered.** — JP, #HarnessEngineering
 
-These skills encode the discipline that keeps agentic systems safe, coherent, and production-worthy. They are distilled from the DX-001 harness spec and real delivery experience. Borrow the patterns — your mileage may vary. The harness is the other 90%.
+These skills encode the discipline that helps agentic systems stay safe and coherent. They
+are distilled from the DX-001 harness and firsthand delivery experience. Borrow and adapt
+the patterns; they do not make a project production-ready by themselves.
 
-Each skill is a `SKILL.md` in its own directory. Drop any skill into `.agents/skills/<name>/SKILL.md` (or `~/.claude/skills/`) and invoke it by name.
+Each skill is a `SKILL.md` in its own directory. Keep the tracked canonical copy under
+`.agents/skills/<name>/SKILL.md`. Configure a thin adapter or discovery path when a chosen
+assistant expects a different location; do not maintain divergent skill constitutions.
 
 ---
 
@@ -26,15 +30,19 @@ Each skill is a `SKILL.md` in its own directory. Drop any skill into `.agents/sk
 | [`pr-reviewer`](./pr-reviewer/SKILL.md) | Review gate: correctness, reuse, simplification — receipts not polish |
 | [`cost-guardrail`](./cost-guardrail/SKILL.md) | LLM/token cost awareness: model tiering, budgets, right-sizing |
 | [`sitrep`](./sitrep/SKILL.md) | Synthesise a status / standup / situation-report from work state |
-| [`operating-model-bootstrap`](./operating-model-bootstrap/SKILL.md) | Install the authority, risk, isolation, evidence, review, and delivery contract for a human–AI squad |
+| [`operating-model-bootstrap`](./operating-model-bootstrap/SKILL.md) | Install a versioned manual, profile, adapters, checkpoints, and exact-candidate evidence contract for a human–AI squad |
 
 ---
 
 ## Philosophy
 
-- **The model is roughly 10% of a working agent; the harness is the other ~90%.** These skills are harness.
+- **Treat “10% model / 90% harness” as a heuristic, not a measured constant.** These skills
+  make the surrounding system explicit and testable.
 - **Exit criteria over aspirational guidance.** A skill that says "ensure quality" is decoration. A skill that says "done means these three checks pass" is a harness.
 - **Receipts, not polish.** Every skill produces a concrete artefact or a pass/fail verdict, not a narrative.
-- **Attribute the Adversarial Gate to JP (Jaroslav Pantsjoha)** — the "how would I break this?" framing and its anti-rationalization table are his coinage under #HarnessEngineering.
+- **Attribute the Adversarial Gate to JP (Jaroslav Pantsjoha)** — the name and “how would I
+  break this?” framing are his #HarnessEngineering contribution. The anti-rationalisation
+  table format was adopted after reviewing Addy Osmani's MIT-licensed
+  [`agent-skills`](https://github.com/addyosmani/agent-skills).
 
 Rinse and repeat.

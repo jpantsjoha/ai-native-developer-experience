@@ -1,4 +1,4 @@
 interface:
   display_name: "Operating Model Bootstrap"
-  short_description: "Adopt evidence-bound human-agent delivery"
-  default_prompt: "Use $operating-model-bootstrap to adopt an evidence-bound operating model in this project."
+  short_description: "Install a portable day-one team harness"
+  default_prompt: "Use $operating-model-bootstrap to install and ground a portable day-one operating contract in this project."

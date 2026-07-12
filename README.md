@@ -1,31 +1,39 @@
 # AI-Native Developer Experience Harness
 
-This repository captures how I think about **developer experience in an AI-powered world** — where AI agents are rapidly becoming part of the delivery team. This notion of the **Agentic Harness** - think of this as the opinionated scaffolding, ways of working, and hard-won patterns we wrap around the models so they actually ship safe, consistent, coherent and complete output of value, that you can scale - as you adopt this DevEx Agent-powered development within your Team.
+> **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
 
-The good news is that I battle-tested this version of rather opinionated harness myself several times and these further enhancements and improvements (and feedback from industry peers) should make this re-usable-enough for you to get started with.
+This is my personal, public example of the scaffolding, skills, operating model, and ways
+of working I use to help a team start coherently in a new project direction. It is a
+conversation starter and adaptable baseline, not a production application starter kit or
+a claim that one process fits every team.
 
-With over 2 years of building, hacking, shipping, breaking, fixing, and refining real products and then finally proving, delivering value with this kit. Enjoy, Rinse and Repeat and let me know how this works for you and your team.
+The operating-model kernel is model-, vendor-, and IDE-agnostic. Thin platform adapters
+handle discovery and invocation without changing authority, risk, evidence, review, or
+completion semantics.
+
+**Start here:** [bootstrap a new team project](BOOTSTRAP.md), then adapt the tracked
+project profile as the team learns.
 
 > **Speed is easy. Safe speed is engineered.**
 
-> **This is opinionated, and it should be.** This Harness works for my team, shaped by my own delivery experience, defined by my requirements.
-You may need to adjust to your team requirements, and expertise. I.e. your ways of working, your technology choices, your use cases, and your definition of done almost certainly will. Borrow the Patterns, but Your mileage may vary.
+> **This is deliberately opinionated.** Refine it for your team, technology, domain,
+> authority model, and definition of done. Keep one coherent shared contract while doing so.
 
 
 ---
 
-### This repo is about:
-- A **living DX harness** for AI-augmented development
-- A record of **what actually worked** in real delivery environments
-- A set of **minimum viable guardrails** for agent-driven workflows
-- Opinionated by design
+## This repo is about
 
-Hyper-personalised workflows are inevitable. - my version here is one of many.
-Shared contracts, validation, and discipline are not optional.
+- A **living DX harness** for AI-augmented development.
+- A record of **what worked** in firsthand delivery experience.
+- A set of **minimum viable guardrails** for agent-driven workflows.
+- An opinionated baseline designed for team refinement.
+
+Hyper-personalised workflows are inevitable; this is one of many. Shared contracts,
+validation, and discipline remain essential.
 
 
-
-## Where The Harness came from
+## Where the harness came from
 
 I’ve been building and writing under the banner of **#HarnessEngineering** for a while now — the idea that the model is the easy, commoditised part - relatively speaking, and the durable engineering lives in the scaffolding you wrap around it. So the rule files, the tools and MCP servers, the sandboxes, the orchestration, the hooks, the evals. This repo is the firsthand version of that argument — a reflection of over a year working hands-on across a variety of agent systems, coding copilots, and orchestrated multi-agent delivery.
 
@@ -34,14 +42,30 @@ If you want the narrative rather than the code, the write-ups that unpack this h
 - **Part 2 — [Harness Engineering with Google Antigravity](https://medium.com/google-cloud/the-ai-native-developer-experience-part-2-harness-engineering-with-google-antigravity-7fb72dab243f)** (Medium, Google Cloud Community) — one harness across three surfaces: the IDE, the Agent Manager, the CLI.
 - **Companion — [Supercharging Your Harness: Skills, Rules and MCP with Google Antigravity](https://itnext.io/supercharging-your-harness-skills-rules-and-mcp-with-google-antigravity-d2142e61c4fd)** (ITNEXT) — how the Skills, Rules and MCP primitives in this repo actually come together to make the harness invocable.
 
-The industry has now caught up to the same narrative, fast. The clearest recent marker is Google’s 2026 paper **“The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic Engineering”** (Addy Osmani, Shubham Saboo, and Sokratis Kartakis).
+The broader industry is converging on similar language. One useful marker is Google’s
+2026 paper [“The New SDLC With Vibe Coding: From ad-hoc prompting to Agentic
+Engineering”](https://www.kaggle.com/whitepaper-the-new-SDLC-with-vibe-coding) by Addy
+Osmani, Shubham Saboo, and Sokratis Kartakis.
 
-A few of its headline findings in this report for your perusal, which line up closely with what this repo has been saying from the field:
+A few related themes and external signals line up with what this repository has been
+saying from the field:
 
-- **The model is roughly 10% of a working agent; the harness is the other ~90%.** The behaviour you experience using Claude Code, Cursor, Codex, Gemini, or Cline is dominated by the harness, not the model underneath. My own read from the field puts it closer to a 35:65 split — but that's just me.
-- **Most agent failures are configuration failures.** Examined honestly, the cause is usually a missing tool, a vague rule, an absent guardrail, or a context window stuffed with noise — not the model.
-- **The harness effect is measurable.** On Terminal Bench 2.0, one team moved a coding agent from outside the Top 30 to the Top 5 by changing *only the harness*, no model change; a separate LangChain study lifted an agent’s score by 13.7 points the same way.
-- **Adoption is already mainstream.** As of early 2026, ~85% of professional developers regularly use AI coding agents, ~51% daily, and an estimated ~41% of new code is AI-generated.
+- **The harness can dominate the experience.** “10% model / 90% harness” is a useful
+  engineering heuristic, not a universal measured ratio. The practical point is to debug
+  tools, context, rules, permissions, and feedback loops as first-class system components.
+- **Many apparent model failures are harness failures.** Missing tools, vague rules,
+  absent guardrails, poor context, and weak validation are common, actionable causes. This
+  is a field observation, not a claim that every failure has the same root cause.
+- **The harness effect can be measured.** LangChain reported improving Deep Agents from
+  52.8 to 66.5 on Terminal Bench 2.0 through harness changes, moving from outside the Top
+  30 to the Top 5 at that time. Treat the result and rank as a historical experiment, not
+  a permanent benchmark fact. See [LangChain’s experiment](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
+  and the [current Terminal Bench leaderboard](https://www.tbench.ai/leaderboard/terminal-bench/2.0).
+- **Adoption is widespread, but measurements differ.** Surveys often mix AI tools,
+  coding assistants, and agents, so this repo does not turn tool-use percentages into an
+  “agent adoption” or “AI-generated code” claim. See the [JetBrains 2025 ecosystem
+  report](https://blog.jetbrains.com/research/2025/10/state-of-developer-ecosystem-2025/)
+  and [Stack Overflow 2025 survey](https://survey.stackoverflow.co/2025/ai).
 - **The role is shifting from syntax to intent** — from writing code to specifying, verifying, and directing — with “intent as the new interface” as the destination.
 
 Basically, read that report.
@@ -55,7 +79,9 @@ Addy Osmani followed the paper with a practical artifact — **[agent-skills](ht
 
 2. **Doubt-driven development.** Adversarial in-flight review of high-stakes decisions — the agent must argue against its own approach before proceeding. I've been running this as the **Adversarial Gate** ("how would i break this?") since the start of this harness. Good to see the industry converge on the same move. If you only borrow one behavioural pattern, borrow this one.
 
-3. **A meta-router skill.** Once your skill count passes ~20, the agent needs a skill for choosing skills — `using-agent-skills` maps incoming work to the right workflow. Obvious in hindsight. My harness now needs one; yours will too.
+3. **A meta-router skill.** As a skill library grows, the agent needs explicit routing.
+   This harness implements that capability in `delivery-orchestrator`; the operating
+   profile then maps capability names to whichever invocation syntax the team uses.
 
 4. **Exit criteria over aspirational guidance.** The repo's quiet philosophy: process over prose. A skill that says "ensure quality" is decoration; a skill that says "done means these three checks pass" is a harness. Same discriminator i keep landing on everywhere: receipts, not polish.
 
@@ -64,18 +90,27 @@ Borrow the patterns. As ever — your mileage may vary.
 
 ## What’s inside this repo
 
+- **[BOOTSTRAP.md](BOOTSTRAP.md)**
+  The drop-in, fifteen-minute path for a new team project.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)  
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
+- **[Agent Skills Library](.agents/skills/README.md)**
+  Thirteen tracked capabilities for orchestration, architecture, specification, validation,
+  review, release readiness, status, cost, and selected platform work.
 - **[Operating Model Bootstrap](.agents/skills/operating-model-bootstrap/SKILL.md)**
-  The reusable universal-manual + project-profile templates for assigning authority,
-  isolating parallel human/agent lanes, binding evidence and review, and carrying work
-  through delivery, observation, and honest completion.
+  A reusable released manual, project profile, checkpoint, evidence manifest, and thin
+  agent-surface adapters for assigning authority, isolating parallel human/agent lanes,
+  binding review to an exact candidate, and carrying work through delivery, observation,
+  and honest completion.
+- **[CHANGELOG.md](CHANGELOG.md)**
+  Material changes, narrow public-source attribution, and known usage limitations.
 
-This repository is expected to **evolve** as tools, models, and workflows change.
+This repository is expected to **evolve** as tools, models, and workflows change. Dated
+facts and prices are snapshots; verify them before making a current decision.
 
 
 
-## Projects that helped shaped this harness
+## Projects that helped shape this harness
 
 These ideas were not written in isolation — they were forged while building, shipping, breaking, and iterating on real systems using AI-assisted and agent-driven workflows. (Besides my own delivery experience in the field)
 

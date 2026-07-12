@@ -42,6 +42,6 @@ Before you call any change done, answer in writing: **"How would I break this?"*
 
 ## Quality gates (no merge to `main` without these)
 
-`make lint` · `make typecheck` · `make test` — then the Adversarial Gate above. When an agent misbehaves, **debug the harness first**: nine times out of ten it is a missing tool, a vague rule, or a guardrail that never fired — not the model.
+`make lint` · `make typecheck` · `make test` — then the Adversarial Gate above. When an agent misbehaves, **debug the harness first**: inspect tools, context, rules, permissions, and validation before assuming the model is the only cause.
 
 Rinse and repeat.

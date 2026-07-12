@@ -1,15 +1,17 @@
 # Operating Manual — Evidence-Bound Agent Work
 
-**Version:** 2.0.0
-**Owner:** <operating-model owner>
-**Last verified:** <YYYY-MM-DD>
+**Version:** 2.1.0
+**Owner:** operating-model maintainers
+**Released:** 2026-07-12
+**Last verified:** 2026-07-12
 **Scope:** universal kernel for any project; each project supplies a versioned profile
 **Review trigger:** a material failure, a changed authority model, or 90 days without verification
-**Status:** normative once a project profile explicitly adopts this version
+**Status:** released reference kernel; normative only when a project profile adopts this exact version and SHA-256 digest
 
-This manual is a way of working under uncertainty. It is vendor- and model-neutral.
+This manual is a way of working under uncertainty. It is model-, vendor-, and IDE-neutral.
 Examples are illustrative; project policy, commands, invariants, and approval roles belong
-in the project profile.
+in the project profile. Surface adapters may change discovery and invocation only; they may
+not change authority, risk, evidence, review, or completion semantics.
 
 The objective is not maximum ceremony. It is coherent intent, consistent execution, complete
 evidence, and safe delivery at a cost proportionate to the decision.
@@ -81,8 +83,8 @@ would be exceeded, surface the trade-off before spending more.
 
     INTAKE
       → GROUNDED
-      → AUTHORIZED
       → RISK_CLASSIFIED
+      → AUTHORIZED
       → PLANNED
       → ISOLATED
       → IMPLEMENTED
@@ -100,8 +102,8 @@ BLOCKED, ABORTED, and SUPERSEDED are valid side or terminal states.
 Transition guards:
 
 - **GROUNDED:** canonical policy, current state, and primary sources were read.
-- **AUTHORIZED:** planned actions and side effects fit explicit authority.
 - **RISK_CLASSIFIED:** the highest-risk silent failure and required rigor are named.
+- **AUTHORIZED:** planned actions and side effects fit explicit authority for that risk.
 - **PLANNED:** falsifiable success, ownership, evidence, docs impact, and rollback are declared.
 - **ISOLATED:** every mutating lane has its own branch/worktree and resource namespace.
 - **LOCALLY_VERIFIED:** old behavior was reproduced where applicable; focused checks pass.
@@ -132,7 +134,8 @@ Decompose so wrongness is localizable:
 
 For R2/R3, write the contract to a durable checkpoint before dispatch. Context can compact, sessions
 can fail, and agents can be interrupted. If the contract cannot be reloaded, the work cannot be
-reassembled safely. Use `CHECKPOINT.template.yaml` from the bootstrap skill.
+reassembled safely. Use `CHECKPOINT.template.yaml` from the bootstrap skill and point it to the
+task's evidence manifest.
 
 ---
 
@@ -142,8 +145,10 @@ reassembled safely. Use `CHECKPOINT.template.yaml` from the bootstrap skill.
 - Read-only agents may share a checkout.
 - Two mutating lanes never share an index, generated-output path, database, cache, port, cloud
   resource, or live process unless the project profile explicitly provides safe namespacing.
-- A live daemon or production-like service runs only from the canonical operational checkout, never
-  an agent worktree.
+- An isolated local development or test service may run from a lane worktree only when its ports,
+  data, queues, caches, credentials, and lifecycle are namespaced to that lane.
+- A shared operational or production-like service runs only from the project-designated canonical
+  operational checkout and owner; an agent worktree must never control it.
 - Subagents do not stash, restore, reset, clean, rebase, merge, or change another lane's git state.
 - Only the integration owner assembles lane commits. Integrate pinned commits, not “whatever is
   currently in that directory.”
@@ -191,7 +196,8 @@ Label load-bearing uncertainty in the sentence where it matters. Uniform hedging
 
 ## 6. Evidence must bind to what was reviewed
 
-For R2/R3, retain an evidence manifest:
+For R2/R3, retain an evidence manifest. Use `EVIDENCE-MANIFEST.template.yaml` from the
+bootstrap skill rather than relying on chat history:
 
     task_id:
     base_sha:
@@ -331,6 +337,7 @@ explicit uncertainty is a quality feature; inventing certainty is not.
 Every adopting project keeps a tracked profile containing:
 
     manual_version:
+    manual_sha256:
     profile_owner:
     last_verified:
     policy_precedence:
@@ -351,6 +358,11 @@ Every adopting project keeps a tracked profile containing:
 Adapters for different agent surfaces should be generated from or point to the same tracked profile.
 Do not hand-maintain multiple constitutions that claim to be canonical. A drift check must fail when
 surface adapters disagree on authority, risk invariants, or current operating facts.
+
+Unknown project facts must never be fabricated to satisfy the profile. Use either `not applicable —
+reason` or `not yet established — owner: role; required before: trigger`. R0/R1 work may begin
+with an explicitly incomplete day-one profile; R2/R3 work is blocked until every applicable control
+for that tier is resolved and runnable.
 
 ---
 
@@ -380,7 +392,10 @@ An honest “unknown” may be the correct answer. If it changes the decision, v
 
 ## Change history
 
-- **2.0.0 — <adoption date>:** split universal kernel from project profile; added authority,
+- **2.1.0 — 2026-07-12:** clarified risk-before-authority ordering, explicit unknown
+  handling, local-service namespacing, immutable manual-digest adoption, lightweight
+  surface adapters, and durable checkpoint/evidence-manifest assets.
+- **2.0.0 — 2026-07-11:** split universal kernel from project profile; added authority,
   risk tiers, explicit state machine, durable resume checkpoints, worktree/resource isolation,
   evidence and review binding, security, delivery/observation, cost proportionality, and
   enforceable verdict semantics.

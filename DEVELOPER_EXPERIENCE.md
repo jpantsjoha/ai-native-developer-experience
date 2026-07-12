@@ -3,12 +3,12 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.3.0
- - **Last Updated**: 2026-07-11
+ - **Version**: 1.4.0
+ - **Last Updated**: 2026-07-12
  - **Pricing Verified**: 2026-06-16 (Gemini 3.5 Flash $1.50/$9.00, Gemini 3.1 Pro $2.00/$12.00; Claude Sonnet 4.6 $3.00/$15.00, Claude Opus 4.8 $5.00/$25.00)
  - **Audience**: Developers adopting AI-augmented development workflows
  - **Purpose**: Bootstrap new team members to deliver rapid value from day one
- - **Changelog**: v1.3.0 adds a portable operating model for mixed human–AI squads: authority, risk tiers, isolated mutation, exact evidence/review, delivery, and observation
+ - **Changelog**: v1.4.0 makes the operating model a validated day-one seed with a safe initializer, thin adapters, explicit readiness states, and exact-candidate evidence
 ---
 
 ## Table of Contents
@@ -65,7 +65,7 @@ This guide documents an **AI-augmented development workflow** that combines huma
 2. **Validation First**: Every change must pass automated gates before commit
 3. **Documentation as Code**: ADRs, specs, and roadmaps are living documents
 4. **Trunk-Based + Feature Branches**: Short-lived branches, frequent merges
-5. **Debug the Harness First**: When an agent misbehaves, look at the harness before you blame the model. Nine times out of ten it is a missing tool, a vague rule, or a guardrail that never fired
+5. **Debug the Harness First**: When an agent misbehaves, inspect tools, context, rules, permissions, and validation before assuming the model is the only cause
 
 ---
 
@@ -80,7 +80,7 @@ tools, CI, and reviewers as one squad with a machine-readable contract.
 
 Use two deliberately separate artifacts:
 
-1. **Universal operating manual** — vendor- and model-neutral rules for authority,
+1. **Universal operating manual** — model-, vendor-, and IDE-neutral rules for authority,
    R0–R3 rigor, lifecycle, isolation, evidence, review, security, delivery, and
    observation. It should transfer unchanged between projects.
 2. **Tracked project profile** — the project's protected paths, invariants, exact
@@ -122,7 +122,7 @@ Classify the highest-risk strand, not the average task:
 
 The operating state is explicit:
 
-`intake → grounded → authorised → risk-classified → planned → isolated → implemented
+`intake → grounded → risk-classified → authorised → planned → isolated → implemented
 → locally verified → integrated → convergence-verified → independently reviewed
 → approved → delivered → observed → complete`
 
@@ -166,10 +166,17 @@ reviewer.
 ### Adoption outcome
 
 An adopted operating model leaves concrete artifacts: a versioned universal manual, a
-completed project profile, thin surface adapters, semantic drift enforcement, a
-checkpoint for R2/R3 work, exact validation commands, and explicit delivery/rollback
-observation. “Tests pass” is not complete while authority, docs, delivery, surviving
-risk, or observation remains unresolved.
+grounded seed or active project profile, thin surface adapters, semantic drift enforcement, a
+checkpoint and exact-candidate evidence manifest for R2/R3 work, exact validation
+commands, and explicit delivery/rollback observation. The bootstrap skill includes all
+of these assets; adopters compute the manual digest, ground every local fact, and keep a
+seed profile from claiming R2/R3 readiness until applicable controls are resolved.
+“Tests pass” is not complete while authority, docs, delivery, surviving risk, or
+observation remains unresolved.
+
+Use [BOOTSTRAP.md](BOOTSTRAP.md) for the drop-in path. A `seed` profile lets a team start
+system design, ADRs, backlog formation, interface design, and R0/R1 work without inventing
+unknown project facts. R2/R3 work waits for applicable controls and an `active` profile.
 
 ---
 
@@ -181,7 +188,8 @@ Every feature, bug fix, and refactor should answer: **"Does this add measurable 
 
 ### Quality Gates
 
-No code merges to `main` without passing all gates:
+In an adopting delivery repository, do not merge code to `main` without its applicable
+project-profile gates:
 
 | Gate              | Command          | Benefit                                         |
 | ----------------- | ---------------- | ----------------------------------------------- |
@@ -193,7 +201,8 @@ No code merges to `main` without passing all gates:
 
 ### Branch Protection Rules
 
-The `main` branch is protected with these enforced rules:
+Configure and independently verify these `main` branch-protection rules on the repository
+host. Documentation alone does not prove that remote enforcement exists:
 
 | Rule                            | Purpose                                |
 | ------------------------------- | -------------------------------------- |
@@ -1186,7 +1195,8 @@ Claude Code hooks enable **automated quality enforcement** and context managemen
 | **Security** | Deterministic | Vulnerabilities, secrets |
 | **Tests** | Deterministic | Behaviour verification |
 | **Build** | Deterministic | Compilation check |
-| **AI Review** | Non-deterministic | Coherence, alignment |
+| **Operating contract** | Deterministic | Template, digest, adapter, and regression checks |
+| **AI assessment (optional)** | Non-deterministic | Advisory coherence/refutation |
 
 ### Sample Workflow
 
@@ -1209,22 +1219,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DavidAnson/markdownlint-cli2-action@v19
 
-  # NON-DETERMINISTIC (PRs only)
-  ai-review:
-    name: AI Coherence Review
+  operating-model:
+    name: Operating Model Contract
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-      - name: AI Review
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          # Review changed files for DX best practices
-          CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} -- '*.md')
-          echo "Reviewing: $CHANGED"
+          python-version: "3.11"
+      - run: make typecheck
+      - run: make test
 ```
 
 ### Deterministic vs Non-Deterministic
@@ -1233,8 +1237,12 @@ jobs:
 |--------|---------------|-------------------|
 | **Tools** | markdownlint, ESLint, Jest | Claude Code, Gemini CLI |
 | **Output** | Pass/Fail | Assessment |
-| **When** | Every push | PRs only |
-| **Purpose** | Syntax/style | Architectural drift |
+| **When** | Every push and PR | Selected R2/R3 reviews |
+| **Purpose** | Enforced syntax/behaviour/contracts | Advisory coherence/refutation unless separately enforced |
+
+Do not publish a green “AI review” job that only lists changed files or skips when a secret
+is absent. It becomes a gate only when a real review command runs, failure blocks, the
+review binds to the exact candidate, and reviewer identity/limitations are explicit.
 
 ### AI Review Checks
 
@@ -1287,7 +1295,7 @@ For authenticated session testing, use CDP (Chrome DevTools Protocol) to reuse e
 
 ### Workflow
 
-`main` (protected) ← PR ← feature branch ← commits
+`main` (protected when host rules are configured and verified) ← PR ← feature branch ← commits
 
 ### Commit Message Format
 

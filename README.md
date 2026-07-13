@@ -22,6 +22,32 @@ project profile as the team learns.
 
 ---
 
+## Licence and commercial team adoption
+
+This repository is **source-available**, under a choice of two standard licences:
+
+- Personal and other noncommercial use: [PolyForm Noncommercial 1.0.0](LICENSE).
+- Commercial team evaluation for less than 32 consecutive calendar days:
+  [PolyForm Free Trial 1.0.0](LICENSE).
+
+Ongoing commercial team adoption is not granted by the public licences. Before using
+this repository as an operating harness for a business, client, or paid engagement beyond
+the evaluation period, request written permission from
+[Jaroslav Pantsjoha on LinkedIn](https://www.linkedin.com/in/johas/). For a public enquiry,
+you can also [open a GitHub issue](https://github.com/jpantsjoha/ai-native-developer-experience/issues/new).
+Include the organisation, intended team or project scope, and whether you are comfortable
+being named publicly as an adopter. Public acknowledgement is opt-in; confidential
+enquiries are welcome.
+
+Please preserve the copyright and `Required Notice:` attribution in permitted copies and
+adaptations. The repository contains no usage telemetry, so a licence creates a clear
+permission boundary but cannot identify silent use. Stars, feedback, and voluntary
+adoption notes are welcome evidence that the harness is useful, but they are not licence
+conditions.
+
+
+---
+
 ## This repo is about
 
 - A **living DX harness** for AI-augmented development.

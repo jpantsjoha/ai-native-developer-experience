@@ -18,6 +18,9 @@ operating-manual asset.
   state, checkpoints, and exact-candidate evidence manifests.
 - A day-one adoption example, bootstrap guide, evidence manifest, and baseline skill map.
 - Narrow public-source attribution plus currency and usage caveats.
+- Dual source-available terms: unlimited noncommercial use under PolyForm Noncommercial
+  1.0.0 and a short commercial evaluation under PolyForm Free Trial 1.0.0. Ongoing
+  commercial team adoption requires separate written permission.
 
 ### Changed
 
@@ -49,4 +52,5 @@ operating-manual asset.
 - Local checks cannot authenticate reviewer identity or enforce remote repository policy.
 - Skill auto-discovery and invocation differ by assistant and IDE.
 - The initializer and validator require Python 3.10 or newer.
-- A top-level reuse licence has not yet been selected.
+- Licensing creates a permission boundary but cannot provide telemetry or identify silent
+  repository use.

@@ -58,4 +58,8 @@ Answer it honestly. If you cannot name at least two plausible failure modes, you
 
 ## Reference
 
-This pattern converges with "doubt-driven development" observed in the agent-skills community (Addy Osmani, 2026). The Adversarial Gate coinage and the anti-rationalization table format originate with JP's #HarnessEngineering practice.
+This pattern converges with “doubt-driven development” in Addy Osmani's
+[`agent-skills`](https://github.com/addyosmani/agent-skills). The **Adversarial Gate** name
+and “how would I break this?” framing are JP's #HarnessEngineering contribution. The
+anti-rationalisation table format was adopted after reviewing that MIT-licensed project;
+this repository does not claim the table format originated here.

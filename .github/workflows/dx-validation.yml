@@ -20,32 +20,17 @@ jobs:
           globs: '**/*.md'
 
   # ════════════════════════════════════════════════════
-  # NON-DETERMINISTIC: AI Coherence Review (PRs only)
+  # DETERMINISTIC: Operating-model contract and regression tests
   # ════════════════════════════════════════════════════
-  ai-review:
-    name: AI Coherence Review
+  operating-model:
+    name: Operating Model Contract
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-
-      - name: AI Review
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          if [ -z "$GEMINI_API_KEY" ]; then
-            echo "::notice::AI review skipped - GEMINI_API_KEY not configured"
-            exit 0
-          fi
-
-          CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} -- '*.md')
-          if [ -z "$CHANGED" ]; then
-            echo "No markdown changes to review"
-            exit 0
-          fi
-
-          echo "Reviewing: $CHANGED"
-          # Gemini CLI review for DX coherence
-          # References: https://code.claude.com/docs, https://geminicli.com/docs
+          python-version: "3.11"
+      - name: Compile bootstrap scripts
+        run: make typecheck
+      - name: Run operating-model regression tests
+        run: make test

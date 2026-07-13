@@ -1,6 +1,6 @@
 ---
 name: adk-expert
-description: Google ADK (Agent Development Kit) orchestration patterns — boundaries, agent composition, and tool seams. Trigger when designing or reviewing multi-agent systems built on ADK. Authoritative source: adk.dev.
+description: "Google ADK (Agent Development Kit) orchestration patterns — boundaries, agent composition, and tool seams. Trigger when designing or reviewing multi-agent systems built on ADK. Authoritative source: adk.dev."
 ---
 
 # ADK Expert

@@ -3,20 +3,21 @@
 
  - **Document ID**: DX-001
  - **Author**: Jaroslav Pantsjoha
- - **Version**: 1.2.2
- - **Last Updated**: 2026-06-16
+ - **Version**: 1.4.0
+ - **Last Updated**: 2026-07-12
  - **Pricing Verified**: 2026-06-16 (Gemini 3.5 Flash $1.50/$9.00, Gemini 3.1 Pro $2.00/$12.00; Claude Sonnet 4.6 $3.00/$15.00, Claude Opus 4.8 $5.00/$25.00)
  - **Audience**: Developers adopting AI-augmented development workflows
  - **Purpose**: Bootstrap new team members to deliver rapid value from day one
- - **Changelog**: v1.2.0 adds VoiceMode integration, advanced Claude Code hooks, multi-phase skill orchestration, automated meeting minutes processing, and enhanced Makefile patterns
+ - **Changelog**: v1.4.0 makes the operating model a validated day-one seed with a safe initializer, thin adapters, explicit readiness states, and exact-candidate evidence
 ---
 
 ## Table of Contents
 
 **Philosophy & Strategy**
 1. [Introduction](#introduction)
-2. [Development Philosophy](#development-philosophy)
-3. [Spec-Driven Development](#spec-driven-development)
+2. [Operating Model for Human–AI Delivery](#operating-model-for-humanai-delivery)
+3. [Development Philosophy](#development-philosophy)
+4. [Spec-Driven Development](#spec-driven-development)
 
 **Workflow & Process**
 
@@ -64,7 +65,118 @@ This guide documents an **AI-augmented development workflow** that combines huma
 2. **Validation First**: Every change must pass automated gates before commit
 3. **Documentation as Code**: ADRs, specs, and roadmaps are living documents
 4. **Trunk-Based + Feature Branches**: Short-lived branches, frequent merges
-5. **Debug the Harness First**: When an agent misbehaves, look at the harness before you blame the model. Nine times out of ten it is a missing tool, a vague rule, or a guardrail that never fired
+5. **Debug the Harness First**: When an agent misbehaves, inspect tools, context, rules, permissions, and validation before assuming the model is the only cause
+
+---
+
+## Operating Model for Human–AI Delivery
+
+The harness explains *how* agents work. The operating model explains **who may decide,
+who owns each change, what evidence makes it trustworthy, and when work is actually
+complete**. Treat developers, product/domain experts, operators, AI agents, skills,
+tools, CI, and reviewers as one squad with a machine-readable contract.
+
+### Two layers, one contract
+
+Use two deliberately separate artifacts:
+
+1. **Universal operating manual** — model-, vendor-, and IDE-neutral rules for authority,
+   R0–R3 rigor, lifecycle, isolation, evidence, review, security, delivery, and
+   observation. It should transfer unchanged between projects.
+2. **Tracked project profile** — the project's protected paths, invariants, exact
+   commands, human approval roles, data gates, deployment/rollback, budgets, and
+   retention. This is where local truth belongs.
+
+Agent-surface files such as `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` should be thin
+adapters to that contract, not competing constitutions. Add a deterministic drift
+check that fails when authority, risk invariants, version/digest, or critical current
+facts disagree.
+
+The templates and adoption procedure live in
+[`operating-model-bootstrap`](.agents/skills/operating-model-bootstrap/SKILL.md).
+
+### Squad roles
+
+| Role | Owns | Does not own |
+|---|---|---|
+| **Accountable human/operator** | Outcome, scope, protected authority, external effects, production and spend | Implementation detail by default |
+| **Domain/product expert** | Intent, invariants, acceptance criteria, trade-offs | Unreviewed merge authority |
+| **Integration owner** | Exact assembled candidate, interface contract, merge order, convergence gate | Independent approval of their own R3 work |
+| **Mutating human/AI lane** | One worktree, named files/resources, falsifiable success test | Another lane's git state or shared resources |
+| **Independent reviewer** | Refutation of the exact candidate in a declared domain | Scope expansion or operator authority |
+| **Skill/tool** | Repeatable capability and deterministic procedure | Permission, accountability, or a passing verdict |
+
+Use the strongest available specialist for a lane, whether human or agent. The control
+is the role, evidence, and boundary—not the model label.
+
+### Risk-proportionate lifecycle
+
+Classify the highest-risk strand, not the average task:
+
+| Tier | Typical work | Minimum operating bar |
+|---|---|---|
+| **R0 — inspect** | Bounded read-only analysis | Ground and verify the load-bearing claim |
+| **R1 — reversible** | Small local edit with loud failure | Isolated change, focused check, rollback |
+| **R2 — consequential** | Multi-file/interface/data change | Durable checkpoint, worktree, regression, convergence gate |
+| **R3 — protected** | Security, money, production, destructive/external or constitutional work | Explicit authority, domain invariants, independent exact review, rollback and observation |
+
+The operating state is explicit:
+
+`intake → grounded → risk-classified → authorised → planned → isolated → implemented
+→ locally verified → integrated → convergence-verified → independently reviewed
+→ approved → delivered → observed → complete`
+
+Blocked, aborted, and superseded are honest states. A changed candidate returns to
+implementation and invalidates prior review. A conditional verdict is work, not
+approval.
+
+### Safe parallelism
+
+Parallelise independent reasoning freely; isolate every mutation:
+
+- one branch/worktree per mutating lane;
+- one owner for each file, port, database, cache, dataset, queue, cloud resource, and
+  generated-output path;
+- read-only reviewers may share a checkout;
+- one integration owner assembles pinned lane commits in a clean worktree;
+- the complete integrated candidate reruns the convergence gate.
+
+“Different lines” is not isolation when two lanes share an interface or state. Sequence
+that work or give the interface to one owner.
+
+### Receipts bound to the candidate
+
+For consequential/protected work, retain the base and candidate identity, exact
+commands and exit codes, environment, data provenance, artifacts, reviewers, open
+conditions, rollback, and observation plan. A green label from another tree, dataset,
+or configuration is not evidence for this candidate.
+
+Verdicts have strict semantics:
+
+- **PASS** — zero conditions remain.
+- **Conditional/amendment** — block, fix, and re-review the changed candidate.
+- **REJECT/BLOCKING** — halt.
+- **Override** — a separate accountable-human path with a durable reason; never a
+  passing reviewer token.
+
+Prefer required remote checks or signed attestations for protected approvals. Local
+hooks are useful defence in depth, but they are bypassable and do not authenticate a
+reviewer.
+
+### Adoption outcome
+
+An adopted operating model leaves concrete artifacts: a versioned universal manual, a
+grounded seed or active project profile, thin surface adapters, semantic drift enforcement, a
+checkpoint and exact-candidate evidence manifest for R2/R3 work, exact validation
+commands, and explicit delivery/rollback observation. The bootstrap skill includes all
+of these assets; adopters compute the manual digest, ground every local fact, and keep a
+seed profile from claiming R2/R3 readiness until applicable controls are resolved.
+“Tests pass” is not complete while authority, docs, delivery, surviving risk, or
+observation remains unresolved.
+
+Use [BOOTSTRAP.md](BOOTSTRAP.md) for the drop-in path. A `seed` profile lets a team start
+system design, ADRs, backlog formation, interface design, and R0/R1 work without inventing
+unknown project facts. R2/R3 work waits for applicable controls and an `active` profile.
 
 ---
 
@@ -76,7 +188,8 @@ Every feature, bug fix, and refactor should answer: **"Does this add measurable 
 
 ### Quality Gates
 
-No code merges to `main` without passing all gates:
+In an adopting delivery repository, do not merge code to `main` without its applicable
+project-profile gates:
 
 | Gate              | Command          | Benefit                                         |
 | ----------------- | ---------------- | ----------------------------------------------- |
@@ -88,7 +201,8 @@ No code merges to `main` without passing all gates:
 
 ### Branch Protection Rules
 
-The `main` branch is protected with these enforced rules:
+Configure and independently verify these `main` branch-protection rules on the repository
+host. Documentation alone does not prove that remote enforcement exists:
 
 | Rule                            | Purpose                                |
 | ------------------------------- | -------------------------------------- |
@@ -573,7 +687,7 @@ VoiceMode enables natural voice conversations with Claude Code for hands-free co
 
 Simply ask Claude:
 
-> _"Set up voice mode for me"_
+> *"Set up voice mode for me"*
 
 Claude will autonomously:
 1. Check system capabilities (RAM, architecture)
@@ -1081,7 +1195,8 @@ Claude Code hooks enable **automated quality enforcement** and context managemen
 | **Security** | Deterministic | Vulnerabilities, secrets |
 | **Tests** | Deterministic | Behaviour verification |
 | **Build** | Deterministic | Compilation check |
-| **AI Review** | Non-deterministic | Coherence, alignment |
+| **Operating contract** | Deterministic | Template, digest, adapter, and regression checks |
+| **AI assessment (optional)** | Non-deterministic | Advisory coherence/refutation |
 
 ### Sample Workflow
 
@@ -1104,22 +1219,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DavidAnson/markdownlint-cli2-action@v19
 
-  # NON-DETERMINISTIC (PRs only)
-  ai-review:
-    name: AI Coherence Review
+  operating-model:
+    name: Operating Model Contract
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-      - name: AI Review
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          # Review changed files for DX best practices
-          CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} -- '*.md')
-          echo "Reviewing: $CHANGED"
+          python-version: "3.11"
+      - run: make typecheck
+      - run: make test
 ```
 
 ### Deterministic vs Non-Deterministic
@@ -1128,8 +1237,12 @@ jobs:
 |--------|---------------|-------------------|
 | **Tools** | markdownlint, ESLint, Jest | Claude Code, Gemini CLI |
 | **Output** | Pass/Fail | Assessment |
-| **When** | Every push | PRs only |
-| **Purpose** | Syntax/style | Architectural drift |
+| **When** | Every push and PR | Selected R2/R3 reviews |
+| **Purpose** | Enforced syntax/behaviour/contracts | Advisory coherence/refutation unless separately enforced |
+
+Do not publish a green “AI review” job that only lists changed files or skips when a secret
+is absent. It becomes a gate only when a real review command runs, failure blocks, the
+review binds to the exact candidate, and reviewer identity/limitations are explicit.
 
 ### AI Review Checks
 
@@ -1182,7 +1295,7 @@ For authenticated session testing, use CDP (Chrome DevTools Protocol) to reuse e
 
 ### Workflow
 
-`main` (protected) ← PR ← feature branch ← commits
+`main` (protected when host rules are configured and verified) ← PR ← feature branch ← commits
 
 ### Commit Message Format
 
@@ -1743,5 +1856,3 @@ Do NOT change without explicit user approval:
 ---
 
 **Welcome to the team! Start with `make setup` and you'll be delivering value within the hour.**
-
-

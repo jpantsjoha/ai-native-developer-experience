@@ -1,0 +1,20 @@
+{
+  "name": "join-the-team-marketplace",
+  "description": "Team operating model for hybrid human+AI delivery — one shared contract for authority, risk, evidence, and done.",
+  "owner": {
+    "name": "Jaroslav Pantsjoha",
+    "url": "https://uk.linkedin.com/in/johas"
+  },
+  "plugins": [
+    {
+      "name": "join-the-team",
+      "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — routing agent-craft work to companion skill plugins.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "Jaroslav Pantsjoha",
+        "url": "https://uk.linkedin.com/in/johas"
+      }
+    }
+  ]
+}

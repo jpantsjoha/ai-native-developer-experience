@@ -1,0 +1,40 @@
+{
+  "name": "join-the-team",
+  "version": "0.1.0",
+  "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — routing agent-craft work to companion skill plugins.",
+  "author": {
+    "name": "Jaroslav Pantsjoha",
+    "url": "https://uk.linkedin.com/in/johas"
+  },
+  "homepage": "https://github.com/jpantsjoha/ai-native-developer-experience",
+  "repository": "https://github.com/jpantsjoha/ai-native-developer-experience",
+  "license": "PolyForm-Noncommercial-1.0.0 OR PolyForm-Free-Trial-1.0.0",
+  "keywords": [
+    "operating-model",
+    "team-harness",
+    "human-ai-collaboration",
+    "agent-teams",
+    "governance",
+    "evidence",
+    "risk-tiers",
+    "onboarding",
+    "skills"
+  ],
+  "skills": "./.agents/skills/",
+  "sessionStart": {
+    "skill": "using-the-harness"
+  },
+  "skillInstructions": "Kimi Code tool mapping for this plugin's skills:\n\n- When a skill says to ask the user, ask clarifying questions, or present multiple-choice options, call Kimi Code's `AskUserQuestion` tool. Do not render those choices as plain assistant text unless `AskUserQuestion` is unavailable or the session is in auto permission mode.\n- When a skill refers to `TodoWrite`, use Kimi Code's `TodoList` tool.\n- When a skill says to dispatch an implementer/reviewer subagent or refers to a general-purpose task agent, use Kimi Code's `Agent` tool with a Kimi subagent type (`coder`, `explore`, or `plan`).\n- When a skill refers to the `Skill` tool, use Kimi Code's native `Skill` tool.\n- Use Kimi Code's `Read`, `Write`, `Edit`, `Bash`, `Grep`, `Glob`, `FetchURL`, and `WebSearch` tools by their actual exposed names.\n- When a skill asks to search file contents, use `Grep`; to find files by path or pattern, use `Glob`; to fetch a URL, use `FetchURL`; to search the web, use `WebSearch`.",
+  "interface": {
+    "displayName": "Join the Team",
+    "shortDescription": "One operating contract for humans and AI agents in the same repo.",
+    "longDescription": "Onboard any teammate — human or agent — in minutes: shared risk tiers, authority, evidence, review gates, and definition of done. Routes agent-craft work to companion skill plugins and keeps the team contract canonical and drift-checked.",
+    "developerName": "Jaroslav Pantsjoha",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/jpantsjoha/ai-native-developer-experience"
+  }
+}

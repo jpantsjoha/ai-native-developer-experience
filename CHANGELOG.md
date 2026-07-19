@@ -18,6 +18,14 @@ operating-manual asset.
   state, checkpoints, and exact-candidate evidence manifests.
 - A day-one adoption example, bootstrap guide, evidence manifest, and baseline skill map.
 - Narrow public-source attribution plus currency and usage caveats.
+- Plugin packaging for Kimi Code and Claude Code: `join-the-team` manifests, a
+  marketplace entry, and a session-start `using-the-harness` meta-skill that orients
+  the assistant before any work.
+- `INTEGRATIONS.md`: an evaluated companion-plugin map — reference never vendor,
+  capability never authority, and a standalone guarantee.
+- A companion-capabilities section in the project operating profile template.
+- `NOTICE`: author attribution to preserve across copies, adaptations, and any future
+  licence change.
 - Dual source-available terms: unlimited noncommercial use under PolyForm Noncommercial
   1.0.0 and a short commercial evaluation under PolyForm Free Trial 1.0.0. Ongoing
   commercial team adoption requires separate written permission.

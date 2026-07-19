@@ -48,6 +48,22 @@ conditions.
 
 ---
 
+## About the author
+
+Created and maintained by **Jaroslav Pantsjoha** — Enterprise Agent Solution Architect
+and consulting thought leader on AI systems and adoption. Author of the **"Ways of
+Working and AI Adoption at the Enterprise"** series, speaker, and Google Developer
+Expert.
+
+- LinkedIn: [uk.linkedin.com/in/johas](https://uk.linkedin.com/in/johas)
+- Google Developer Expert: [me.developers.google.com/u/jpantsjoha](https://me.developers.google.com/u/jpantsjoha)
+
+Attribution requirements for copies and adaptations live in [NOTICE](NOTICE). The
+Adversarial Gate name and "how would I break this?" framing are his contribution to
+the #HarnessEngineering body of work.
+
+---
+
 ## This repo is about
 
 - A **living DX harness** for AI-augmented development.
@@ -121,13 +137,17 @@ Borrow the patterns. As ever — your mileage may vary.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)  
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](.agents/skills/README.md)**
-  Thirteen tracked capabilities for orchestration, architecture, specification, validation,
+  Fourteen tracked capabilities for orchestration, architecture, specification, validation,
   review, release readiness, status, cost, and selected platform work.
 - **[Operating Model Bootstrap](.agents/skills/operating-model-bootstrap/SKILL.md)**
   A reusable released manual, project profile, checkpoint, evidence manifest, and thin
   agent-surface adapters for assigning authority, isolating parallel human/agent lanes,
   binding review to an exact candidate, and carrying work through delivery, observation,
   and honest completion.
+- **[Companion Plugins](INTEGRATIONS.md)**
+  The evaluated companion-plugin map: agent-craft lanes (TDD methodology, simplicity
+  discipline, frontend design) route to installed sister plugins; the team contract
+  stays canonical here. Reference, never vendor.
 - **[CHANGELOG.md](CHANGELOG.md)**
   Material changes, narrow public-source attribution, and known usage limitations.
 

@@ -130,6 +130,21 @@ Routing order for consequential work: operating model → orchestration → arch
 → implementation → domain/adversarial validation → review → release readiness →
 status reconciliation.
 
+## Companion capabilities (optional)
+
+Agent-craft capabilities may be provided by installed companion plugins instead of the
+baseline skills. Record each provider deliberately — a companion supplies capability,
+never authority, and its output still passes this profile's gates. See the harness
+repository's `INTEGRATIONS.md` for the evaluated companion map.
+
+| Craft capability | Provider (plugin and version) | Fallback if not installed |
+|---|---|---|
+| <e.g. TDD/debugging methodology> | <plugin name and pinned version, or `none installed`> | <baseline skill or owned procedure> |
+| <e.g. frontend design review> | <plugin name and pinned version, or `none installed`> | <baseline skill or owned procedure> |
+
+Use `not applicable — no companion plugins installed` when the team runs the baseline
+skill set only. Do not delete the section.
+
 ## Exact validation and security commands
 
 Run from <worktree/environment>:

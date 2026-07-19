@@ -14,10 +14,11 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 13 Skills
+## The 14 Skills
 
 | Skill | One-line purpose |
 |---|---|
+| [`using-the-harness`](./using-the-harness/SKILL.md) | Session-start orientation: the contract, the routing table, and how companion plugins supply craft capabilities |
 | [`spec-first-delivery`](./spec-first-delivery/SKILL.md) | Force plan / HLD / ADRs before any code is generated |
 | [`adversarial-gate`](./adversarial-gate/SKILL.md) | JP's red-team pass: "how would I break this?" — catches brittle assumptions before they ship |
 | [`release-readiness`](./release-readiness/SKILL.md) | Go / no-go gate: failure modes, rollback, cost, prod bar, definition of done |

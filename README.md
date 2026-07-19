@@ -54,10 +54,18 @@ useful, but they are not licence conditions.
 
 ## About the author
 
-Created and maintained by **Jaroslav Pantsjoha** — Enterprise Agent Solution Architect
-and consulting thought leader on AI systems and adoption. Author of the **"Ways of
-Working and AI Adoption at the Enterprise"** series, speaker, and Google Developer
-Expert.
+Created and maintained by **Jaroslav Pantsjoha** — Technical Director and Enterprise
+Agent Solution Architect at Cognizant, Google Developer Expert (Google Cloud),
+speaker, and consulting thought leader on AI systems and adoption. Author of the
+**"Ways of Working and AI Adoption at the Enterprise"** series.
+
+Books (due Q4 2026):
+
+- *Building the Agentic Enterprise on Google Cloud* (Packt) — a practical field guide
+  to designing, deploying, and operating agentic AI systems.
+- *Mastering Multi-Agent Systems on Google Cloud* (AVA Publishing, with Anupam
+  Purwar) — build, deploy, and operate production agentic AI with ADK, Vertex AI,
+  and the complete GCP stack.
 
 - LinkedIn: [uk.linkedin.com/in/johas](https://uk.linkedin.com/in/johas)
 - Google Developer Expert: [me.developers.google.com/u/jpantsjoha](https://me.developers.google.com/u/jpantsjoha)

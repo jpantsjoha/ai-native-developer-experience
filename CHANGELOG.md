@@ -25,7 +25,9 @@ operating-manual asset.
   capability never authority, and a standalone guarantee.
 - A companion-capabilities section in the project operating profile template.
 - `NOTICE`: author attribution to preserve across copies, adaptations, and any future
-  licence change.
+  licence change. Author section and `NOTICE` feature the forthcoming books
+  (*Building the Agentic Enterprise on Google Cloud*, Packt; *Mastering Multi-Agent
+  Systems on Google Cloud*, AVA Publishing).
 - Antigravity/Gemini extension manifest, a Claude Code session-start hook, and
   `/join-the-team:bootstrap` + `/join-the-team:validate` slash commands.
 - Per-harness install docs (`docs/install/`) and a README plugin-install section.

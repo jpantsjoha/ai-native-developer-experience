@@ -63,6 +63,18 @@ methodology, frontend design review, and similar craft lanes).
 - No companion installed? The baseline skills above are the fallback. Record the
   equivalent and its owner in the project profile; do not silently skip the capability.
 
+## Harness tool mapping
+
+Skills name actions, not tools. The per-harness translation lives outside the
+canonical skill bodies:
+
+- **Antigravity (Gemini)** — read `references/antigravity-tools.md` (in this skill's
+  directory) before acting; it maps subagent dispatch, task tracking, and file/search
+  actions to Antigravity's native tools.
+- **Kimi Code** — the plugin manifest's `skillInstructions` carry the mapping.
+- **Claude Code / Codex** — the skills' action vocabulary resolves to the native
+  tools of the same names.
+
 ## Anti-rationalization table
 
 | Excuse the agent makes | Counter |

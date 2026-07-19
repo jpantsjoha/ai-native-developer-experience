@@ -1,6 +1,6 @@
 {
   "name": "join-the-team",
-  "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — routing agent-craft work to companion skill plugins.",
+  "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — with Google Cloud guardrail skills (GCP, ADK, Antigravity) built in, routing agent-craft work to companion skill plugins.",
   "version": "0.1.0",
   "author": {
     "name": "Jaroslav Pantsjoha",
@@ -18,6 +18,11 @@
     "evidence",
     "risk-tiers",
     "onboarding",
-    "skills"
+    "skills",
+    "google-cloud",
+    "gcp",
+    "adk",
+    "antigravity",
+    "gemini"
   ]
 }

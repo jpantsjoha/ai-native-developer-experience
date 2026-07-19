@@ -29,6 +29,10 @@ skill set, thin per-harness adapters, drift-checked in CI:
 - **Codex** — [native `.agents/skills/` discovery](docs/install/codex.md), no manifest required
 - **Antigravity (Gemini)** — [`agy plugin install`](docs/install/antigravity.md), extension context file
 
+Antigravity is a first-class surface: this harness was built and battle-tested on
+Google Cloud's agent stack, and ships `gcp-well-architected`, `adk-expert`, and
+`mcp-server-scaffold` skills alongside the vendor-neutral contract.
+
 The plugin composes with — never duplicates — companion skill plugins;
 see [INTEGRATIONS.md](INTEGRATIONS.md).
 

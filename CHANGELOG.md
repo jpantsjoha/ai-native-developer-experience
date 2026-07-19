@@ -31,6 +31,9 @@ operating-manual asset.
 - Per-harness install docs (`docs/install/`) and a README plugin-install section.
 - A plugin-packaging drift validator — manifest name/version sync, skill references,
   discovery alias, hook scripts — with regression tests wired into `make check`.
+- Antigravity capability layer: `using-the-harness/references/antigravity-tools.md`
+  tool mapping, a session-start fallback emitting SDK-standard context for non-Claude
+  runners, and Google Cloud keywords/descriptions across the plugin manifests.
 - Apache License 2.0 with a `NOTICE` attribution file that derivative works must
   carry (§4(d)).
 

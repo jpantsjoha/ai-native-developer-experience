@@ -9,12 +9,13 @@ Install from the repository as a marketplace plugin:
 
 What gets wired:
 
-- **Skills** — the 14 `.agents/skills/` capabilities, discovered via the plugin's
+- **Skills** — the 17 `.agents/skills/` capabilities, discovered via the plugin's
   `skills/` alias.
 - **Session-start hook** — injects the `using-the-harness` orientation skill at
   startup, after `/clear`, and after compaction. Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.
-- **Slash commands** — `/join-the-team:bootstrap` and `/join-the-team:validate`.
+- **Slash commands** — `/join-the-team:bootstrap`, `/join-the-team:init`, and
+  `/join-the-team:validate`.
 
 ## Verify
 

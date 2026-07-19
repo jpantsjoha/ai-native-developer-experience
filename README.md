@@ -19,6 +19,18 @@ project profile as the team learns.
 > **This is deliberately opinionated.** Refine it for your team, technology, domain,
 > authority model, and definition of done. Keep one coherent shared contract while doing so.
 
+## Install as a plugin
+
+The harness ships as a multi-harness plugin (`join-the-team`, v0.1.0) — one canonical
+skill set, thin per-harness adapters, drift-checked in CI:
+
+- **Claude Code** — [marketplace install](docs/install/claude.md), session-start hook, slash commands
+- **Kimi Code** — [repo-URL install](docs/install/kimi.md), manifest session start and tool mapping
+- **Codex** — [native `.agents/skills/` discovery](docs/install/codex.md), no manifest required
+- **Antigravity (Gemini)** — [`agy plugin install`](docs/install/antigravity.md), extension context file
+
+The plugin composes with — never duplicates — companion skill plugins;
+see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ---
 

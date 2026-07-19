@@ -26,6 +26,11 @@ operating-manual asset.
 - A companion-capabilities section in the project operating profile template.
 - `NOTICE`: author attribution to preserve across copies, adaptations, and any future
   licence change.
+- Antigravity/Gemini extension manifest, a Claude Code session-start hook, and
+  `/join-the-team:bootstrap` + `/join-the-team:validate` slash commands.
+- Per-harness install docs (`docs/install/`) and a README plugin-install section.
+- A plugin-packaging drift validator — manifest name/version sync, skill references,
+  discovery alias, hook scripts — with regression tests wired into `make check`.
 - Dual source-available terms: unlimited noncommercial use under PolyForm Noncommercial
   1.0.0 and a short commercial evaluation under PolyForm Free Trial 1.0.0. Ongoing
   commercial team adoption requires separate written permission.

@@ -1,9 +1,9 @@
 ---
-name: gcp-well-architected
-description: GCP guardrails — IAM least-privilege, data boundaries, cost controls, and residency. Trigger when designing or reviewing any Google Cloud workload, especially those involving agents, LLMs, or multi-tenant systems.
+name: gcp-expert
+description: GCP expert guardrails — IAM least-privilege, data boundaries, cost controls, residency, and official-source validation. Trigger when designing or reviewing any Google Cloud workload, especially agents, LLMs (Vertex AI/Gemini), or multi-tenant systems.
 ---
 
-# GCP Well-Architected
+# GCP Expert
 
 > **Gemini Enterprise is the governed execution foundation — identity, tenancy, and compliance are the design constraints, not context window size.**
 
@@ -52,6 +52,14 @@ This skill enforces the discipline that makes GCP workloads production-safe: ide
    - Log sinks route to a central logging project for retention and audit.
 
 7. **Run the Adversarial Gate** — common GCP failure modes: overly-permissive service accounts, no VPC-SC on Vertex AI, uncapped autoscaling, global endpoints used for residency-sensitive data, missing budget alerts.
+
+## Official sources — validate before you assert
+
+- Documentation: `cloud.google.com/docs` · Architecture Center (incl. the Well-Architected Framework): `cloud.google.com/architecture`
+- Live docs via MCP (verify currency before pinning): Google Cloud offers managed MCP servers for a growing service list (BigQuery, Spanner, and more) — fetch current docs instead of relying on memory.
+- GitHub, foundations: `github.com/GoogleCloudPlatform/cloud-foundation-fabric` · `github.com/terraform-google-modules`
+- GitHub, agent examples: `github.com/google/adk-python` · `github.com/google/adk-samples` · `github.com/GoogleCloudPlatform/generative-ai`
+- Rule: every service/API claim cites an official doc. Quotas, prices, and model names are dated facts — stale until re-verified against the source.
 
 ## Outputs
 

@@ -36,6 +36,13 @@ operating-manual asset.
 - Antigravity capability layer: `using-the-harness/references/antigravity-tools.md`
   tool mapping, a session-start fallback emitting SDK-standard context for non-Claude
   runners, and Google Cloud keywords/descriptions across the plugin manifests.
+- Cloud-expert skill family: `gcp-well-architected` renamed to `gcp-expert`, joined by
+  `aws-expert`, `azure-expert`, and `alibaba-expert`. Each pairs guardrails with
+  official-source validation — documentation, live-docs MCP servers, and official
+  GitHub foundations/agent-example repositories. `the-architect` routes cloud
+  decisions to the matching vendor skill; `.agents/mcp_config.json` gains a
+  live-documentation seam pattern. Live `agy plugin install` verified on Antigravity
+  1.1.1 (skills + hooks registered).
 - Apache License 2.0 with a `NOTICE` attribution file that derivative works must
   carry (§4(d)).
 

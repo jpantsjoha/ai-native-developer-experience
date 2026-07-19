@@ -21,6 +21,23 @@
         "alloydb": "PostgreSQL-compatible operational reads",
         "cloudsql": "managed MySQL/PostgreSQL reads"
       }
+    },
+    "official-docs": {
+      "_note": "Example live-documentation seam. Agents fetch current official docs instead of relying on memory. Point each server at ONE vendor's official docs MCP; verify the package name and currency before pinning — this space moves fast (snapshot 2026-07).",
+      "command": "uvx",
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "env": {},
+      "_exposedTools": [
+        "search_documentation",
+        "read_documentation",
+        "recommend"
+      ],
+      "_exampleDocsServers": {
+        "aws": "uvx awslabs.aws-documentation-mcp-server@latest (official, awslabs/mcp monorepo)",
+        "azure": "Azure MCP Server — github.com/microsoft/mcp (verify current package)",
+        "google-cloud": "Google managed remote MCP servers — verify the current service list",
+        "alibaba": "verify availability via github.com/alibaba/spring-ai-alibaba"
+      }
     }
   }
 }

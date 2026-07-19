@@ -30,8 +30,9 @@ skill set, thin per-harness adapters, drift-checked in CI:
 - **Antigravity (Gemini)** — [`agy plugin install`](docs/install/antigravity.md), extension context file
 
 Antigravity is a first-class surface: this harness was built and battle-tested on
-Google Cloud's agent stack, and ships `gcp-well-architected`, `adk-expert`, and
-`mcp-server-scaffold` skills alongside the vendor-neutral contract.
+Google Cloud's agent stack, and ships cloud-expert guardrails (`gcp-expert`,
+`aws-expert`, `azure-expert`, `alibaba-expert`) plus `adk-expert` and
+`mcp-server-scaffold` alongside the vendor-neutral contract.
 
 The plugin composes with — never duplicates — companion skill plugins;
 see [INTEGRATIONS.md](INTEGRATIONS.md).
@@ -149,7 +150,7 @@ Borrow the patterns. As ever — your mileage may vary.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)  
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](.agents/skills/README.md)**
-  Fourteen tracked capabilities for orchestration, architecture, specification, validation,
+  Seventeen tracked capabilities for orchestration, architecture, specification, validation,
   review, release readiness, status, cost, and selected platform work.
 - **[Operating Model Bootstrap](.agents/skills/operating-model-bootstrap/SKILL.md)**
   A reusable released manual, project profile, checkpoint, evidence manifest, and thin

@@ -44,7 +44,7 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | High-stakes design review | `adversarial-gate` |
 | Pre-deployment go/no-go | `release-readiness` |
 | Google ADK agent patterns | `adk-expert` |
-| GCP infrastructure guardrails | `gcp-well-architected` |
+| Cloud infrastructure guardrails | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` |
 | MCP server design or governance | `mcp-server-scaffold` |
 | Agent output validation | `domain-validator` |
 | PR or code review | `pr-reviewer` |

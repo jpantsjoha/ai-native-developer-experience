@@ -17,7 +17,7 @@ in the CLI, or the Plugins sidebar in the Codex app).
 
 ## Verify
 
-1. Ask "which skills are available?" — the 14 skills should be named.
+1. Ask "which skills are available?" — the 17 skills should be named.
 2. `AGENTS.md` should appear in Codex's loaded context files.
 
 ## Notes

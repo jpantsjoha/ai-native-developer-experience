@@ -125,6 +125,7 @@ never grants authority.
 | Go/no-go and rollback readiness | `release-readiness` | <path or equivalent> |
 | Durable team status | `sitrep` | <path or equivalent> |
 | Cost/time limits | `cost-guardrail` | <path or equivalent> |
+| Cloud-vendor guardrails | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` | <path or equivalent> |
 
 Routing order for consequential work: operating model → orchestration → architecture/spec
 → implementation → domain/adversarial validation → review → release readiness →

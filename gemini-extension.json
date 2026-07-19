@@ -1,6 +1,6 @@
 {
   "name": "join-the-team",
-  "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — with Google Cloud guardrail skills (GCP, ADK, Antigravity) built in.",
+  "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — with cloud-expert guardrails (Google Cloud, AWS, Azure, Alibaba Cloud) built in.",
   "version": "0.1.0",
   "contextFileName": "GEMINI.md"
 }

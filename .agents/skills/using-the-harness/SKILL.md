@@ -47,7 +47,7 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 | Status, standup, or situation report | `sitrep` |
 | LLM/cloud cost estimate or architecture with LLM calls | `cost-guardrail` |
 | Google ADK multi-agent design | `adk-expert` |
-| Any Google Cloud workload | `gcp-well-architected` |
+| Any cloud-vendor workload | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` (`the-architect` routes) |
 | Adding or reviewing an MCP server | `mcp-server-scaffold` |
 
 ## Companion plugins

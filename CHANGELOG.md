@@ -43,6 +43,12 @@ operating-manual asset.
   decisions to the matching vendor skill; `.agents/mcp_config.json` gains a
   live-documentation seam pattern. Live `agy plugin install` verified on Antigravity
   1.1.1 (skills + hooks registered).
+- `docs/WORKFLOW.md`: the skills dependency diagram (Mermaid), the requirement →
+  ADR → ticket → evidence → status traceability chain, and the accountability model.
+- A team-roster-and-escalation section in the profile template plus a
+  `/join-the-team:init` command to capture named human owners and their channels.
+- A knowledge-base MCP seam pattern (SharePoint/Confluence/Google Drive) for estates
+  whose decisions live outside the repo.
 - Apache License 2.0 with a `NOTICE` attribution file that derivative works must
   carry (§4(d)).
 

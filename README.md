@@ -161,6 +161,10 @@ Borrow the patterns. As ever — your mileage may vary.
   The evaluated companion-plugin map: agent-craft lanes (TDD methodology, simplicity
   discipline, frontend design) route to installed sister plugins; the team contract
   stays canonical here. Reference, never vendor.
+- **[Team Workflow](docs/WORKFLOW.md)**
+  The skills dependency diagram, the requirement → ADR → ticket → evidence → status
+  traceability chain, and the accountability model: how skills route work while named
+  humans hold authority.
 - **[CHANGELOG.md](CHANGELOG.md)**
   Material changes, narrow public-source attribution, and known usage limitations.
 

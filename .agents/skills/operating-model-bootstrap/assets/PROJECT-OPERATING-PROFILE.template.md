@@ -68,6 +68,23 @@ A skill, model, agent name, CI label, or previous PASS never grants permission.
   destructive actions, production/data mutation, or project-specific additions>.
 - Escalation path: <human/role and channel>.
 
+## Team roster and escalation
+
+Name the accountable humans the squad escalates to when evidence is missing. Agents
+never fabricate missing facts and never guess ownership — they tag the roster role
+that owns the decision and halt the affected lane until it answers. Insufficient
+evidence is a stop, not a prompt to improvise; silence never converts to permission.
+
+| Person | Role | Accountable for (scope) | Escalation channel |
+|---|---|---|---|
+| <name/handle> | <product owner> | <requirements, backlog priority, acceptance sign-off> | <@mention / channel> |
+| <name/handle> | <data owner> | <data classification, quality, ADRs touching owned data> | <@mention / channel> |
+| <name/handle> | <integration owner> | <candidate assembly, merge order> | <@mention / channel> |
+| <name/handle> | <operator> | <R3 approvals, external effects, spend> | <@mention / channel> |
+
+Escalation rule: insufficient evidence at any gate = the lane stops, the question is
+recorded with an owner and a resolving trigger, and the roster role is tagged.
+
 ## Risk tier overrides
 
 | Tier | Project examples | Required evidence |

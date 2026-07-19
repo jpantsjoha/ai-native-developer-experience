@@ -31,6 +31,8 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 - **Review binds to the exact candidate.** Any change after review invalidates it.
 - **`seed` is not `active`.** A seed profile supports design and R0/R1 work only.
 - **Never invent a project fact.** Unknowns get an owner and a resolving trigger.
+- **Insufficient evidence is a stop, not a prompt to improvise.** Tag the roster role
+  that owns the decision; silence never converts to permission.
 
 ## Skill routing
 

@@ -38,6 +38,24 @@
         "google-cloud": "Google managed remote MCP servers — verify the current service list",
         "alibaba": "verify availability via github.com/alibaba/spring-ai-alibaba"
       }
+    },
+    "knowledge-base": {
+      "_note": "Example governed knowledge seam for enterprise estates (SharePoint, Confluence, Google Drive). One server, one source, read-only, least-privilege. The repo ADR remains the decision of record; external systems are sources, not truth. Verify server availability and currency before pinning (snapshot 2026-07).",
+      "command": "npx",
+      "args": ["-y", "@example/mcp-knowledge-server", "--site", "${KB_SITE}"],
+      "env": {
+        "KB_SITE": "your-site-or-space",
+        "KB_TOKEN": "${KB_TOKEN}"
+      },
+      "_exposedTools": [
+        "search_pages",
+        "read_page"
+      ],
+      "_exampleSources": {
+        "sharepoint": "read-only page/document reads from a team site",
+        "confluence": "read-only space/page reads for design docs",
+        "google-drive": "read-only document fetch from a shared drive"
+      }
     }
   }
 }

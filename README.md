@@ -34,28 +34,16 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ---
 
-## Licence and commercial team adoption
+## Licence
 
-This repository is **source-available**, under a choice of two standard licences:
+This repository is open source under the [Apache License, Version 2.0](LICENSE) —
+free for personal and commercial use, modification, and redistribution.
 
-- Personal and other noncommercial use: [PolyForm Noncommercial 1.0.0](LICENSE).
-- Commercial team evaluation for less than 32 consecutive calendar days:
-  [PolyForm Free Trial 1.0.0](LICENSE).
-
-Ongoing commercial team adoption is not granted by the public licences. Before using
-this repository as an operating harness for a business, client, or paid engagement beyond
-the evaluation period, request written permission from
-[Jaroslav Pantsjoha on LinkedIn](https://www.linkedin.com/in/johas/). For a public enquiry,
-you can also [open a GitHub issue](https://github.com/jpantsjoha/ai-native-developer-experience/issues/new).
-Include the organisation, intended team or project scope, and whether you are comfortable
-being named publicly as an adopter. Public acknowledgement is opt-in; confidential
-enquiries are welcome.
-
-Please preserve the copyright and `Required Notice:` attribution in permitted copies and
-adaptations. The repository contains no usage telemetry, so a licence creates a clear
-permission boundary but cannot identify silent use. Stars, feedback, and voluntary
-adoption notes are welcome evidence that the harness is useful, but they are not licence
-conditions.
+Attribution is part of the deal: derivative works must carry the [NOTICE](NOTICE)
+file (Apache-2.0 §4(d)), which credits the author and this project's origin. The
+repository contains no usage telemetry; the licence cannot identify silent use. Stars,
+feedback, and voluntary adoption notes are welcome evidence that the harness is
+useful, but they are not licence conditions.
 
 
 ---

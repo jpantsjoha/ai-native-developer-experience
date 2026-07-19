@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/jpantsjoha/ai-native-developer-experience",
   "repository": "https://github.com/jpantsjoha/ai-native-developer-experience",
-  "license": "PolyForm-Noncommercial-1.0.0 OR PolyForm-Free-Trial-1.0.0",
+  "license": "Apache-2.0",
   "keywords": [
     "operating-model",
     "team-harness",

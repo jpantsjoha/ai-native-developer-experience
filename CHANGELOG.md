@@ -31,12 +31,14 @@ operating-manual asset.
 - Per-harness install docs (`docs/install/`) and a README plugin-install section.
 - A plugin-packaging drift validator — manifest name/version sync, skill references,
   discovery alias, hook scripts — with regression tests wired into `make check`.
-- Dual source-available terms: unlimited noncommercial use under PolyForm Noncommercial
-  1.0.0 and a short commercial evaluation under PolyForm Free Trial 1.0.0. Ongoing
-  commercial team adoption requires separate written permission.
+- Apache License 2.0 with a `NOTICE` attribution file that derivative works must
+  carry (§4(d)).
 
 ### Changed
 
+- Relicensed from PolyForm dual source-available terms to Apache License 2.0 to
+  remove adoption friction for teams and commercial use; attribution is preserved
+  through the `NOTICE` file.
 - Reframed the repository as a **team-project AI harness bootstrap**, not a production
   application starter kit.
 - Clarified that the operating kernel is model-, vendor-, and IDE-agnostic while discovery
@@ -65,5 +67,4 @@ operating-manual asset.
 - Local checks cannot authenticate reviewer identity or enforce remote repository policy.
 - Skill auto-discovery and invocation differ by assistant and IDE.
 - The initializer and validator require Python 3.10 or newer.
-- Licensing creates a permission boundary but cannot provide telemetry or identify silent
-  repository use.
+- The repository contains no usage telemetry; the licence cannot identify silent use.

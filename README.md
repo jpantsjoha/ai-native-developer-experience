@@ -168,6 +168,8 @@ Skills supply capability; **named humans supply authority**.
 
 This repository is open source under the [Apache License, Version 2.0](LICENSE) — free for personal and commercial use, modification, and redistribution.
 
+The plugin's data-handling statement is available in the [Privacy Policy](docs/PRIVACY.md).
+
 Attribution is part of the deal: derivative works must carry the [NOTICE](NOTICE)
 file (Apache-2.0 §4(d)), which credits the author and this project's origin. The repository contains no usage telemetry; the licence cannot identify silent use. Stars, feedback, and voluntary adoption notes are welcome evidence that the harness is useful, but they are not licence conditions.
 

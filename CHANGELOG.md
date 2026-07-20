@@ -8,6 +8,13 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.1.2] — 2026-07-20
+
+### Changed
+
+- Normalised `LICENSE` to the canonical Apache License 2.0 text so GitHub and directory
+  tooling can reliably detect the project's Apache-2.0 licence.
+
 ## [0.1.1] — 2026-07-20
 
 ### Added

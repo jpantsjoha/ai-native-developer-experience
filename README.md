@@ -10,7 +10,8 @@ and [`BOOTSTRAP.md`](BOOTSTRAP.md), something to read, walk through, and adapt. 
 baseline for teams getting serious about AI-native delivery — the operating model, the
 guardrails, spec-first discipline, the Adversarial Gate.
 
-Then it became **context for your agents**: drop `CLAUDE.md`, `GEMINI.md`, and `AGENTS.md`
+Then it became **context for your agents**: `CLAUDE.md` and `GEMINI.md` here, plus the
+thin `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` adapters the bootstrap generates — drop them
 into a project and the agent picks up the operating contract at session start without a
 briefing. The harness shifted from something humans read to something agents use.
 
@@ -20,8 +21,7 @@ session-start orientation, slash commands, drift-checked in CI. The discipline t
 with the agent from day one, across every project, without anyone copying files or
 re-explaining the contract.
 
-That is the shift this repo now enables: from reading about AI-native ways of working to
-having them as a standing, deployable capability across your agent development harnesses.
+The point: this stopped being something you read and became something you install.
 
 The operating-model kernel stays model-, vendor-, and IDE-agnostic throughout. Thin
 platform adapters handle discovery and invocation; the authority, risk, evidence, review,
@@ -33,17 +33,48 @@ and completion semantics are non-negotiable.
 > authority model, and definition of done. Keep one coherent shared contract while doing so.
 
 **New project?** [Bootstrap in fifteen minutes](BOOTSTRAP.md). **Existing agent setup?**
-[Install as a plugin](#install-as-a-plugin) below.
+[Two ways to adopt](#two-ways-to-adopt) below — by hand, or as a plugin.
 
-## Install as a plugin
+## Two ways to adopt
 
-The harness ships as a multi-harness plugin (`join-the-team`, v0.1.0) — one canonical
-skill set, thin per-harness adapters, drift-checked in CI:
+**By hand** — clone the repo and share it with your agents. Copy `.agents/skills/` into
+your project, keep the `CLAUDE.md`/`GEMINI.md`/`AGENTS.md` adapters at root, and your
+assistant picks up the contract at session start. [BOOTSTRAP.md](BOOTSTRAP.md) is the
+fifteen-minute walkthrough.
 
-- **Claude Code** — [marketplace install](docs/install/claude.md), session-start hook, slash commands
-- **Kimi Code** — [repo-URL install](docs/install/kimi.md), manifest session start and tool mapping
-- **Codex** — [native `.agents/skills/` discovery](docs/install/codex.md), no manifest required
-- **Antigravity (Gemini)** — [`agy plugin install`](docs/install/antigravity.md), extension context file
+```bash
+git clone https://github.com/jpantsjoha/ai-native-developer-experience
+```
+
+**As a plugin** — the harness ships as `join-the-team` (v0.1.0): one canonical skill
+set, thin per-harness adapters, drift-checked in CI. Install straight from this
+repository into whichever coding assistant you run:
+
+**Claude Code**
+
+```text
+/plugin marketplace add jpantsjoha/ai-native-developer-experience
+/plugin install join-the-team@join-the-team-marketplace
+```
+
+**Kimi Code**
+
+```text
+/plugins install https://github.com/jpantsjoha/ai-native-developer-experience
+```
+
+**Antigravity (Gemini)**
+
+```bash
+agy plugin install https://github.com/jpantsjoha/ai-native-developer-experience
+```
+
+**Codex** — no install command needed: Codex discovers `.agents/skills/` natively and
+reads `AGENTS.md` as its always-on adapter. The by-hand clone above is the install.
+
+Full per-harness detail (session-start hooks, verification, update path):
+[Claude Code](docs/install/claude.md) · [Kimi Code](docs/install/kimi.md) ·
+[Codex](docs/install/codex.md) · [Antigravity](docs/install/antigravity.md)
 
 Antigravity is a first-class surface: this harness was built and battle-tested on
 Google Cloud's agent stack, and ships cloud-expert guardrails (`gcp-expert`,
@@ -57,9 +88,9 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ## The Hybrid Human-AI Squad Model & Workflow
 
-Installing the harness is the easy part. The harder shift is how the team actually works
-once it is in place — who decides, who executes, what counts as done, and where the
-escalation circuit breakers sit. This is that model.
+Installing the harness gets you the skills. What it doesn't give you is the operating
+model — who decides, who executes, what counts as done, where the escalation circuit
+breakers sit. This is that model.
 
 Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills scale execution velocity**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
 

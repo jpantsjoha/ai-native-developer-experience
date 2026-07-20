@@ -47,6 +47,7 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 | Any PR or agent-generated code before commit | `pr-reviewer` |
 | Anything about to ship to a real environment | `release-readiness` |
 | Status, standup, or situation report | `sitrep` |
+| Plugin-directory, marketplace, or curated-list submission | `plugin-submission` |
 | LLM/cloud cost estimate or architecture with LLM calls | `cost-guardrail` |
 | Google ADK multi-agent design | `adk-expert` |
 | Any cloud-vendor workload | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` (`the-architect` routes) |

@@ -97,6 +97,28 @@ class PluginPackagingTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("PASS plugin-packaging validation", result.stdout)
 
+    def test_documented_skill_counts_match_canonical_library(self) -> None:
+        skill_count = len(
+            [
+                path
+                for path in (REPO_ROOT / ".agents" / "skills").iterdir()
+                if path.is_dir() and (path / "SKILL.md").is_file()
+            ]
+        )
+        expected = str(skill_count)
+        claims = {
+            ".agents/skills/README.md": f"## The {expected} Skills",
+            "README.md": f"full harness is live: {expected} skills",
+            "docs/install/claude.md": f"the {expected} `.agents/skills/` capabilities",
+            "docs/install/codex.md": f"the {expected} skills should be named",
+            "docs/install/kimi.md": f"to see the {expected} skills",
+            "docs/install/antigravity.md": f"the {expected} `.agents/skills/` capabilities",
+        }
+        for relative_path, claim in claims.items():
+            with self.subTest(path=relative_path):
+                text = (REPO_ROOT / relative_path).read_text(encoding="utf-8")
+                self.assertIn(claim, text)
+
     def test_valid_fixture_passes(self) -> None:
         result = run_validator(self.root)
         self.assertEqual(result.returncode, 0, result.stderr)

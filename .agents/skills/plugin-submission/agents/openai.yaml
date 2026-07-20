@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plugin Submission"
+  short_description: "Govern plugin-directory submissions"
+  default_prompt: "Use $plugin-submission to prepare a governed plugin-directory submission."

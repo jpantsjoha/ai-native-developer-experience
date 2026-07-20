@@ -15,8 +15,8 @@ thin `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` adapters the bootstrap generates — dr
 into a project and the agent picks up the operating contract at session start without a
 briefing. The harness shifted from something humans read to something agents use.
 
-Now it ships as an **installable plugin** — `join-the-team` (v0.1.0). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 17 skills,
+Now it ships as an **installable plugin** — `join-the-team` (v0.1.1). One install across
+Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 18 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
 re-explaining the contract.
@@ -26,7 +26,7 @@ The point: this stopped being something you read and became something you instal
 And what you install is the **operating model** — that is the value proposition here.
 Skill libraries are everywhere now; what teams are missing is the contract: who holds
 authority, how risk is tiered, what evidence binds a review, what "done" actually means
-when humans and agents ship together. The 17 skills are the capability layer that
+when humans and agents ship together. The 18 skills are the capability layer that
 executes inside that contract — not the other way round.
 
 The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters
@@ -52,7 +52,7 @@ fifteen-minute walkthrough.
 git clone https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**As a plugin** — the harness ships as `join-the-team` (v0.1.0): one canonical skill
+**As a plugin** — the harness ships as `join-the-team` (v0.1.1): one canonical skill
 set, thin per-harness adapters, drift-checked in CI. Install straight from this
 repository into whichever coding assistant you run:
 
@@ -236,8 +236,12 @@ Borrow the patterns. As ever — your mileage may vary.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](.agents/skills/README.md)**
-  Seventeen tracked capabilities for orchestration, architecture, specification, validation,
-  review, release readiness, status, cost, and selected platform work.
+  Eighteen tracked capabilities for orchestration, architecture, specification, validation,
+  review, release readiness, plugin submission, status, cost, and selected platform work.
+- **[Plugin Submission](.agents/skills/plugin-submission/SKILL.md)**
+  The policy-backed directory and marketplace listing gate; its
+  [capability specification](docs/PLUGIN-SUBMISSION.md) defines the external-send
+  confirmation and receipt contract.
 - **[Operating Model Bootstrap](.agents/skills/operating-model-bootstrap/SKILL.md)**
   A reusable released manual, project profile, checkpoint, evidence manifest, and thin
   agent-surface adapters for assigning authority, isolating parallel human/agent lanes,

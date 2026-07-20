@@ -50,6 +50,7 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | PR or code review | `pr-reviewer` |
 | LLM cost or model selection | `cost-guardrail` |
 | Status or standup synthesis | `sitrep` |
+| Plugin-directory, marketplace, or curated-list submission | `plugin-submission` |
 | New repo or operating model install / repair | `operating-model-bootstrap` |
 | Routing this list | `delivery-orchestrator` (you are here) |
 

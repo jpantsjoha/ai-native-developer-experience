@@ -23,9 +23,15 @@ re-explaining the contract.
 
 The point: this stopped being something you read and became something you install.
 
-The operating-model kernel stays model-, vendor-, and IDE-agnostic throughout. Thin
-platform adapters handle discovery and invocation; the authority, risk, evidence, review,
-and completion semantics are non-negotiable.
+And what you install is the **operating model** — that is the value proposition here.
+Skill libraries are everywhere now; what teams are missing is the contract: who holds
+authority, how risk is tiered, what evidence binds a review, what "done" actually means
+when humans and agents ship together. The 17 skills are the capability layer that
+executes inside that contract — not the other way round.
+
+The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters
+handle discovery and invocation; the authority, risk, evidence, review, and completion
+semantics are non-negotiable.
 
 > **Speed is easy. Safe speed is engineered.**
 

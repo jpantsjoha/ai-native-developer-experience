@@ -2,22 +2,38 @@
 
 > **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
 
-This is my personal, public example of the scaffolding, skills, operating model, and ways
-of working I use to help a team start coherently in a new project direction. It is a
-conversation starter and adaptable baseline, not a production application starter kit or
-a claim that one process fits every team.
+This repository has gone through three real phases — and the progression tracks something
+happening across the field.
 
-The operating-model kernel is model-, vendor-, and IDE-agnostic. Thin platform adapters
-handle discovery and invocation without changing authority, risk, evidence, review, or
-completion semantics.
+It started as a **reference guide**: [`DEVELOPER_EXPERIENCE.md`](DEVELOPER_EXPERIENCE.md)
+and [`BOOTSTRAP.md`](BOOTSTRAP.md), something to read, walk through, and adapt. A concrete
+baseline for teams getting serious about AI-native delivery — the operating model, the
+guardrails, spec-first discipline, the Adversarial Gate.
 
-**Start here:** [bootstrap a new team project](BOOTSTRAP.md), then adapt the tracked
-project profile as the team learns.
+Then it became **context for your agents**: drop `CLAUDE.md`, `GEMINI.md`, and `AGENTS.md`
+into a project and the agent picks up the operating contract at session start without a
+briefing. The harness shifted from something humans read to something agents use.
+
+Now it ships as an **installable plugin** — `join-the-team` (v0.1.0). One install across
+Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 17 skills,
+session-start orientation, slash commands, drift-checked in CI. The discipline travels
+with the agent from day one, across every project, without anyone copying files or
+re-explaining the contract.
+
+That is the shift this repo now enables: from reading about AI-native ways of working to
+having them as a standing, deployable capability across your agent development harnesses.
+
+The operating-model kernel stays model-, vendor-, and IDE-agnostic throughout. Thin
+platform adapters handle discovery and invocation; the authority, risk, evidence, review,
+and completion semantics are non-negotiable.
 
 > **Speed is easy. Safe speed is engineered.**
 
 > **This is deliberately opinionated.** Refine it for your team, technology, domain,
 > authority model, and definition of done. Keep one coherent shared contract while doing so.
+
+**New project?** [Bootstrap in fifteen minutes](BOOTSTRAP.md). **Existing agent setup?**
+[Install as a plugin](#install-as-a-plugin) below.
 
 ## Install as a plugin
 
@@ -40,6 +56,10 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 ---
 
 ## The Hybrid Human-AI Squad Model & Workflow
+
+Installing the harness is the easy part. The harder shift is how the team actually works
+once it is in place — who decides, who executes, what counts as done, and where the
+escalation circuit breakers sit. This is that model.
 
 Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills scale execution velocity**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
 

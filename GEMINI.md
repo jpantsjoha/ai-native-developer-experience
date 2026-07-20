@@ -15,8 +15,6 @@ This file is the always-on "Rules" primitive for this repo. It is portable and o
 
 ## The Adversarial Gate (required reasoning step)
 
-> Coined by JP — Jaroslav Pantsjoha, #HarnessEngineering.
-
 Before you call any change done, answer in writing: **"How would I break this?"**
 
 - Name the failure modes, the missing guardrail, the untested edge, the input you did not validate.

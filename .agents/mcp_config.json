@@ -21,6 +21,41 @@
         "alloydb": "PostgreSQL-compatible operational reads",
         "cloudsql": "managed MySQL/PostgreSQL reads"
       }
+    },
+    "official-docs": {
+      "_note": "Example live-documentation seam. Agents fetch current official docs instead of relying on memory. Point each server at ONE vendor's official docs MCP; verify the package name and currency before pinning — this space moves fast (snapshot 2026-07).",
+      "command": "uvx",
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "env": {},
+      "_exposedTools": [
+        "search_documentation",
+        "read_documentation",
+        "recommend"
+      ],
+      "_exampleDocsServers": {
+        "aws": "uvx awslabs.aws-documentation-mcp-server@latest (official, awslabs/mcp monorepo)",
+        "azure": "Azure MCP Server — github.com/microsoft/mcp (verify current package)",
+        "google-cloud": "Google managed remote MCP servers — verify the current service list",
+        "alibaba": "verify availability via github.com/alibaba/spring-ai-alibaba"
+      }
+    },
+    "knowledge-base": {
+      "_note": "Example governed knowledge seam for enterprise estates (SharePoint, Confluence, Google Drive). One server, one source, read-only, least-privilege. The repo ADR remains the decision of record; external systems are sources, not truth. Verify server availability and currency before pinning (snapshot 2026-07).",
+      "command": "npx",
+      "args": ["-y", "@example/mcp-knowledge-server", "--site", "${KB_SITE}"],
+      "env": {
+        "KB_SITE": "your-site-or-space",
+        "KB_TOKEN": "${KB_TOKEN}"
+      },
+      "_exposedTools": [
+        "search_pages",
+        "read_page"
+      ],
+      "_exampleSources": {
+        "sharepoint": "read-only page/document reads from a team site",
+        "confluence": "read-only space/page reads for design docs",
+        "google-drive": "read-only document fetch from a shared drive"
+      }
     }
   }
 }

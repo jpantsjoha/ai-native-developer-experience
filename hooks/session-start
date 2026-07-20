@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# SessionStart hook for the join-the-team plugin (Claude Code).
+#
+# Injects the full using-the-harness orientation skill into the model's context
+# at session start, after clear, and after compaction. This injection is the
+# integration: without it the skills sit on disk, discovered but not loaded.
+#
+# Extensionless on purpose: Claude Code's Windows auto-detection prepends
+# "bash" to commands containing .sh. Requires bash on PATH; if bash is absent
+# the hook fails and the plugin degrades to skill discovery without injection.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+skill_content=$(cat "${PLUGIN_ROOT}/.agents/skills/using-the-harness/SKILL.md" 2>&1 || echo "Error reading using-the-harness skill")
+
+# Escape for JSON embedding via bash parameter substitution (single C-level
+# pass per pattern, not a character loop).
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+skill_escaped=$(escape_for_json "$skill_content")
+session_context="<EXTREMELY_IMPORTANT>\nYou are working inside a team operating harness.\n\n**Below is the full content of your 'join-the-team:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
+
+# Emit the SessionStart payload in the shape the current runner consumes.
+# printf, not heredoc (bash 5.3+ heredoc hang, obra/superpowers#571).
+# - Claude Code sets CLAUDE_PLUGIN_ROOT and expects nested
+#   hookSpecificOutput.additionalContext.
+# - Other runners (agy/Antigravity, Copilot-style) consume the SDK-standard
+#   top-level additionalContext.
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context" | cat
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context" | cat
+fi
+
+exit 0

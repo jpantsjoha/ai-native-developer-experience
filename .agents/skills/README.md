@@ -14,17 +14,21 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 13 Skills
+## The 17 Skills
 
 | Skill | One-line purpose |
 |---|---|
+| [`using-the-harness`](./using-the-harness/SKILL.md) | Session-start orientation: the contract, the routing table, and how companion plugins supply craft capabilities |
 | [`spec-first-delivery`](./spec-first-delivery/SKILL.md) | Force plan / HLD / ADRs before any code is generated |
 | [`adversarial-gate`](./adversarial-gate/SKILL.md) | JP's red-team pass: "how would I break this?" — catches brittle assumptions before they ship |
 | [`release-readiness`](./release-readiness/SKILL.md) | Go / no-go gate: failure modes, rollback, cost, prod bar, definition of done |
 | [`delivery-orchestrator`](./delivery-orchestrator/SKILL.md) | Decompose an epic into atomic parallel tasks; route to the right skill (meta-router) |
-| [`the-architect`](./the-architect/SKILL.md) | Architecture decisions, trade-off analysis, ADR authoring |
+| [`the-architect`](./the-architect/SKILL.md) | Architecture decisions, trade-off analysis, ADR authoring — routes cloud decisions to the matching vendor expert |
+| [`gcp-expert`](./gcp-expert/SKILL.md) | Google Cloud guardrails: IAM least-privilege, data boundaries, cost, residency, official-source validation |
+| [`aws-expert`](./aws-expert/SKILL.md) | AWS guardrails: IAM, data boundaries, cost, residency, official-source validation |
+| [`azure-expert`](./azure-expert/SKILL.md) | Azure guardrails: Entra ID, policy-first governance, cost, residency, official-source validation |
+| [`alibaba-expert`](./alibaba-expert/SKILL.md) | Alibaba Cloud guardrails: RAM, residency (mainland/international split), cost, official-source validation |
 | [`adk-expert`](./adk-expert/SKILL.md) | Google ADK orchestration patterns; boundaries not tutorials |
-| [`gcp-well-architected`](./gcp-well-architected/SKILL.md) | GCP guardrails: IAM least-privilege, data boundaries, cost, residency |
 | [`mcp-server-scaffold`](./mcp-server-scaffold/SKILL.md) | Scaffold and govern an MCP server as a bounded tool seam |
 | [`domain-validator`](./domain-validator/SKILL.md) | Validate agent output against declared domain rules before trusting it |
 | [`pr-reviewer`](./pr-reviewer/SKILL.md) | Review gate: correctness, reuse, simplification — receipts not polish |

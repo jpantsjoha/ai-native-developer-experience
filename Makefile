@@ -18,11 +18,14 @@ typecheck:
 	$(PYTHON) -m py_compile \
 		$(SKILL_ROOT)/scripts/bootstrap_operating_model.py \
 		$(SKILL_ROOT)/scripts/validate_operating_model.py \
-		tests/test_operating_model.py
+		scripts/validate_plugin.py \
+		tests/test_operating_model.py \
+		tests/test_plugin_packaging.py
 
 test:
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py'
 	$(PYTHON) $(SKILL_ROOT)/scripts/validate_operating_model.py \
 		--template-root $(SKILL_ROOT)
+	$(PYTHON) scripts/validate_plugin.py --root .
 
 check: lint typecheck test

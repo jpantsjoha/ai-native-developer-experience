@@ -53,6 +53,21 @@ This skill is for decisions that persist — the ones that are expensive to reve
 
 8. **Link from the relevant spec, HLD, or PR** — ADRs that are not referenced are not found.
 
+## Cloud vendor routing
+
+When a decision touches a specific cloud, invoke the matching expert skill before
+finalising the ADR, and record which guardrail checklist ran:
+
+| Vendor | Skill |
+|---|---|
+| Google Cloud | `gcp-expert` |
+| AWS | `aws-expert` |
+| Azure | `azure-expert` |
+| Alibaba Cloud | `alibaba-expert` |
+
+Multi-cloud decisions run every relevant checklist; the ADR names them. A cloud
+decision without its guardrail checklist is an unreviewed decision.
+
 ## Outputs
 
 - `architecture/decisions/ADR-NNN-<title>.md`

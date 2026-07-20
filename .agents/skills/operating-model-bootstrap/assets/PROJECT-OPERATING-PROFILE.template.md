@@ -68,6 +68,23 @@ A skill, model, agent name, CI label, or previous PASS never grants permission.
   destructive actions, production/data mutation, or project-specific additions>.
 - Escalation path: <human/role and channel>.
 
+## Team roster and escalation
+
+Name the accountable humans the squad escalates to when evidence is missing. Agents
+never fabricate missing facts and never guess ownership — they tag the roster role
+that owns the decision and halt the affected lane until it answers. Insufficient
+evidence is a stop, not a prompt to improvise; silence never converts to permission.
+
+| Person | Role | Accountable for (scope) | Escalation channel |
+|---|---|---|---|
+| <name/handle> | <product owner> | <requirements, backlog priority, acceptance sign-off> | <@mention / channel> |
+| <name/handle> | <data owner> | <data classification, quality, ADRs touching owned data> | <@mention / channel> |
+| <name/handle> | <integration owner> | <candidate assembly, merge order> | <@mention / channel> |
+| <name/handle> | <operator> | <R3 approvals, external effects, spend> | <@mention / channel> |
+
+Escalation rule: insufficient evidence at any gate = the lane stops, the question is
+recorded with an owner and a resolving trigger, and the roster role is tagged.
+
 ## Risk tier overrides
 
 | Tier | Project examples | Required evidence |
@@ -125,10 +142,26 @@ never grants authority.
 | Go/no-go and rollback readiness | `release-readiness` | <path or equivalent> |
 | Durable team status | `sitrep` | <path or equivalent> |
 | Cost/time limits | `cost-guardrail` | <path or equivalent> |
+| Cloud-vendor guardrails | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` | <path or equivalent> |
 
 Routing order for consequential work: operating model → orchestration → architecture/spec
 → implementation → domain/adversarial validation → review → release readiness →
 status reconciliation.
+
+## Companion capabilities (optional)
+
+Agent-craft capabilities may be provided by installed companion plugins instead of the
+baseline skills. Record each provider deliberately — a companion supplies capability,
+never authority, and its output still passes this profile's gates. See the harness
+repository's `INTEGRATIONS.md` for the evaluated companion map.
+
+| Craft capability | Provider (plugin and version) | Fallback if not installed |
+|---|---|---|
+| <e.g. TDD/debugging methodology> | <plugin name and pinned version, or `none installed`> | <baseline skill or owned procedure> |
+| <e.g. frontend design review> | <plugin name and pinned version, or `none installed`> | <baseline skill or owned procedure> |
+
+Use `not applicable — no companion plugins installed` when the team runs the baseline
+skill set only. Do not delete the section.
 
 ## Exact validation and security commands
 

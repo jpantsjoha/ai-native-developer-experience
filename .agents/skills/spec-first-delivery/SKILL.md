@@ -18,7 +18,7 @@ The harness runs in this order: spec → plan → tasks → code. Skipping the s
 
 ## Procedure
 
-1. **Establish the vision artifact** — confirm `engagement/vision/VISION.md` exists and is current. If not, create or update it before proceeding.
+1. **Establish the vision artifact** — confirm the project's vision document exists and is current (e.g. `docs/VISION.md` or equivalent per project structure). If not, create or update it before proceeding.
 2. **Write the feature spec** — document: what, why, who (user/actor), constraints, acceptance criteria, and out-of-scope. Reject vague specs ("improve performance") in favour of measurable ones ("p99 latency < 200 ms under 1k rps").
 3. **Author or reference the HLD** — a high-level design covering: components affected, data flows, integration points, and failure modes. Diagrams preferred (C4 or sequence).
 4. **Create or update ADRs** — one ADR per significant technical decision. Format: Context → Decision → Consequences (trade-offs). Number sequentially (`ADR-NNN`).
@@ -31,7 +31,7 @@ The harness runs in this order: spec → plan → tasks → code. Skipping the s
 - `requirements/FEATURE_SPEC.md` (or equivalent per project structure)
 - `architecture/decisions/ADR-NNN-<short-title>.md` (one per decision)
 - `architecture/HLD-<feature>.md` (if not already covered)
-- Updated `planning/ROADMAP.md` with new tasks or milestones
+- Updated project roadmap (e.g. `docs/ROADMAP.md` or equivalent per project structure) with new tasks or milestones
 
 ## Guardrails
 

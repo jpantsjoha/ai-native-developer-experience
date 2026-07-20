@@ -22,7 +22,7 @@ A sitrep is not a diary of activity. It is a compressed, actionable picture of c
 1. **Gather the current work state** — read from available sources:
    - Open and recently closed issues / tickets
    - Recent commits (last 24-48 hours for a standup; last sprint for a sprint summary)
-   - Planning documents: `planning/STATUS.md`, `planning/ROADMAP.md`
+   - Project status and roadmap documents (e.g. `docs/operating-model/PROJECT-OPERATING-PROFILE.md`, `docs/ROADMAP.md`, or equivalent per project structure)
    - Any blocking flags, risk register entries, or escalation notes
 
 2. **Classify items** into three buckets:

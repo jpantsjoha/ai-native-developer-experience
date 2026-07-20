@@ -21,37 +21,42 @@ This skill enforces the discipline that makes GCP workloads production-safe: ide
 1. **Identity and IAM** — verify least-privilege for every service account and human role:
    - Service accounts have only the roles required for their specific function. No `roles/editor` or `roles/owner` on service accounts.
    - Workload Identity Federation preferred over service account keys for GKE / Cloud Run workloads.
-   - VPC Service Controls applied to sensitive APIs (Vertex AI, BigQuery, Cloud Storage with regulated data).
-   - Audit logging enabled on all IAM changes and data-plane operations.
+   - Conditional Access and IAM conditions applied where granular, time-bound, or context-aware control is required.
 
-2. **Data boundaries** — for every data store in the design:
+2. **Governance and resource hierarchy** — confirm policy enforcement is mechanical:
+   - Organisation Policies constrain allowed regions, resource types, and service enablement — not just documented conventions.
+   - Resource hierarchy (organisation → folder → project) reflects environment and data-classification separation.
+   - VPC Service Controls perimeter applied to sensitive APIs (Vertex AI, BigQuery, Cloud Storage with regulated data).
+   - Audit logging enabled on IAM changes and data-plane operations before any data lands.
+
+3. **Data boundaries** — for every data store in the design:
    - What data classification does it hold (public / internal / confidential / regulated)?
    - Is encryption at rest enabled with a customer-managed key (CMEK) where required?
    - Are tenant boundaries enforced at the data layer, not just the application layer?
    - Does data cross a project or organisation boundary? If yes, is there an explicit data-sharing agreement?
 
-3. **Data residency** — for each resource:
+4. **Data residency** — for each resource:
    - Is the region constrained to the required geography (e.g. `europe-west2` for UK data)?
    - Are Organisation Policies in place to prevent accidental multi-region or global resource creation?
    - For LLM / Vertex AI calls: is the endpoint regional, not global, where residency matters?
 
-4. **Cost controls** — for every LLM, compute, or storage resource:
+5. **Cost controls** — for every LLM, compute, or storage resource:
    - Is there a budget alert configured (at 50%, 75%, 90%, 100%)?
    - Are autoscaling upper bounds set? Unbounded autoscaling is unbounded spend.
    - Are Vertex AI / LLM call volumes capped or rate-limited?
    - Are committed-use discounts or Spot/Preemptible instances evaluated where appropriate?
 
-5. **Network and egress** — confirm:
+6. **Network and egress** — confirm:
    - Private Service Connect or VPC peering used where public endpoints are avoidable.
    - Egress costs estimated for cross-region or internet-bound traffic.
    - Firewall rules follow default-deny with explicit allow rules.
 
-6. **Observability** — confirm:
+7. **Observability** — confirm:
    - Cloud Monitoring dashboards exist for the workload.
    - Alerting policies fire on error rate, latency, and cost thresholds.
    - Log sinks route to a central logging project for retention and audit.
 
-7. **Run the Adversarial Gate** — common GCP failure modes: overly-permissive service accounts, no VPC-SC on Vertex AI, uncapped autoscaling, global endpoints used for residency-sensitive data, missing budget alerts.
+8. **Run the Adversarial Gate** — common GCP failure modes: overly-permissive service accounts, no VPC-SC on Vertex AI, uncapped autoscaling, global endpoints used for residency-sensitive data, missing budget alerts, missing Org Policy on allowed locations.
 
 ## Official sources — validate before you assert
 
@@ -63,7 +68,7 @@ This skill enforces the discipline that makes GCP workloads production-safe: ide
 
 ## Outputs
 
-- GCP guardrail checklist (signed with pass/fail per item)
+- GCP guardrail checklist (pass/fail per item)
 - IAM role matrix: principal | role | scope | justification
 - Data classification and boundary map
 - Budget alert confirmation

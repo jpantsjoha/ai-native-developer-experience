@@ -33,7 +33,7 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 ### Part 2 — Skill routing
 
 1. **Map each task to a skill** using the routing table below. If no skill matches exactly, use the closest and note the gap.
-2. **Validate integration after parallel work** — run the full regression suite (`make validate-regression-suite` or equivalent) after all parallel tracks complete. Parallel work that skips integration validation is not done.
+2. **Validate integration after parallel work** — run the full regression suite (`make check` or the project's equivalent convergence command) after all parallel tracks complete. Parallel work that skips integration validation is not done.
 
 ## Skill routing table
 
@@ -50,6 +50,7 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | PR or code review | `pr-reviewer` |
 | LLM cost or model selection | `cost-guardrail` |
 | Status or standup synthesis | `sitrep` |
+| New repo or operating model install / repair | `operating-model-bootstrap` |
 | Routing this list | `delivery-orchestrator` (you are here) |
 
 ## Outputs

@@ -5,6 +5,17 @@ description: Bootstrap or harden a project's operating model for mixed human and
 
 # Operating Model Bootstrap
 
+## When to use
+
+- Starting a new repository or team project that will use AI agents or agent-harness skills
+- Adopting this harness into an existing project for the first time
+- Defining or repairing authority, risk tiers, lane isolation, or evidence-binding contracts
+- Coordinating parallel human and agent lanes safely (worktrees, ownership, integration)
+- Binding review to an exact candidate commit before R2/R3 work
+- Correcting fragmented or contradictory rules across AGENTS.md, CLAUDE.md, and GEMINI.md
+
+---
+
 Establish a portable operating kernel and one tracked project profile. Treat humans,
 agents, skills, tools, and gates as one delivery system with explicit authority,
 ownership, evidence, and completion semantics. The day-one seed lets a new team begin

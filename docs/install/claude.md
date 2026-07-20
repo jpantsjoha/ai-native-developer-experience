@@ -10,7 +10,10 @@ Install from the repository as a marketplace plugin:
 What gets wired:
 
 - **Skills** — the 17 `.agents/skills/` capabilities, discovered via the plugin's
-  `skills/` alias.
+  `skills/` alias. The `skills/` alias is a symlink at the repo root pointing to
+  `.agents/skills/` — this lets Claude Code's plugin path resolve `skills/` while
+  Codex discovers the same canonical bodies at `.agents/skills/` natively. One skill
+  set, zero copies.
 - **Session-start hook** — injects the `using-the-harness` orientation skill at
   startup, after `/clear`, and after compaction. Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.

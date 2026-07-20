@@ -12,7 +12,7 @@ This skill enforces the discipline that makes Azure workloads production-safe: i
 ## When to use
 
 - Designing any Azure infrastructure (new or modified)
-- Before deploying agents or LLM workloads to Azure (AI Foundry, Azure OpenAI, Microsoft Agent Framework)
+- Before deploying agents or LLM workloads to Azure (AI Foundry, Azure OpenAI, Azure AI Agent Service)
 - When reviewing a Bicep/Terraform plan or a landing-zone design
 - When a system spans subscriptions, touches regulated data, or crosses geographies
 
@@ -53,9 +53,9 @@ This skill enforces the discipline that makes Azure workloads production-safe: i
 ## Official sources — validate before you assert
 
 - Documentation: `learn.microsoft.com/azure` · Well-Architected: `learn.microsoft.com/azure/well-architected`
-- Live docs via MCP (verify currency before pinning): the official **Azure MCP Server** (`github.com/microsoft/mcp`) and the Microsoft Learn docs MCP endpoint — fetch current docs instead of relying on memory.
+- Live docs via MCP (verify currency before pinning): the official **Azure MCP Server** (`github.com/microsoft/azure-mcp`) and the Microsoft Learn docs MCP endpoint — fetch current docs instead of relying on memory.
 - GitHub, foundations: `github.com/Azure/Enterprise-Scale` (CAF landing zones) · `github.com/Azure/bicep` · `github.com/Azure-Samples`
-- GitHub, agent examples: `github.com/microsoft/agent-framework` · agent samples under `github.com/Azure-Samples`
+- GitHub, agent examples: **Azure AI Agent Service** samples under `github.com/Azure-Samples` · AutoGen (`github.com/microsoft/autogen`) · Semantic Kernel (`github.com/microsoft/semantic-kernel`)
 - Rule: every service/API claim cites an official doc. Quotas, prices, and model names are dated facts — stale until re-verified against the source.
 
 ## Outputs

@@ -8,7 +8,7 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
-## [0.1.0] — Unreleased
+## [0.1.0] — 2026-07-20
 
 First packaging of the harness as the `join-the-team` multi-harness plugin: one
 canonical skill set and operating contract, thin per-harness adapters, drift-checked

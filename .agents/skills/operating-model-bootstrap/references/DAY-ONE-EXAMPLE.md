@@ -14,8 +14,9 @@ python3 .agents/skills/operating-model-bootstrap/scripts/bootstrap_operating_mod
   --project-name "Atlas Service" .
 ```
 
-The initializer creates the immutable manual, project profile, task templates, and three
-thin discovery adapters. The code assistant then grounds the seed from the repository and
+The initializer creates the immutable manual, project profile, task templates, vision,
+delivery workflow, blank roadmap/status structures, project changelog, and three thin
+discovery adapters. The code assistant then grounds the seed from the repository and
 records these day-one facts:
 
 - profile owner: tech lead; accountable operator: product lead;

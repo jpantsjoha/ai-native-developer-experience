@@ -37,6 +37,14 @@ Read the four contract assets before editing the target project:
 - `assets/CHECKPOINT.template.yaml` — durable state for R2/R3 work.
 - `assets/EVIDENCE-MANIFEST.template.yaml` — exact-candidate evidence and review record.
 
+Read the five planning-seed assets before initialising project delivery records:
+
+- `assets/VISION.template.md` — durable product direction and initial focus.
+- `assets/DELIVERY-WORKFLOW.template.md` — project mapping of the shared lifecycle.
+- `assets/ROADMAP.template.md` — ordered outcome gates, initially unpopulated.
+- `assets/STATUS.template.md` — derived situation-report structure, initially unpopulated.
+- `assets/CHANGELOG.template.md` — project release-history structure.
+
 Use the thin starter files under `assets/adapters/` for agent surfaces the target
 project supports. They are discovery adapters, not competing constitutions.
 For a greenfield adoption, read `references/DAY-ONE-EXAMPLE.md` to calibrate what may
@@ -57,10 +65,12 @@ python3 .agents/skills/operating-model-bootstrap/scripts/bootstrap_operating_mod
   --project-name "<project name>" .
 ```
 
-The initializer creates the manual, seed profile, checkpoint/evidence templates, and
-`AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` adapters. It preflights the whole file set and
-refuses to overwrite any different existing file. For an existing adapter, merge the
-protected contract deliberately rather than forcing replacement.
+The initializer creates the manual, seed profile, checkpoint/evidence templates, vision,
+delivery workflow, blank roadmap/status structures, project changelog, and `AGENTS.md`,
+`CLAUDE.md`, and `GEMINI.md` adapters. It preflights the whole file set, preserves
+different existing project planning records, and refuses conflicting operating contracts
+or adapters before writing anything. Map existing planning records in the profile; merge
+a protected contract deliberately rather than forcing replacement.
 
 ## Bootstrap workflow
 
@@ -154,6 +164,7 @@ Before completion:
 
 - Adopted universal manual with version/digest.
 - Completed, tracked project operating profile.
+- Grounded vision and delivery workflow plus initial roadmap, status, and changelog.
 - Lightweight surface adapters plus drift enforcement.
 - Durable checkpoint for active R2/R3 work.
 - Exact-candidate evidence manifest for active R2/R3 work.

@@ -25,6 +25,7 @@ class Artifact:
 
     destination: Path
     content: bytes
+    preserve_existing: bool = False
 
 
 def sha256(content: bytes) -> str:
@@ -94,6 +95,12 @@ def render_artifacts(
     for original, replacement in replacements.items():
         profile = profile.replace(original, replacement)
 
+    def render_markdown_template(filename: str) -> bytes:
+        """Render project identity while retaining adoption placeholders."""
+
+        text = (assets / filename).read_text(encoding="utf-8")
+        return text.replace("<Project Name>", project_name).encode("utf-8")
+
     operating_root = target / "docs" / "operating-model"
     rendered = [
         Artifact(operating_root / "OPERATING-MANUAL.md", manual),
@@ -109,6 +116,31 @@ def render_artifacts(
             operating_root / "templates" / "EVIDENCE-MANIFEST.template.yaml",
             (assets / "EVIDENCE-MANIFEST.template.yaml").read_bytes(),
         ),
+        Artifact(
+            operating_root / "DELIVERY-WORKFLOW.md",
+            render_markdown_template("DELIVERY-WORKFLOW.template.md"),
+            preserve_existing=True,
+        ),
+        Artifact(
+            target / "docs" / "VISION.md",
+            render_markdown_template("VISION.template.md"),
+            preserve_existing=True,
+        ),
+        Artifact(
+            target / "docs" / "ROADMAP.md",
+            render_markdown_template("ROADMAP.template.md"),
+            preserve_existing=True,
+        ),
+        Artifact(
+            target / "docs" / "STATUS.md",
+            render_markdown_template("STATUS.template.md"),
+            preserve_existing=True,
+        ),
+        Artifact(
+            target / "CHANGELOG.md",
+            render_markdown_template("CHANGELOG.template.md"),
+            preserve_existing=True,
+        ),
     ]
 
     for surface in surfaces:
@@ -123,17 +155,23 @@ def render_artifacts(
     return rendered
 
 
-def preflight(artifacts: list[Artifact]) -> tuple[list[Artifact], list[Path]]:
-    """Return new outputs and conflicting existing outputs; identical files are safe."""
+def preflight(
+    artifacts: list[Artifact],
+) -> tuple[list[Artifact], list[Path], list[Path]]:
+    """Classify new outputs, contract conflicts, and project records to preserve."""
 
     pending: list[Artifact] = []
     conflicts: list[Path] = []
+    preserved: list[Path] = []
     for artifact in artifacts:
         if not artifact.destination.exists():
             pending.append(artifact)
         elif artifact.destination.read_bytes() != artifact.content:
-            conflicts.append(artifact.destination)
-    return pending, conflicts
+            if artifact.preserve_existing:
+                preserved.append(artifact.destination)
+            else:
+                conflicts.append(artifact.destination)
+    return pending, conflicts, preserved
 
 
 def main() -> int:
@@ -148,7 +186,7 @@ def main() -> int:
     surfaces = selected_surfaces(args.surface)
 
     artifacts = render_artifacts(target, args.project_name or target.name, surfaces)
-    pending, conflicts = preflight(artifacts)
+    pending, conflicts, preserved = preflight(artifacts)
     if conflicts:
         print("ERROR refusing to overwrite existing, different files:", file=sys.stderr)
         for path in conflicts:
@@ -167,7 +205,9 @@ def main() -> int:
 
     for artifact in pending:
         print(f"{action}: {artifact.destination.relative_to(target)}")
-    unchanged = len(artifacts) - len(pending)
+    for path in preserved:
+        print(f"preserved existing: {path.relative_to(target)}")
+    unchanged = len(artifacts) - len(pending) - len(preserved)
     if unchanged:
         print(f"unchanged: {unchanged} matching file(s)")
 
@@ -177,7 +217,10 @@ def main() -> int:
         print(
             f"PASS installed operating manual {MANUAL_VERSION} with a draft project seed"
         )
-        print("NEXT ground and resolve the profile's day-one activation minimum")
+        print(
+            "NEXT ground the vision and workflow, initialise the roadmap/status, and "
+            "resolve the profile's day-one activation minimum"
+        )
         print(
             "NEXT run: python3 .agents/skills/operating-model-bootstrap/scripts/"
             "validate_operating_model.py --target ."

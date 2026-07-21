@@ -35,12 +35,20 @@ The initializer creates:
 
 - `docs/operating-model/OPERATING-MANUAL.md` — the unchanged, versioned kernel;
 - `docs/operating-model/PROJECT-OPERATING-PROFILE.md` — the local day-one seed;
+- `docs/operating-model/DELIVERY-WORKFLOW.md` — the project lifecycle and work-system
+  mapping;
+- `docs/VISION.md` — Product Owner outcome framing and initial focus;
+- `docs/ROADMAP.md` and `docs/STATUS.md` — minimal, initially unpopulated delivery
+  records;
+- `CHANGELOG.md` — the project's material release history;
 - checkpoint and evidence templates for consequential/protected work;
 - thin `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` discovery adapters.
 
-It computes and binds the manual SHA-256, preflights the entire output set, and refuses to
-overwrite a different existing file. Select only required adapters with repeated
-`--surface agents`, `--surface claude`, or `--surface gemini` options.
+It computes and binds the manual SHA-256 and preflights the entire output set. Different
+existing project planning records are preserved and only missing records are seeded;
+conflicting operating contracts or surface adapters stop the initializer before it
+writes. Select only required adapters with repeated `--surface agents`,
+`--surface claude`, or `--surface gemini` options.
 
 ### 3. Give the assistant one grounding instruction
 

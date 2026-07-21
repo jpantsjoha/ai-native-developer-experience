@@ -8,6 +8,15 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [Unreleased]
+
+### Added
+
+- Extended the operating-model initializer with project-neutral vision, delivery
+  workflow, roadmap, status, and changelog seeds. Existing project planning records are
+  preserved, while conflicting operating contracts and surface adapters still block the
+  installation before writes begin.
+
 ## [0.1.2] — 2026-07-20
 
 ### Changed

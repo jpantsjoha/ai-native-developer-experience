@@ -47,6 +47,20 @@ class OperatingModelBootstrapTests(unittest.TestCase):
         result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)
 
+        expected_planning_seed = {
+            "docs/VISION.md": "# Monday One Vision",
+            "docs/ROADMAP.md": "# Monday One Roadmap",
+            "docs/STATUS.md": "# Monday One Status",
+            "docs/operating-model/DELIVERY-WORKFLOW.md": (
+                "# Monday One Delivery Workflow"
+            ),
+            "CHANGELOG.md": "## Unreleased",
+        }
+        for relative_path, marker in expected_planning_seed.items():
+            path = self.target / relative_path
+            self.assertTrue(path.is_file(), relative_path)
+            self.assertIn(marker, path.read_text(encoding="utf-8"))
+
         validation = run_script(VALIDATE, "--target", str(self.target))
         self.assertEqual(validation.returncode, 0, validation.stderr)
         self.assertIn("seed supports design/R0/R1 only", validation.stdout)
@@ -60,6 +74,45 @@ class OperatingModelBootstrapTests(unittest.TestCase):
         self.assertIn("refusing to overwrite", result.stderr)
         self.assertFalse((self.target / "docs" / "operating-model").exists())
         self.assertFalse((self.target / "AGENTS.md").exists())
+
+    def test_existing_planning_file_is_preserved_while_missing_seed_is_created(self) -> None:
+        docs = self.target / "docs"
+        docs.mkdir()
+        roadmap = docs / "ROADMAP.md"
+        roadmap.write_text("# Existing roadmap\n", encoding="utf-8")
+
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("preserved existing: docs/ROADMAP.md", result.stdout)
+        self.assertEqual(roadmap.read_text(encoding="utf-8"), "# Existing roadmap\n")
+        self.assertTrue((self.target / "AGENTS.md").is_file())
+        self.assertTrue((docs / "VISION.md").is_file())
+
+    def test_dry_run_reports_planning_seed_without_writing(self) -> None:
+        result = run_script(
+            BOOTSTRAP,
+            "--dry-run",
+            "--project-name",
+            "Monday One",
+            str(self.target),
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("would create: docs/VISION.md", result.stdout)
+        self.assertIn("would create: docs/ROADMAP.md", result.stdout)
+        self.assertIn("would create: docs/STATUS.md", result.stdout)
+        self.assertIn("would create: CHANGELOG.md", result.stdout)
+        self.assertIn("PASS dry-run preflight found no conflicts", result.stdout)
+        self.assertEqual(list(self.target.iterdir()), [])
+
+    def test_generated_seed_is_idempotent(self) -> None:
+        first = self.install()
+        second = self.install()
+
+        self.assertEqual(first.returncode, 0, first.stderr)
+        self.assertEqual(second.returncode, 0, second.stderr)
+        self.assertIn("unchanged: 12 matching file(s)", second.stdout)
+        self.assertNotIn("created:", second.stdout)
 
     def test_one_surface_contract_change_fails_drift_validation(self) -> None:
         self.assertEqual(self.install().returncode, 0)

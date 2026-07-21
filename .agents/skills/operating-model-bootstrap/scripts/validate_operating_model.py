@@ -249,6 +249,29 @@ def validate_templates(root: Path, findings: Findings) -> None:
             f"{path}: source template has wrong manual version",
         )
 
+    planning_seed = {
+        "VISION.template.md": ("## Current focus", "Product Owner"),
+        "DELIVERY-WORKFLOW.template.md": ("## Lifecycle", "Re-planning trigger"),
+        "ROADMAP.template.md": ("## Now", "Product Owner gate"),
+        "STATUS.template.md": ("## Blocked", "## Plan changes"),
+        "CHANGELOG.template.md": ("## Unreleased", "### Added"),
+    }
+    for filename, markers in planning_seed.items():
+        path = root / "assets" / filename
+        if not path.is_file():
+            findings.errors.append(f"missing planning seed template: {path}")
+            continue
+        text = path.read_text(encoding="utf-8")
+        for marker in markers:
+            findings.require(
+                marker in text, f"{path}: missing required marker {marker!r}"
+            )
+        if filename != "CHANGELOG.template.md":
+            findings.require(
+                bool(PLACEHOLDER.search(text)),
+                f"{path}: template has no adoption placeholders",
+            )
+
     adapters = [
         root / "assets" / "adapters" / f"{name}.template" for name in ADAPTER_NAMES
     ]

@@ -15,7 +15,7 @@ thin `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` adapters the bootstrap generates — dr
 into a project and the agent picks up the operating contract at session start without a
 briefing. The harness shifted from something humans read to something agents use.
 
-Now it ships as an **installable plugin** — `join-the-team` (v0.1.2). One install across
+Now it ships as an **installable plugin** — `join-the-team` (v0.1.3). One install across
 Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 18 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
@@ -52,7 +52,7 @@ fifteen-minute walkthrough.
 git clone https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**As a plugin** — the harness ships as `join-the-team` (v0.1.2): one canonical skill
+**As a plugin** — the harness ships as `join-the-team` (v0.1.3): one canonical skill
 set, thin per-harness adapters, drift-checked in CI. Install straight from this
 repository into whichever coding assistant you run:
 

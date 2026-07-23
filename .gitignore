@@ -4,5 +4,10 @@ __pycache__/
 
 # Local cultivation of this repository as a harness product. These records are
 # intentionally private and must never contain secrets or customer data.
+# the_harness/ holds WHAT we are building (roadmap, status, plans, dev ADRs);
+# the local.*.md files hold HOW to develop it (maintainer doctrine, per assistant).
 /the_harness/
 /local.agent.md
+/local.claude.md
+/local.gemini.md
+/CLAUDE.local.md

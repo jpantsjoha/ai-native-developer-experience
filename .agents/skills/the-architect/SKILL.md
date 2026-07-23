@@ -34,7 +34,7 @@ This skill is for decisions that persist — the ones that are expensive to reve
 
 6. **Record consequences** — what does this decision make easier? What does it make harder? What does it prevent?
 
-7. **Author the ADR** — format (see `ADR/ADR-0001-*` for the lifecycle convention):
+7. **Author the ADR** — format:
    ```
    ---
    status: draft

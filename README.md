@@ -2,6 +2,10 @@
 
 > **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
 
+> 📦 **Now listed on [Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team)** —
+> install the harness as the `join-the-team` plugin for Claude Code, Codex, Kimi Code,
+> and Google Antigravity. [Jump to install](#two-ways-to-adopt).
+
 This repository has gone through three real phases — and the progression tracks something
 happening across the field.
 
@@ -15,7 +19,8 @@ thin `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` adapters the bootstrap generates — dr
 into a project and the agent picks up the operating contract at session start without a
 briefing. The harness shifted from something humans read to something agents use.
 
-Now it ships as an **installable plugin** — `join-the-team` (v0.1.3). One install across
+Now it ships as an **installable plugin** — `join-the-team` (current version in
+[CHANGELOG.md](CHANGELOG.md)). One install across
 Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 21 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
@@ -52,9 +57,10 @@ fifteen-minute walkthrough.
 git clone https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**As a plugin** — the harness ships as `join-the-team` (v0.1.3): one canonical skill
-set, thin per-harness adapters, drift-checked in CI. Install straight from this
-repository into whichever coding assistant you run:
+**As a plugin** — the harness ships as `join-the-team`: one canonical skill
+set, thin per-harness adapters, drift-checked in CI. It is listed on
+[Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team);
+install straight from this repository into whichever coding assistant you run:
 
 **Claude Code**
 

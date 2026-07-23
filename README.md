@@ -122,8 +122,8 @@ breakers sit. This is that model.
 Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills scale execution velocity**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
 
 ```mermaid
+%%{init: {'sequence': {'boxMargin': 15, 'messageMargin': 30}, 'themeVariables': {'actorLineColor': '#000000'}}}%%
 sequenceDiagram
-    autonumber
     actor PO as Product Owner (Human SME)
     participant Orch as delivery-orchestrator (AI Workflow)
     participant SpecArch as spec-first & the-architect (AI Skills)
@@ -132,14 +132,14 @@ sequenceDiagram
     participant Gates as domain-validator & adversarial-gate (AI Gates)
     actor Ops as Operations / SRE (Human SME)
 
-    rect rgb(238, 242, 255)
+    rect rgb(195, 210, 255)
         note over PO,SpecArch: Phase 1: Intake & Acceptance Contracts (Human Intent & AI Spec)
         PO->>Orch: 1. Submit Epic / Feature Intent
         Orch->>SpecArch: 2. Route Work & Draft Contracts
         SpecArch-->>Orch: 3. Return Acceptance Contract & ADRs
     end
 
-    rect rgb(252, 231, 243)
+    rect rgb(255, 185, 205)
         note over Orch,SME: Phase 2: Risk Governance & Escalation Circuit Breaker (Human SME Authority)
         Orch->>Orch: Classify Risk Tier (R0-R3) & Check Evidence
         alt Missing Evidence or High-Risk (R2/R3)
@@ -148,14 +148,14 @@ sequenceDiagram
         end
     end
 
-    rect rgb(240, 253, 244)
+    rect rgb(160, 230, 175)
         note over Orch,Gates: Phase 3: Agent Task Execution & Red-Team Pass (AI Execution Lanes)
         Orch->>Lanes: 4. Dispatch Discrete Tasks to Mutating Lanes (R0/R1 Scoped)
         Lanes->>Gates: 5. Execute Code & Run Red-Team Pass ("How would I break this?")
         Gates-->>Lanes: 6. Pass Verification & Bind Exact-Candidate SHA
     end
 
-    rect rgb(224, 242, 254)
+    rect rgb(160, 215, 245)
         note over Lanes,Ops: Phase 4: Release Readiness & Derived Receipts (Human Sign-off & Audit)
         Lanes->>Ops: 7. Submit Candidate Release Check (pr-reviewer & release-readiness)
         Ops-->>Lanes: 8. Authorise Production Deployment
@@ -170,7 +170,7 @@ Skills supply capability; **named humans supply authority**.
 | Delivery Stage | Primary AI Skill / Harness Primitive | AI Agent Capability | Accountable Human SME |
 | :--- | :--- | :--- | :--- |
 | **Requirements & Scope** | `spec-first-delivery` | Drafts acceptance contract & spec | **Product Owner** |
-| **Architecture & ADRs** | `the-architect`, `cloud-experts` | Drafts ADRs & validates vendor constraints | **Lead Architect / Head of Eng** |
+| **Architecture & ADRs** | `the-architect`, `gcp-expert` / `aws-expert` / `azure-expert` | Drafts ADRs & validates vendor constraints | **Lead Architect / Head of Eng** |
 | **Data & Access Seams** | `mcp-server-scaffold` | Queries governed MCP data seams | **Head of Data / Security** |
 | **Risk & Authority** | `using-the-harness` | Classifies risk tier (R0–R3) | **Delivery Manager / Lead** |
 | **Verification & Red-Teaming** | `adversarial-gate`, `make check` | Runs red-team checks & test suite | **Lead Developer** |

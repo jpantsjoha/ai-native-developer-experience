@@ -26,9 +26,10 @@ packaging version declared in the harness manifests.
 - `operating-model-bootstrap`: added a **Project awareness** section formalising the
   seven areas that must be established or explicitly owned at init time (product vision,
   team roster, technical stack, tooling, cloud/governance, automation, delivery controls).
-  Required areas block `seed` → `active` promotion. Init now produces `ADR/00-baseline-structure.md`,
-  `VISION.md`, `SOW/roadmap.md`, and an `init-00` entry in `status.md` as durable
-  first-day artefacts.
+  Required areas block `seed` → `active` promotion. The bootstrap workflow now records
+  init decisions as a baseline ADR (`architecture/decisions/ADR-0000-baseline-structure.md`)
+  and a first `docs/STATUS.md` entry, alongside the initializer-seeded `docs/VISION.md`
+  and `docs/ROADMAP.md`.
 - `delivery-orchestrator`: routing table extended with `release-manager`,
   `governance-guardrail`, and `github-manager`; delivery controls (area 7) explicitly
   owned here.

@@ -40,23 +40,34 @@ unknown rather than leaving it blank or fabricating a value.
 
 ### Init artefacts
 
-When `operating-model-bootstrap` (or its `init` invocation) runs, it produces the
-following durable records from the answers to the seven areas above:
+The initializer script seeds structure, not decisions. Running `bootstrap` (or the `init`
+command, which runs `bootstrap` first) creates these records with template content to be
+grounded from verified project evidence:
 
-- **`ADR/00-baseline-structure.md`** — the first ADR: all decisions confirmed or deferred
-  during init, with owner and trigger for each explicit unknown. This is the authority
-  record for the choices made at project start.
-- **`VISION.md`** — product vision, objectives, actors, scope, and out-of-scope seeded
-  from area 1. A placeholder is recorded where the answer was deferred.
-- **`SOW/roadmap.md`** — big-picture outcome gates with target dates where known, seeded
-  from areas 1 and 2. Initially unpopulated beyond milestone names; the team populates
-  dates as they are confirmed.
-- **`status.md`** — updated with an `init-00` entry referencing the files just generated.
-  This is the first entry in the project's derived status record.
+- `docs/operating-model/PROJECT-OPERATING-PROFILE.md` — the project contract, holding the
+  seven-area answers above.
+- `docs/VISION.md` — product vision, objectives, actors, scope, and out-of-scope (area 1).
+- `docs/ROADMAP.md` — the big-picture scope of work: ordered outcome gates, seeded
+  unpopulated. The team adds dates as the Product Owner confirms them.
+- `docs/STATUS.md` — the derived situation-report structure, seeded unpopulated.
+- `docs/operating-model/DELIVERY-WORKFLOW.md`, `CHANGELOG.md`, and the
+  `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` adapters.
 
-Do not fabricate answers to populate these files. An honest `unknown — owner: X; required
-before: Y` is better than a plausible-sounding invention that will mislead every agent
-that reads the profile later.
+The script seeds structure; the agent records the decisions. As part of the bootstrap
+workflow, capture the choices made during init as durable, referenceable authority:
+
+- **Baseline ADR** — author the project's first architecture decision record at its ADR
+  convention (`architecture/decisions/ADR-0000-baseline-structure.md`; see `the-architect`),
+  capturing every choice confirmed or deferred during init, with the owner and resolving
+  trigger for each explicit unknown. This is the authority record for the starting
+  structure.
+- **First status entry** — add one entry to `docs/STATUS.md` recording the initialization
+  event and the open unknowns. This records what happened, not invented progress; roadmap
+  outcomes stay unpopulated until the Product Owner validates them.
+
+Do not fabricate answers to populate any of these files. An honest `unknown — owner: X;
+required before: Y` is better than a plausible-sounding invention that will mislead every
+agent that later reads the profile.
 
 ## Portability boundary
 
@@ -202,12 +213,11 @@ Before completion:
 - Adopted universal manual with version/digest.
 - Completed, tracked project operating profile with all seven project-awareness areas
   recorded (verified fact or explicit unknown with owner and trigger).
-- `ADR/00-baseline-structure.md` — first ADR capturing all init decisions and deferred
-  unknowns.
-- `VISION.md` — seeded from area 1.
-- `SOW/roadmap.md` — big-picture outcome gates seeded from areas 1 and 2.
-- `status.md` — updated with `init-00` entry referencing all generated files.
-- Grounded delivery workflow plus blank roadmap structure and project changelog.
+- `architecture/decisions/ADR-0000-baseline-structure.md` — baseline ADR capturing all
+  init decisions and deferred unknowns.
+- Initializer-seeded `docs/VISION.md`, `docs/ROADMAP.md`, and `docs/STATUS.md`, grounded
+  from evidence; the first `docs/STATUS.md` entry records the init event and open unknowns.
+- Grounded delivery workflow plus project changelog.
 - Lightweight surface adapters plus drift enforcement.
 - Durable checkpoint for active R2/R3 work.
 - Exact-candidate evidence manifest for active R2/R3 work.

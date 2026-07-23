@@ -238,8 +238,9 @@ Borrow the patterns. As ever — your mileage may vary.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](.agents/skills/README.md)**
-  Eighteen tracked capabilities for orchestration, architecture, specification, validation,
-  review, release readiness, plugin submission, status, cost, and selected platform work.
+  Twenty-one tracked capabilities for orchestration, architecture, specification, validation,
+  review, release readiness, governance, plugin submission, status, cost, and selected
+  platform work.
 - **[Plugin Submission](.agents/skills/plugin-submission/SKILL.md)**
   The policy-backed directory and marketplace listing gate; its
   [capability specification](docs/PLUGIN-SUBMISSION.md) defines the external-send

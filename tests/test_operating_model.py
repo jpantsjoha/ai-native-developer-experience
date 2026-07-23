@@ -159,6 +159,48 @@ class OperatingModelBootstrapTests(unittest.TestCase):
         self.assertEqual(validation.returncode, 1)
         self.assertIn("active profile has", validation.stderr)
 
+    def test_seed_with_inferred_field_validates_with_confirmation_warning(self) -> None:
+        self.assertEqual(self.install().returncode, 0)
+        profile = (
+            self.target / "docs" / "operating-model" / "PROJECT-OPERATING-PROFILE.md"
+        )
+        original = profile.read_text(encoding="utf-8")
+        self.assertIn("**Profile owner:** <accountable human or role>", original)
+        profile.write_text(
+            original.replace(
+                "**Profile owner:** <accountable human or role>",
+                "**Profile owner:** inferred — source: CODEOWNERS; confirm: product owner",
+            ),
+            encoding="utf-8",
+        )
+
+        validation = run_script(VALIDATE, "--target", str(self.target))
+        self.assertEqual(validation.returncode, 0, validation.stderr)
+        self.assertIn("awaiting human confirmation", validation.stdout)
+
+    def test_active_status_rejects_unconfirmed_inferred_fields(self) -> None:
+        self.assertEqual(self.install().returncode, 0)
+        profile = (
+            self.target / "docs" / "operating-model" / "PROJECT-OPERATING-PROFILE.md"
+        )
+        original = profile.read_text(encoding="utf-8")
+        self.assertIn("**Profile owner:** <accountable human or role>", original)
+        profile.write_text(
+            original.replace(
+                "**Adoption status:** seed", "**Adoption status:** active"
+            ).replace(
+                "**Profile owner:** <accountable human or role>",
+                "**Profile owner:** inferred — source: CODEOWNERS; confirm: product owner",
+            ),
+            encoding="utf-8",
+        )
+
+        validation = run_script(
+            VALIDATE, "--target", str(self.target), "--require-active"
+        )
+        self.assertEqual(validation.returncode, 1)
+        self.assertIn("unconfirmed inferred", validation.stderr)
+
     def test_checkpoint_and_evidence_must_bind_to_same_candidate(self) -> None:
         self.assertEqual(self.install().returncode, 0)
         manual = self.target / "docs" / "operating-model" / "OPERATING-MANUAL.md"

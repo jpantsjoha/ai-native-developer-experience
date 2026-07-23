@@ -8,6 +8,17 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [Unreleased]
+
+### Added
+
+- **Provenance-aware operating profiles** (part of existing-repo backfill): profile fields
+  can now carry an `inferred — source: <evidence>; confirm: <role>` state alongside
+  `verified` facts and `unknown` placeholders. The validator recognises it — a `seed`
+  warns on unconfirmed inference, and promotion to `active` is **blocked** until a human
+  confirms every inferred field. This is the gate that keeps machine-backfilled values
+  from ever masquerading as owned facts.
+
 ## [0.1.6] — 2026-07-23
 
 ### Added

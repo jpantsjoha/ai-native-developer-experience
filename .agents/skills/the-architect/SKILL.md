@@ -34,12 +34,19 @@ This skill is for decisions that persist — the ones that are expensive to reve
 
 6. **Record consequences** — what does this decision make easier? What does it make harder? What does it prevent?
 
-7. **Author the ADR** — format:
+7. **Author the ADR** — format (see `ADR/ADR-0001-*` for the lifecycle convention):
    ```
-   # ADR-NNN: <short title>
+   ---
+   status: draft
+   id: ADR-NNNN
+   date: <date>
+   deciders: [<handle>]
+   ---
+
+   # ADR-NNNN: <short title>
 
    ## Status
-   Proposed | Accepted | Superseded by ADR-NNN
+   draft | approved | superseded
 
    ## Context
    <forces, constraints, why a decision is needed>
@@ -50,6 +57,9 @@ This skill is for decisions that persist — the ones that are expensive to reve
    ## Consequences
    <what becomes easier, harder, or foreclosed>
    ```
+   A decision's lifecycle is visible in **both** the filename postfix and the `status:`
+   field: `ADR/ADR-NNNN-<slug>-DRAFT.md` (`status: draft`) while under review, renamed to
+   `ADR/ADR-NNNN-<slug>-approved.md` (`status: approved`) on approval.
 
 8. **Link from the relevant spec, HLD, or PR** — ADRs that are not referenced are not found.
 
@@ -70,7 +80,7 @@ decision without its guardrail checklist is an unreviewed decision.
 
 ## Outputs
 
-- `architecture/decisions/ADR-NNN-<title>.md`
+- `ADR/ADR-NNNN-<slug>-DRAFT.md` → `ADR/ADR-NNNN-<slug>-approved.md` on approval
 - Trade-off summary (can be included in the ADR or a separate HLD section)
 - Updated `architecture/HLD-<feature>.md` if the decision changes the HLD
 

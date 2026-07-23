@@ -8,6 +8,27 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.1.6] — 2026-07-23
+
+### Added
+
+- **ADR lifecycle convention** ([ADR-0001](ADR/ADR-0001-adr-convention-approved.md)):
+  ADRs live in `ADR/`, with lifecycle visible in both the filename postfix
+  (`-DRAFT` / `-approved`) and an in-file `status:` field. A deterministic test
+  (`tests/test_adr_convention.py`) enforces that the two agree, wired into `make check`.
+- **Existing-repo requirement backfill — approved design**
+  ([ADR-0002](ADR/ADR-0002-existing-repo-backfill-approved.md)): on adoption into a
+  non-empty repo, a read-only pass will pre-fill the seven-area profile with `inferred`
+  values (✅/🤖/⬜ provenance markers, evidence pointers, named-human confirmation), and
+  the `seed` → `active` gate blocks on any unconfirmed inference. Design approved and
+  codified; implementation targeted for a following release.
+- A README **"What it looks like"** section with a live session screenshot.
+
+### Changed
+
+- `the-architect` and `operating-model-bootstrap` reconciled to the ADR-0001 convention
+  (single ADR path and lifecycle naming across the plugin).
+
 ## [0.1.5] — 2026-07-23
 
 ### Added

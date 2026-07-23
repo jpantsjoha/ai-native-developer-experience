@@ -57,7 +57,8 @@ The script seeds structure; the agent records the decisions. As part of the boot
 workflow, capture the choices made during init as durable, referenceable authority:
 
 - **Baseline ADR** — author the project's first architecture decision record at its ADR
-  convention (`architecture/decisions/ADR-0000-baseline-structure.md`; see `the-architect`),
+  convention (`ADR/ADR-0000-baseline-structure-DRAFT.md`, approved to
+  `-approved.md`; see `the-architect` and `ADR/ADR-0001-*`),
   capturing every choice confirmed or deferred during init, with the owner and resolving
   trigger for each explicit unknown. This is the authority record for the starting
   structure.
@@ -213,8 +214,8 @@ Before completion:
 - Adopted universal manual with version/digest.
 - Completed, tracked project operating profile with all seven project-awareness areas
   recorded (verified fact or explicit unknown with owner and trigger).
-- `architecture/decisions/ADR-0000-baseline-structure.md` — baseline ADR capturing all
-  init decisions and deferred unknowns.
+- `ADR/ADR-0000-baseline-structure-DRAFT.md` (approved to `-approved.md`) — baseline ADR
+  capturing all init decisions and deferred unknowns.
 - Initializer-seeded `docs/VISION.md`, `docs/ROADMAP.md`, and `docs/STATUS.md`, grounded
   from evidence; the first `docs/STATUS.md` entry records the init event and open unknowns.
 - Grounded delivery workflow plus project changelog.

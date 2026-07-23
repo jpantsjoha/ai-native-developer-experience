@@ -33,7 +33,7 @@ Reinstall with the same command to update.
 ## Verify
 
 1. Start a session: the harness contract should be active from the first message.
-2. Ask "which skills are available?" — the 19 skills should be named, including
+2. Ask "which skills are available?" — the 21 skills should be named, including
    `gcp-expert` and `adk-expert`.
 3. Ask the agent to track a small multi-step task — it should create a **task
    artifact**, not reach for a todo tool.

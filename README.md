@@ -16,7 +16,7 @@ into a project and the agent picks up the operating contract at session start wi
 briefing. The harness shifted from something humans read to something agents use.
 
 Now it ships as an **installable plugin** — `join-the-team` (v0.1.3). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 19 skills,
+Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 21 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
 re-explaining the contract.
@@ -26,7 +26,7 @@ The point: this stopped being something you read and became something you instal
 And what you install is the **operating model** — that is the value proposition here.
 Skill libraries are everywhere now; what teams are missing is the contract: who holds
 authority, how risk is tiered, what evidence binds a review, what "done" actually means
-when humans and agents ship together. The 19 skills are the capability layer that
+when humans and agents ship together. The 21 skills are the capability layer that
 executes inside that contract — not the other way round.
 
 The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters

@@ -43,6 +43,9 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | Architecture decision or trade-off | `the-architect` |
 | High-stakes design review | `adversarial-gate` |
 | Pre-deployment go/no-go | `release-readiness` |
+| Release process governance, SemVer, ADR, changelog | `release-manager` |
+| Enterprise policy, compliance, or governance alignment | `governance-guardrail` |
+| GitHub repo operations: CI triggers, billing, issues, labels, branch protection | `github-manager` |
 | Google ADK agent patterns | `adk-expert` |
 | Cloud infrastructure guardrails | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` |
 | MCP server design or governance | `mcp-server-scaffold` |
@@ -52,6 +55,7 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | Status or standup synthesis | `sitrep` |
 | Plugin-directory, marketplace, or curated-list submission | `plugin-submission` |
 | New repo or operating model install / repair | `operating-model-bootstrap` |
+| Delivery controls: source of truth, issue/PR conventions, DoD, escalation | `delivery-orchestrator` (own it here) |
 | Routing this list | `delivery-orchestrator` (you are here) |
 
 ## Outputs

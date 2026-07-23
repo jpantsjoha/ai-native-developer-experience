@@ -21,6 +21,43 @@ agents, skills, tools, and gates as one delivery system with explicit authority,
 ownership, evidence, and completion semantics. The day-one seed lets a new team begin
 system design and delivery planning while explicitly owned project unknowns are resolved.
 
+## Project awareness — seven areas to establish at init
+
+The bootstrap must establish or explicitly own each of the following. Required areas must
+be answered before the profile leaves `seed` state. Optional areas have a recommended
+default; record `not yet established — owner: role; required before: trigger` for any
+unknown rather than leaving it blank or fabricating a value.
+
+| # | Area | Status | Default if not declared |
+|---|---|---|---|
+| 1 | Product vision, objectives, actors, scope, out-of-scope, SOW / acceptance record | **Required** | None — must be declared |
+| 2 | Team roster: PO, SMEs, integration owner, reviewer roles, escalation path | **Required** | None — must be declared |
+| 3 | Technical stack: language, framework, architecture, repos, interfaces, runtime | **Required** | None — must be declared |
+| 4 | Tooling: package manager, linter, type checker, unit / integration / e2e test commands | Optional — recommended defaults | Linting + validation + unit tests minimum |
+| 5 | Cloud, hosting, data classification, residency, compliance, approved-vendor constraints | Optional — advised | Deduced from stack; invoke `governance-guardrail` to confirm policy alignment |
+| 6 | Automation: CI/CD, branch policy, release process, deployment owner, rollback | Optional — default provided | GitHub SemVer + tag-based releases; invoke `release-manager` to document and confirm |
+| 7 | Delivery controls: source of truth, issue/PR conventions, DoD, escalation triggers | Optional — default provided | GitHub stack; this repository's issues, ADRs, and architecture docs are the source of truth |
+
+### Init artefacts
+
+When `operating-model-bootstrap` (or its `init` invocation) runs, it produces the
+following durable records from the answers to the seven areas above:
+
+- **`ADR/00-baseline-structure.md`** — the first ADR: all decisions confirmed or deferred
+  during init, with owner and trigger for each explicit unknown. This is the authority
+  record for the choices made at project start.
+- **`VISION.md`** — product vision, objectives, actors, scope, and out-of-scope seeded
+  from area 1. A placeholder is recorded where the answer was deferred.
+- **`SOW/roadmap.md`** — big-picture outcome gates with target dates where known, seeded
+  from areas 1 and 2. Initially unpopulated beyond milestone names; the team populates
+  dates as they are confirmed.
+- **`status.md`** — updated with an `init-00` entry referencing the files just generated.
+  This is the first entry in the project's derived status record.
+
+Do not fabricate answers to populate these files. An honest `unknown — owner: X; required
+before: Y` is better than a plausible-sounding invention that will mislead every agent
+that reads the profile later.
+
 ## Portability boundary
 
 The operating model is model-, vendor-, and IDE-agnostic. Thin surface adapters only make
@@ -163,8 +200,14 @@ Before completion:
 ## Required outputs
 
 - Adopted universal manual with version/digest.
-- Completed, tracked project operating profile.
-- Grounded vision and delivery workflow plus initial roadmap, status, and changelog.
+- Completed, tracked project operating profile with all seven project-awareness areas
+  recorded (verified fact or explicit unknown with owner and trigger).
+- `ADR/00-baseline-structure.md` — first ADR capturing all init decisions and deferred
+  unknowns.
+- `VISION.md` — seeded from area 1.
+- `SOW/roadmap.md` — big-picture outcome gates seeded from areas 1 and 2.
+- `status.md` — updated with `init-00` entry referencing all generated files.
+- Grounded delivery workflow plus blank roadmap structure and project changelog.
 - Lightweight surface adapters plus drift enforcement.
 - Durable checkpoint for active R2/R3 work.
 - Exact-candidate evidence manifest for active R2/R3 work.

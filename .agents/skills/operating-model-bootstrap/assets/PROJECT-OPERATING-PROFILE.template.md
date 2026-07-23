@@ -18,10 +18,17 @@ placeholder with a verified fact or one of these explicit states:
 
 - `not applicable — <reason>`
 - `not yet established — owner: <role>; required before: <trigger>`
+- `inferred — source: <evidence>; confirm: <role>`
+
+A value marked `verified` (a plain resolved fact) is human-owned. A value marked
+`inferred` was machine-backfilled from repository evidence and is **not yet owned** — a
+named human must confirm it (replace it with a verified fact) before the profile can
+become `active`. Keep provenance scannable: ✅ verified · 🤖 inferred · ⬜ unknown.
 
 `seed` is a valid day-one state for discovery, system design, backlog formation, and R0/R1
 work. Before R2/R3 work begins, set the profile to `active` and resolve every applicable
-authority, invariant, validation, review, delivery, rollback, and observation control.
+authority, invariant, validation, review, delivery, rollback, and observation control —
+including confirming every `inferred` field. Unconfirmed inference blocks `active`.
 
 ## Day-one seed minimum
 

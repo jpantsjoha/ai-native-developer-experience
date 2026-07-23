@@ -17,6 +17,9 @@ ADAPTER_NAMES = ("AGENTS.md", "CLAUDE.md", "GEMINI.md")
 CONTRACT_START = "<!-- operating-model-contract:start -->"
 CONTRACT_END = "<!-- operating-model-contract:end -->"
 PLACEHOLDER = re.compile(r"<[^>\n]+>")
+# A machine-backfilled field: `inferred — source: <evidence>; confirm: <role>`.
+# Inference supports design/R0/R1 but must be human-confirmed before `active`.
+INFERRED = re.compile(r"\binferred\s*[—–-]\s*source\s*:", re.IGNORECASE)
 
 
 @dataclass
@@ -128,6 +131,18 @@ def validate_profile(
     elif unresolved:
         findings.warnings.append(
             f"{path}: seed has {len(unresolved)} placeholder types; resolve the day-one minimum"
+        )
+
+    inferred = INFERRED.findall(text)
+    if status == "active" or require_active:
+        findings.require(
+            not inferred,
+            f"{path}: active profile has {len(inferred)} unconfirmed inferred field(s); "
+            "a human must verify each before promotion to active",
+        )
+    elif inferred:
+        findings.warnings.append(
+            f"{path}: seed has {len(inferred)} inferred field(s) awaiting human confirmation"
         )
     if status == "seed":
         findings.warnings.append(

@@ -98,6 +98,21 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ---
 
+## What it looks like
+
+Install the plugin, and at session start the `using-the-harness` skill grounds the agent
+in the contract before any work. Ask it what the harness changes, and it answers in the
+terms that matter — where the system accelerates, and where it stops:
+
+![join-the-team in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)
+
+> **Coherence and auditability — not speed.** The value is visible when the system knows
+> where to accelerate *and* where to stop: a risk-touching decision triggers the
+> adversarial gate, evidence is re-verified before it becomes actionable, and the
+> decision is captured as a receipt. Same contract for the humans and the agents.
+
+---
+
 ## The Hybrid Human-AI Squad Model & Workflow
 
 Installing the harness gets you the skills. What it doesn't give you is the operating

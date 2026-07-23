@@ -14,7 +14,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 18 Skills
+## The 19 Skills
 
 | Skill | One-line purpose |
 |---|---|
@@ -33,6 +33,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 | [`domain-validator`](./domain-validator/SKILL.md) | Validate agent output against declared domain rules before trusting it |
 | [`pr-reviewer`](./pr-reviewer/SKILL.md) | Review gate: correctness, reuse, simplification — receipts not polish |
 | [`cost-guardrail`](./cost-guardrail/SKILL.md) | LLM/token cost awareness: model tiering, budgets, right-sizing |
+| [`github-manager`](./github-manager/SKILL.md) | Cost-effective, consistent GitHub operations: CI triggers, Actions billing, issues, labels, branch protection, releases |
 | [`sitrep`](./sitrep/SKILL.md) | Synthesise a status / standup / situation-report from work state |
 | [`operating-model-bootstrap`](./operating-model-bootstrap/SKILL.md) | Install a versioned manual, profile, adapters, checkpoints, and exact-candidate evidence contract for a human–AI squad |
 | [`plugin-submission`](./plugin-submission/SKILL.md) | Govern directory and marketplace listings: current policy, artifact eligibility, final confirmation, and receipts |

@@ -17,6 +17,25 @@ This skill enforces disciplined, cost-aware GitHub operations. It turns GitHub f
 - Designing a label taxonomy or branch-protection policy
 - Preparing a release process or tag strategy
 
+## Operating model context
+
+This skill governs the GitHub surfaces that enforce the harness contract at the repository
+level. It is not general DevOps housekeeping — each procedure below maps to a harness
+invariant:
+
+- **Branch protection + required status checks** are the enforcement mechanism for the
+  PR review gate and the exact-candidate binding rule. A CI check that passes on an
+  unprotected branch is a claim; a passing check required by branch rules is evidence.
+- **CI receipts are delivery evidence.** "It worked locally" is not an artefact. A CI
+  run tied to a commit SHA is. Structure your workflow so evidence is machine-readable
+  and SHA-bound, not dependent on a contributor's local environment.
+- **Modifying branch protection, CI pipelines, or billing settings is an R2 action.**
+  These changes affect all contributors and shared infrastructure. Classify risk, confirm
+  authority, and record the decision before any write.
+
+Use `release-readiness` to gate a specific deployment. Use this skill to configure and
+audit the repository surfaces that make those gates trustworthy.
+
 ## Procedure
 
 ### 1. Rightsize CI triggers

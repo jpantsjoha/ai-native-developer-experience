@@ -101,7 +101,16 @@ def inspect_stack(repo: Path) -> list[Finding]:
             data = json.loads(_read(package) or "{}")
         except json.JSONDecodeError:
             data = {}
-        deps = {**data.get("dependencies", {}), **data.get("devDependencies", {})}
+        # package.json is arbitrary adopter input: a valid JSON array/scalar, or null
+        # sub-fields, must not crash the pass. Coerce every read to a dict.
+        if not isinstance(data, dict):
+            data = {}
+
+        def section(key: str) -> dict:
+            value = data.get(key)
+            return value if isinstance(value, dict) else {}
+
+        deps = {**section("dependencies"), **section("devDependencies")}
         language = "TypeScript" if (repo / "tsconfig.json").is_file() or "typescript" in deps else "JavaScript"
         findings.append(Finding(3, "Language", language, "package.json", "high", "lead architect"))
         framework = None
@@ -112,7 +121,7 @@ def inspect_stack(repo: Path) -> list[Finding]:
             if name in deps:
                 framework = label
                 break
-        if "vscode" in (data.get("engines") or {}) or data.get("contributes"):
+        if "vscode" in section("engines") or data.get("contributes"):
             framework = "VS Code extension"
         if framework:
             findings.append(Finding(3, "Framework", framework, "package.json", "high", "lead architect"))

@@ -84,6 +84,16 @@ class InspectRepoTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("No inferable evidence", result.stdout)
 
+    def test_malformed_package_json_does_not_crash(self) -> None:
+        """package.json is arbitrary adopter input; a JSON array or a null sub-field must
+        not crash the pass (pr-reviewer BLOCKING finding)."""
+        for content in ("[]", '{"dependencies": null}', "42", "not json at all"):
+            with self.subTest(content=content):
+                (self.repo / "package.json").write_text(content, encoding="utf-8")
+                result = run_inspect(self.repo)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(result.stderr, "")
+
     def test_engine_marker_trips_the_validator_active_gate(self) -> None:
         """Bind producer to enforcer: a marker inspect_repo actually emits must be caught
         by the validator's active-gate, so the two cannot drift apart and let unconfirmed

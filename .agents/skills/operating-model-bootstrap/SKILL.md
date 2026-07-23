@@ -38,6 +38,27 @@ unknown rather than leaving it blank or fabricating a value.
 | 6 | Automation: CI/CD, branch policy, release process, deployment owner, rollback | Optional — default provided | GitHub SemVer + tag-based releases; invoke `release-manager` to document and confirm |
 | 7 | Delivery controls: source of truth, issue/PR conventions, DoD, escalation triggers | Optional — default provided | GitHub stack; this repository's issues, ADRs, and architecture docs are the source of truth |
 
+### Backfill from an existing repo
+
+When adopting into a repo that already has code, do not present a blank seven-area form.
+Run the read-only inspection pass to pre-fill what the repository already reveals:
+
+```bash
+python3 .agents/skills/operating-model-bootstrap/scripts/inspect_repo.py .
+```
+
+It reads manifests, tool configs, CI, `CODEOWNERS`, and docs, and prints **inferred**
+findings — each a machine guess with an evidence pointer and the exact
+`inferred — source: <evidence>; confirm: <role>` marker to paste into the profile. Rules:
+
+- Transcribe each finding into the profile as its `inferred` marker; **never** silently
+  promote it to a verified fact.
+- Confirm inferred fields **one at a time** with the named human; a confirmed field
+  becomes a plain verified value. The profile cannot go `active` while any `inferred`
+  field remains (the validator enforces this).
+- The pass is read-only and **never infers authority** — `CODEOWNERS` handles are roster
+  *candidates* only; role and accountability stay `unknown` until a human assigns them.
+
 ### Init artefacts
 
 The initializer script seeds structure, not decisions. Running `bootstrap` (or the `init`

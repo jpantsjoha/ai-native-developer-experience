@@ -47,6 +47,8 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 | Any PR or agent-generated code before commit | `pr-reviewer` |
 | Anything about to ship to a real environment | `release-readiness` |
 | CI triggers, Actions billing, issues, labels, branch protection, or release-tag workflow | `github-manager` |
+| Release process governance: SemVer, ADR, changelog, release authority | `release-manager` |
+| Enterprise policy, compliance, governance, or approved-vendor alignment | `governance-guardrail` |
 | Status, standup, or situation report | `sitrep` |
 | Plugin-directory, marketplace, or curated-list submission | `plugin-submission` |
 | LLM/cloud cost estimate or architecture with LLM calls | `cost-guardrail` |

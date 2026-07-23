@@ -20,7 +20,7 @@ What gets wired (via `.kimi-plugin/plugin.json`):
 
 1. `/plugins` should list `join-the-team` as installed.
 2. A fresh session should show the harness orientation; ask "which skills are
-   available?" to see the 19 skills.
+   available?" to see the 21 skills.
 
 ## Update
 

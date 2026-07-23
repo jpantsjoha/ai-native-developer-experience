@@ -21,6 +21,54 @@ agents, skills, tools, and gates as one delivery system with explicit authority,
 ownership, evidence, and completion semantics. The day-one seed lets a new team begin
 system design and delivery planning while explicitly owned project unknowns are resolved.
 
+## Project awareness — seven areas to establish at init
+
+The bootstrap must establish or explicitly own each of the following. Required areas must
+be answered before the profile leaves `seed` state. Optional areas have a recommended
+default; record `not yet established — owner: role; required before: trigger` for any
+unknown rather than leaving it blank or fabricating a value.
+
+| # | Area | Status | Default if not declared |
+|---|---|---|---|
+| 1 | Product vision, objectives, actors, scope, out-of-scope, SOW / acceptance record | **Required** | None — must be declared |
+| 2 | Team roster: PO, SMEs, integration owner, reviewer roles, escalation path | **Required** | None — must be declared |
+| 3 | Technical stack: language, framework, architecture, repos, interfaces, runtime | **Required** | None — must be declared |
+| 4 | Tooling: package manager, linter, type checker, unit / integration / e2e test commands | Optional — recommended defaults | Linting + validation + unit tests minimum |
+| 5 | Cloud, hosting, data classification, residency, compliance, approved-vendor constraints | Optional — advised | Deduced from stack; invoke `governance-guardrail` to confirm policy alignment |
+| 6 | Automation: CI/CD, branch policy, release process, deployment owner, rollback | Optional — default provided | GitHub SemVer + tag-based releases; invoke `release-manager` to document and confirm |
+| 7 | Delivery controls: source of truth, issue/PR conventions, DoD, escalation triggers | Optional — default provided | GitHub stack; this repository's issues, ADRs, and architecture docs are the source of truth |
+
+### Init artefacts
+
+The initializer script seeds structure, not decisions. Running `bootstrap` (or the `init`
+command, which runs `bootstrap` first) creates these records with template content to be
+grounded from verified project evidence:
+
+- `docs/operating-model/PROJECT-OPERATING-PROFILE.md` — the project contract, holding the
+  seven-area answers above.
+- `docs/VISION.md` — product vision, objectives, actors, scope, and out-of-scope (area 1).
+- `docs/ROADMAP.md` — the big-picture scope of work: ordered outcome gates, seeded
+  unpopulated. The team adds dates as the Product Owner confirms them.
+- `docs/STATUS.md` — the derived situation-report structure, seeded unpopulated.
+- `docs/operating-model/DELIVERY-WORKFLOW.md`, `CHANGELOG.md`, and the
+  `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` adapters.
+
+The script seeds structure; the agent records the decisions. As part of the bootstrap
+workflow, capture the choices made during init as durable, referenceable authority:
+
+- **Baseline ADR** — author the project's first architecture decision record at its ADR
+  convention (`architecture/decisions/ADR-0000-baseline-structure.md`; see `the-architect`),
+  capturing every choice confirmed or deferred during init, with the owner and resolving
+  trigger for each explicit unknown. This is the authority record for the starting
+  structure.
+- **First status entry** — add one entry to `docs/STATUS.md` recording the initialization
+  event and the open unknowns. This records what happened, not invented progress; roadmap
+  outcomes stay unpopulated until the Product Owner validates them.
+
+Do not fabricate answers to populate any of these files. An honest `unknown — owner: X;
+required before: Y` is better than a plausible-sounding invention that will mislead every
+agent that later reads the profile.
+
 ## Portability boundary
 
 The operating model is model-, vendor-, and IDE-agnostic. Thin surface adapters only make
@@ -163,8 +211,13 @@ Before completion:
 ## Required outputs
 
 - Adopted universal manual with version/digest.
-- Completed, tracked project operating profile.
-- Grounded vision and delivery workflow plus initial roadmap, status, and changelog.
+- Completed, tracked project operating profile with all seven project-awareness areas
+  recorded (verified fact or explicit unknown with owner and trigger).
+- `architecture/decisions/ADR-0000-baseline-structure.md` — baseline ADR capturing all
+  init decisions and deferred unknowns.
+- Initializer-seeded `docs/VISION.md`, `docs/ROADMAP.md`, and `docs/STATUS.md`, grounded
+  from evidence; the first `docs/STATUS.md` entry records the init event and open unknowns.
+- Grounded delivery workflow plus project changelog.
 - Lightweight surface adapters plus drift enforcement.
 - Durable checkpoint for active R2/R3 work.
 - Exact-candidate evidence manifest for active R2/R3 work.

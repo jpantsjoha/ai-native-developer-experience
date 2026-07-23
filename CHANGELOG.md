@@ -8,6 +8,35 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.1.5] — 2026-07-23
+
+### Added
+
+- `governance-guardrail`: checks proposed stack, data flows, and cloud choices against
+  declared enterprise policies, compliance frameworks, and security controls. Never
+  invents a policy position — surfaces gaps as explicitly owned unknowns. Triggered by
+  `delivery-orchestrator` at R2/R3 classification; feeds into `adversarial-gate`.
+- `release-manager`: governs the SemVer release process — versioning discipline,
+  tag-based GitHub releases, changelog hygiene, and the ADR that confirms the release
+  strategy is agreed. Distinct from `release-readiness` (deployment gate) and
+  `github-manager` (CI infrastructure). Owned by `delivery-orchestrator`.
+
+### Changed
+
+- `operating-model-bootstrap`: added a **Project awareness** section formalising the
+  seven areas that must be established or explicitly owned at init time (product vision,
+  team roster, technical stack, tooling, cloud/governance, automation, delivery controls).
+  Required areas block `seed` → `active` promotion. The bootstrap workflow now records
+  init decisions as a baseline ADR (`architecture/decisions/ADR-0000-baseline-structure.md`)
+  and a first `docs/STATUS.md` entry, alongside the initializer-seeded `docs/VISION.md`
+  and `docs/ROADMAP.md`.
+- `delivery-orchestrator`: routing table extended with `release-manager`,
+  `governance-guardrail`, and `github-manager`; delivery controls (area 7) explicitly
+  owned here.
+- `using-the-harness`: routing table extended with `release-manager` and
+  `governance-guardrail`.
+- Skill count updated to 21 across README, install guides, and skills library index.
+
 ## [0.1.4] — 2026-07-23
 
 ### Added

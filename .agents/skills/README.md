@@ -14,7 +14,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 19 Skills
+## The 21 Skills
 
 | Skill | One-line purpose |
 |---|---|
@@ -22,8 +22,10 @@ assistant expects a different location; do not maintain divergent skill constitu
 | [`spec-first-delivery`](./spec-first-delivery/SKILL.md) | Force plan / HLD / ADRs before any code is generated |
 | [`adversarial-gate`](./adversarial-gate/SKILL.md) | JP's red-team pass: "how would I break this?" — catches brittle assumptions before they ship |
 | [`release-readiness`](./release-readiness/SKILL.md) | Go / no-go gate: failure modes, rollback, cost, prod bar, definition of done |
-| [`delivery-orchestrator`](./delivery-orchestrator/SKILL.md) | Decompose an epic into atomic parallel tasks; route to the right skill (meta-router) |
+| [`release-manager`](./release-manager/SKILL.md) | SemVer release process governance: ADR, changelog discipline, tag authority, pipeline wiring |
+| [`delivery-orchestrator`](./delivery-orchestrator/SKILL.md) | Decompose an epic into atomic parallel tasks; route to the right skill; owns delivery controls |
 | [`the-architect`](./the-architect/SKILL.md) | Architecture decisions, trade-off analysis, ADR authoring — routes cloud decisions to the matching vendor expert |
+| [`governance-guardrail`](./governance-guardrail/SKILL.md) | Enterprise policy, compliance, and approved-vendor alignment — triggered at R2/R3, feeds adversarial-gate |
 | [`gcp-expert`](./gcp-expert/SKILL.md) | Google Cloud guardrails: IAM least-privilege, data boundaries, cost, residency, official-source validation |
 | [`aws-expert`](./aws-expert/SKILL.md) | AWS guardrails: IAM, data boundaries, cost, residency, official-source validation |
 | [`azure-expert`](./azure-expert/SKILL.md) | Azure guardrails: Entra ID, policy-first governance, cost, residency, official-source validation |

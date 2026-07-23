@@ -8,6 +8,15 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.1.4] — 2026-07-23
+
+### Added
+
+- `github-manager`: a new skill for cost-effective, consistent GitHub operations —
+  CI trigger rightsizing, Actions billing guardrails, issue and label discipline,
+  branch-protection policy, and release-workflow governance. Brings the skill count
+  to 19.
+
 ## [0.1.3] — 2026-07-21
 
 ### Added

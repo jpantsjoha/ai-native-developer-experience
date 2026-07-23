@@ -20,7 +20,7 @@ Reinstall with the same command to update.
 - **Session start** — the plugin's session-start hook injects the `using-the-harness`
   orientation skill; on non-Claude runners it emits the SDK-standard
   `additionalContext` shape Antigravity consumes.
-- **Skills** — the 18 `.agents/skills/` capabilities, discovered natively.
+- **Skills** — the 19 `.agents/skills/` capabilities, discovered natively.
 - **MCP data seams** → `.agents/mcp_config.json` — the governed tool-access pattern;
   see the file before adding servers.
 - **Tool mapping** — `using-the-harness/references/antigravity-tools.md` translates
@@ -33,7 +33,7 @@ Reinstall with the same command to update.
 ## Verify
 
 1. Start a session: the harness contract should be active from the first message.
-2. Ask "which skills are available?" — the 18 skills should be named, including
+2. Ask "which skills are available?" — the 19 skills should be named, including
    `gcp-expert` and `adk-expert`.
 3. Ask the agent to track a small multi-step task — it should create a **task
    artifact**, not reach for a todo tool.

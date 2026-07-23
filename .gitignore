@@ -1,3 +1,8 @@
 .DS_Store
 __pycache__/
 *.py[cod]
+
+# Local cultivation of this repository as a harness product. These records are
+# intentionally private and must never contain secrets or customer data.
+/the_harness/
+/local.agent.md

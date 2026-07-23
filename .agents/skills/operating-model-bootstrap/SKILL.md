@@ -58,7 +58,7 @@ workflow, capture the choices made during init as durable, referenceable authori
 
 - **Baseline ADR** — author the project's first architecture decision record at its ADR
   convention (`ADR/ADR-0000-baseline-structure-DRAFT.md`, approved to
-  `-approved.md`; see `the-architect` and `ADR/ADR-0001-*`),
+  `-approved.md`; see `the-architect`),
   capturing every choice confirmed or deferred during init, with the owner and resolving
   trigger for each explicit unknown. This is the authority record for the starting
   structure.

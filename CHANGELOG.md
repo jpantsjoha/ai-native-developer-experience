@@ -12,12 +12,18 @@ packaging version declared in the harness manifests.
 
 ### Added
 
-- **Provenance-aware operating profiles** (part of existing-repo backfill): profile fields
-  can now carry an `inferred — source: <evidence>; confirm: <role>` state alongside
-  `verified` facts and `unknown` placeholders. The validator recognises it — a `seed`
-  warns on unconfirmed inference, and promotion to `active` is **blocked** until a human
-  confirms every inferred field. This is the gate that keeps machine-backfilled values
-  from ever masquerading as owned facts.
+- **Existing-repo requirement backfill.** Adopting into a repo that already has code no
+  longer starts from a blank seven-area form. A read-only inspection pass
+  (`inspect_repo.py`) reads manifests, tool configs, CI, `CODEOWNERS`, and docs and emits
+  **inferred** findings — each a machine guess with an evidence pointer and a ready-to-paste
+  `inferred — source: <evidence>; confirm: <role>` marker. It is strictly read-only,
+  vendor-neutral, and **never infers authority** (roles/accountability stay human-owned).
+  `init` now runs it for existing repos and confirms each field one at a time.
+- **Provenance-aware operating profiles.** Profile fields can carry an `inferred` state
+  alongside `verified` facts and `unknown` placeholders. The validator recognises it — a
+  `seed` warns on unconfirmed inference, and promotion to `active` is **blocked** until a
+  human confirms every inferred field. This is the gate that keeps machine-backfilled
+  values from ever masquerading as owned facts.
 
 ## [0.1.6] — 2026-07-23
 

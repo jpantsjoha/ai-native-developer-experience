@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -11,9 +12,10 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-INSPECT = (
-    REPO_ROOT / ".agents" / "skills" / "operating-model-bootstrap" / "scripts" / "inspect_repo.py"
-)
+SKILL_ROOT = REPO_ROOT / ".agents" / "skills" / "operating-model-bootstrap"
+INSPECT = SKILL_ROOT / "scripts" / "inspect_repo.py"
+BOOTSTRAP = SKILL_ROOT / "scripts" / "bootstrap_operating_model.py"
+VALIDATE = SKILL_ROOT / "scripts" / "validate_operating_model.py"
 
 
 def run_inspect(repo: Path) -> subprocess.CompletedProcess[str]:
@@ -81,6 +83,41 @@ class InspectRepoTests(unittest.TestCase):
         result = run_inspect(self.repo)
         self.assertEqual(result.returncode, 0)
         self.assertIn("No inferable evidence", result.stdout)
+
+    def test_engine_marker_trips_the_validator_active_gate(self) -> None:
+        """Bind producer to enforcer: a marker inspect_repo actually emits must be caught
+        by the validator's active-gate, so the two cannot drift apart and let unconfirmed
+        inference reach `active`. (Adversarial-gate finding: separate unit tests miss this.)
+        """
+        self.write("package.json", json.dumps({"name": "x", "devDependencies": {"typescript": "^5"}}))
+        emitted = [
+            line.strip().strip("`")
+            for line in run_inspect(self.repo).stdout.splitlines()
+            if line.strip().strip("`").startswith("inferred — source:")
+        ]
+        self.assertTrue(emitted, "engine emitted no inferred markers to bind against")
+        marker = emitted[0]
+
+        project = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, project, ignore_errors=True)
+        boot = subprocess.run(
+            [sys.executable, str(BOOTSTRAP), "--project-name", "Probe", str(project)],
+            cwd=REPO_ROOT, check=False, capture_output=True, text=True,
+        )
+        self.assertEqual(boot.returncode, 0, boot.stderr)
+        profile = project / "docs" / "operating-model" / "PROJECT-OPERATING-PROFILE.md"
+        profile.write_text(
+            profile.read_text(encoding="utf-8")
+            .replace("**Adoption status:** seed", "**Adoption status:** active")
+            .replace("**Profile owner:** <accountable human or role>", f"**Profile owner:** {marker}"),
+            encoding="utf-8",
+        )
+        result = subprocess.run(
+            [sys.executable, str(VALIDATE), "--target", str(project), "--require-active"],
+            cwd=REPO_ROOT, check=False, capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("unconfirmed inferred", result.stderr)
 
 
 if __name__ == "__main__":

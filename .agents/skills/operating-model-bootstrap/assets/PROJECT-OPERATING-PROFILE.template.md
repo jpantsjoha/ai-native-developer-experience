@@ -25,6 +25,10 @@ A value marked `verified` (a plain resolved fact) is human-owned. A value marked
 named human must confirm it (replace it with a verified fact) before the profile can
 become `active`. Keep provenance scannable: ✅ verified · 🤖 inferred · ⬜ unknown.
 
+`inferred — source:` is a **reserved marker phrase** — the validator treats any field
+containing it as unconfirmed inference that blocks `active`. Do not use the literal phrase
+in ordinary prose; rephrase (e.g. "derived from") if you mean it descriptively.
+
 `seed` is a valid day-one state for discovery, system design, backlog formation, and R0/R1
 work. Before R2/R3 work begins, set the profile to `active` and resolve every applicable
 authority, invariant, validation, review, delivery, rollback, and observation control —

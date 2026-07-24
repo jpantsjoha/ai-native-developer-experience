@@ -1,5 +1,7 @@
 # AI-Native Developer Experience Harness
 
+[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/jpantsjoha-join-the-team)](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team?ref=badge)
+
 > **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
 
 > 📦 **Now listed on [Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team)** —
@@ -95,6 +97,22 @@ Google Cloud's agent stack, and ships cloud-expert guardrails (`gcp-expert`,
 
 The plugin composes with — never duplicates — companion skill plugins;
 see [INTEGRATIONS.md](INTEGRATIONS.md).
+
+---
+
+## Is this the same as BMAD?
+
+No — and the difference is the point. [BMAD](https://docs.bmad-method.org/) is a
+methodology engine: it drives an idea through phased workflows — analysis, planning,
+solutioning, implementation — with AI personas playing Analyst, PM, Architect, Developer.
+It answers *what to do next*. `join-the-team` answers *who is accountable, and what is
+allowed* — the contract the work runs **inside**: risk tiers, named human authority,
+evidence bound to an exact commit, a definition of done that means the checks pass. They
+scale on different axes — BMAD scales *ceremony by size*, this harness scales *gates by
+risk*. So they compose rather than compete: run BMAD as the workflow engine, and let
+`join-the-team` keep a mixed human-and-agent team coherent while it does. Reach for it the
+moment *"who decided this, and on what evidence?"* stops being obvious. The workflow you
+can borrow anywhere — the contract is the part teams keep missing.
 
 ---
 

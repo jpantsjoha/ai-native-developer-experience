@@ -194,8 +194,10 @@ def windows_absolute(target: str) -> bool:
 def escapes_relative(target: str, link: Path, root: Path) -> bool:
     """True when a relative symlink target, read from `link`, climbs out of `root`."""
     try:
-        depth = len(link.parent.relative_to(root).parts)
-    except ValueError:
+        # Resolve the parent first: a lexical `relative_to` counts an ancestor symlink such
+        # as `alias -> .` as a real level, overstating how far the target can climb.
+        depth = len(link.parent.resolve().relative_to(root).parts)
+    except (ValueError, OSError, RuntimeError):
         return True
     for part in target.split("/"):
         if part in ("", "."):

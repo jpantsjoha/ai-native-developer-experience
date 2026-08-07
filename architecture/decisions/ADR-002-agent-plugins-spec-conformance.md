@@ -230,7 +230,7 @@ review before merge, not after release.
 
 ### Where the review was stopped, and why
 
-Nine rounds ran. Findings by round: **3 → 2 → 1 → 1 → 1 → 2 → 1 → 1 → 1**, every one
+Ten rounds ran. Findings by round: **3 → 2 → 1 → 1 → 1 → 2 → 1 → 1 → 1 → 1**, every one
 reproduced before acceptance, every one fixed with a fixture.
 
 Rounds one to three found defects in code that runs today. Rounds four onward converged on a
@@ -245,8 +245,12 @@ implied:
 - The defects that could affect a user *today* were found in the first three rounds.
 - The remainder harden a code path with no live input, against a package the project
   controls.
-- A reviewer asked for one more round will generally produce one more finding. Convergence
-  has to be a judgement, not an absence of output.
+- A reviewer asked for one more round will generally produce one more finding. Round ten
+  proved the point by returning another variant of the same family. Convergence has to be a
+  judgement, not an absence of output.
+- The last fix was taken anyway, because it *generalised* the family — computing depth from
+  the resolved parent — rather than patching one more special case. That is the right note
+  to stop on: stop when fixes stop generalising.
 
 **The posture, stated plainly:** `cwd` containment is defence-in-depth for a file that does
 not exist yet. If a real root `mcp.json` is ever added, that is the moment to re-run this

@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 48. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 49. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -98,6 +98,10 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   literal filename on POSIX but climbs a level on Windows. Relative targets containing a
   backslash are now evaluated under Windows separator semantics too. A net-zero target such
   as `sub\\..\\workdir`, which never leaves the root, still passes.
+- **An ancestor symlink inflated the traversal budget.** With `alias -> .`, a lexical depth
+  count treated `alias` as a real level, so `alias/dir/escape` could climb further than the
+  directory actually sits. Depth is now computed from the *resolved* parent, which
+  generalises the whole symlink-escape family rather than patching one more variant.
 
 ## [0.2.2] — 2026-08-07
 

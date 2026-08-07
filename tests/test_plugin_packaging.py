@@ -435,6 +435,15 @@ class SpecConformanceTests(unittest.TestCase):
         self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/winrel/work"})
         self.assert_spec_failure("resolves outside the plugin root")
 
+    def test_mcp_cwd_via_nested_ancestor_symlink_fails(self) -> None:
+        """An ancestor symlink (`alias -> .`) must not inflate the traversal budget."""
+        (self.root / "dir").mkdir()
+        os.symlink(".", self.root / "alias")
+        os.symlink("..\\..\\outside", self.root / "dir" / "escape")
+        self.mcp({"type": "stdio", "command": "uvx",
+                  "cwd": "${PLUGIN_ROOT}/alias/dir/escape/work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
     def test_mcp_cwd_via_windows_netzero_symlink_passes(self) -> None:
         """"sub\\..\\workdir" never leaves the root, so it must not be rejected."""
         (self.root / "workdir").mkdir()

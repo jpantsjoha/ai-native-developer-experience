@@ -5,10 +5,10 @@ this repository keeps pointing at the canonical `skills/` directory — and read
 `AGENTS.md` as its always-on adapter. No plugin manifest is required for the skill layer.
 
 > **Note on `codex plugin add`.** Codex's install cache flattens the package and drops
-> symlinks. Installing this plugin through the marketplace therefore yields
-> `.agents/skills/` as a real directory and no `skills/` at all. Codex works fine — it
-> discovers `.agents/skills/` natively — but do not rely on `skills/` existing in a
-> Codex-installed copy.
+> symlinks, so a marketplace-installed copy contains the real `skills/` directory and
+> **no `.agents/skills/` alias**. That is why `skills/` holds the real files: verified by
+> installing, the cache carries all 21 skills at the standard's fixed location. Use
+> `.agents/skills/` only for a repository checkout (Option 1), where the alias is present.
 
 ## Option 1: Repository checkout (project-local)
 

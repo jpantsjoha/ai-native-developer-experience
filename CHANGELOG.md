@@ -39,9 +39,10 @@ Fixes two installability defects that only a live install into each client could
 
 ### Known limitations
 
-- Installing via `codex plugin add` yields no `skills/` directory — Codex flattens the
-  package. Codex is unaffected (it discovers `.agents/skills/` natively), but do not rely on
-  `skills/` existing in a Codex-installed copy.
+- Installing via `codex plugin add` yields no `.agents/skills/` alias — Codex's install cache
+  flattens the package and drops symlinks. All 21 skills are present at `skills/`, the
+  standard's fixed location, which is exactly why the real directory now lives there. Use
+  `.agents/skills/` only for a repository checkout.
 
 ## [0.2.0] — 2026-08-07
 

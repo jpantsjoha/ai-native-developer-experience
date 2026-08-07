@@ -230,7 +230,7 @@ review before merge, not after release.
 
 ### Where the review was stopped, and why
 
-Ten rounds ran. Findings by round: **3 → 2 → 1 → 1 → 1 → 2 → 1 → 1 → 1 → 1**, every one
+Twelve rounds ran. Findings by round: **3 → 2 → 1 → 1 → 1 → 2 → 1 → 1 → 1 → 1 → 1 → 0**, every one
 reproduced before acceptance, every one fixed with a fixture.
 
 Rounds one to three found defects in code that runs today. Rounds four onward converged on a
@@ -248,9 +248,15 @@ implied:
 - A reviewer asked for one more round will generally produce one more finding. Round ten
   proved the point by returning another variant of the same family. Convergence has to be a
   judgement, not an absence of output.
-- The last fix was taken anyway, because it *generalised* the family — computing depth from
-  the resolved parent — rather than patching one more special case. That is the right note
-  to stop on: stop when fixes stop generalising.
+- Two fixes were taken after that judgement, because both *generalised* the family rather
+  than patching a special case: computing depth from the resolved parent, and finally
+  refusing any `cwd` that both crosses a symlink and climbs. Round twelve then returned
+  **no actionable findings**.
+
+**The stopping rule, earned rather than assumed:** stop when fixes stop generalising. Chasing
+platform-specific compositions produced one finding per round indefinitely; refusing the
+unprovable combination ended it in one move. When a reviewer keeps finding variants, the
+defect is usually the approach, not the variant.
 
 **The posture, stated plainly:** `cwd` containment is defence-in-depth for a file that does
 not exist yet. If a real root `mcp.json` is ever added, that is the moment to re-run this

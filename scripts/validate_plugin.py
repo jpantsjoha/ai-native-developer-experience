@@ -67,6 +67,13 @@ SKILL_NAME_RE = re.compile(r"^(?!.*--)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 NAMESPACE_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$")
 NAME_MAX = 64
 DESCRIPTION_MAX = 1024
+# Official SemVer 2.0.0 pattern. Local rule: the standard only recommends SemVer.
+SEMVER_RE = re.compile(
+    r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+    r"(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
+    r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
+    r"(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+)
 
 # Agent Plugins 1.0.0 mcp.schema.json — closed union, one key set per transport.
 MCP_SERVER_KEYS = {
@@ -139,6 +146,28 @@ def within_root(path: Path, root: Path) -> bool:
         return path.resolve().is_relative_to(root)
     except (OSError, ValueError):
         return False
+
+
+def escapes_via_traversal(value: str) -> bool:
+    """True when a rooted path expression climbs above the root it declares.
+
+    The published MCP schema anchors only the *prefix* of `cwd` and states that
+    filesystem containment is validated separately. Checking the prefix alone accepts
+    `./../outside` and `${PLUGIN_ROOT}/../outside`, so the suffix is normalised here and
+    any component that escapes is rejected.
+    """
+    suffix = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?|\$\{PLUGIN_DATA\}/?)", "", value)
+    depth = 0
+    for part in suffix.split("/"):
+        if part in ("", "."):
+            continue
+        if part == "..":
+            depth -= 1
+            if depth < 0:
+                return True
+        else:
+            depth += 1
+    return False
 
 
 def check_manifest_coherence(root: Path, errors: list[str]) -> None:
@@ -218,6 +247,16 @@ def check_root_manifest(root: Path, errors: list[str]) -> None:
         value = manifest.get(field)
         if value is not None and not isinstance(value, str):
             errors.append(f"{ROOT_MANIFEST}: {field} must be a string")
+
+    # Local hygiene, stricter than the standard: `version` is optional in the schema and
+    # SemVer is only "recommended". This project's release process is tag-based SemVer, so
+    # a missing or malformed version would ship a release nobody can order. Without this,
+    # a version of "banana" repeated across every manifest passes both gates.
+    version = manifest.get("version")
+    if not isinstance(version, str) or not SEMVER_RE.match(version):
+        errors.append(
+            f"{ROOT_MANIFEST}: version must be SemVer (local rule), found {version!r}"
+        )
 
     keywords = manifest.get("keywords")
     if keywords is not None:
@@ -392,20 +431,49 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
 
     if transport == "stdio":
         command = server.get("command")
-        if isinstance(command, str) and len(command.split()) != 1:
+        if not isinstance(command, str) or not command:
+            errors.append(f"{label} command must be a non-empty string, found {command!r}")
+        elif len(command.split()) != 1:
             errors.append(f"{label} command must be a single token, found {command!r}")
+
+        args = server.get("args")
+        if args is not None and (
+            not isinstance(args, list) or not all(isinstance(a, str) for a in args)
+        ):
+            errors.append(f"{label} args must be an array of strings")
+
         env = server.get("env")
-        if isinstance(env, dict):
-            reserved = sorted(RESERVED_ENV & set(env))
-            if reserved:
-                errors.append(f"{label} env must not declare reserved variables: {reserved}")
+        if env is not None:
+            if not isinstance(env, dict) or not all(
+                isinstance(k, str) and isinstance(v, str) for k, v in env.items()
+            ):
+                errors.append(f"{label} env must be an object of string values")
+            else:
+                reserved = sorted(RESERVED_ENV & set(env))
+                if reserved:
+                    errors.append(
+                        f"{label} env must not declare reserved variables: {reserved}"
+                    )
+
         cwd = server.get("cwd")
-        if isinstance(cwd, str) and not CWD_RE.match(cwd):
-            errors.append(f"{label} cwd must be ./, ${{PLUGIN_ROOT}}, or ${{PLUGIN_DATA}} rooted")
+        if cwd is not None:
+            if not isinstance(cwd, str):
+                errors.append(f"{label} cwd must be a string")
+            elif not CWD_RE.match(cwd):
+                errors.append(
+                    f"{label} cwd must be ./, ${{PLUGIN_ROOT}}, or ${{PLUGIN_DATA}} rooted"
+                )
+            elif escapes_via_traversal(cwd):
+                # The published schema only anchors the prefix and defers containment to
+                # the client. A prefix check alone accepts "./../outside", which would run
+                # the server beyond the plugin or data boundary.
+                errors.append(f"{label} cwd must not traverse outside its root: {cwd!r}")
         return
 
     url = server.get("url")
-    if isinstance(url, str):
+    if not isinstance(url, str) or not url:
+        errors.append(f"{label} url must be a non-empty string, found {url!r}")
+    else:
         parts = urlsplit(url)
         if parts.scheme not in {"http", "https"} or not parts.netloc:
             errors.append(f"{label} url must be an absolute http(s) URL")
@@ -413,6 +481,13 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
             errors.append(f"{label} url must not carry user info or a fragment")
         elif parts.scheme == "http" and parts.hostname not in LOOPBACK_HOSTS:
             errors.append(f"{label} non-loopback url must use https")
+
+    headers = server.get("headers")
+    if headers is not None and (
+        not isinstance(headers, dict)
+        or not all(isinstance(k, str) and isinstance(v, str) for k, v in headers.items())
+    ):
+        errors.append(f"{label} headers must be an object of string values")
 
 
 def check_hooks(root: Path, errors: list[str]) -> None:

@@ -202,3 +202,28 @@ it must not be credited with fixing something that was never broken.
 3. When a live test contradicts a hypothesis, isolate one variable before writing the
    conclusion down. Both false claims above came from reading two different subcommands
    (`validate` and `install`) as one signal.
+
+## Revision — 2026-08-07: the gate had holes, found by cross-model review
+
+Every PR from `v0.1.7` to `v0.2.2` was authored and self-merged by one model with
+`reviews=0`. That breaks the project's own review doctrine — neither author both writes and
+approves — and it cost something real.
+
+An independent review of the cumulative diff by a second model (Codex) found **three defects
+in the conformance gate itself**, each of which the gate passed:
+
+| Defect | Why it passed |
+| --- | --- |
+| MCP transport fields presence-checked, not type-checked | The required-key check saw the key; `isinstance` guards then skipped every subsequent check, so `"command": null` validated |
+| `cwd` accepted traversal outside the plugin root | The published schema anchors only the *prefix* and defers containment to the client; a prefix-only check accepts `./../outside` |
+| A malformed `version` shipped silently | `version` is optional in the standard and SemVer only recommended, so `"banana"` across all six manifests passed both gates |
+
+All three were reproduced before being accepted, and all three now have negative fixtures
+(22 → 33). The `cwd` fix deliberately still accepts `${PLUGIN_ROOT}/a/../b`, which never
+leaves the root — rejecting traversal is not the same as rejecting `..`.
+
+**The lesson, which is the same one this ADR keeps learning in new clothes:** the gate that
+checks the work needs checking too, and it cannot check itself. A validator author is the
+worst reviewer of that validator. This project's doctrine already said so; the doctrine was
+simply not followed. From here, conformance-gate changes get an independent cross-model
+review before merge, not after release.

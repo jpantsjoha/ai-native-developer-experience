@@ -8,6 +8,31 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.2.3] — 2026-08-07
+
+Independent cross-model review of `v0.1.7..v0.2.2` found three defects in the conformance
+gate itself. Every one passed the gate before the review — the validator that was supposed
+to stop bad packaging was letting them through.
+
+### Fixed
+
+- **MCP transport fields were presence-checked, not type-checked.** `{"type":"stdio",
+  "command":null}` and `{"type":"streamable-http","url":null}` both passed: the required-key
+  check saw the key, then `isinstance` guards silently skipped every subsequent check. All
+  transport fields are now type-validated — `command`, `url`, `args`, `env`, `headers`, `cwd`.
+- **`cwd` accepted traversal outside the plugin root.** The published schema anchors only the
+  *prefix* and defers containment to the client, so `./../outside` and
+  `${PLUGIN_ROOT}/../outside` were accepted. The suffix is now normalised and any component
+  that climbs above its declared root is rejected. `${PLUGIN_ROOT}/a/../b` still passes — it
+  never leaves.
+- **A malformed version shipped silently.** `version` is optional in the standard and SemVer
+  only *recommended*, so `"banana"` repeated across all six manifests passed both gates. A
+  **local** SemVer rule now applies, marked as stricter than the standard.
+
+### Changed
+
+- Negative fixtures 22 → 33. Every finding above has a test that fails without its fix.
+
 ## [0.2.2] — 2026-08-07
 
 ### Fixed

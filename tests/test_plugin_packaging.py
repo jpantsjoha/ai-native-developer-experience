@@ -370,6 +370,67 @@ class SpecConformanceTests(unittest.TestCase):
         result = run_validator(self.root, "--spec-only")
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def mcp(self, server: dict) -> None:
+        write_json(
+            self.root / "mcp.json",
+            {"$schema": MCP_SCHEMA, "mcpServers": {"probe": server}},
+        )
+
+    # --- Findings from the independent cross-model review of v0.1.7..v0.2.2 -----------
+    # Each of these passed the gate before the review. A check without a failing fixture
+    # is not an implemented check.
+
+    def test_mcp_null_command_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": None})
+        self.assert_spec_failure("command must be a non-empty string")
+
+    def test_mcp_null_url_fails(self) -> None:
+        self.mcp({"type": "streamable-http", "url": None})
+        self.assert_spec_failure("url must be a non-empty string")
+
+    def test_mcp_non_string_args_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "args": ["ok", 7]})
+        self.assert_spec_failure("args must be an array of strings")
+
+    def test_mcp_non_string_env_value_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "env": {"A": 1}})
+        self.assert_spec_failure("env must be an object of string values")
+
+    def test_mcp_non_string_headers_fails(self) -> None:
+        self.mcp({"type": "streamable-http", "url": "https://e.invalid", "headers": {"A": 1}})
+        self.assert_spec_failure("headers must be an object of string values")
+
+    def test_mcp_relative_cwd_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "./../outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_plugin_root_cwd_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/../outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_nested_cwd_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/a/../../out"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_cwd_descending_then_returning_passes(self) -> None:
+        """`a/../b` never leaves the root, so it must not be rejected."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/a/../b"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_non_semver_version_fails(self) -> None:
+        self.mutate_manifest(version="banana")
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_missing_version_fails(self) -> None:
+        self.mutate_manifest(version=None)
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_prerelease_semver_passes(self) -> None:
+        self.mutate_manifest(version="1.2.3-rc.1+build.5")
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_root_manifest_version_drift_fails_full_gate(self) -> None:
         self.mutate_manifest(version="9.9.9")
         result = run_validator(self.root)

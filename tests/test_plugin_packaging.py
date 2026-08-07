@@ -418,6 +418,24 @@ class SpecConformanceTests(unittest.TestCase):
         result = run_validator(self.root, "--spec-only")
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_mcp_cwd_escaping_via_in_root_symlink_fails(self) -> None:
+        """A lexical `..` check cannot see an in-root symlink pointing outside."""
+        outside = Path(self.temporary.name).parent / "mcp-outside"
+        outside.mkdir(exist_ok=True)
+        os.symlink(str(outside), self.root / "escape")
+        try:
+            self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/escape/work"})
+            self.assert_spec_failure("resolves outside the plugin root")
+        finally:
+            outside.rmdir()
+
+    def test_mcp_cwd_into_real_in_root_directory_passes(self) -> None:
+        """Containment must not reject an ordinary directory inside the package."""
+        (self.root / "workdir").mkdir()
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/workdir"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_mcp_explicit_null_optional_fields_fail(self) -> None:
         """An explicit null is a present field of the wrong type, not an absent field."""
         for field, server in {

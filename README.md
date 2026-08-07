@@ -376,7 +376,7 @@ make spec-conformance
 ```
 
 The check is standard-library Python, runs offline, and reports as its own CI job. It is
-backed by 38 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that
+backed by 40 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that
 only ever passes is decoration.
 
 **Scope of compliance, stated precisely.** The standard defines exactly **two** component

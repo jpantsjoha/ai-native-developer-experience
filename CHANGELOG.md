@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 38. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 40. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -49,6 +49,15 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   set to `null` were treated as absent, because `.get(k) is not None` cannot distinguish a
   missing key from a present null. Now checked by key membership. Omitting the field still
   passes — the fixture asserts both.
+
+### Fixed (fourth review round, before merge)
+
+- **A lexical `..` check could not see an in-root symlink pointing outside.**
+  `${PLUGIN_ROOT}/escape/work`, where `escape` symlinks to `/tmp/outside`, counted as two
+  ordinary components and passed while landing outside the package. Root-relative `cwd`
+  values are now resolved on disk and checked for containment after symlink resolution.
+  `${PLUGIN_DATA}` is client-managed and cannot be resolved at validation time, so it is
+  exempt; an ordinary in-root directory still passes.
 
 ## [0.2.2] — 2026-08-07
 

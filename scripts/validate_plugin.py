@@ -176,6 +176,25 @@ def escapes_via_traversal(value: str) -> bool:
     return False
 
 
+def resolves_in_root(cwd: str, root: Path) -> bool:
+    """True when a root-relative `cwd` still lands inside the package after symlinks.
+
+    Only `./` and `${PLUGIN_ROOT}`-rooted values can be checked on disk; `${PLUGIN_DATA}`
+    is a client-managed directory that does not exist at validation time. A value that
+    does not yet exist is accepted — this checks escape, not presence.
+    """
+    if cwd.startswith("${PLUGIN_DATA}"):
+        return True
+    relative = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?)", "", cwd).replace("\\", "/")
+    if not relative:
+        return True
+    candidate = root / relative
+    existing = candidate
+    while not existing.exists() and existing != existing.parent:
+        existing = existing.parent
+    return within_root(existing, root)
+
+
 def check_manifest_coherence(root: Path, errors: list[str]) -> None:
     """Fail when the vendor manifest projections disagree on plugin name or version."""
     loaded = {rel: load_json(root, rel, errors) for rel in MANIFESTS}
@@ -411,10 +430,12 @@ def check_mcp_config(root: Path, errors: list[str]) -> None:
         return
 
     for server_name, server in servers.items():
-        check_mcp_server(server_name, server, errors)
+        check_mcp_server(server_name, server, errors, root)
 
 
-def check_mcp_server(server_name: str, server: object, errors: list[str]) -> None:
+def check_mcp_server(
+    server_name: str, server: object, errors: list[str], root: Path | None = None
+) -> None:
     """Validate one MCP server entry against the closed transport union."""
     label = f"{MCP_CONFIG}: server {server_name!r}"
     if not isinstance(server, dict):
@@ -473,6 +494,14 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
                 # the client. A prefix check alone accepts "./../outside", which would run
                 # the server beyond the plugin or data boundary.
                 errors.append(f"{label} cwd must not traverse outside its root: {cwd!r}")
+            elif root is not None and not resolves_in_root(cwd, root):
+                # Lexical checks cannot see an in-root symlink pointing elsewhere:
+                # "${PLUGIN_ROOT}/escape/work" counts as two ordinary components while
+                # landing outside the package. ${PLUGIN_DATA} is client-managed and not
+                # resolvable here, so only root-relative forms are checked on disk.
+                errors.append(
+                    f"{label} cwd resolves outside the plugin root via a symlink: {cwd!r}"
+                )
         return
 
     url = server.get("url")

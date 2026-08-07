@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 49. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 51. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -102,6 +102,10 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   count treated `alias` as a real level, so `alias/dir/escape` could climb further than the
   directory actually sits. Depth is now computed from the *resolved* parent, which
   generalises the whole symlink-escape family rather than patching one more variant.
+- **Traversal after a symlink is now refused outright.** How a `..` composes with a symlink
+  depends on the *client's* platform, which this host cannot predict. Rather than chase each
+  composition, a `cwd` that both crosses a symlink and climbs is treated as not provably
+  contained. `..` without a symlink, and a symlink without `..`, both still pass.
 
 ## [0.2.2] — 2026-08-07
 

@@ -238,9 +238,11 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
     # A POSIX validator resolving a Windows-absolute symlink target ("C:\out",
     # "\\\\server\\share") treats it as an innocent relative name, while the Windows client
     # consuming the package treats it as absolute. Judge the target text, not the host.
+    traverses_symlink = False
     probe = existing
     while probe != root and within_root(probe.parent, root):
         if probe.is_symlink():
+            traverses_symlink = True
             target = os.readlink(probe)
             if windows_absolute(target):
                 return False
@@ -249,6 +251,13 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
             if "\\" in target and escapes_relative(target.replace("\\", "/"), probe, root):
                 return False
         probe = probe.parent
+
+    # Containment through a symlink depends on how the *client's* platform resolves it, and
+    # a `..` applied after a link can land somewhere this host cannot predict. Rather than
+    # chase each platform-specific composition, refuse the combination outright: a path that
+    # both crosses a symlink and climbs is not provably contained from here.
+    if traverses_symlink and ".." in relative.split("/"):
+        return False
 
     return within_root(existing, root)
 

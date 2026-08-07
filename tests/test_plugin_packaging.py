@@ -435,6 +435,21 @@ class SpecConformanceTests(unittest.TestCase):
         self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/winrel/work"})
         self.assert_spec_failure("resolves outside the plugin root")
 
+    def test_mcp_cwd_traversal_after_symlink_refused(self) -> None:
+        """Symlink + later `..` is not provably contained from this host, so refuse it."""
+        (self.root / "sub").mkdir()
+        os.symlink("sub\\..", self.root / "alias")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/alias/../out"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_traversal_without_symlink_passes(self) -> None:
+        """`..` alone is provable, so an ordinary net-zero in-root path still passes."""
+        (self.root / "dir").mkdir()
+        (self.root / "workdir").mkdir()
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/dir/../workdir"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_mcp_cwd_via_nested_ancestor_symlink_fails(self) -> None:
         """An ancestor symlink (`alias -> .`) must not inflate the traversal budget."""
         (self.root / "dir").mkdir()

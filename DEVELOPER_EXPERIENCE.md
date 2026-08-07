@@ -28,6 +28,7 @@
      - [Multi-Phase Orchestration](#advanced-pattern-multi-phase-orchestration)
 2. [VoiceMode: Hands-Free Development](#voicemode-hands-free-development)
 3. [MCP Tools Configuration](#mcp-tools-configuration)
+   - [The Governed-Data-Seam Pattern](#the-governed-data-seam-pattern)
 4. [ClickOps Engineering](#clickops-engineering)
 
 **Build & Validation**
@@ -198,6 +199,13 @@ project-profile gates:
 | **Unit Tests**    | `make test`      | Fast feedback, component isolation              |
 | **E2E Tests**     | `make e2e`       | User journey validation, integration confidence |
 | **Documentation** | ADR or commit    | Captures "why" for future maintainers           |
+
+If your repository ships an agent plugin, add a packaging gate to that list. This one runs
+`make spec-conformance` — [Agent Plugins 1.0.0](https://agent-plugins.org/specification) and
+[Agent Skills](https://agentskills.io/specification) validated offline, in CI, against the
+package on disk. The general principle applies well beyond plugins: **a standard you claim
+in a README and do not check is a standard you have already drifted from.** See
+[ADR-002](architecture/decisions/ADR-002-agent-plugins-spec-conformance.md).
 
 ### Branch Protection Rules
 
@@ -796,6 +804,49 @@ MCP servers are configured in:
 - **Project**: `.claude/settings.json` or `.gemini/settings.json`
 
 Refer to each MCP server's documentation for installation and setup instructions.
+
+### The governed-data-seam pattern
+
+`.agents/mcp_config.json` in this repo is a **template**, not live configuration. It shows the
+seam this harness expects: agents reach data through a named MCP server, never through raw
+credentials. Copy an entry, rename it, point it at your source.
+
+Four rules make it a seam rather than a pipe:
+
+1. **One server, one source.** A server that fronts three systems is not a boundary.
+2. **Expose only the tools that source needs.** A read seam exposes `list`, `describe`, and a
+   read-only query — not a general execute.
+3. **Secrets live in the environment, never in the file.** The template's values are names of
+   variables, not values.
+4. **The repo ADR remains the decision of record.** External systems are sources, not truth.
+
+The template's three entries map to the three seams worth having:
+
+| Seam | Purpose | Example sources |
+| --- | --- | --- |
+| `data-warehouse` | Governed read over operational or analytics data | BigQuery, Spanner, AlloyDB, Cloud SQL |
+| `official-docs` | Live vendor documentation instead of model memory | `awslabs.aws-documentation-mcp-server` (official, awslabs/mcp monorepo); Azure MCP Server (microsoft/mcp); Google managed remote MCP servers |
+| `knowledge-base` | Read-only enterprise knowledge, least-privilege | SharePoint, Confluence, Google Drive |
+
+Suggested exposed tools per seam: `list_datasets` / `describe_schema` / `run_readonly_query`
+for the warehouse; `search_documentation` / `read_documentation` for docs;
+`search_pages` / `read_page` for the knowledge base.
+
+**Verify package names and currency before pinning** — this space moves fast, and the entries
+above are a snapshot (2026-07), not a guarantee.
+
+#### Why the template carries no explanatory keys
+
+Earlier revisions annotated this file inline with `_about`, `_note`, and `_exposedTools` keys.
+Agent Plugins 1.0.0 sets `additionalProperties: false` on MCP server objects, so those keys
+would make a copied file **invalid**. The narrative moved here; the file stays copy-paste
+conformant.
+
+One expansion caveat: the spec expands exactly two placeholders, `${PLUGIN_ROOT}` and
+`${PLUGIN_DATA}`, and only inside `args` values, `env` values, and `cwd`. Any other
+`${VAR}` in the template — `${GCP_PROJECT_ID}`, `${KB_TOKEN}` — is passed through
+**literally** by a conformant client. Resolve those in your own launcher or shell, and never
+assume the client will interpolate them.
 
 ---
 

@@ -34,3 +34,18 @@ jobs:
         run: make typecheck
       - name: Run operating-model regression tests
         run: make test
+
+  # ════════════════════════════════════════════════════
+  # DETERMINISTIC: Agent Plugins 1.0.0 + Agent Skills conformance
+  # https://agent-plugins.org/specification
+  # ════════════════════════════════════════════════════
+  spec-conformance:
+    name: Agent Plugins Conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate against Agent Plugins 1.0.0
+        run: make spec-conformance

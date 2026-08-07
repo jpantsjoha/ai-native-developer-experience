@@ -27,7 +27,17 @@ What gets wired:
 2. Run `/join-the-team:validate` in a repository that has been bootstrapped; expect
    `PASS operating-model validation` (a `seed` profile may pass with warnings).
 
+## Standards
+
+The portable entry point is the root `plugin.json`, which follows
+[Agent Plugins 1.0.0](https://agent-plugins.org/specification); the skills follow
+[Agent Skills](https://agentskills.io/specification). `.claude-plugin/plugin.json` is the
+Claude Code **projection** of that manifest, declared in the root manifest's `extensions`
+block under `com.anthropic.claude-code` alongside `commands/` and `hooks/hooks.json`. Both
+manifests must agree on name and version or CI fails.
+
 ## Update
 
 Reinstall with the same two commands. The packaging drift validator
-(`python3 scripts/validate_plugin.py --root .`) runs in this repository's own CI gate.
+(`python3 scripts/validate_plugin.py --root .`) and the conformance gate
+(`--spec-only`, wired as `make spec-conformance`) both run in this repository's own CI.

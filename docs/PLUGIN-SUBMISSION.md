@@ -25,6 +25,11 @@ repositories.
 - It treats public licence metadata mismatches as blockers until resolved.
 - The plugin packaging validator accepts the canonical skill and all published skill
   counts name it correctly.
+- The conformance gate passes before any listing is staged. Directories increasingly ask
+  whether a package follows [Agent Plugins 1.0.0](https://agent-plugins.org/specification)
+  and [Agent Skills](https://agentskills.io/specification); `make spec-conformance` is the
+  evidence, and its output is quotable in a submission form. A conformance claim without
+  that receipt is a blocker, not a listing.
 
 ## Failure and rollback
 

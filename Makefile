@@ -1,7 +1,7 @@
 PYTHON ?= python3
 SKILL_ROOT := .agents/skills/operating-model-bootstrap
 
-.PHONY: lint typecheck test check
+.PHONY: lint typecheck test spec-conformance check
 
 lint:
 	@if command -v markdownlint-cli2 >/dev/null 2>&1; then \
@@ -28,4 +28,9 @@ test:
 		--template-root $(SKILL_ROOT)
 	$(PYTHON) scripts/validate_plugin.py --root .
 
-check: lint typecheck test
+# Agent Plugins 1.0.0 + Agent Skills conformance, isolated from the drift checks so the
+# standard reports as its own signal. https://agent-plugins.org/specification
+spec-conformance:
+	$(PYTHON) scripts/validate_plugin.py --root . --spec-only
+
+check: lint typecheck test spec-conformance

@@ -1,6 +1,8 @@
 # AI-Native Developer Experience Harness
 
 [![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/jpantsjoha-join-the-team)](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team?ref=badge)
+[![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
 
 > **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
 
@@ -269,6 +271,45 @@ Addy Osmani followed the paper with a practical artifact — **[agent-skills](ht
 4. **Exit criteria over aspirational guidance.** The repo's quiet philosophy: process over prose. A skill that says "ensure quality" is decoration; a skill that says "done means these three checks pass" is a harness. Same discriminator i keep landing on everywhere: receipts, not polish.
 
 Borrow the patterns. As ever — your mileage may vary.
+
+## Standards conformance
+
+This plugin conforms to **[Agent Plugins 1.0.0](https://agent-plugins.org/specification)**,
+and its skills conform to **[Agent Skills](https://agentskills.io/specification)**. That is a
+gate, not a claim — run it yourself:
+
+```bash
+make spec-conformance
+```
+
+The check is standard-library Python, runs offline, and reports as its own CI job. It is
+backed by 22 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that
+only ever passes is decoration.
+
+**What conformance buys you.** The root [`plugin.json`](plugin.json) is one portable entry
+point that any conformant client can load. The four vendor manifests —
+`.claude-plugin/`, `.kimi-plugin/`, `gemini-extension.json`, and the marketplace entry —
+remain as client-specific projections, declared through the standard's `extensions` block
+rather than left for a client to guess at. A harness that sells one shared contract should
+not ship as a vendor fork.
+
+**What the gate actually checks:**
+
+| Surface | Rule |
+| --- | --- |
+| Root manifest | `$schema` const, name pattern, no key outside the ten the schema permits, `author` shape |
+| Skills | Name pattern and 64-char cap, frontmatter name matches directory, non-empty description within 1024 chars |
+| `skills/` fixed location | Symlink target is relative and resolves inside the plugin root |
+| `extensions` | Reverse-domain namespaces; every declared plugin-relative path exists on disk |
+| `mcp.json` | Closed transport union, reserved env vars, `cwd` rooting — enforced if the file is ever added |
+
+**Two constraints worth knowing.** Canonical skills live in `.agents/skills/`, with `skills/`
+as a relative symlink to satisfy the standard's fixed discovery location — so `git archive`,
+zip packaging, and Windows checkouts without developer mode will drop that link. And this
+package ships **no root `mcp.json`**: it is optional in the standard, and
+`.agents/mcp_config.json` is a teaching template naming example servers no client should ever
+spawn. [ADR-002](architecture/decisions/ADR-002-agent-plugins-spec-conformance.md) records
+both decisions and the trade-offs behind them.
 
 ## What’s inside this repo
 

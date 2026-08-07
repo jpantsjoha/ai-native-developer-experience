@@ -102,9 +102,12 @@ validator.** That obligation is this ADR's, and it binds.
 - Six locations now carry the version string. Mitigated by the drift check, not by discipline.
 - Two schemas are mirrored in Python and can drift from the published originals. Mitigated by
   asserting the exact `$schema` const and by the obligation recorded above.
-- The `skills/` symlink does not survive `git archive`, zip packaging, or Windows checkouts
-  without developer mode. Accepted, and documented in the README as a known packaging
-  constraint of this choice.
+- The `skills/` symlink does not survive a Windows checkout without symlink support
+  (`core.symlinks=false`, the default absent developer mode or an elevated shell), where Git
+  writes a plain text file containing the target path. Windows Explorer's built-in zip
+  extractor behaves the same way. Verified as *not* a problem for `git archive` in either tar
+  or zip format, or for POSIX clones. Accepted, and documented in the README as a known
+  packaging constraint of this choice.
 
 ### Foreclosed
 
@@ -121,7 +124,7 @@ validator.** That obligation is this ADR's, and it binds.
 | --- | --- |
 | The gate always passes and is therefore decoration | Every check has a negative fixture in `tests/test_plugin_packaging.py::SpecConformanceTests` that must fail it. The suite proves the gate bites; a check without a failing fixture is not considered implemented. |
 | Hand-rolled validation silently diverges from the published schemas | The exact `$schema` const is asserted, so a spec bump breaks loudly rather than passing under stale rules. This ADR records that a version bump requires re-reading the published schema. |
-| The `skills/` symlink is lost in packaging or on Windows | Documented as a known constraint in the README and here. The validator enforces the properties that make the link survivable — relative target, in-root resolution, matching skill set. |
+| The `skills/` symlink is lost on a Windows checkout without symlink support | Documented as a known constraint in the README and here, scoped to what actually breaks it — `git archive` tar/zip and POSIX clones were tested and preserve the link. The validator enforces the properties that make the link survivable: relative target, in-root resolution, matching skill set. |
 | Six manifests drift on version or name | The root manifest joins the pre-existing coherence check rather than relying on release discipline. |
 | Declared `extensions` paths rot as files move | Every plugin-relative extension path is resolved on disk and must exist and stay in-root, matching how the validator already treats `contextFileName` and the hook script. |
 | The MCP template is copied and fails validation | The template is corrected to spec shape; the narrative that would have invalidated it moved to prose. Non-spec `${VAR}` placeholders are documented as passed through literally. |

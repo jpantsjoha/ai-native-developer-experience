@@ -304,8 +304,11 @@ not ship as a vendor fork.
 | `mcp.json` | Closed transport union, reserved env vars, `cwd` rooting — enforced if the file is ever added |
 
 **Two constraints worth knowing.** Canonical skills live in `.agents/skills/`, with `skills/`
-as a relative symlink to satisfy the standard's fixed discovery location — so `git archive`,
-zip packaging, and Windows checkouts without developer mode will drop that link. And this
+as a relative symlink to satisfy the standard's fixed discovery location. `git archive`
+preserves that link in both tar and zip, and POSIX clones are fine; what breaks it is a
+**Windows checkout without symlink support** (`core.symlinks=false`, the default without
+developer mode or an elevated shell), where Git writes a plain text file containing the
+target path instead. Windows Explorer's built-in zip extractor does the same. And this
 package ships **no root `mcp.json`**: it is optional in the standard, and
 `.agents/mcp_config.json` is a teaching template naming example servers no client should ever
 spawn. [ADR-002](architecture/decisions/ADR-002-agent-plugins-spec-conformance.md) records

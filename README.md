@@ -8,7 +8,7 @@
 
 > 📦 **Now listed on [Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team)** —
 > install the harness as the `join-the-team` plugin for Claude Code, Codex, Kimi Code,
-> and Google Antigravity. [Jump to install](#two-ways-to-adopt).
+> and Google Antigravity. [Jump to install](#install--two-ways-to-adopt).
 
 This repository has gone through three real phases — and the progression tracks something
 happening across the field.
@@ -48,11 +48,11 @@ semantics are non-negotiable.
 > authority model, and definition of done. Keep one coherent shared contract while doing so.
 
 **New project?** [Bootstrap in fifteen minutes](BOOTSTRAP.md). **Existing agent setup?**
-[Two ways to adopt](#two-ways-to-adopt) below — by hand, or as a plugin.
+[Two ways to adopt](#install--two-ways-to-adopt) below — by hand, or as a plugin.
 
-## Two ways to adopt
+## Install — two ways to adopt
 
-**By hand** — clone the repo and share it with your agents. Copy `.agents/skills/` into
+**By hand** — clone the repo and share it with your agents. Copy `skills/` into
 your project, keep the `CLAUDE.md`/`GEMINI.md`/`AGENTS.md` adapters at root, and your
 assistant picks up the contract at session start. [BOOTSTRAP.md](BOOTSTRAP.md) is the
 fifteen-minute walkthrough.
@@ -85,8 +85,10 @@ install straight from this repository into whichever coding assistant you run:
 agy plugin install https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**Codex** — no install command needed: Codex discovers `.agents/skills/` natively and
-reads `AGENTS.md` as its always-on adapter. The by-hand clone above is the install.
+**Codex** — no install command needed: Codex reads `AGENTS.md` as its always-on adapter and
+discovers skills from `.agents/skills/`. The by-hand clone above is the install; if you are
+vendoring rather than cloning, put the directory at `.agents/skills/` (or symlink it there)
+so Codex finds it.
 
 Full per-harness detail (session-start hooks, verification, update path):
 [Claude Code](docs/install/claude.md) · [Kimi Code](docs/install/kimi.md) ·
@@ -99,6 +101,92 @@ Google Cloud's agent stack, and ships cloud-expert guardrails (`gcp-expert`,
 
 The plugin composes with — never duplicates — companion skill plugins;
 see [INTEGRATIONS.md](INTEGRATIONS.md).
+
+### Verify the install
+
+After installing, confirm the harness is actually live rather than merely present:
+
+```text
+which skills are available?
+```
+
+You should see `using-the-harness` plus the cloud and gate skills (`gcp-expert`,
+`adversarial-gate`, `pr-reviewer`). Then run the built-in validator against a
+bootstrapped repository:
+
+```text
+/join-the-team:validate
+```
+
+Expect `PASS operating-model validation`. A `seed` profile may pass with warnings — that
+is expected before the profile is promoted to `active`.
+
+## Usage
+
+The harness is not a set of commands you memorise. Skills trigger on intent; three slash
+commands cover the lifecycle.
+
+**Three commands, in order:**
+
+```text
+/join-the-team:bootstrap    # seed the operating model (dry-run first, never overwrites)
+/join-the-team:init         # record the humans: roles, authority, escalation channels
+/join-the-team:validate     # check adapter drift, adoption state, evidence binding
+```
+
+**Typical sessions** — say the intent, and the router picks the skill:
+
+| You say | What fires | What you get |
+| --- | --- | --- |
+| "Design the ingestion service" | `spec-first-delivery` → `the-architect` | Spec and ADR *before* code |
+| "Is this safe to ship?" | `release-readiness` | Go/no-go against failure modes and rollback |
+| "Review this PR" | `pr-reviewer` | Structured verdict with findings |
+| "How would this break?" | `adversarial-gate` | Red-team pass argued against your own approach |
+| "We're on GCP, multi-tenant" | `gcp-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
+| "Where do things stand?" | `sitrep` | Status, blockers, next actions |
+
+**Worked example — a risk-touching change:**
+
+```text
+You:   We need to let tenants export their own audit logs.
+Agent: [spec-first-delivery] Spec before code. Who is the actor, what is out of scope?
+       [governance-guardrail] Multi-tenant export is R2 — data-boundary check required.
+       [the-architect] ADR-00N drafted: signed URLs vs streamed export, trade-offs recorded.
+       [adversarial-gate] How would I break this? Tenant A requesting tenant B's logs.
+       → Named human approves the R2 classification before implementation starts.
+```
+
+The point is the routing, not the vocabulary: you describe intent, the contract decides
+which gate applies.
+
+## Configuration
+
+The harness works unconfigured. Three seams are worth knowing:
+
+| Seam | File | What it controls |
+| --- | --- | --- |
+| **Operating contract** | `CLAUDE.md` / `GEMINI.md` / `AGENTS.md` | Always-on rules the agent loads each session |
+| **Project profile** | `PROJECT-OPERATING-PROFILE.md` (generated by `bootstrap`) | Risk tiers, named authority, escalation, definition of done |
+| **Data seams** | `.agents/mcp_config.json` | Governed MCP access — a **template**, not live config |
+
+Adjust the risk tiers and authority model to your team; keep one coherent contract while
+you do. The MCP file ships as an example: copy an entry, rename it, point it at a source
+you control. See
+[the governed-data-seam pattern](DEVELOPER_EXPERIENCE.md#the-governed-data-seam-pattern).
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
+| Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 21 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| `/join-the-team:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
+| Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
+| Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then let the session-start hook re-inject the orientation skill |
+
+Still stuck? Open an [issue](https://github.com/jpantsjoha/ai-native-developer-experience/issues)
+with the client, version (`plugin.json`), and the output of `make spec-conformance`.
 
 ---
 
@@ -274,9 +362,14 @@ Borrow the patterns. As ever — your mileage may vary.
 
 ## Standards conformance
 
-This plugin conforms to **[Agent Plugins 1.0.0](https://agent-plugins.org/specification)**,
-and its skills conform to **[Agent Skills](https://agentskills.io/specification)**. That is a
-gate, not a claim — run it yourself:
+**`join-the-team` is compliant with [Agent Plugins 1.0.0](https://agent-plugins.org/specification)**
+— the open, vendor-neutral packaging standard
+[announced by Google](https://developers.googleblog.com/agent-plugins-package-your-skills-tools-and-more/)
+and stewarded by a Technical Steering Committee spanning Amazon, Cursor, Google, Microsoft,
+OpenAI and Vercel. Its skills comply with
+[Agent Skills](https://agentskills.io/specification).
+
+That is a gate, not a badge — run it yourself:
 
 ```bash
 make spec-conformance
@@ -286,6 +379,16 @@ The check is standard-library Python, runs offline, and reports as its own CI jo
 backed by 22 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that
 only ever passes is decoration.
 
+**Scope of compliance, stated precisely.** The standard defines exactly **two** component
+types — skills (`skills/`) and MCP servers (`mcp.json`). Commands, hooks, agents, rules and
+LSP servers are explicitly **outside v1** (§7), so this plugin's slash commands and
+session-start hooks are client-specific concerns, not conformance surface. They are declared
+as **manifest extensions** (§8.1), whose contents the standard assigns no meaning to and
+which conformant clients must ignore for namespaces they do not implement. This package does
+**not** claim `.claude-plugin/` or `.kimi-plugin/` as §8.2 *directory* extensions — those
+must be named after the namespace itself; ours are ordinary top-level directories, which the
+standard treats as non-errors.
+
 **What conformance buys you.** The root [`plugin.json`](plugin.json) is one portable entry
 point that any conformant client can load. The four vendor manifests —
 `.claude-plugin/`, `.kimi-plugin/`, `gemini-extension.json`, and the marketplace entry —
@@ -293,16 +396,17 @@ remain as client-specific projections, declared through the standard's `extensio
 rather than left for a client to guess at. A harness that sells one shared contract should
 not ship as a vendor fork.
 
-**What the gate actually checks:**
+**What the gate actually checks** — spec-required rules first, local hygiene marked as such:
 
-| Surface | Rule |
-| --- | --- |
-| Root manifest | `$schema` const, name pattern, no key outside the ten the schema permits, `author` shape |
-| Skills | Name pattern and 64-char cap, frontmatter name matches directory, non-empty description within 1024 chars |
-| `skills/` fixed location | Is a real directory, not a symlink; the `.agents/skills` alias stays relative and in-root |
-| Hook manifests | `hooks/hooks.json` (Claude Code) and root `hooks.json` (Antigravity) exist and are identical |
-| `extensions` | Reverse-domain namespaces; every declared plugin-relative path exists on disk |
-| `mcp.json` | Closed transport union, reserved env vars, `cwd` rooting — enforced if the file is ever added |
+| Surface | Rule | Source |
+| --- | --- | --- |
+| Root manifest | `$schema` const, name pattern, no key outside the ten the schema permits, `author` shape | Agent Plugins 1.0.0 |
+| Skills | Name pattern and 64-char cap, frontmatter name matches directory, non-empty description within 1024 chars | Agent Skills |
+| `skills/` fixed location | Real directory, not a symlink; `.agents/skills` alias stays relative and in-root | Spec (path safety) + local |
+| `extensions` | Reverse-domain namespace keys; every declared plugin-relative path exists on disk | §8.1 + local |
+| `mcp.json` | Closed transport union, reserved env vars, `cwd` rooting — enforced if the file is ever added | Agent Plugins 1.0.0 |
+| Hook manifests | `hooks/hooks.json` (Claude Code) and root `hooks.json` (Antigravity) exist and are identical | **Local only** — hooks are outside the spec |
+| Six manifests | Name and version agree across root, vendor and marketplace manifests | **Local only** |
 
 **Two constraints worth knowing.** Canonical skills live in `skills/` — a real directory at
 the standard's fixed discovery location — with `.agents/skills/` as a relative symlink for
@@ -321,15 +425,15 @@ both decisions and the trade-offs behind them.
   The drop-in, fifteen-minute path for a new team project.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
-- **[Agent Skills Library](.agents/skills/README.md)**
+- **[Agent Skills Library](skills/README.md)**
   Twenty-one tracked capabilities for orchestration, architecture, specification, validation,
   review, release readiness, governance, plugin submission, status, cost, and selected
   platform work.
-- **[Plugin Submission](.agents/skills/plugin-submission/SKILL.md)**
+- **[Plugin Submission](skills/plugin-submission/SKILL.md)**
   The policy-backed directory and marketplace listing gate; its
   [capability specification](docs/PLUGIN-SUBMISSION.md) defines the external-send
   confirmation and receipt contract.
-- **[Operating Model Bootstrap](.agents/skills/operating-model-bootstrap/SKILL.md)**
+- **[Operating Model Bootstrap](skills/operating-model-bootstrap/SKILL.md)**
   A reusable released manual, project profile, checkpoint, evidence manifest, and thin
   agent-surface adapters for assigning authority, isolating parallel human/agent lanes,
   binding review to an exact candidate, and carrying work through delivery, observation,

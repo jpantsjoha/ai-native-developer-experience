@@ -25,7 +25,8 @@ Reinstall with the same command to update.
   reads. The plugin therefore ships both, kept identical by the validator. Confirm with
   `agy plugin install …` — the summary must report `hooks: 1 processed`; `hooks:
   skipped (not found)` means the root manifest is missing.
-- **Skills** — the 21 `.agents/skills/` capabilities, discovered natively.
+- **Skills** — the 21 `skills/` capabilities, discovered natively at the Agent Plugins
+  fixed location (`.agents/skills/` remains as a symlink alias).
 - **MCP data seams** → `.agents/mcp_config.json` — the governed tool-access pattern;
   see the file before adding servers.
 - **Tool mapping** — `using-the-harness/references/antigravity-tools.md` translates

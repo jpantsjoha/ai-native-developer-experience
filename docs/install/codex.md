@@ -12,7 +12,7 @@ this repository keeps pointing at the canonical `skills/` directory — and read
 
 ## Option 1: Repository checkout (project-local)
 
-Clone or vendor this repository's `.agents/skills/` into your project and keep the
+Clone or vendor this repository's `skills/` directory into your project and keep the
 generated `AGENTS.md` adapter at the project root. Codex picks both up on the next
 session.
 

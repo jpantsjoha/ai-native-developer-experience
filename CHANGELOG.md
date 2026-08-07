@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 45. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 46. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -84,6 +84,13 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   client consuming the package treats it as absolute and starts the server outside the root.
   Symlink targets are now judged as text, covering drive-qualified, rooted and UNC forms.
   An ordinary relative symlink to a sibling directory still passes.
+
+### Fixed (eighth review round, before merge)
+
+- **`${PLUGIN_DATA}` traversal was accepted unverified.** That directory is client-managed
+  and cannot be resolved at validation time, so `link/../work` survived the lexical
+  depth check while escaping if the client made `link` a symlink. `..` is now refused for
+  `${PLUGIN_DATA}` paths; plain paths under it still pass.
 
 ## [0.2.2] — 2026-08-07
 

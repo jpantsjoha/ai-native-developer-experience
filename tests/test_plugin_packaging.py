@@ -429,6 +429,16 @@ class SpecConformanceTests(unittest.TestCase):
         finally:
             outside.rmdir()
 
+    def test_mcp_plugin_data_traversal_fails(self) -> None:
+        """PLUGIN_DATA is client-managed, so a net-zero `..` cannot be proven contained."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/link/../work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_plugin_data_plain_path_passes(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/work"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_mcp_cwd_with_doubled_separator_passes(self) -> None:
         """`.//skills` is in-root; a stripped prefix must not leave an absolute path."""
         (self.root / "workdir").mkdir()

@@ -199,7 +199,10 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
     does not yet exist is accepted — this checks escape, not presence.
     """
     if cwd.startswith("${PLUGIN_DATA}"):
-        return True
+        # The client owns this directory, so containment cannot be proven here. A net-zero
+        # expression like `link/../work` survives the lexical depth check yet escapes if
+        # `link` is a symlink the client created. Unverifiable plus `..` is refused.
+        return ".." not in cwd.replace("\\", "/").split("/")
     relative = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?)", "", cwd).replace("\\", "/")
     # Strip separators left by a doubled slash (".//skills"). Without this, `root / relative`
     # sees an absolute "/skills", silently discards the root, and reports an in-root

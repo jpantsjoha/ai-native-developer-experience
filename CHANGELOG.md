@@ -47,9 +47,10 @@ packaging version declared in the harness manifests.
 
 ### Known limitations
 
-- The `skills/` alias is a relative symlink. `git archive`, zip packaging, and Windows
-  checkouts without developer mode drop it; clone or install through a client that
-  preserves symlinks.
+- The `skills/` alias is a relative symlink. A Windows checkout without symlink support
+  (`core.symlinks=false`) replaces it with a plain text file holding the target path;
+  enable developer mode or clone from an elevated shell. `git archive` in tar and zip
+  form, and POSIX clones, preserve it — both verified.
 - The conformance checker mirrors the published JSON schemas in Python rather than
   fetching them, so the validator runs offline. A specification version bump therefore
   requires re-reading the source schemas, not only editing the validator.

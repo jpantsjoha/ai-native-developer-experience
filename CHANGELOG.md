@@ -15,12 +15,13 @@ Fixes two installability defects that only a live install into each client could
 
 ### Fixed
 
-- **Antigravity never received its session-start hook.** `agy` reads the hook manifest from
-  `hooks.json` at the **package root**; the plugin shipped only `hooks/hooks.json`. No
-  tagged version ever contained a root `hooks.json`, so session-start injection was broken
-  on Antigravity in **every release from 0.1.0**. It went unnoticed because a stale root
-  `hooks.json` — left in the developer's own install by a July `gemini-cli` import — made
-  local checks pass. Both manifests now ship, and the validator requires them
+- **Regression from 0.2.0: Antigravity stopped receiving its session-start hook.** Adding a
+  root `plugin.json` switches `agy` into Agent Plugins mode, where it reads the hook manifest
+  from `hooks.json` at the **package root** only; without a root manifest it uses legacy
+  discovery and finds `hooks/hooks.json`. So the conformance work in 0.2.0 silently disabled
+  a hook that worked in 0.1.7. Confirmed by a single-variable test: adding only
+  `plugin.json` to an otherwise untouched v0.1.7 tree flips `hooks: 1 processed` to
+  `hooks: skipped (not found)`. Both manifests now ship, and the validator requires them
   byte-identical.
 - **A conformant client could install the plugin and find zero skills.** `skills/` was a
   symlink to `.agents/skills/`; Codex's install cache drops symlinks, so the standard's

@@ -1,8 +1,14 @@
 # Install — Codex (CLI and App)
 
-Codex discovers project skills natively from `.agents/skills/` — the canonical
-location this repository already uses — and reads `AGENTS.md` as its always-on
-adapter. No plugin manifest is required for the skill layer.
+Codex discovers project skills natively from `.agents/skills/` — a symlinked alias
+this repository keeps pointing at the canonical `skills/` directory — and reads
+`AGENTS.md` as its always-on adapter. No plugin manifest is required for the skill layer.
+
+> **Note on `codex plugin add`.** Codex's install cache flattens the package and drops
+> symlinks. Installing this plugin through the marketplace therefore yields
+> `.agents/skills/` as a real directory and no `skills/` at all. Codex works fine — it
+> discovers `.agents/skills/` natively — but do not rely on `skills/` existing in a
+> Codex-installed copy.
 
 ## Option 1: Repository checkout (project-local)
 

@@ -8,7 +8,44 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.2.1] — 2026-08-07
+
+Fixes two installability defects that only a live install into each client could surface.
+0.2.0 reached `main` but was never tagged or released; 0.2.1 supersedes it.
+
+### Fixed
+
+- **Antigravity never received its session-start hook.** `agy` reads the hook manifest from
+  `hooks.json` at the **package root**; the plugin shipped only `hooks/hooks.json`. No
+  tagged version ever contained a root `hooks.json`, so session-start injection was broken
+  on Antigravity in **every release from 0.1.0**. It went unnoticed because a stale root
+  `hooks.json` — left in the developer's own install by a July `gemini-cli` import — made
+  local checks pass. Both manifests now ship, and the validator requires them
+  byte-identical.
+- **A conformant client could install the plugin and find zero skills.** `skills/` was a
+  symlink to `.agents/skills/`; Codex's install cache drops symlinks, so the standard's
+  fixed discovery location vanished on install. The layout is inverted: **`skills/` is now
+  the real directory** and `.agents/skills/` the relative alias for runners that discover
+  there natively. The validator now fails if `skills/` is ever a symlink again.
+- **The session-start hook no longer depends on a single discovery path.** It reads
+  `skills/` first and falls back to `.agents/skills/`, so it survives whichever alias an
+  installer drops.
+
+### Changed
+
+- Canonical skills moved from `.agents/skills/` to `skills/`. Existing `.agents/skills/...`
+  paths keep working through the alias, so no adopter reference breaks.
+- `.kimi-plugin/plugin.json` points `skills` at `./skills/`.
+
+### Known limitations
+
+- Installing via `codex plugin add` yields no `skills/` directory — Codex flattens the
+  package. Codex is unaffected (it discovers `.agents/skills/` natively), but do not rely on
+  `skills/` existing in a Codex-installed copy.
+
 ## [0.2.0] — 2026-08-07
+
+> Merged to `main` but never tagged or released; superseded by 0.2.1.
 
 ### Added
 

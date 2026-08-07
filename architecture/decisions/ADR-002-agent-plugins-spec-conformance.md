@@ -48,10 +48,11 @@ silently the first time a file moves.
 
 ### Option C — Add the portable surface, keep the internal shape, gate both
 
-Add the root `plugin.json` as the portable entry point. Keep `.agents/skills/` canonical
-behind the existing relative `skills/` symlink. Ship no root `mcp.json`. Keep vendor
-directories under their current names and *declare* them via `extensions`. Enforce all of it
-with a validator gate wired into CI.
+Add the root `plugin.json` as the portable entry point. Put the real skill directory at the
+standard's fixed `skills/` location and keep `.agents/skills/` as a relative symlink alias.
+Ship no root `mcp.json`. Keep vendor directories under their current names and *declare* them
+via `extensions`. Enforce all of it with a validator gate wired into CI, and prove the result
+by installing into every supported client.
 
 ## Decision
 
@@ -62,10 +63,12 @@ with a validator gate wired into CI.
    join the existing name/version drift check, so the package cannot ship six manifests
    claiming different versions.
 
-2. **`.agents/skills/` stays canonical; `skills/` stays a relative symlink.** This is
-   spec-legal — the standard requires only that the fixed location resolve inside the plugin
-   root after symlink resolution. The validator now enforces exactly that: the link must be
-   relative, must resolve in-root, and must expose the same skill set.
+2. **`skills/` is canonical and a real directory; `.agents/skills/` is the relative
+   symlink alias.** *(Revised 2026-08-07 after live install testing — see "Revision" below.)*
+   The standard's fixed discovery location holds the real files, so no installer can flatten
+   it away. The alias is kept because Codex and Kimi discover `.agents/skills/` natively. The
+   validator enforces both halves: `skills/` must not be a symlink, and the alias must be
+   relative, in-root, and expose the same skill set.
 
 3. **No root `mcp.json` is shipped.** The file is optional in the standard.
    `.agents/mcp_config.json` remains a template, corrected to spec shape — `$schema` present,
@@ -102,12 +105,12 @@ validator.** That obligation is this ADR's, and it binds.
 - Six locations now carry the version string. Mitigated by the drift check, not by discipline.
 - Two schemas are mirrored in Python and can drift from the published originals. Mitigated by
   asserting the exact `$schema` const and by the obligation recorded above.
-- The `skills/` symlink does not survive a Windows checkout without symlink support
-  (`core.symlinks=false`, the default absent developer mode or an elevated shell), where Git
-  writes a plain text file containing the target path. Windows Explorer's built-in zip
-  extractor behaves the same way. Verified as *not* a problem for `git archive` in either tar
-  or zip format, or for POSIX clones. Accepted, and documented in the README as a known
-  packaging constraint of this choice.
+- Two hook manifests now exist (`hooks/hooks.json` and root `hooks.json`) because Claude Code
+  and Antigravity read different locations. Duplication is drift surface; the validator
+  requires them byte-identical.
+- The `.agents/skills` alias can still be dropped by a flattening installer. That is now the
+  tolerable direction of failure: the clients that lose it (Codex-style caches) are the ones
+  that would look at `skills/` anyway, and `skills/` is real.
 
 ### Foreclosed
 
@@ -124,7 +127,9 @@ validator.** That obligation is this ADR's, and it binds.
 | --- | --- |
 | The gate always passes and is therefore decoration | Every check has a negative fixture in `tests/test_plugin_packaging.py::SpecConformanceTests` that must fail it. The suite proves the gate bites; a check without a failing fixture is not considered implemented. |
 | Hand-rolled validation silently diverges from the published schemas | The exact `$schema` const is asserted, so a spec bump breaks loudly rather than passing under stale rules. This ADR records that a version bump requires re-reading the published schema. |
-| The `skills/` symlink is lost on a Windows checkout without symlink support | Documented as a known constraint in the README and here, scoped to what actually breaks it — `git archive` tar/zip and POSIX clones were tested and preserve the link. The validator enforces the properties that make the link survivable: relative target, in-root resolution, matching skill set. |
+| A symlink at the fixed location is dropped by an installer, leaving zero skills | Observed for real in Codex's install cache. `skills/` is now a real directory and the validator **fails** if it is ever a symlink again. |
+| Antigravity silently registers no session-start hook | Root `hooks.json` now ships beside `hooks/hooks.json`, and the validator requires both to exist and match byte-for-byte. |
+| A developer's own upgraded install masks a defect | Verification must use a *clean* install. The stale root `hooks.json` from a July import hid a hook that had never worked in any release. |
 | Six manifests drift on version or name | The root manifest joins the pre-existing coherence check rather than relying on release discipline. |
 | Declared `extensions` paths rot as files move | Every plugin-relative extension path is resolved on disk and must exist and stay in-root, matching how the validator already treats `contextFileName` and the hook script. |
 | The MCP template is copied and fails validation | The template is corrected to spec shape; the narrative that would have invalidated it moved to prose. Non-spec `${VAR}` placeholders are documented as passed through literally. |
@@ -138,3 +143,39 @@ validator.** That obligation is this ADR's, and it binds.
 - The root manifest never carries a key outside the ten the schema permits, whatever a client
   would find convenient.
 - If a real root `mcp.json` is ever added, it names servers this project controls.
+
+## Revision — 2026-08-07: what live install testing changed
+
+The original decision kept `.agents/skills/` canonical behind a `skills/` symlink, on the
+reasoning that the standard permits a symlink at the fixed location. That reasoning was
+correct about the specification and wrong about the world. Installing the package into four
+real clients produced evidence the static gate could not:
+
+| Client | Result |
+| --- | --- |
+| Claude Code | Installed 0.2.0; 21 skills + 3 commands; SessionStart hook registered; symlink preserved |
+| Kimi Code | Updated to 0.2.0; skills confirmed at runtime by a live session |
+| Antigravity (`agy`) | Installed; skills and commands loaded; **`hooks: skipped (not found)`** |
+| Codex | Installed and enabled; **`skills/` symlink dropped by the install cache** |
+
+Two findings forced changes:
+
+1. **Codex's install cache drops symlinks.** Its marketplace clone had the link; the
+   installed copy did not. Codex itself was unaffected — it discovers `.agents/skills/`
+   natively — but any conformant client relying on the fixed location would have found zero
+   skills. The layout is now inverted: `skills/` real, `.agents/skills/` the alias.
+2. **Antigravity had never received a session-start hook.** `agy` reads `hooks.json` from the
+   package root; the plugin shipped only `hooks/hooks.json`. No tagged version ever contained
+   a root `hooks.json`, so this was broken in every release from 0.1.0 onward. It went
+   unnoticed because a stale root `hooks.json`, left by a July `gemini-cli` import, sat in the
+   developer's own install and made local checks pass.
+
+The conformance work also proved its worth: `agy plugin validate` **rejects v0.1.7 and v0.1.3
+outright** (`Error: missing plugin.json`) and accepts 0.2.0. Antigravity's loader had been
+refusing every previously released version.
+
+**The lesson carried forward:** a schema gate proves a package is *well-formed*, never that it
+is *installable*. Both are required before a release. The release checklist now includes a
+live install into each supported client, and `docs/install/*.md` claims must be re-verified
+against a *clean* install — a developer's own upgraded install can carry artefacts that mask a
+defect for years.

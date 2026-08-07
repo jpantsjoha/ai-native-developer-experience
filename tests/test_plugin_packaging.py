@@ -65,41 +65,43 @@ def build_fixture(root: Path) -> None:
         root / ".kimi-plugin" / "plugin.json",
         {
             **manifest,
-            "skills": "./.agents/skills/",
+            "skills": "./skills/",
             "sessionStart": {"skill": "using-the-harness"},
         },
     )
 
-    skill = root / ".agents" / "skills" / "using-the-harness"
+    skill = root / "skills" / "using-the-harness"
     skill.mkdir(parents=True)
     (skill / "SKILL.md").write_text(
         "---\nname: using-the-harness\ndescription: x\n---\n", encoding="utf-8"
     )
-    os.symlink(".agents/skills", root / "skills")
+    (root / ".agents").mkdir(parents=True, exist_ok=True)
+    os.symlink("../skills", root / ".agents" / "skills")
 
     (root / "GEMINI.md").write_text("# adapter\n", encoding="utf-8")
     hook = root / "hooks" / "session-start"
     hook.parent.mkdir(parents=True)
     hook.write_text("#!/usr/bin/env bash\nexit 0\n", encoding="utf-8")
     hook.chmod(0o755)
-    write_json(
-        root / "hooks" / "hooks.json",
-        {
-            "hooks": {
-                "SessionStart": [
-                    {
-                        "matcher": "startup",
-                        "hooks": [
-                            {
-                                "type": "command",
-                                "command": '"${CLAUDE_PLUGIN_ROOT}/hooks/session-start"',
-                            }
-                        ],
-                    }
-                ]
-            }
-        },
-    )
+    hooks_manifest = {
+        "hooks": {
+            "SessionStart": [
+                {
+                    "matcher": "startup",
+                    "hooks": [
+                        {
+                            "type": "command",
+                            "command": '"${CLAUDE_PLUGIN_ROOT}/hooks/session-start"',
+                        }
+                    ],
+                }
+            ]
+        }
+    }
+    # Claude Code reads hooks/hooks.json; Antigravity (agy) reads hooks.json at the
+    # package root. Both must exist and stay identical.
+    write_json(root / "hooks" / "hooks.json", hooks_manifest)
+    write_json(root / "hooks.json", hooks_manifest)
 
 
 class PluginPackagingTests(unittest.TestCase):
@@ -120,13 +122,13 @@ class PluginPackagingTests(unittest.TestCase):
         skill_count = len(
             [
                 path
-                for path in (REPO_ROOT / ".agents" / "skills").iterdir()
+                for path in (REPO_ROOT / "skills").iterdir()
                 if path.is_dir() and (path / "SKILL.md").is_file()
             ]
         )
         expected = str(skill_count)
         claims = {
-            ".agents/skills/README.md": f"## The {expected} Skills",
+            "skills/README.md": f"## The {expected} Skills",
             "README.md": f"full harness is live: {expected} skills",
             "docs/install/claude.md": f"the {expected} `.agents/skills/` capabilities",
             "docs/install/codex.md": f"the {expected} skills should be named",
@@ -161,13 +163,28 @@ class PluginPackagingTests(unittest.TestCase):
         self.assertIn("sessionStart skill not found", result.stderr)
 
     def test_broken_skills_alias_fails(self) -> None:
-        (self.root / "skills").unlink()
+        (self.root / ".agents" / "skills").unlink()
         result = run_validator(self.root)
         self.assertEqual(result.returncode, 1)
         self.assertIn("discovery alias", result.stderr)
 
+    def test_missing_root_hooks_manifest_fails(self) -> None:
+        (self.root / "hooks.json").unlink()
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("missing manifest: hooks.json", result.stderr)
+
+    def test_hook_manifest_drift_fails(self) -> None:
+        path = self.root / "hooks.json"
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload["hooks"]["SessionStart"][0]["matcher"] = "startup|clear"
+        write_json(path, payload)
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("hook manifest drift", result.stderr)
+
     def test_frontmatter_dirname_mismatch_fails(self) -> None:
-        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill = self.root / "skills" / "using-the-harness" / "SKILL.md"
         skill.write_text("---\nname: renamed\ndescription: x\n---\n", encoding="utf-8")
         result = run_validator(self.root)
         self.assertEqual(result.returncode, 1)
@@ -259,12 +276,12 @@ class SpecConformanceTests(unittest.TestCase):
         self.assert_spec_failure("points at missing path")
 
     def test_skill_missing_description_fails(self) -> None:
-        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill = self.root / "skills" / "using-the-harness" / "SKILL.md"
         skill.write_text("---\nname: using-the-harness\n---\n", encoding="utf-8")
         self.assert_spec_failure("missing a non-empty description")
 
     def test_skill_overlong_description_fails(self) -> None:
-        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill = self.root / "skills" / "using-the-harness" / "SKILL.md"
         skill.write_text(
             f"---\nname: using-the-harness\ndescription: {'x' * 1025}\n---\n",
             encoding="utf-8",
@@ -272,24 +289,32 @@ class SpecConformanceTests(unittest.TestCase):
         self.assert_spec_failure("limit is 1024")
 
     def test_skill_without_frontmatter_fails(self) -> None:
-        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill = self.root / "skills" / "using-the-harness" / "SKILL.md"
         skill.write_text("# no frontmatter here\n", encoding="utf-8")
         self.assert_spec_failure("no closed YAML frontmatter")
 
-    def test_skills_symlink_escaping_root_fails(self) -> None:
+    def test_alias_symlink_escaping_root_fails(self) -> None:
         outside = Path(self.temporary.name).parent / "outside-skills"
         outside.mkdir(exist_ok=True)
-        (self.root / "skills").unlink()
-        os.symlink(str(outside), self.root / "skills")
+        (self.root / ".agents" / "skills").unlink()
+        os.symlink(str(outside), self.root / ".agents" / "skills")
         try:
             self.assert_spec_failure("escapes the plugin root")
         finally:
             outside.rmdir()
 
-    def test_absolute_skills_symlink_fails(self) -> None:
-        (self.root / "skills").unlink()
-        os.symlink(str(self.root / ".agents" / "skills"), self.root / "skills")
+    def test_absolute_alias_symlink_fails(self) -> None:
+        (self.root / ".agents" / "skills").unlink()
+        os.symlink(str(self.root / "skills"), self.root / ".agents" / "skills")
         self.assert_spec_failure("must be relative")
+
+    def test_fixed_location_as_symlink_fails(self) -> None:
+        """Codex's installer drops a symlink at skills/, so it must be a real directory."""
+        real = self.root / ".agents" / "skills"
+        real.unlink()
+        (self.root / "skills").rename(real)
+        os.symlink(".agents/skills", self.root / "skills")
+        self.assert_spec_failure("must be a real directory")
 
     def test_mcp_server_without_type_fails(self) -> None:
         write_json(

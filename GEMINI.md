@@ -36,7 +36,7 @@ Before you call any change done, answer in writing: **"How would I break this?"*
 
 ## Where the harness lives
 
-- **Skills / workflows** → `.agents/skills/` (reusable SKILL.md workflows). Look here before inventing a new approach. `skills/` is the symlinked alias that satisfies the Agent Plugins fixed discovery location — `.agents/skills/` stays canonical.
+- **Skills / workflows** → `skills/` (reusable SKILL.md workflows). Look here before inventing a new approach. This is the canonical real directory and the Agent Plugins fixed discovery location; `.agents/skills/` is a symlinked alias kept for runners that discover there natively.
 - **MCP servers / data seams** → `.agents/mcp_config.json` (governed access to data sources — a template, not live config; the pattern is documented in `DEVELOPER_EXPERIENCE.md`).
 - **Portable packaging** → `plugin.json` at the root is the entry point for any [Agent Plugins 1.0.0](https://agent-plugins.org/specification) client. The vendor manifests are projections of it, and `make spec-conformance` proves they have not drifted.
 - **The full guide** → `DEVELOPER_EXPERIENCE.md` (DX-001): guardrails, gates, spec-driven delivery, CI.

@@ -299,17 +299,18 @@ not ship as a vendor fork.
 | --- | --- |
 | Root manifest | `$schema` const, name pattern, no key outside the ten the schema permits, `author` shape |
 | Skills | Name pattern and 64-char cap, frontmatter name matches directory, non-empty description within 1024 chars |
-| `skills/` fixed location | Symlink target is relative and resolves inside the plugin root |
+| `skills/` fixed location | Is a real directory, not a symlink; the `.agents/skills` alias stays relative and in-root |
+| Hook manifests | `hooks/hooks.json` (Claude Code) and root `hooks.json` (Antigravity) exist and are identical |
 | `extensions` | Reverse-domain namespaces; every declared plugin-relative path exists on disk |
 | `mcp.json` | Closed transport union, reserved env vars, `cwd` rooting — enforced if the file is ever added |
 
-**Two constraints worth knowing.** Canonical skills live in `.agents/skills/`, with `skills/`
-as a relative symlink to satisfy the standard's fixed discovery location. `git archive`
-preserves that link in both tar and zip, and POSIX clones are fine; what breaks it is a
-**Windows checkout without symlink support** (`core.symlinks=false`, the default without
-developer mode or an elevated shell), where Git writes a plain text file containing the
-target path instead. Windows Explorer's built-in zip extractor does the same. And this
-package ships **no root `mcp.json`**: it is optional in the standard, and
+**Two constraints worth knowing.** Canonical skills live in `skills/` — a real directory at
+the standard's fixed discovery location — with `.agents/skills/` as a relative symlink for
+runners that discover there natively (Codex, Kimi). That layout is the result of live install
+testing, not theory: an earlier build had it the other way round, and **Codex's installer
+dropped the symlink**, leaving a conformant client with zero skills at the fixed location.
+The real directory now sits where the standard looks. And this package ships **no root
+`mcp.json`**: it is optional in the standard, and
 `.agents/mcp_config.json` is a teaching template naming example servers no client should ever
 spawn. [ADR-002](architecture/decisions/ADR-002-agent-plugins-spec-conformance.md) records
 both decisions and the trade-offs behind them.

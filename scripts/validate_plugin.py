@@ -40,6 +40,7 @@ MANIFESTS = [
 ]
 MARKETPLACE = ".claude-plugin/marketplace.json"
 MCP_CONFIG = "mcp.json"
+HOOKS_ROOT_MANIFEST = "hooks.json"
 
 PLUGIN_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
@@ -169,7 +170,7 @@ def check_manifest_coherence(root: Path, errors: list[str]) -> None:
         if not (root / skills_field).is_dir():
             errors.append(f"kimi manifest skills path does not resolve: {skills_field!r}")
         session_skill = (kimi.get("sessionStart") or {}).get("skill")
-        if session_skill and session_skill not in skill_dirs(root / ".agents" / "skills"):
+        if session_skill and session_skill not in skill_dirs(root / "skills"):
             errors.append(f"kimi sessionStart skill not found on disk: {session_skill!r}")
 
     gemini = loaded.get("gemini-extension.json")
@@ -263,11 +264,17 @@ def check_extensions(root: Path, extensions: object, errors: list[str]) -> None:
 
 
 def check_skills(root: Path, errors: list[str]) -> None:
-    """Validate skill frontmatter against Agent Skills, and the `skills/` alias against it."""
-    canonical_base = root / ".agents" / "skills"
+    """Validate skill frontmatter against Agent Skills, and the alias against it.
+
+    `skills/` is canonical — it is the Agent Plugins fixed discovery location and the one
+    real directory, so it survives installers that flatten or drop symlinks.
+    `.agents/skills/` is the alias kept for runners (Codex, Kimi) that discover there
+    natively.
+    """
+    canonical_base = root / "skills"
     canonical = skill_dirs(canonical_base)
     if not canonical:
-        errors.append("no skills found under .agents/skills")
+        errors.append("no skills found under skills/")
         return
 
     for name in canonical:
@@ -294,33 +301,42 @@ def check_skills(root: Path, errors: list[str]) -> None:
                 f"limit is {DESCRIPTION_MAX}"
             )
 
-    alias = root / "skills"
+    alias = root / ".agents" / "skills"
     if not alias.is_dir():
-        errors.append("root skills/ discovery alias is missing or broken")
+        errors.append(".agents/skills discovery alias is missing or broken")
         return
     if skill_dirs(alias) != canonical:
-        errors.append("root skills/ alias skill set differs from .agents/skills")
+        errors.append(".agents/skills alias skill set differs from canonical skills/")
 
 
 def check_skills_path_safety(root: Path, errors: list[str]) -> None:
-    """Enforce the spec's path-safety rule on the `skills/` fixed location.
+    """Enforce path safety and require the fixed location to be a real directory.
 
-    `.agents/skills/` is canonical and `skills/` is the spec's fixed discovery location,
-    so the alias is the one seam where a package could point discovery outside itself.
-    The link must stay relative — an absolute target would not survive a clone — and must
-    resolve inside the package root after symlink resolution.
+    Live install testing showed why this matters: Codex's install cache drops a symlink at
+    `skills/`, leaving a conformant client with zero skills at the spec's fixed location.
+    So `skills/` must be a real directory. The `.agents/skills` alias may be a symlink, but
+    it must stay relative — an absolute target would not survive a clone — and must resolve
+    inside the package root.
     """
-    alias = root / "skills"
-    if not alias.exists():
+    fixed = root / "skills"
+    if not fixed.exists():
         errors.append("skills/ fixed location is missing (spec component location)")
-        return
+    elif fixed.is_symlink():
+        errors.append(
+            "skills/ must be a real directory, not a symlink — installers that flatten "
+            "packages drop it and the spec's fixed discovery location disappears"
+        )
+
+    alias = root / ".agents" / "skills"
+    if not alias.exists():
+        return  # The alias is optional; only its shape is constrained.
     if not alias.is_symlink():
-        return  # A real directory at the fixed location is equally conformant.
+        return
     target = os.readlink(alias)
     if os.path.isabs(target):
-        errors.append(f"skills/ symlink target must be relative, found {target!r}")
+        errors.append(f".agents/skills symlink target must be relative, found {target!r}")
     if not within_root(alias, root):
-        errors.append(f"skills/ symlink escapes the plugin root: {target!r}")
+        errors.append(f".agents/skills symlink escapes the plugin root: {target!r}")
 
 
 def check_mcp_config(root: Path, errors: list[str]) -> None:
@@ -400,24 +416,41 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
 
 
 def check_hooks(root: Path, errors: list[str]) -> None:
-    """Fail when the session-start hook points at a missing or non-executable script."""
-    hooks = load_json(root, "hooks/hooks.json", errors)
-    if hooks is None:
-        return
-    command = (
-        (hooks.get("hooks", {}).get("SessionStart") or [{}])[0]
-        .get("hooks", [{}])[0]
-        .get("command", "")
-    )
-    match = re.search(r"\$\{CLAUDE_PLUGIN_ROOT\}/([^\"]+)", command)
-    if not match:
-        errors.append(f"hooks.json: cannot resolve hook command {command!r}")
-        return
-    script = root / match.group(1)
-    if not script.is_file():
-        errors.append(f"hooks.json references missing script: {match.group(1)}")
-    elif not os.access(script, os.X_OK):
-        errors.append(f"hook script is not executable: {match.group(1)}")
+    """Validate both hook manifests and require them to stay byte-identical.
+
+    Two copies exist because two clients look in different places: Claude Code reads
+    `hooks/hooks.json`, and Antigravity (`agy`) reads `hooks.json` at the package root.
+    Shipping only the nested one meant Antigravity silently registered no session-start
+    hook in every release up to 0.2.0. Duplication is the price of that; this check is
+    what stops the duplicate drifting.
+    """
+    manifests = ["hooks/hooks.json", HOOKS_ROOT_MANIFEST]
+    contents: dict[str, str] = {}
+
+    for rel in manifests:
+        hooks = load_json(root, rel, errors)
+        if hooks is None:
+            continue
+        contents[rel] = (root / rel).read_text(encoding="utf-8")
+        command = (
+            (hooks.get("hooks", {}).get("SessionStart") or [{}])[0]
+            .get("hooks", [{}])[0]
+            .get("command", "")
+        )
+        match = re.search(r"\$\{CLAUDE_PLUGIN_ROOT\}/([^\"]+)", command)
+        if not match:
+            errors.append(f"{rel}: cannot resolve hook command {command!r}")
+            continue
+        script = root / match.group(1)
+        if not script.is_file():
+            errors.append(f"{rel} references missing script: {match.group(1)}")
+        elif not os.access(script, os.X_OK):
+            errors.append(f"hook script is not executable: {match.group(1)}")
+
+    if len(contents) == len(manifests) and len(set(contents.values())) != 1:
+        errors.append(
+            f"hook manifest drift: {manifests[0]} and {HOOKS_ROOT_MANIFEST} must be identical"
+        )
 
 
 def main() -> int:

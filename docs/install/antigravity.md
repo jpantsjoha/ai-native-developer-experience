@@ -19,7 +19,11 @@ Reinstall with the same command to update.
   (design-before-generate, the Adversarial Gate, receipts-not-polish).
 - **Session start** — the plugin's session-start hook injects the `using-the-harness`
   orientation skill; on non-Claude runners it emits the SDK-standard
-  `additionalContext` shape Antigravity consumes.
+  `additionalContext` shape Antigravity consumes. `agy` reads the hook manifest from
+  `hooks.json` at the **package root**, so the plugin ships that file alongside the
+  nested `hooks/hooks.json` Claude Code reads. Confirm with
+  `agy plugin install …` — the summary must report `hooks: 1 processed`; `hooks:
+  skipped (not found)` means the root manifest is missing.
 - **Skills** — the 21 `.agents/skills/` capabilities, discovered natively.
 - **MCP data seams** → `.agents/mcp_config.json` — the governed tool-access pattern;
   see the file before adding servers.

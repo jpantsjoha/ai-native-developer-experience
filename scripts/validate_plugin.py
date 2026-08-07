@@ -442,14 +442,13 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
         elif len(command.split()) != 1:
             errors.append(f"{label} command must be a single token, found {command!r}")
 
-        args = server.get("args")
-        if args is not None and (
-            not isinstance(args, list) or not all(isinstance(a, str) for a in args)
-        ):
-            errors.append(f"{label} args must be an array of strings")
+        if "args" in server:
+            args = server["args"]
+            if not isinstance(args, list) or not all(isinstance(a, str) for a in args):
+                errors.append(f"{label} args must be an array of strings")
 
-        env = server.get("env")
-        if env is not None:
+        if "env" in server:
+            env = server["env"]
             if not isinstance(env, dict) or not all(
                 isinstance(k, str) and isinstance(v, str) for k, v in env.items()
             ):
@@ -461,8 +460,8 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
                         f"{label} env must not declare reserved variables: {reserved}"
                     )
 
-        cwd = server.get("cwd")
-        if cwd is not None:
+        if "cwd" in server:
+            cwd = server["cwd"]
             if not isinstance(cwd, str):
                 errors.append(f"{label} cwd must be a string")
             elif not CWD_RE.match(cwd):
@@ -488,12 +487,12 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
         elif parts.scheme == "http" and parts.hostname not in LOOPBACK_HOSTS:
             errors.append(f"{label} non-loopback url must use https")
 
-    headers = server.get("headers")
-    if headers is not None and (
-        not isinstance(headers, dict)
-        or not all(isinstance(k, str) and isinstance(v, str) for k, v in headers.items())
-    ):
-        errors.append(f"{label} headers must be an object of string values")
+    if "headers" in server:
+        headers = server["headers"]
+        if not isinstance(headers, dict) or not all(
+            isinstance(k, str) and isinstance(v, str) for k, v in headers.items()
+        ):
+            errors.append(f"{label} headers must be an object of string values")
 
 
 def check_hooks(root: Path, errors: list[str]) -> None:

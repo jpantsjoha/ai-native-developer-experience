@@ -418,6 +418,23 @@ class SpecConformanceTests(unittest.TestCase):
         result = run_validator(self.root, "--spec-only")
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_mcp_explicit_null_optional_fields_fail(self) -> None:
+        """An explicit null is a present field of the wrong type, not an absent field."""
+        for field, server in {
+            "args": {"type": "stdio", "command": "uvx", "args": None},
+            "env": {"type": "stdio", "command": "uvx", "env": None},
+            "cwd": {"type": "stdio", "command": "uvx", "cwd": None},
+            "headers": {
+                "type": "streamable-http",
+                "url": "https://example.invalid",
+                "headers": None,
+            },
+        }.items():
+            with self.subTest(field=field):
+                self.mcp(server)
+                result = run_validator(self.root, "--spec-only")
+                self.assertEqual(result.returncode, 1, f"{field}=null was accepted")
+
     def test_mcp_windows_separator_traversal_fails(self) -> None:
         """A Windows client resolves `\\` as a separator, so `./..\\outside` escapes there."""
         self.mcp({"type": "stdio", "command": "uvx", "cwd": "./..\\outside"})

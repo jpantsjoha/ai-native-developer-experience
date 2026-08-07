@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 37. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 38. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -42,6 +42,13 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   now normalised before the depth check.
 - **The SemVer rule accepted Unicode digits and a trailing newline.** Python's `\d` matches
   `٢`, and `$` permits `1.2.3\n`. Now ASCII `[0-9]` throughout, applied with `fullmatch()`.
+
+### Fixed (third review round, before merge)
+
+- **Explicit `null` passed on every optional MCP field.** `args`, `env`, `cwd` and `headers`
+  set to `null` were treated as absent, because `.get(k) is not None` cannot distinguish a
+  missing key from a present null. Now checked by key membership. Omitting the field still
+  passes — the fixture asserts both.
 
 ## [0.2.2] — 2026-08-07
 

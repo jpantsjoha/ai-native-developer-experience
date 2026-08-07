@@ -8,6 +8,105 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.2.3] — 2026-08-07
+
+Independent cross-model review of `v0.1.7..v0.2.2` found three defects in the conformance
+gate itself. Every one passed the gate before the review — the validator that was supposed
+to stop bad packaging was letting them through.
+
+### Fixed
+
+- **MCP transport fields were presence-checked, not type-checked.** `{"type":"stdio",
+  "command":null}` and `{"type":"streamable-http","url":null}` both passed: the required-key
+  check saw the key, then `isinstance` guards silently skipped every subsequent check. All
+  transport fields are now type-validated — `command`, `url`, `args`, `env`, `headers`, `cwd`.
+- **`cwd` accepted traversal outside the plugin root.** The published schema anchors only the
+  *prefix* and defers containment to the client, so `./../outside` and
+  `${PLUGIN_ROOT}/../outside` were accepted. The suffix is now normalised and any component
+  that climbs above its declared root is rejected. `${PLUGIN_ROOT}/a/../b` still passes — it
+  never leaves.
+- **A malformed version shipped silently.** `version` is optional in the standard and SemVer
+  only *recommended*, so `"banana"` repeated across all six manifests passed both gates. A
+  **local** SemVer rule now applies, marked as stricter than the standard.
+
+### Changed
+
+- Negative fixtures 22 → 51. Every finding above has a test that fails without its fix.
+
+### Fixed (second review round, before merge)
+
+A second independent pass on the *fix itself* found two bypasses in the new checks:
+
+- **`cwd` traversal missed Windows separators.** `./..\\outside` escapes on a Windows
+  client but looked like one innocent component to a slash-only split. Both separators are
+  now normalised before the depth check.
+- **The SemVer rule accepted Unicode digits and a trailing newline.** Python's `\d` matches
+  `٢`, and `$` permits `1.2.3\n`. Now ASCII `[0-9]` throughout, applied with `fullmatch()`.
+
+### Fixed (third review round, before merge)
+
+- **Explicit `null` passed on every optional MCP field.** `args`, `env`, `cwd` and `headers`
+  set to `null` were treated as absent, because `.get(k) is not None` cannot distinguish a
+  missing key from a present null. Now checked by key membership. Omitting the field still
+  passes — the fixture asserts both.
+
+### Fixed (fourth review round, before merge)
+
+- **A lexical `..` check could not see an in-root symlink pointing outside.**
+  `${PLUGIN_ROOT}/escape/work`, where `escape` symlinks to `/tmp/outside`, counted as two
+  ordinary components and passed while landing outside the package. Root-relative `cwd`
+  values are now resolved on disk and checked for containment after symlink resolution.
+  `${PLUGIN_DATA}` is client-managed and cannot be resolved at validation time, so it is
+  exempt; an ordinary in-root directory still passes.
+
+### Fixed (fifth review round, before merge)
+
+- **A broken symlink slipped through containment.** `escape -> /not-yet-created` reports
+  `exists() == False`, so the climb-to-nearest-ancestor loop walked straight past it to the
+  root and accepted the path — which would escape the moment the client created the target.
+  The loop now uses `os.path.lexists`, which sees the link itself.
+
+### Fixed (sixth review round, before merge)
+
+- **A doubled separator false-rejected a valid path.** `.//workdir` left `/workdir` after
+  prefix stripping, and `root / "/workdir"` discards the root and yields an absolute path —
+  so the validator reported an in-root directory as an escape. Leading separators are now
+  stripped.
+- **Unresolvable paths are treated as outside.** `Path.resolve()` can raise `RuntimeError`
+  on symlink loops for some platforms and versions; only `OSError`/`ValueError` were caught.
+  Hardening only — the crash was **not** reproduced on macOS/CPython here, where the loop
+  resolved without raising.
+
+### Fixed (seventh review round, before merge)
+
+- **A POSIX validator accepted Windows-absolute symlink targets.** A symlink to `C:\out` or
+  `\\server\share` reads as an innocent relative name on Linux/macOS, while the Windows
+  client consuming the package treats it as absolute and starts the server outside the root.
+  Symlink targets are now judged as text, covering drive-qualified, rooted and UNC forms.
+  An ordinary relative symlink to a sibling directory still passes.
+
+### Fixed (eighth review round, before merge)
+
+- **`${PLUGIN_DATA}` traversal was accepted unverified.** That directory is client-managed
+  and cannot be resolved at validation time, so `link/../work` survived the lexical
+  depth check while escaping if the client made `link` a symlink. `..` is now refused for
+  `${PLUGIN_DATA}` paths; plain paths under it still pass.
+
+### Fixed (ninth review round, before merge)
+
+- **Relative Windows traversal in a symlink target.** `escape -> ..\\outside` reads as one
+  literal filename on POSIX but climbs a level on Windows. Relative targets containing a
+  backslash are now evaluated under Windows separator semantics too. A net-zero target such
+  as `sub\\..\\workdir`, which never leaves the root, still passes.
+- **An ancestor symlink inflated the traversal budget.** With `alias -> .`, a lexical depth
+  count treated `alias` as a real level, so `alias/dir/escape` could climb further than the
+  directory actually sits. Depth is now computed from the *resolved* parent, which
+  generalises the whole symlink-escape family rather than patching one more variant.
+- **Traversal after a symlink is now refused outright.** How a `..` composes with a symlink
+  depends on the *client's* platform, which this host cannot predict. Rather than chase each
+  composition, a `cwd` that both crosses a symlink and climbs is treated as not provably
+  contained. `..` without a symlink, and a symlink without `..`, both still pass.
+
 ## [0.2.2] — 2026-08-07
 
 ### Fixed

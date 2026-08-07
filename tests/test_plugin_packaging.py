@@ -370,6 +370,208 @@ class SpecConformanceTests(unittest.TestCase):
         result = run_validator(self.root, "--spec-only")
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def mcp(self, server: dict) -> None:
+        write_json(
+            self.root / "mcp.json",
+            {"$schema": MCP_SCHEMA, "mcpServers": {"probe": server}},
+        )
+
+    # --- Findings from the independent cross-model review of v0.1.7..v0.2.2 -----------
+    # Each of these passed the gate before the review. A check without a failing fixture
+    # is not an implemented check.
+
+    def test_mcp_null_command_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": None})
+        self.assert_spec_failure("command must be a non-empty string")
+
+    def test_mcp_null_url_fails(self) -> None:
+        self.mcp({"type": "streamable-http", "url": None})
+        self.assert_spec_failure("url must be a non-empty string")
+
+    def test_mcp_non_string_args_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "args": ["ok", 7]})
+        self.assert_spec_failure("args must be an array of strings")
+
+    def test_mcp_non_string_env_value_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "env": {"A": 1}})
+        self.assert_spec_failure("env must be an object of string values")
+
+    def test_mcp_non_string_headers_fails(self) -> None:
+        self.mcp({"type": "streamable-http", "url": "https://e.invalid", "headers": {"A": 1}})
+        self.assert_spec_failure("headers must be an object of string values")
+
+    def test_mcp_relative_cwd_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "./../outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_plugin_root_cwd_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/../outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_nested_cwd_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/a/../../out"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_cwd_descending_then_returning_passes(self) -> None:
+        """`a/../b` never leaves the root, so it must not be rejected."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/a/../b"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_cwd_escaping_via_in_root_symlink_fails(self) -> None:
+        """A lexical `..` check cannot see an in-root symlink pointing outside."""
+        outside = Path(self.temporary.name).parent / "mcp-outside"
+        outside.mkdir(exist_ok=True)
+        os.symlink(str(outside), self.root / "escape")
+        try:
+            self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/escape/work"})
+            self.assert_spec_failure("resolves outside the plugin root")
+        finally:
+            outside.rmdir()
+
+    def test_mcp_cwd_via_windows_relative_symlink_fails(self) -> None:
+        """POSIX reads "..\\outside" as one filename; Windows climbs out of the root."""
+        os.symlink("..\\outside", self.root / "winrel")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/winrel/work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_traversal_after_symlink_refused(self) -> None:
+        """Symlink + later `..` is not provably contained from this host, so refuse it."""
+        (self.root / "sub").mkdir()
+        os.symlink("sub\\..", self.root / "alias")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/alias/../out"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_traversal_without_symlink_passes(self) -> None:
+        """`..` alone is provable, so an ordinary net-zero in-root path still passes."""
+        (self.root / "dir").mkdir()
+        (self.root / "workdir").mkdir()
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/dir/../workdir"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_cwd_via_nested_ancestor_symlink_fails(self) -> None:
+        """An ancestor symlink (`alias -> .`) must not inflate the traversal budget."""
+        (self.root / "dir").mkdir()
+        os.symlink(".", self.root / "alias")
+        os.symlink("..\\..\\outside", self.root / "dir" / "escape")
+        self.mcp({"type": "stdio", "command": "uvx",
+                  "cwd": "${PLUGIN_ROOT}/alias/dir/escape/work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_via_windows_netzero_symlink_passes(self) -> None:
+        """"sub\\..\\workdir" never leaves the root, so it must not be rejected."""
+        (self.root / "workdir").mkdir()
+        (self.root / "sub").mkdir()
+        os.symlink("sub\\..\\workdir", self.root / "netzero")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/netzero"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_plugin_data_traversal_fails(self) -> None:
+        """PLUGIN_DATA is client-managed, so a net-zero `..` cannot be proven contained."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/link/../work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_plugin_data_plain_path_passes(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/work"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_cwd_with_doubled_separator_passes(self) -> None:
+        """`.//skills` is in-root; a stripped prefix must not leave an absolute path."""
+        (self.root / "workdir").mkdir()
+        for cwd in (".//workdir", "${PLUGIN_ROOT}//workdir"):
+            with self.subTest(cwd=cwd):
+                self.mcp({"type": "stdio", "command": "uvx", "cwd": cwd})
+                result = run_validator(self.root, "--spec-only")
+                self.assertEqual(result.returncode, 0, f"{cwd} wrongly rejected")
+
+    def test_mcp_cwd_via_windows_absolute_symlink_fails(self) -> None:
+        """A POSIX host reads "C:\\out" as relative; a Windows client reads it as absolute."""
+        for name, target in (("win", "C:\\outside"), ("unc", "\\\\server\\share")):
+            with self.subTest(target=target):
+                os.symlink(target, self.root / name)
+                self.mcp({"type": "stdio", "command": "uvx",
+                          "cwd": f"${{PLUGIN_ROOT}}/{name}/work"})
+                self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_via_in_root_relative_symlink_passes(self) -> None:
+        """An ordinary relative symlink to a sibling directory stays contained."""
+        (self.root / "workdir").mkdir()
+        os.symlink("workdir", self.root / "good")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/good"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_cwd_via_broken_symlink_fails(self) -> None:
+        """A broken symlink reports exists()==False, so containment must use lexists."""
+        os.symlink("/outside-not-yet-created", self.root / "escape")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/escape/work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_to_not_yet_created_in_root_path_passes(self) -> None:
+        """Containment checks escape, not presence: a plain missing path is fine."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/newdir/sub"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_cwd_into_real_in_root_directory_passes(self) -> None:
+        """Containment must not reject an ordinary directory inside the package."""
+        (self.root / "workdir").mkdir()
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/workdir"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mcp_explicit_null_optional_fields_fail(self) -> None:
+        """An explicit null is a present field of the wrong type, not an absent field."""
+        for field, server in {
+            "args": {"type": "stdio", "command": "uvx", "args": None},
+            "env": {"type": "stdio", "command": "uvx", "env": None},
+            "cwd": {"type": "stdio", "command": "uvx", "cwd": None},
+            "headers": {
+                "type": "streamable-http",
+                "url": "https://example.invalid",
+                "headers": None,
+            },
+        }.items():
+            with self.subTest(field=field):
+                self.mcp(server)
+                result = run_validator(self.root, "--spec-only")
+                self.assertEqual(result.returncode, 1, f"{field}=null was accepted")
+
+    def test_mcp_windows_separator_traversal_fails(self) -> None:
+        """A Windows client resolves `\\` as a separator, so `./..\\outside` escapes there."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "./..\\outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_windows_separator_rooted_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/..\\outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_unicode_digit_version_fails(self) -> None:
+        """Python's `\\d` matches Unicode digits; the SemVer rule must be ASCII-only."""
+        self.mutate_manifest(version="1.2٢.3")
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_trailing_newline_version_fails(self) -> None:
+        """`$` permits a trailing newline, so the rule uses fullmatch()."""
+        self.mutate_manifest(version="1.2.3\n")
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_non_semver_version_fails(self) -> None:
+        self.mutate_manifest(version="banana")
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_missing_version_fails(self) -> None:
+        self.mutate_manifest(version=None)
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_prerelease_semver_passes(self) -> None:
+        self.mutate_manifest(version="1.2.3-rc.1+build.5")
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_root_manifest_version_drift_fails_full_gate(self) -> None:
         self.mutate_manifest(version="9.9.9")
         result = run_validator(self.root)

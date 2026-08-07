@@ -202,3 +202,62 @@ it must not be credited with fixing something that was never broken.
 3. When a live test contradicts a hypothesis, isolate one variable before writing the
    conclusion down. Both false claims above came from reading two different subcommands
    (`validate` and `install`) as one signal.
+
+## Revision — 2026-08-07: the gate had holes, found by cross-model review
+
+Every PR from `v0.1.7` to `v0.2.2` was authored and self-merged by one model with
+`reviews=0`. That breaks the project's own review doctrine — neither author both writes and
+approves — and it cost something real.
+
+An independent review of the cumulative diff by a second model (Codex) found **three defects
+in the conformance gate itself**, each of which the gate passed:
+
+| Defect | Why it passed |
+| --- | --- |
+| MCP transport fields presence-checked, not type-checked | The required-key check saw the key; `isinstance` guards then skipped every subsequent check, so `"command": null` validated |
+| `cwd` accepted traversal outside the plugin root | The published schema anchors only the *prefix* and defers containment to the client; a prefix-only check accepts `./../outside` |
+| A malformed `version` shipped silently | `version` is optional in the standard and SemVer only recommended, so `"banana"` across all six manifests passed both gates |
+
+All three were reproduced before being accepted, and all three now have negative fixtures
+(22 → 33). The `cwd` fix deliberately still accepts `${PLUGIN_ROOT}/a/../b`, which never
+leaves the root — rejecting traversal is not the same as rejecting `..`.
+
+**The lesson, which is the same one this ADR keeps learning in new clothes:** the gate that
+checks the work needs checking too, and it cannot check itself. A validator author is the
+worst reviewer of that validator. This project's doctrine already said so; the doctrine was
+simply not followed. From here, conformance-gate changes get an independent cross-model
+review before merge, not after release.
+
+### Where the review was stopped, and why
+
+Twelve rounds ran. Findings by round: **3 → 2 → 1 → 1 → 1 → 2 → 1 → 1 → 1 → 1 → 1 → 0**, every one
+reproduced before acceptance, every one fixed with a fixture.
+
+Rounds one to three found defects in code that runs today. Rounds four onward converged on a
+single narrowing family: symlink-assisted escape of an MCP `cwd` — broken links, Windows
+separators, drive-qualified targets, UNC paths, relative Windows traversal, unverifiable
+`${PLUGIN_DATA}`. Each was a variant of its predecessor, and **all of them guard a root
+`mcp.json` this package does not ship**.
+
+The review was stopped there deliberately, and the reasoning is recorded rather than
+implied:
+
+- The defects that could affect a user *today* were found in the first three rounds.
+- The remainder harden a code path with no live input, against a package the project
+  controls.
+- A reviewer asked for one more round will generally produce one more finding. Round ten
+  proved the point by returning another variant of the same family. Convergence has to be a
+  judgement, not an absence of output.
+- Two fixes were taken after that judgement, because both *generalised* the family rather
+  than patching a special case: computing depth from the resolved parent, and finally
+  refusing any `cwd` that both crosses a symlink and climbs. Round twelve then returned
+  **no actionable findings**.
+
+**The stopping rule, earned rather than assumed:** stop when fixes stop generalising. Chasing
+platform-specific compositions produced one finding per round indefinitely; refusing the
+unprovable combination ended it in one move. When a reviewer keeps finding variants, the
+defect is usually the approach, not the variant.
+
+**The posture, stated plainly:** `cwd` containment is defence-in-depth for a file that does
+not exist yet. If a real root `mcp.json` is ever added, that is the moment to re-run this
+review from round one — not to assume nine rounds already covered it.

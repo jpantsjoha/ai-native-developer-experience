@@ -67,6 +67,16 @@ SKILL_NAME_RE = re.compile(r"^(?!.*--)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 NAMESPACE_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$")
 NAME_MAX = 64
 DESCRIPTION_MAX = 1024
+# Official SemVer 2.0.0 pattern. Local rule: the standard only recommends SemVer.
+# ASCII [0-9] throughout, never \d — Python's \d matches Unicode digits, so "1.2٢.3"
+# would otherwise pass. Applied with fullmatch(), because `$` also permits a trailing
+# newline and "1.2.3\n" is not a version.
+SEMVER_RE = re.compile(
+    r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)"
+    r"(?:-((?:0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)"
+    r"(?:\.(?:0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
+    r"(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?"
+)
 
 # Agent Plugins 1.0.0 mcp.schema.json — closed union, one key set per transport.
 MCP_SERVER_KEYS = {
@@ -137,8 +147,119 @@ def within_root(path: Path, root: Path) -> bool:
     """True when `path` resolves inside `root` after symlink resolution."""
     try:
         return path.resolve().is_relative_to(root)
-    except (OSError, ValueError):
+    except (OSError, ValueError, RuntimeError):
+        # RuntimeError covers symlink loops on some platforms/versions; an unresolvable
+        # path is never provably contained, so treat any resolution failure as outside.
         return False
+
+
+def escapes_via_traversal(value: str) -> bool:
+    """True when a rooted path expression climbs above the root it declares.
+
+    The published MCP schema anchors only the *prefix* of `cwd` and states that
+    filesystem containment is validated separately. Checking the prefix alone accepts
+    `./../outside` and `${PLUGIN_ROOT}/../outside`, so the suffix is normalised here and
+    any component that escapes is rejected.
+    """
+    suffix = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?|\$\{PLUGIN_DATA\}/?)", "", value)
+    # A Windows client resolves backslash as a separator, so `./..\outside` escapes there
+    # while looking like one innocent component to a slash-only split.
+    suffix = suffix.replace("\\", "/")
+    depth = 0
+    for part in suffix.split("/"):
+        if part in ("", "."):
+            continue
+        if part == "..":
+            depth -= 1
+            if depth < 0:
+                return True
+        else:
+            depth += 1
+    return False
+
+
+def windows_absolute(target: str) -> bool:
+    """True when a path string is absolute under Windows semantics.
+
+    Covers drive-qualified (`C:\\out`, `C:/out`), rooted (`\\out`) and UNC
+    (`\\\\server\\share`) forms. A POSIX host reads all of these as relative names.
+    """
+    if target.startswith(("\\\\", "//")):
+        return True
+    if re.match(r"^[A-Za-z]:[\\/]?", target):
+        return True
+    return target.startswith("\\")
+
+
+def escapes_relative(target: str, link: Path, root: Path) -> bool:
+    """True when a relative symlink target, read from `link`, climbs out of `root`."""
+    try:
+        # Resolve the parent first: a lexical `relative_to` counts an ancestor symlink such
+        # as `alias -> .` as a real level, overstating how far the target can climb.
+        depth = len(link.parent.resolve().relative_to(root).parts)
+    except (ValueError, OSError, RuntimeError):
+        return True
+    for part in target.split("/"):
+        if part in ("", "."):
+            continue
+        depth += -1 if part == ".." else 1
+        if depth < 0:
+            return True
+    return False
+
+
+def resolves_in_root(cwd: str, root: Path) -> bool:
+    """True when a root-relative `cwd` still lands inside the package after symlinks.
+
+    Only `./` and `${PLUGIN_ROOT}`-rooted values can be checked on disk; `${PLUGIN_DATA}`
+    is a client-managed directory that does not exist at validation time. A value that
+    does not yet exist is accepted — this checks escape, not presence.
+    """
+    if cwd.startswith("${PLUGIN_DATA}"):
+        # The client owns this directory, so containment cannot be proven here. A net-zero
+        # expression like `link/../work` survives the lexical depth check yet escapes if
+        # `link` is a symlink the client created. Unverifiable plus `..` is refused.
+        return ".." not in cwd.replace("\\", "/").split("/")
+    relative = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?)", "", cwd).replace("\\", "/")
+    # Strip separators left by a doubled slash (".//skills"). Without this, `root / relative`
+    # sees an absolute "/skills", silently discards the root, and reports an in-root
+    # directory as an escape.
+    relative = relative.lstrip("/")
+    if not relative:
+        return True
+    candidate = root / relative
+    existing = candidate
+    # lexists, not exists: a *broken* symlink such as `escape -> /not-yet-created` reports
+    # exists() == False, so following exists() would climb straight past it to the root and
+    # accept a path that escapes the moment the client creates the target.
+    while not os.path.lexists(existing) and existing != existing.parent:
+        existing = existing.parent
+
+    # A POSIX validator resolving a Windows-absolute symlink target ("C:\out",
+    # "\\\\server\\share") treats it as an innocent relative name, while the Windows client
+    # consuming the package treats it as absolute. Judge the target text, not the host.
+    traverses_symlink = False
+    probe = existing
+    while probe != root and within_root(probe.parent, root):
+        if probe.is_symlink():
+            traverses_symlink = True
+            target = os.readlink(probe)
+            if windows_absolute(target):
+                return False
+            # A POSIX host treats "..\outside" as one literal filename; Windows reads the
+            # backslash as a separator and climbs. Judge the target under both.
+            if "\\" in target and escapes_relative(target.replace("\\", "/"), probe, root):
+                return False
+        probe = probe.parent
+
+    # Containment through a symlink depends on how the *client's* platform resolves it, and
+    # a `..` applied after a link can land somewhere this host cannot predict. Rather than
+    # chase each platform-specific composition, refuse the combination outright: a path that
+    # both crosses a symlink and climbs is not provably contained from here.
+    if traverses_symlink and ".." in relative.split("/"):
+        return False
+
+    return within_root(existing, root)
 
 
 def check_manifest_coherence(root: Path, errors: list[str]) -> None:
@@ -218,6 +339,16 @@ def check_root_manifest(root: Path, errors: list[str]) -> None:
         value = manifest.get(field)
         if value is not None and not isinstance(value, str):
             errors.append(f"{ROOT_MANIFEST}: {field} must be a string")
+
+    # Local hygiene, stricter than the standard: `version` is optional in the schema and
+    # SemVer is only "recommended". This project's release process is tag-based SemVer, so
+    # a missing or malformed version would ship a release nobody can order. Without this,
+    # a version of "banana" repeated across every manifest passes both gates.
+    version = manifest.get("version")
+    if not isinstance(version, str) or not SEMVER_RE.fullmatch(version):
+        errors.append(
+            f"{ROOT_MANIFEST}: version must be SemVer (local rule), found {version!r}"
+        )
 
     keywords = manifest.get("keywords")
     if keywords is not None:
@@ -366,10 +497,12 @@ def check_mcp_config(root: Path, errors: list[str]) -> None:
         return
 
     for server_name, server in servers.items():
-        check_mcp_server(server_name, server, errors)
+        check_mcp_server(server_name, server, errors, root)
 
 
-def check_mcp_server(server_name: str, server: object, errors: list[str]) -> None:
+def check_mcp_server(
+    server_name: str, server: object, errors: list[str], root: Path | None = None
+) -> None:
     """Validate one MCP server entry against the closed transport union."""
     label = f"{MCP_CONFIG}: server {server_name!r}"
     if not isinstance(server, dict):
@@ -392,20 +525,56 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
 
     if transport == "stdio":
         command = server.get("command")
-        if isinstance(command, str) and len(command.split()) != 1:
+        if not isinstance(command, str) or not command:
+            errors.append(f"{label} command must be a non-empty string, found {command!r}")
+        elif len(command.split()) != 1:
             errors.append(f"{label} command must be a single token, found {command!r}")
-        env = server.get("env")
-        if isinstance(env, dict):
-            reserved = sorted(RESERVED_ENV & set(env))
-            if reserved:
-                errors.append(f"{label} env must not declare reserved variables: {reserved}")
-        cwd = server.get("cwd")
-        if isinstance(cwd, str) and not CWD_RE.match(cwd):
-            errors.append(f"{label} cwd must be ./, ${{PLUGIN_ROOT}}, or ${{PLUGIN_DATA}} rooted")
+
+        if "args" in server:
+            args = server["args"]
+            if not isinstance(args, list) or not all(isinstance(a, str) for a in args):
+                errors.append(f"{label} args must be an array of strings")
+
+        if "env" in server:
+            env = server["env"]
+            if not isinstance(env, dict) or not all(
+                isinstance(k, str) and isinstance(v, str) for k, v in env.items()
+            ):
+                errors.append(f"{label} env must be an object of string values")
+            else:
+                reserved = sorted(RESERVED_ENV & set(env))
+                if reserved:
+                    errors.append(
+                        f"{label} env must not declare reserved variables: {reserved}"
+                    )
+
+        if "cwd" in server:
+            cwd = server["cwd"]
+            if not isinstance(cwd, str):
+                errors.append(f"{label} cwd must be a string")
+            elif not CWD_RE.match(cwd):
+                errors.append(
+                    f"{label} cwd must be ./, ${{PLUGIN_ROOT}}, or ${{PLUGIN_DATA}} rooted"
+                )
+            elif escapes_via_traversal(cwd):
+                # The published schema only anchors the prefix and defers containment to
+                # the client. A prefix check alone accepts "./../outside", which would run
+                # the server beyond the plugin or data boundary.
+                errors.append(f"{label} cwd must not traverse outside its root: {cwd!r}")
+            elif root is not None and not resolves_in_root(cwd, root):
+                # Lexical checks cannot see an in-root symlink pointing elsewhere:
+                # "${PLUGIN_ROOT}/escape/work" counts as two ordinary components while
+                # landing outside the package. ${PLUGIN_DATA} is client-managed and not
+                # resolvable here, so only root-relative forms are checked on disk.
+                errors.append(
+                    f"{label} cwd resolves outside the plugin root via a symlink: {cwd!r}"
+                )
         return
 
     url = server.get("url")
-    if isinstance(url, str):
+    if not isinstance(url, str) or not url:
+        errors.append(f"{label} url must be a non-empty string, found {url!r}")
+    else:
         parts = urlsplit(url)
         if parts.scheme not in {"http", "https"} or not parts.netloc:
             errors.append(f"{label} url must be an absolute http(s) URL")
@@ -413,6 +582,13 @@ def check_mcp_server(server_name: str, server: object, errors: list[str]) -> Non
             errors.append(f"{label} url must not carry user info or a fragment")
         elif parts.scheme == "http" and parts.hostname not in LOOPBACK_HOSTS:
             errors.append(f"{label} non-loopback url must use https")
+
+    if "headers" in server:
+        headers = server["headers"]
+        if not isinstance(headers, dict) or not all(
+            isinstance(k, str) and isinstance(v, str) for k, v in headers.items()
+        ):
+            errors.append(f"{label} headers must be an object of string values")
 
 
 def check_hooks(root: Path, errors: list[str]) -> None:

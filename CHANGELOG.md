@@ -31,7 +31,17 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 33. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 37. Every finding above has a test that fails without its fix.
+
+### Fixed (second review round, before merge)
+
+A second independent pass on the *fix itself* found two bypasses in the new checks:
+
+- **`cwd` traversal missed Windows separators.** `./..\\outside` escapes on a Windows
+  client but looked like one innocent component to a slash-only split. Both separators are
+  now normalised before the depth check.
+- **The SemVer rule accepted Unicode digits and a trailing newline.** Python's `\d` matches
+  `٢`, and `$` permits `1.2.3\n`. Now ASCII `[0-9]` throughout, applied with `fullmatch()`.
 
 ## [0.2.2] — 2026-08-07
 

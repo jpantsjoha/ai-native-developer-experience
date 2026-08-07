@@ -68,11 +68,14 @@ NAMESPACE_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*
 NAME_MAX = 64
 DESCRIPTION_MAX = 1024
 # Official SemVer 2.0.0 pattern. Local rule: the standard only recommends SemVer.
+# ASCII [0-9] throughout, never \d — Python's \d matches Unicode digits, so "1.2٢.3"
+# would otherwise pass. Applied with fullmatch(), because `$` also permits a trailing
+# newline and "1.2.3\n" is not a version.
 SEMVER_RE = re.compile(
-    r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
-    r"(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
-    r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
-    r"(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+    r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)"
+    r"(?:-((?:0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)"
+    r"(?:\.(?:0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
+    r"(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?"
 )
 
 # Agent Plugins 1.0.0 mcp.schema.json — closed union, one key set per transport.
@@ -157,6 +160,9 @@ def escapes_via_traversal(value: str) -> bool:
     any component that escapes is rejected.
     """
     suffix = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?|\$\{PLUGIN_DATA\}/?)", "", value)
+    # A Windows client resolves backslash as a separator, so `./..\outside` escapes there
+    # while looking like one innocent component to a slash-only split.
+    suffix = suffix.replace("\\", "/")
     depth = 0
     for part in suffix.split("/"):
         if part in ("", "."):
@@ -253,7 +259,7 @@ def check_root_manifest(root: Path, errors: list[str]) -> None:
     # a missing or malformed version would ship a release nobody can order. Without this,
     # a version of "banana" repeated across every manifest passes both gates.
     version = manifest.get("version")
-    if not isinstance(version, str) or not SEMVER_RE.match(version):
+    if not isinstance(version, str) or not SEMVER_RE.fullmatch(version):
         errors.append(
             f"{ROOT_MANIFEST}: version must be SemVer (local rule), found {version!r}"
         )

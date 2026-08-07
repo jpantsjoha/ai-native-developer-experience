@@ -418,6 +418,25 @@ class SpecConformanceTests(unittest.TestCase):
         result = run_validator(self.root, "--spec-only")
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_mcp_windows_separator_traversal_fails(self) -> None:
+        """A Windows client resolves `\\` as a separator, so `./..\\outside` escapes there."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "./..\\outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_mcp_windows_separator_rooted_traversal_fails(self) -> None:
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/..\\outside"})
+        self.assert_spec_failure("must not traverse outside its root")
+
+    def test_unicode_digit_version_fails(self) -> None:
+        """Python's `\\d` matches Unicode digits; the SemVer rule must be ASCII-only."""
+        self.mutate_manifest(version="1.2٢.3")
+        self.assert_spec_failure("version must be SemVer")
+
+    def test_trailing_newline_version_fails(self) -> None:
+        """`$` permits a trailing newline, so the rule uses fullmatch()."""
+        self.mutate_manifest(version="1.2.3\n")
+        self.assert_spec_failure("version must be SemVer")
+
     def test_non_semver_version_fails(self) -> None:
         self.mutate_manifest(version="banana")
         self.assert_spec_failure("version must be SemVer")

@@ -8,6 +8,52 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.2.0] — 2026-08-07
+
+### Added
+
+- **Agent Plugins 1.0.0 conformance.** The plugin now ships a root `plugin.json` — the
+  portable entry point required by
+  [Agent Plugins 1.0.0](https://agent-plugins.org/specification) — and its skills are
+  checked against [Agent Skills](https://agentskills.io/specification). The four vendor
+  manifests (`.claude-plugin/`, `.claude-plugin/marketplace.json`, `.kimi-plugin/`,
+  `gemini-extension.json`) stay as client projections and are now *declared* through the
+  standard's `extensions` block under `com.anthropic.claude-code`,
+  `com.google.gemini-cli`, and `ai.moonshot.kimi`, instead of being left for a client to
+  discover by convention.
+- **A conformance gate, not a conformance claim.** `make spec-conformance` runs
+  `scripts/validate_plugin.py --spec-only` — standard-library Python, offline, reporting
+  as its own CI job. It validates the root manifest shape, skill frontmatter (name
+  pattern, directory match, description limits), path safety on the `skills/` fixed
+  location, and MCP configuration should a root `mcp.json` ever be added. Backed by 22
+  negative fixtures, because a validator that only ever passes is decoration.
+- **[ADR-002](architecture/decisions/ADR-002-agent-plugins-spec-conformance.md)** recording
+  the four decisions and their costs: keep `.agents/skills/` canonical behind the `skills/`
+  symlink, ship no root `mcp.json`, keep vendor directories unrenamed, and accept the
+  obligation to re-read the published schemas on any specification version bump.
+
+### Changed
+
+- **Skill validation now covers the whole Agent Skills contract.** The previous check read
+  only the frontmatter `name`; `description` presence and the 1024-character limit went
+  unverified.
+- **`.agents/mcp_config.json` corrected to spec shape.** Added `$schema` and an explicit
+  `"type": "stdio"` per server, and moved the inline `_about` / `_note` / `_exposedTools`
+  annotations into `DEVELOPER_EXPERIENCE.md`. Agent Plugins sets
+  `additionalProperties: false` on server objects, so those keys would have made any copied
+  file invalid. The file remains a template, never live configuration.
+- **Author URL now points at <https://jpantsjoha.com>** across all manifests. The spec's
+  `author` object permits exactly one `url`; an owned domain outlasts a platform profile.
+
+### Known limitations
+
+- The `skills/` alias is a relative symlink. `git archive`, zip packaging, and Windows
+  checkouts without developer mode drop it; clone or install through a client that
+  preserves symlinks.
+- The conformance checker mirrors the published JSON schemas in Python rather than
+  fetching them, so the validator runs offline. A specification version bump therefore
+  requires re-reading the source schemas, not only editing the validator.
+
 ## [0.1.7] — 2026-07-23
 
 ### Added

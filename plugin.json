@@ -1,0 +1,49 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "join-the-team",
+  "version": "0.2.0",
+  "description": "Team operating model for hybrid human+AI delivery: one shared, drift-checked contract for authority, risk tiers, evidence, review, and done — with cloud-expert guardrails (Google Cloud, AWS, Azure, Alibaba Cloud) and Google ADK/Antigravity skills built in, routing agent-craft work to companion skill plugins.",
+  "author": {
+    "name": "Jaroslav Pantsjoha",
+    "url": "https://jpantsjoha.com"
+  },
+  "homepage": "https://github.com/jpantsjoha/ai-native-developer-experience",
+  "repository": "https://github.com/jpantsjoha/ai-native-developer-experience",
+  "license": "Apache-2.0",
+  "keywords": [
+    "operating-model",
+    "team-harness",
+    "human-ai-collaboration",
+    "agent-teams",
+    "governance",
+    "evidence",
+    "risk-tiers",
+    "onboarding",
+    "skills",
+    "google-cloud",
+    "gcp",
+    "adk",
+    "antigravity",
+    "gemini",
+    "aws",
+    "azure",
+    "alibaba-cloud",
+    "multi-cloud"
+  ],
+  "extensions": {
+    "com.anthropic.claude-code": {
+      "manifest": "./.claude-plugin/plugin.json",
+      "marketplace": "./.claude-plugin/marketplace.json",
+      "commands": "./commands/",
+      "hooks": "./hooks/hooks.json",
+      "contextFile": "./CLAUDE.md"
+    },
+    "com.google.gemini-cli": {
+      "manifest": "./gemini-extension.json",
+      "contextFile": "./GEMINI.md"
+    },
+    "ai.moonshot.kimi": {
+      "manifest": "./.kimi-plugin/plugin.json"
+    }
+  }
+}

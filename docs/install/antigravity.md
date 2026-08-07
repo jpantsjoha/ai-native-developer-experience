@@ -38,6 +38,14 @@ Reinstall with the same command to update.
 3. Ask the agent to track a small multi-step task — it should create a **task
    artifact**, not reach for a todo tool.
 
+## Standards
+
+The portable entry point is the root `plugin.json`, which follows
+[Agent Plugins 1.0.0](https://agent-plugins.org/specification); the skills follow
+[Agent Skills](https://agentskills.io/specification). `gemini-extension.json` is the Gemini
+**projection** of that manifest, declared in the root manifest's `extensions` block under
+`com.google.gemini-cli` together with its `GEMINI.md` context file.
+
 ## Notes
 
 - The `GEMINI.md` adapter and the generated `AGENTS.md`/`CLAUDE.md` adapters carry an

@@ -36,12 +36,13 @@ Before you call any change done, answer in writing: **"How would I break this?"*
 
 ## Where the harness lives
 
-- **Skills / workflows** → `.agents/skills/` (reusable SKILL.md workflows). Look here before inventing a new approach.
-- **MCP servers / data seams** → `.agents/mcp_config.json` (governed access to data sources — see the file for the pattern).
+- **Skills / workflows** → `.agents/skills/` (reusable SKILL.md workflows). Look here before inventing a new approach. `skills/` is the symlinked alias that satisfies the Agent Plugins fixed discovery location — `.agents/skills/` stays canonical.
+- **MCP servers / data seams** → `.agents/mcp_config.json` (governed access to data sources — a template, not live config; the pattern is documented in `DEVELOPER_EXPERIENCE.md`).
+- **Portable packaging** → `plugin.json` at the root is the entry point for any [Agent Plugins 1.0.0](https://agent-plugins.org/specification) client. The vendor manifests are projections of it, and `make spec-conformance` proves they have not drifted.
 - **The full guide** → `DEVELOPER_EXPERIENCE.md` (DX-001): guardrails, gates, spec-driven delivery, CI.
 
 ## Quality gates (no merge to `main` without these)
 
-`make lint` · `make typecheck` · `make test` — then the Adversarial Gate above. When an agent misbehaves, **debug the harness first**: inspect tools, context, rules, permissions, and validation before assuming the model is the only cause.
+`make lint` · `make typecheck` · `make test` · `make spec-conformance` — then the Adversarial Gate above. When an agent misbehaves, **debug the harness first**: inspect tools, context, rules, permissions, and validation before assuming the model is the only cause.
 
 Rinse and repeat.

@@ -16,11 +16,13 @@ VALIDATOR = REPO_ROOT / "scripts" / "validate_plugin.py"
 
 NAME = "join-the-team"
 VERSION = "0.1.0"
+PLUGIN_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
 
 
-def run_validator(root: Path) -> subprocess.CompletedProcess[str]:
+def run_validator(root: Path, *flags: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [sys.executable, str(VALIDATOR), "--root", str(root)],
+        [sys.executable, str(VALIDATOR), "--root", str(root), *flags],
         check=False,
         capture_output=True,
         text=True,
@@ -36,6 +38,23 @@ def build_fixture(root: Path) -> None:
     """Create a minimal but valid plugin packaging layout in a temp dir."""
 
     manifest = {"name": NAME, "version": VERSION}
+    write_json(
+        root / "plugin.json",
+        {
+            "$schema": PLUGIN_SCHEMA,
+            **manifest,
+            "description": "fixture",
+            "author": {"name": "Fixture Author", "url": "https://example.invalid"},
+            "license": "Apache-2.0",
+            "keywords": ["fixture"],
+            "extensions": {
+                "com.anthropic.claude-code": {
+                    "manifest": "./.claude-plugin/plugin.json",
+                    "hooks": "./hooks/hooks.json",
+                }
+            },
+        },
+    )
     write_json(root / ".claude-plugin" / "plugin.json", manifest)
     write_json(
         root / ".claude-plugin" / "marketplace.json",
@@ -153,6 +172,184 @@ class PluginPackagingTests(unittest.TestCase):
         result = run_validator(self.root)
         self.assertEqual(result.returncode, 1)
         self.assertIn("frontmatter name", result.stderr)
+
+
+class SpecConformanceTests(unittest.TestCase):
+    """Negative fixtures for the Agent Plugins 1.0.0 / Agent Skills conformance gate.
+
+    A validator that only ever passes is decoration. Every check the gate claims to make
+    gets a fixture here that must fail it.
+    """
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        build_fixture(self.root)
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def mutate_manifest(self, **changes: object) -> None:
+        """Apply changes to the fixture's root plugin.json; a None value deletes the key."""
+        path = self.root / "plugin.json"
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        for key, value in changes.items():
+            if value is None:
+                payload.pop(key, None)
+            else:
+                payload[key] = value
+        write_json(path, payload)
+
+    def assert_spec_failure(self, fragment: str) -> None:
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn(fragment, result.stderr)
+
+    def test_conformant_fixture_passes_spec_gate(self) -> None:
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Agent Plugins 1.0.0 conformance", result.stdout)
+
+    def test_repository_passes_spec_gate(self) -> None:
+        result = run_validator(REPO_ROOT, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_missing_root_manifest_fails(self) -> None:
+        (self.root / "plugin.json").unlink()
+        self.assert_spec_failure("missing manifest: plugin.json")
+
+    def test_absent_schema_fails(self) -> None:
+        self.mutate_manifest(**{"$schema": None})
+        self.assert_spec_failure("$schema must be")
+
+    def test_wrong_schema_version_fails(self) -> None:
+        self.mutate_manifest(
+            **{"$schema": "https://agent-plugins.org/schemas/0.9.0/plugin.schema.json"}
+        )
+        self.assert_spec_failure("$schema must be")
+
+    def test_uppercase_name_fails(self) -> None:
+        self.mutate_manifest(name="Join-The-Team")
+        self.assert_spec_failure("violates the spec name pattern")
+
+    def test_leading_hyphen_name_fails(self) -> None:
+        self.mutate_manifest(name="-join-the-team")
+        self.assert_spec_failure("violates the spec name pattern")
+
+    def test_consecutive_hyphen_name_fails(self) -> None:
+        self.mutate_manifest(name="join--the-team")
+        self.assert_spec_failure("violates the spec name pattern")
+
+    def test_unknown_top_level_field_fails(self) -> None:
+        self.mutate_manifest(skills="./skills/")
+        self.assert_spec_failure("unknown top-level fields")
+
+    def test_author_with_unknown_field_fails(self) -> None:
+        self.mutate_manifest(author={"name": "x", "github": "y"})
+        self.assert_spec_failure("author has unknown fields")
+
+    def test_non_reverse_domain_extension_key_fails(self) -> None:
+        self.mutate_manifest(extensions={"claudecode": {"manifest": "./plugin.json"}})
+        self.assert_spec_failure("is not a reverse-domain namespace")
+
+    def test_extension_pointing_at_missing_path_fails(self) -> None:
+        self.mutate_manifest(
+            extensions={"com.anthropic.claude-code": {"commands": "./commands/"}}
+        )
+        self.assert_spec_failure("points at missing path")
+
+    def test_skill_missing_description_fails(self) -> None:
+        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill.write_text("---\nname: using-the-harness\n---\n", encoding="utf-8")
+        self.assert_spec_failure("missing a non-empty description")
+
+    def test_skill_overlong_description_fails(self) -> None:
+        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill.write_text(
+            f"---\nname: using-the-harness\ndescription: {'x' * 1025}\n---\n",
+            encoding="utf-8",
+        )
+        self.assert_spec_failure("limit is 1024")
+
+    def test_skill_without_frontmatter_fails(self) -> None:
+        skill = self.root / ".agents" / "skills" / "using-the-harness" / "SKILL.md"
+        skill.write_text("# no frontmatter here\n", encoding="utf-8")
+        self.assert_spec_failure("no closed YAML frontmatter")
+
+    def test_skills_symlink_escaping_root_fails(self) -> None:
+        outside = Path(self.temporary.name).parent / "outside-skills"
+        outside.mkdir(exist_ok=True)
+        (self.root / "skills").unlink()
+        os.symlink(str(outside), self.root / "skills")
+        try:
+            self.assert_spec_failure("escapes the plugin root")
+        finally:
+            outside.rmdir()
+
+    def test_absolute_skills_symlink_fails(self) -> None:
+        (self.root / "skills").unlink()
+        os.symlink(str(self.root / ".agents" / "skills"), self.root / "skills")
+        self.assert_spec_failure("must be relative")
+
+    def test_mcp_server_without_type_fails(self) -> None:
+        write_json(
+            self.root / "mcp.json",
+            {"$schema": MCP_SCHEMA, "mcpServers": {"docs": {"command": "uvx"}}},
+        )
+        self.assert_spec_failure("expected one of")
+
+    def test_mcp_env_declaring_reserved_variable_fails(self) -> None:
+        write_json(
+            self.root / "mcp.json",
+            {
+                "$schema": MCP_SCHEMA,
+                "mcpServers": {
+                    "docs": {
+                        "type": "stdio",
+                        "command": "uvx",
+                        "env": {"PLUGIN_ROOT": "/tmp"},
+                    }
+                },
+            },
+        )
+        self.assert_spec_failure("reserved variables")
+
+    def test_mcp_plaintext_remote_url_fails(self) -> None:
+        write_json(
+            self.root / "mcp.json",
+            {
+                "$schema": MCP_SCHEMA,
+                "mcpServers": {
+                    "remote": {"type": "streamable-http", "url": "http://example.com/mcp"}
+                },
+            },
+        )
+        self.assert_spec_failure("must use https")
+
+    def test_conformant_mcp_config_passes(self) -> None:
+        write_json(
+            self.root / "mcp.json",
+            {
+                "$schema": MCP_SCHEMA,
+                "mcpServers": {
+                    "local": {
+                        "type": "stdio",
+                        "command": "uvx",
+                        "args": ["server@latest", "--root", "${PLUGIN_ROOT}"],
+                        "cwd": "${PLUGIN_DATA}/work",
+                    },
+                    "remote": {"type": "streamable-http", "url": "https://example.com/mcp"},
+                },
+            },
+        )
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_root_manifest_version_drift_fails_full_gate(self) -> None:
+        self.mutate_manifest(version="9.9.9")
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("name/version drift", result.stderr)
 
 
 if __name__ == "__main__":

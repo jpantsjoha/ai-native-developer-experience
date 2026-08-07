@@ -20,6 +20,15 @@ in the CLI, or the Plugins sidebar in the Codex app).
 1. Ask "which skills are available?" — the 21 skills should be named.
 2. `AGENTS.md` should appear in Codex's loaded context files.
 
+## Standards
+
+The skills follow [Agent Skills](https://agentskills.io/specification), which is what lets
+Codex discover them from `.agents/skills/` with no manifest at all. The root `plugin.json`
+follows [Agent Plugins 1.0.0](https://agent-plugins.org/specification) and is the portable
+entry point for clients that do want a manifest. Codex has no declared `extensions`
+namespace here, because it needs none — native discovery plus `AGENTS.md` is the whole
+integration.
+
 ## Notes
 
 - Session-start injection on Codex uses `.codex/hooks.json` in the *target* project;

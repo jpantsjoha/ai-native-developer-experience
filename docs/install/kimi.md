@@ -22,6 +22,16 @@ What gets wired (via `.kimi-plugin/plugin.json`):
 2. A fresh session should show the harness orientation; ask "which skills are
    available?" to see the 21 skills.
 
+## Standards
+
+The portable entry point is the root `plugin.json`, which follows
+[Agent Plugins 1.0.0](https://agent-plugins.org/specification); the skills follow
+[Agent Skills](https://agentskills.io/specification). `.kimi-plugin/plugin.json` is the Kimi
+**projection** of that manifest, declared in the root manifest's `extensions` block under
+`ai.moonshot.kimi`. The Kimi manifest carries fields the portable schema does not define —
+`sessionStart`, `skillInstructions`, `interface` — which is exactly why it stays a separate
+projection rather than being folded into the root.
+
 ## Update
 
 Reinstall with the same command.

@@ -227,3 +227,27 @@ checks the work needs checking too, and it cannot check itself. A validator auth
 worst reviewer of that validator. This project's doctrine already said so; the doctrine was
 simply not followed. From here, conformance-gate changes get an independent cross-model
 review before merge, not after release.
+
+### Where the review was stopped, and why
+
+Nine rounds ran. Findings by round: **3 → 2 → 1 → 1 → 1 → 2 → 1 → 1 → 1**, every one
+reproduced before acceptance, every one fixed with a fixture.
+
+Rounds one to three found defects in code that runs today. Rounds four onward converged on a
+single narrowing family: symlink-assisted escape of an MCP `cwd` — broken links, Windows
+separators, drive-qualified targets, UNC paths, relative Windows traversal, unverifiable
+`${PLUGIN_DATA}`. Each was a variant of its predecessor, and **all of them guard a root
+`mcp.json` this package does not ship**.
+
+The review was stopped there deliberately, and the reasoning is recorded rather than
+implied:
+
+- The defects that could affect a user *today* were found in the first three rounds.
+- The remainder harden a code path with no live input, against a package the project
+  controls.
+- A reviewer asked for one more round will generally produce one more finding. Convergence
+  has to be a judgement, not an absence of output.
+
+**The posture, stated plainly:** `cwd` containment is defence-in-depth for a file that does
+not exist yet. If a real root `mcp.json` is ever added, that is the moment to re-run this
+review from round one — not to assume nine rounds already covered it.

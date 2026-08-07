@@ -429,6 +429,21 @@ class SpecConformanceTests(unittest.TestCase):
         finally:
             outside.rmdir()
 
+    def test_mcp_cwd_via_windows_relative_symlink_fails(self) -> None:
+        """POSIX reads "..\\outside" as one filename; Windows climbs out of the root."""
+        os.symlink("..\\outside", self.root / "winrel")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/winrel/work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_via_windows_netzero_symlink_passes(self) -> None:
+        """"sub\\..\\workdir" never leaves the root, so it must not be rejected."""
+        (self.root / "workdir").mkdir()
+        (self.root / "sub").mkdir()
+        os.symlink("sub\\..\\workdir", self.root / "netzero")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/netzero"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_mcp_plugin_data_traversal_fails(self) -> None:
         """PLUGIN_DATA is client-managed, so a net-zero `..` cannot be proven contained."""
         self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_DATA}/link/../work"})

@@ -191,6 +191,21 @@ def windows_absolute(target: str) -> bool:
     return target.startswith("\\")
 
 
+def escapes_relative(target: str, link: Path, root: Path) -> bool:
+    """True when a relative symlink target, read from `link`, climbs out of `root`."""
+    try:
+        depth = len(link.parent.relative_to(root).parts)
+    except ValueError:
+        return True
+    for part in target.split("/"):
+        if part in ("", "."):
+            continue
+        depth += -1 if part == ".." else 1
+        if depth < 0:
+            return True
+    return False
+
+
 def resolves_in_root(cwd: str, root: Path) -> bool:
     """True when a root-relative `cwd` still lands inside the package after symlinks.
 
@@ -223,8 +238,14 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
     # consuming the package treats it as absolute. Judge the target text, not the host.
     probe = existing
     while probe != root and within_root(probe.parent, root):
-        if probe.is_symlink() and windows_absolute(os.readlink(probe)):
-            return False
+        if probe.is_symlink():
+            target = os.readlink(probe)
+            if windows_absolute(target):
+                return False
+            # A POSIX host treats "..\outside" as one literal filename; Windows reads the
+            # backslash as a separator and climbs. Judge the target under both.
+            if "\\" in target and escapes_relative(target.replace("\\", "/"), probe, root):
+                return False
         probe = probe.parent
 
     return within_root(existing, root)

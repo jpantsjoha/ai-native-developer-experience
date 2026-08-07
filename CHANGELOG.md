@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 46. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 48. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -91,6 +91,13 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   and cannot be resolved at validation time, so `link/../work` survived the lexical
   depth check while escaping if the client made `link` a symlink. `..` is now refused for
   `${PLUGIN_DATA}` paths; plain paths under it still pass.
+
+### Fixed (ninth review round, before merge)
+
+- **Relative Windows traversal in a symlink target.** `escape -> ..\\outside` reads as one
+  literal filename on POSIX but climbs a level on Windows. Relative targets containing a
+  backslash are now evaluated under Windows separator semantics too. A net-zero target such
+  as `sub\\..\\workdir`, which never leaves the root, still passes.
 
 ## [0.2.2] — 2026-08-07
 

@@ -130,10 +130,10 @@ class PluginPackagingTests(unittest.TestCase):
         claims = {
             "skills/README.md": f"## The {expected} Skills",
             "README.md": f"full harness is live: {expected} skills",
-            "docs/install/claude.md": f"the {expected} `.agents/skills/` capabilities",
+            "docs/install/claude.md": f"the {expected} `skills/` capabilities",
             "docs/install/codex.md": f"the {expected} skills should be named",
             "docs/install/kimi.md": f"to see the {expected} skills",
-            "docs/install/antigravity.md": f"the {expected} `.agents/skills/` capabilities",
+            "docs/install/antigravity.md": f"the {expected} `skills/` capabilities",
         }
         for relative_path, claim in claims.items():
             with self.subTest(path=relative_path):

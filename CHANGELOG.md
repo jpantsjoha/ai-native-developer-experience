@@ -8,6 +8,36 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [0.2.2] — 2026-08-07
+
+### Fixed
+
+- **Three README links returned 404 on GitHub.** Inverting the skill layout in 0.2.1 made
+  `.agents/skills/` a symlink, and GitHub's web UI does not traverse symlinked directories.
+  Links to the skills library, `plugin-submission`, and `operating-model-bootstrap` all
+  broke. They now point at the real `skills/` directory. Same fix applied in
+  `DEVELOPER_EXPERIENCE.md`.
+- **Install instructions told users to copy a symlink.** `README.md`, `BOOTSTRAP.md`, and
+  `docs/install/codex.md` said to copy or vendor `.agents/skills/`; the canonical directory
+  is `skills/`.
+- **`docs/install/claude.md` described the pre-inversion symlink direction**, claiming
+  `skills/` was the alias pointing at `.agents/skills/`. Reversed to match reality.
+
+### Added
+
+- **README now documents installation, configuration, usage examples, and troubleshooting**
+  — the four things the Claude Plugin Hub creator guide asks for, and the two it scored this
+  plugin as missing. New `Usage` (intent-to-skill routing table plus a worked risk-tiered
+  example), `Configuration` (the three seams), `Troubleshooting` (six real failure modes with
+  causes), and a `Verify the install` subsection.
+- **Compliance with Agent Plugins 1.0.0 stated precisely**, citing the
+  [Google announcement](https://developers.googleblog.com/agent-plugins-package-your-skills-tools-and-more/)
+  and the standard's Technical Steering Committee. The conformance table now separates
+  spec-required rules from local hygiene: the standard defines exactly two component types
+  (skills, MCP), so commands and hooks are explicitly outside v1 (§7) and are declared as
+  manifest extensions (§8.1). The package does **not** claim `.claude-plugin/` as a §8.2
+  directory extension — those must be named after the namespace.
+
 ## [0.2.1] — 2026-08-07
 
 Fixes two installability defects that only a live install into each client could surface.

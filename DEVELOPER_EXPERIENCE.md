@@ -94,7 +94,7 @@ check that fails when authority, risk invariants, version/digest, or critical cu
 facts disagree.
 
 The templates and adoption procedure live in
-[`operating-model-bootstrap`](.agents/skills/operating-model-bootstrap/SKILL.md).
+[`operating-model-bootstrap`](skills/operating-model-bootstrap/SKILL.md).
 
 ### Squad roles
 

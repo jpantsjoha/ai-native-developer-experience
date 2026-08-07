@@ -12,7 +12,7 @@ can start system design and technical delivery planning coherently on day one.
 
 ### 1. Put the baseline skills in the project
 
-Copy this repository's `.agents/skills/` directory into the new repository. Keep it
+Copy this repository's `skills/` directory into the new repository. Keep it
 tracked. The operating-model initializer and validator require Python 3.10 or newer but
 have no package or provider SDK dependency; they use only the standard library.
 

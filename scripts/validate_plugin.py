@@ -178,6 +178,19 @@ def escapes_via_traversal(value: str) -> bool:
     return False
 
 
+def windows_absolute(target: str) -> bool:
+    """True when a path string is absolute under Windows semantics.
+
+    Covers drive-qualified (`C:\\out`, `C:/out`), rooted (`\\out`) and UNC
+    (`\\\\server\\share`) forms. A POSIX host reads all of these as relative names.
+    """
+    if target.startswith(("\\\\", "//")):
+        return True
+    if re.match(r"^[A-Za-z]:[\\/]?", target):
+        return True
+    return target.startswith("\\")
+
+
 def resolves_in_root(cwd: str, root: Path) -> bool:
     """True when a root-relative `cwd` still lands inside the package after symlinks.
 
@@ -201,6 +214,16 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
     # accept a path that escapes the moment the client creates the target.
     while not os.path.lexists(existing) and existing != existing.parent:
         existing = existing.parent
+
+    # A POSIX validator resolving a Windows-absolute symlink target ("C:\out",
+    # "\\\\server\\share") treats it as an innocent relative name, while the Windows client
+    # consuming the package treats it as absolute. Judge the target text, not the host.
+    probe = existing
+    while probe != root and within_root(probe.parent, root):
+        if probe.is_symlink() and windows_absolute(os.readlink(probe)):
+            return False
+        probe = probe.parent
+
     return within_root(existing, root)
 
 

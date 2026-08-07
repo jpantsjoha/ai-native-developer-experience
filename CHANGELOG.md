@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 43. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 45. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -76,6 +76,14 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   on symlink loops for some platforms and versions; only `OSError`/`ValueError` were caught.
   Hardening only — the crash was **not** reproduced on macOS/CPython here, where the loop
   resolved without raising.
+
+### Fixed (seventh review round, before merge)
+
+- **A POSIX validator accepted Windows-absolute symlink targets.** A symlink to `C:\out` or
+  `\\server\share` reads as an innocent relative name on Linux/macOS, while the Windows
+  client consuming the package treats it as absolute and starts the server outside the root.
+  Symlink targets are now judged as text, covering drive-qualified, rooted and UNC forms.
+  An ordinary relative symlink to a sibling directory still passes.
 
 ## [0.2.2] — 2026-08-07
 

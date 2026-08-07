@@ -438,6 +438,23 @@ class SpecConformanceTests(unittest.TestCase):
                 result = run_validator(self.root, "--spec-only")
                 self.assertEqual(result.returncode, 0, f"{cwd} wrongly rejected")
 
+    def test_mcp_cwd_via_windows_absolute_symlink_fails(self) -> None:
+        """A POSIX host reads "C:\\out" as relative; a Windows client reads it as absolute."""
+        for name, target in (("win", "C:\\outside"), ("unc", "\\\\server\\share")):
+            with self.subTest(target=target):
+                os.symlink(target, self.root / name)
+                self.mcp({"type": "stdio", "command": "uvx",
+                          "cwd": f"${{PLUGIN_ROOT}}/{name}/work"})
+                self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_via_in_root_relative_symlink_passes(self) -> None:
+        """An ordinary relative symlink to a sibling directory stays contained."""
+        (self.root / "workdir").mkdir()
+        os.symlink("workdir", self.root / "good")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/good"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_mcp_cwd_via_broken_symlink_fails(self) -> None:
         """A broken symlink reports exists()==False, so containment must use lexists."""
         os.symlink("/outside-not-yet-created", self.root / "escape")

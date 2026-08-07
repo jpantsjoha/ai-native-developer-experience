@@ -155,7 +155,7 @@ real clients produced evidence the static gate could not:
 | --- | --- |
 | Claude Code | Installed 0.2.0; 21 skills + 3 commands; SessionStart hook registered; symlink preserved |
 | Kimi Code | Updated to 0.2.0; skills confirmed at runtime by a live session |
-| Antigravity (`agy`) | Installed; skills and commands loaded; **`hooks: skipped (not found)`** |
+| Antigravity (`agy`) | Installed; skills and commands loaded; **`hooks: skipped (not found)`** — a regression against 0.1.7, which processed the hook |
 | Codex | Installed and enabled; **`skills/` symlink dropped by the install cache** |
 
 Two findings forced changes:
@@ -164,18 +164,41 @@ Two findings forced changes:
    installed copy did not. Codex itself was unaffected — it discovers `.agents/skills/`
    natively — but any conformant client relying on the fixed location would have found zero
    skills. The layout is now inverted: `skills/` real, `.agents/skills/` the alias.
-2. **Antigravity had never received a session-start hook.** `agy` reads `hooks.json` from the
-   package root; the plugin shipped only `hooks/hooks.json`. No tagged version ever contained
-   a root `hooks.json`, so this was broken in every release from 0.1.0 onward. It went
-   unnoticed because a stale root `hooks.json`, left by a July `gemini-cli` import, sat in the
-   developer's own install and made local checks pass.
+2. **The root manifest silently disabled Antigravity's session-start hook — a regression
+   introduced by this ADR's own decision 1.** `agy` runs two discovery modes. With no root
+   `plugin.json` it uses legacy discovery and finds `hooks/hooks.json`. With a root
+   `plugin.json` present it switches to Agent Plugins mode and reads `hooks.json` at the
+   package root *only*. Adding the conformance manifest therefore turned a working hook off.
 
-The conformance work also proved its worth: `agy plugin validate` **rejects v0.1.7 and v0.1.3
-outright** (`Error: missing plugin.json`) and accepts 0.2.0. Antigravity's loader had been
-refusing every previously released version.
+   Proven by a single-variable experiment: an untouched v0.1.7 tree installs with
+   `hooks: 1 processed`; copying in nothing but `plugin.json` flips the same tree to
+   `hooks: skipped (not found)`. The fix is to ship both manifests.
 
-**The lesson carried forward:** a schema gate proves a package is *well-formed*, never that it
-is *installable*. Both are required before a release. The release checklist now includes a
-live install into each supported client, and `docs/install/*.md` claims must be re-verified
-against a *clean* install — a developer's own upgraded install can carry artefacts that mask a
-defect for years.
+### Corrections to the first draft of this revision
+
+Two claims in the first draft were wrong, and are corrected here rather than quietly edited:
+
+- **"Antigravity had never received a session-start hook; broken in every release from
+  0.1.0."** False. It worked in 0.1.7. The defect was a regression introduced in 0.2.0 by the
+  root manifest, as shown above. The first diagnosis mistook a self-inflicted regression for a
+  long-standing bug, and built a supporting narrative around a stale artefact in the
+  developer's own install.
+- **"`agy plugin validate` rejects v0.1.7 and v0.1.3, so Antigravity's loader had been
+  refusing every previously released version."** False. `agy plugin **install**` succeeds on
+  v0.1.7 — 21 skills, hook processed. Only the stricter `validate` subcommand requires a root
+  `plugin.json`. Conformance did not repair a pre-existing breakage; there was none.
+
+The root manifest is still required — by the specification and by `agy plugin validate` — but
+it must not be credited with fixing something that was never broken.
+
+**The lessons carried forward:**
+
+1. A schema gate proves a package is *well-formed*, never that it is *installable*. Both are
+   required before a release, so the checklist now includes a live install into each supported
+   client, verified against a **clean** install.
+2. **Adding a manifest can change a client's mode, not merely add metadata.** Conformance work
+   is a behavioural change and must be regression-tested against the clients that already
+   worked — not only against the specification.
+3. When a live test contradicts a hypothesis, isolate one variable before writing the
+   conclusion down. Both false claims above came from reading two different subcommands
+   (`validate` and `install`) as one signal.

@@ -147,7 +147,9 @@ def within_root(path: Path, root: Path) -> bool:
     """True when `path` resolves inside `root` after symlink resolution."""
     try:
         return path.resolve().is_relative_to(root)
-    except (OSError, ValueError):
+    except (OSError, ValueError, RuntimeError):
+        # RuntimeError covers symlink loops on some platforms/versions; an unresolvable
+        # path is never provably contained, so treat any resolution failure as outside.
         return False
 
 
@@ -186,6 +188,10 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
     if cwd.startswith("${PLUGIN_DATA}"):
         return True
     relative = re.sub(r"^(?:\./|\$\{PLUGIN_ROOT\}/?)", "", cwd).replace("\\", "/")
+    # Strip separators left by a doubled slash (".//skills"). Without this, `root / relative`
+    # sees an absolute "/skills", silently discards the root, and reports an in-root
+    # directory as an escape.
+    relative = relative.lstrip("/")
     if not relative:
         return True
     candidate = root / relative

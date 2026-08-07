@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 42. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 43. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -65,6 +65,17 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   `exists() == False`, so the climb-to-nearest-ancestor loop walked straight past it to the
   root and accepted the path — which would escape the moment the client created the target.
   The loop now uses `os.path.lexists`, which sees the link itself.
+
+### Fixed (sixth review round, before merge)
+
+- **A doubled separator false-rejected a valid path.** `.//workdir` left `/workdir` after
+  prefix stripping, and `root / "/workdir"` discards the root and yields an absolute path —
+  so the validator reported an in-root directory as an escape. Leading separators are now
+  stripped.
+- **Unresolvable paths are treated as outside.** `Path.resolve()` can raise `RuntimeError`
+  on symlink loops for some platforms and versions; only `OSError`/`ValueError` were caught.
+  Hardening only — the crash was **not** reproduced on macOS/CPython here, where the loop
+  resolved without raising.
 
 ## [0.2.2] — 2026-08-07
 

@@ -429,6 +429,15 @@ class SpecConformanceTests(unittest.TestCase):
         finally:
             outside.rmdir()
 
+    def test_mcp_cwd_with_doubled_separator_passes(self) -> None:
+        """`.//skills` is in-root; a stripped prefix must not leave an absolute path."""
+        (self.root / "workdir").mkdir()
+        for cwd in (".//workdir", "${PLUGIN_ROOT}//workdir"):
+            with self.subTest(cwd=cwd):
+                self.mcp({"type": "stdio", "command": "uvx", "cwd": cwd})
+                result = run_validator(self.root, "--spec-only")
+                self.assertEqual(result.returncode, 0, f"{cwd} wrongly rejected")
+
     def test_mcp_cwd_via_broken_symlink_fails(self) -> None:
         """A broken symlink reports exists()==False, so containment must use lexists."""
         os.symlink("/outside-not-yet-created", self.root / "escape")

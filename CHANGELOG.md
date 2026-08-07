@@ -31,7 +31,7 @@ to stop bad packaging was letting them through.
 
 ### Changed
 
-- Negative fixtures 22 → 40. Every finding above has a test that fails without its fix.
+- Negative fixtures 22 → 42. Every finding above has a test that fails without its fix.
 
 ### Fixed (second review round, before merge)
 
@@ -58,6 +58,13 @@ A second independent pass on the *fix itself* found two bypasses in the new chec
   values are now resolved on disk and checked for containment after symlink resolution.
   `${PLUGIN_DATA}` is client-managed and cannot be resolved at validation time, so it is
   exempt; an ordinary in-root directory still passes.
+
+### Fixed (fifth review round, before merge)
+
+- **A broken symlink slipped through containment.** `escape -> /not-yet-created` reports
+  `exists() == False`, so the climb-to-nearest-ancestor loop walked straight past it to the
+  root and accepted the path — which would escape the moment the client created the target.
+  The loop now uses `os.path.lexists`, which sees the link itself.
 
 ## [0.2.2] — 2026-08-07
 

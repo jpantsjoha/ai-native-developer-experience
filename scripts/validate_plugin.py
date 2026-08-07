@@ -190,7 +190,10 @@ def resolves_in_root(cwd: str, root: Path) -> bool:
         return True
     candidate = root / relative
     existing = candidate
-    while not existing.exists() and existing != existing.parent:
+    # lexists, not exists: a *broken* symlink such as `escape -> /not-yet-created` reports
+    # exists() == False, so following exists() would climb straight past it to the root and
+    # accept a path that escapes the moment the client creates the target.
+    while not os.path.lexists(existing) and existing != existing.parent:
         existing = existing.parent
     return within_root(existing, root)
 

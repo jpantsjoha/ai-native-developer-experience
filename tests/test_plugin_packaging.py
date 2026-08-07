@@ -429,6 +429,18 @@ class SpecConformanceTests(unittest.TestCase):
         finally:
             outside.rmdir()
 
+    def test_mcp_cwd_via_broken_symlink_fails(self) -> None:
+        """A broken symlink reports exists()==False, so containment must use lexists."""
+        os.symlink("/outside-not-yet-created", self.root / "escape")
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/escape/work"})
+        self.assert_spec_failure("resolves outside the plugin root")
+
+    def test_mcp_cwd_to_not_yet_created_in_root_path_passes(self) -> None:
+        """Containment checks escape, not presence: a plain missing path is fine."""
+        self.mcp({"type": "stdio", "command": "uvx", "cwd": "${PLUGIN_ROOT}/newdir/sub"})
+        result = run_validator(self.root, "--spec-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_mcp_cwd_into_real_in_root_directory_passes(self) -> None:
         """Containment must not reject an ordinary directory inside the package."""
         (self.root / "workdir").mkdir()

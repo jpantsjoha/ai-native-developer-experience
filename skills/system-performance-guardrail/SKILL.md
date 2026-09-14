@@ -26,7 +26,7 @@ except `cleanup --yes` (kills), `icloud throttle|restore` (signals) and `record`
 
 | Phase | Command | Output |
 |---|---|---|
-| 1 Measure | `perf-guardrail.sh snapshot --save /tmp/pre.snap`, `hangs 7`, `fleet`, `orphans` | load vs cores, memory, swap, top consumers **with the session that owns them**, sync daemons (a stopped one is flagged), indexer, MCP fleets, automation browsers, and every app hang report with the frames that explain it |
+| 1 Measure | `perf-guardrail.sh snapshot --save /tmp/pre.snap`, `hangs 7`, `fleet`, `orphans` (`rows` gives the same as machine-readable lines for CI gates) | load vs cores, memory, swap, top consumers **with the session that owns them**, sync daemons (a stopped one is flagged), indexer, MCP fleets, automation browsers, and every app hang report with the frames that explain it |
 | 2 Attribute | the signature table below | one cause per signature, never "the Mac is slow" |
 | 3 Act | only the sanctioned actions below | bounded, reversible, one attempt |
 | 4 Verify | `perf-guardrail.sh verify /tmp/pre.snap`, `hangs 1` | a before → after table in the reply; a fix without numbers did not happen |

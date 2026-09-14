@@ -56,7 +56,7 @@ done
 case "$orientation" in
     off) exit 0 ;;
     full) : ;;
-    pointer) banner="Below is the join-the-team orientation pointer for this project (no operating-model profile found). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model." ;;
+    pointer) banner="Below is the join-the-team orientation pointer (JOIN_THE_TEAM_ORIENTATION=pointer). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model." ;;
     *) if [ -z "$profile" ]; then banner="Below is the join-the-team orientation pointer for this project (no operating-model profile found). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model."; fi ;;
 esac
 

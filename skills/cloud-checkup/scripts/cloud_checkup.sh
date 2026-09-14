@@ -398,7 +398,12 @@ AI_ALLOW=(
   "Bash(cat:*)" "Bash(head:*)" "Bash(tail:*)" "Bash(grep:*)" "Bash(wc:*)" "Bash(ls:*)" "Bash(date:*)"
   # Write is the one grant that can change the working tree. It is bounded by the prompt
   # (one report path) rather than by the grant, so run the checkup on a clean tree.
-  "Read" "Glob" "Grep" "Write" "mcp__mongodb__*"
+  "Read" "Glob" "Grep" "Write"
+  # MongoDB MCP: read tools only, named — a wildcard would admit insert/update/delete/drop.
+  # Launch the server with --readOnly as well; the allowlist is the gate, the flag is the belt.
+  "mcp__mongodb__find" "mcp__mongodb__aggregate" "mcp__mongodb__count" "mcp__mongodb__explain"
+  "mcp__mongodb__list-databases" "mcp__mongodb__list-collections" "mcp__mongodb__collection-indexes"
+  "mcp__mongodb__collection-schema" "mcp__mongodb__collection-storage-size" "mcp__mongodb__db-stats"
 )
 AI_DENY=(
   "Bash(gcloud config:*)" "Bash(gcloud auth login:*)" "Bash(gcloud run deploy:*)"
@@ -410,6 +415,7 @@ AI_DENY=(
 
 if [ "${CC_SKIP_AI:-0}" != "1" ] && command -v claude >/dev/null 2>&1; then
   PROMPT="$(CC_DATE="$DATE" CC_STAMP="$STAMP" CC_OUT="$OUT" CC_PROBES="$PROBES" \
+            CC_PROJECT="$PROJECT" CC_REGION="$REGION" CC_ACCOUNT="$ACCOUNT" CC_PUBLIC_URL="$PUBLIC_URL" \
             CC_MANIFEST_PATH="$MANIFEST" CC_TEMPLATE="${SKILL_DIR}/templates/CHECKUP-TEMPLATE.md" \
             CC_MODULES="${SKILL_DIR}/modules" CC_REPORT_DIR="$REPORT_DIR" \
             CC_SERVICE_LIST="${SERVICES[*]}" CC_LOG_DAYS="$LOG_DAYS" \

@@ -115,9 +115,12 @@ under `${CC_STATE_DIR:-$HOME/.local/state/cloud-checkup}`.
 Layer 2's headless tool grant is a **positive allowlist of exact read-only subcommands**,
 not a denylist of dangerous ones. A denylist is a guess about what a future gcloud release
 will name its mutating verbs; an allowlist fails closed when that guess is wrong. The list
-lives in `scripts/cloud_checkup.sh` (`AI_ALLOW`) and holds only `describe`, `list`,
-`read`, `get-iam-policy` and header-only curl forms. A short denylist sits behind it as
-defence in depth, not as the mechanism.
+lives in `scripts/cloud_checkup.sh` (`AI_ALLOW`) and holds only read forms: `gcloud`
+`describe` / `list` / `read` / `get-iam-policy`, header-only and status-only `curl`, `git log`
+and `git status`, local file reads, and the MongoDB MCP read tools by name (`find`,
+`aggregate`, `count`, `explain`, list / schema / index / stats) — never a wildcard, which would
+admit the server's insert, update, delete and drop tools. Launch the MongoDB server with
+`--readOnly` as well. A short denylist sits behind it as defence in depth, not as the mechanism.
 
 `Write` is the one grant that can change the working tree, and it is bounded by the prompt
 (one report path) rather than by the grant. That is the routine's one residual: run the

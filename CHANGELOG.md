@@ -69,8 +69,9 @@ reviewed by a second model before merge.
   `JOIN_THE_TEAM_ORIENTATION=full`; elsewhere a short pointer is injected so the harness stays
   discoverable without taxing every session (`=pointer` forces the short form, `=off` injects
   nothing). The injected banner now says which of the two it is.
-- Skill count 20 → 22 across `README.md`, `skills/README.md` and every install guide; plugin
-  version 0.3.0 across all six manifests.
+- Skill count 21 → 22 (v0.2.3 → 0.3.0: five added, four folded into one) across `README.md`,
+  `skills/README.md` and every install guide; version 0.3.0 in the root `plugin.json`, the
+  Claude, Kimi and Gemini projections and the marketplace entry.
 
 ### Removed
 

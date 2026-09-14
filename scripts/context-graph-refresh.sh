@@ -15,7 +15,9 @@
 #   CGF_REPO       repo root                     (default: git toplevel of $PWD)
 #   CGF_GRAPH      file whose mtime = freshness   (default: $REPO/graft/.graph/wiring.json)
 #   CGF_BUILD_CMD  rebuild command                (default: npx -y @nanonets/graft@0.10.1 build)
-#   CGF_SRC        find-expr of source extensions (default: py,ts,tsx,js — see below)
+#   CGF_EXTS       source extensions, space-separated, no dot (default: py ts tsx js)
+#   CGF_LOCK       single-flight lock dir           (default: beside the graph)
+#   CGF_LOG        rebuild log                      (default: beside the graph)
 #   CGF_PRUNE      dir names to skip              (default: .git node_modules .venv graft .next dist build)
 #
 # Usage:
@@ -28,8 +30,9 @@ set -uo pipefail
 REPO="${CGF_REPO:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")}"
 GRAPH="${CGF_GRAPH:-$REPO/graft/.graph/wiring.json}"
 BUILD_CMD="${CGF_BUILD_CMD:-npx -y @nanonets/graft@0.10.1 build}"
-LOCK="${CGF_LOCK:-$REPO/.context-graph.refresh.lock}"
-LOG="${CGF_LOG:-$REPO/.context-graph.refresh.log}"
+# Lock and log live beside the graph, so they are gitignored with it and never dirty the tree.
+LOCK="${CGF_LOCK:-$(dirname "$GRAPH")/.refresh.lock}"
+LOG="${CGF_LOG:-$(dirname "$GRAPH")/.refresh.log}"
 # space-separated extensions (no dot); default covers Python + TS/JS front-ends
 CGF_EXTS="${CGF_EXTS:-py ts tsx js}"
 CGF_PRUNE="${CGF_PRUNE:-.git node_modules .venv graft .next dist build}"
@@ -58,7 +61,12 @@ if [ "$FORCE" -eq 0 ] && ! is_stale; then
   exit 0
 fi
 
-# atomic single-flight (mkdir is atomic on all POSIX filesystems)
+# atomic single-flight (mkdir is atomic on all POSIX filesystems). A lock older than 30 min
+# is a corpse from a killed run — reap it rather than disable rebuilds forever.
+mkdir -p "$(dirname "$LOCK")"
+if [ -d "$LOCK" ] && [ -n "$(find "$LOCK" -maxdepth 0 -mmin +30 2>/dev/null)" ]; then
+  echo "context-graph: stale lock (>30 min) removed" >&2; rmdir "$LOCK" 2>/dev/null || rm -rf "$LOCK"
+fi
 if ! mkdir "$LOCK" 2>/dev/null; then
   echo "context-graph: rebuild already running (lock held) — skip"
   exit 0

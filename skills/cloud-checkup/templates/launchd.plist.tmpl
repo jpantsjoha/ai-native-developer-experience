@@ -4,6 +4,7 @@
   Install:
     sed -e 's|__LABEL__|com.example.cloud-checkup|g' \
         -e 's|__HOME__|'"$HOME"'|g' \
+        -e 's|__SKILL__|<path-to-skill>|g' \
         -e 's|__REPO__|'"$HOME"'/path/to/project|g' \
         -e 's|__MANIFEST__|.cloud-checkup.yaml|g' \
         -e 's|__WEEKDAY__|3|g' -e 's|__HOUR__|7|g' \
@@ -33,7 +34,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>__HOME__/.claude/skills/cloud-checkup/scripts/cloud_checkup.sh</string>
+        <string>__SKILL__/scripts/cloud_checkup.sh</string>
     </array>
 
     <key>EnvironmentVariables</key>

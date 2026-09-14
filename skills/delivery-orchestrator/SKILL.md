@@ -87,6 +87,8 @@ The four rules that keep them from drifting:
 | Delivery controls: source of truth, issue/PR conventions, DoD, escalation | `delivery-orchestrator` (own it here) |
 | An agreed goal to pursue autonomously to a merged outcome | `get-it-done` |
 | Developer-machine contention, orphaned automation browsers, cloud-sync stalls | `system-performance-guardrail` |
+| Read-only SRE checkup of a GCP project: probes, status table, one `OVERALL:` line | `cloud-checkup` |
+| Frontend performance measurement: Core Web Vitals, traces, Lighthouse, heap growth | `frontend-performance-audit` |
 | Routing this list | `delivery-orchestrator` (you are here) |
 
 ## Outputs

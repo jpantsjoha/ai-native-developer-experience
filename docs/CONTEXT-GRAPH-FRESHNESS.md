@@ -75,7 +75,8 @@ after a large external change the mtime heuristic can't see.
        { "type": "command", "command": "bash scripts/context-graph-refresh.sh >/dev/null 2>&1 &", "async": true }
    ] } ] } }
    ```
-4. Ensure the graph directory is gitignored-but-greppable, and the indexer version is pinned.
+4. Ensure the graph directory is gitignored-but-greppable (the guard keeps its lock and log
+   beside the graph, so they are ignored with it), and the indexer version is pinned.
 
 ## Reference implementation
 

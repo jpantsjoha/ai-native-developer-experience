@@ -49,7 +49,7 @@ review() {  # $1 label, $2 diff file, $3 commits file, $4 record id -> prints re
 }
 
 mode="${REVIEW_GATE:-block}"; what=""; arg=""; comment=1
-while [ $# -gt 0 ]; do case "$1" in --staged) what=staged; shift;; --range) what=range; arg=$2; shift 2;; --pr) what=pr; arg=$2; shift 2;; --last) what=last; shift;; --mode) mode=$2; shift 2;; --no-comment) comment=0; shift;; --worker) what=worker; shift;; *) shift;; esac; done
+while [ $# -gt 0 ]; do case "$1" in --staged) what=staged; shift;; --range) what=range; arg=$2; shift 2;; --pr) what=pr; arg=$2; shift 2;; --last) what=last; shift;; --mode) mode=$2; shift 2;; --no-comment) comment=0; shift;; --worker) what=worker; arg=$2; shift 2;; *) shift;; esac; done
 [ "$mode" = off ] && exit 0
 case "$what" in
   last) [ -f "$DIR/LAST" ] && { echo "review-gate: last verdict — $(cat "$DIR/LAST")"; ls -t "$DIR"/*.md 2>/dev/null | head -1 | xargs -I{} echo "  record: {}"; } || echo "review-gate: no record yet"; exit 0 ;;
@@ -58,7 +58,7 @@ case "$what" in
     git diff --cached --stat > "$DIR/$id.commits"; echo "(staged, not yet committed)" >> "$DIR/$id.commits"
     if [ "$mode" = async ]; then
       [ -f "$DIR/LAST" ] && echo "review-gate: last verdict — $(cat "$DIR/LAST")" >&2
-      nohup bash "$0" --worker --range "$id" >/dev/null 2>&1 & echo "review-gate: independent review of the staged diff queued ($MODEL); verdict in .git/review-gate/$id.md and on the next commit" >&2; exit 0
+      nohup bash "$0" --worker "$id" >/dev/null 2>&1 & echo "review-gate: independent review of the staged diff queued ($MODEL); verdict in .git/review-gate/$id.md and on the next commit" >&2; exit 0
     fi
     rec=$(review "staged changes" "$DIR/$id.diff" "$DIR/$id.commits" "$id"); echo "review-gate: $VERDICT" >&2; echo "  record: $rec" >&2
     case "$VERDICT" in *BLOCK*) exit 1;; *CONCERNS*) [ "${REVIEW_GATE_STRICT:-0}" = 1 ] && exit 1;; esac; exit 0 ;;

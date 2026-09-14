@@ -13,6 +13,7 @@
 #   perf-guardrail.sh hangs [DAYS]             app hang/spin reports with the frames that explain them
 #   perf-guardrail.sh fleet                    MCP / npm exec / node server processes grouped by owning session
 #   perf-guardrail.sh orphans                  automation browsers and drivers: disposable or not, parent alive or not
+#   perf-guardrail.sh rows                       the raw rows behind orphans: pid ppid etime rss disposable parent args
 #   perf-guardrail.sh cleanup [--all] [--yes]  list (default) or kill (--yes) DISPOSABLE automation browsers/drivers whose
 #                                              launcher is gone; --all: every disposable one. A browser on a normal profile
 #                                              is never a candidate, whatever flags it carries.
@@ -33,14 +34,16 @@ PERF_LESSONS="${PERF_LESSONS:-$HOME/.perf-guardrail/LESSONS-LEARNED.md}"
 TOP="${PERF_TOP:-8}"
 NCPU=$(sysctl -n hw.ncpu 2>/dev/null || echo 1)
 
-# A process is an automation browser only when it is a browser BINARY carrying an automation MARKER,
-# or a WebDriver binary. It is DISPOSABLE only when it runs headless or on a throwaway profile; a
-# browser on the user's normal profile is never disposable, even with --remote-debugging-port
-# (that is a developer's DevTools session). IDE helpers never match BROWSER_RE.
-BROWSER_RE='(Google Chrome|Chromium|Chrome for Testing|chrome-headless-shell|Microsoft Edge|Brave Browser|Firefox|Nightly|WebKit|Playwright)(\.app/Contents/MacOS/[^ ]*|[^ ]*) '
-MARKER_RE='--remote-debugging-port|--remote-debugging-pipe|--headless|--user-data-dir='
-DRIVER_RE='(^|/)(chromedriver|geckodriver|msedgedriver|safaridriver|operadriver)( |$)'
-DISPOSABLE_RE="--headless|chrome-headless-shell|--user-data-dir=[^ ]*(/tmp/|/var/folders/|/T/|playwright|puppeteer|selenium|harness|pw-|ms-playwright)|ms-playwright/${PERF_DISPOSABLE_RE:+|$PERF_DISPOSABLE_RE}"
+# A process is an automation browser only when its EXECUTABLE (ps comm, not its arguments) is a
+# browser binary and its own arguments carry an automation flag, or its executable is a WebDriver.
+# It is DISPOSABLE only when headless or on a throwaway profile; a browser on the user's normal
+# profile is never disposable, even with --remote-debugging-port (a developer's DevTools session).
+# Names and flags are anchored to the executable path / to whole flags, so a browser name or a
+# flag that merely appears inside another process's arguments never matches.
+BROWSER_BIN_RE='/(Google Chrome( Canary| Beta| Dev)?|Google Chrome for Testing|Chromium|chrome-headless-shell|Microsoft Edge( Canary| Beta| Dev)?|Brave Browser|firefox|firefox-bin|Firefox|Nightly|Playwright|com\.apple\.WebKit\.WebContent)$'
+DRIVER_BIN_RE='/(chromedriver|geckodriver|msedgedriver|safaridriver|operadriver)$'
+MARKER_RE='(^| )--(remote-debugging-port|remote-debugging-pipe|headless|user-data-dir)(=|$| )'
+DISPOSABLE_RE="(^| )--headless(=[^ ]*)?( |\$)|/chrome-headless-shell\$|(^| )--user-data-dir=[^ ]*(/tmp/|/var/folders/|/T/|playwright|puppeteer|selenium|harness|/pw-|ms-playwright)${PERF_DISPOSABLE_RE:+|$PERF_DISPOSABLE_RE}"
 KEEP_RE="${PERF_KEEP_RE:-__never_matches__}"
 
 root_of() {  # "pid:comm" of the top-most non-launchd ancestor
@@ -51,16 +54,21 @@ root_of() {  # "pid:comm" of the top-most non-launchd ancestor
 mem_free_pct() { memory_pressure 2>/dev/null | $G -oE 'free percentage: [0-9]+' | $G -oE '[0-9]+' || echo "?"; }
 load1() { sysctl -n vm.loadavg 2>/dev/null | awk '{print $2}'; }
 count_re() { ps -axo args= | $G -cE -e "$1"; }
-chrome_rss_mb() { ps -axo rss=,comm= | awk '/Google Chrome|Chromium|Microsoft Edge|chrome-headless-shell|Brave/{s+=$1} END{printf "%d", s/1024}'; }
+chrome_rss_mb() { ps -axo rss=,comm= | awk '$0 ~ /\/(Google Chrome|Chromium|Microsoft Edge|chrome-headless-shell|Brave Browser)/{s+=$1} END{printf "%d", s/1024}'; }
 
-# Emit one line per automation browser/driver: pid ppid etime rss disposable(yes/no) parent(alive/gone) args
+# Emit one line per automation browser/driver: pid ppid etime rss disposable(yes/no) parent(alive:PID/gone) args
 automation_rows() {
-  ps -axo pid=,ppid=,etime=,rss=,args= | while read pid ppid et rss rest; do
-    echo "$rest" | $G -qE -e "$KEEP_RE" && continue
-    if echo "$rest" | $G -qE -e "$DRIVER_RE"; then disp=yes
-    elif echo "$rest" | $G -qE -e "$BROWSER_RE" && echo "$rest" | $G -qE -e "$MARKER_RE"; then
-      if echo "$rest" | $G -qE -e "$DISPOSABLE_RE"; then disp=yes; else disp=no; fi
+  ps -axo pid=,ppid=,etime=,rss=,comm= | while read pid ppid et rss comm; do
+    if echo "$comm" | $G -qE -e "$DRIVER_BIN_RE"; then kind=driver
+    elif echo "$comm" | $G -qE -e "$BROWSER_BIN_RE"; then kind=browser
     else continue; fi
+    rest=$(ps -o args= -p "$pid" 2>/dev/null); [ -n "$rest" ] || continue
+    echo "$rest" | $G -qE -e "$KEEP_RE" && continue
+    if [ "$kind" = driver ]; then disp=yes
+    else
+      echo "$rest" | $G -qE -e "$MARKER_RE" || continue          # a browser without an automation flag is not listed at all
+      if echo "$rest" | $G -qE -e "$DISPOSABLE_RE" || echo "$comm" | $G -qE -e '/chrome-headless-shell$'; then disp=yes; else disp=no; fi
+    fi
     if [ "$ppid" -gt 1 ] && ps -p "$ppid" >/dev/null 2>&1; then par="alive:$ppid"; else par="gone"; fi   # ppid 1 = launchd: launcher exited, or app started from Finder
     echo "$pid $ppid $et $rss $disp $par $rest"
   done
@@ -148,7 +156,7 @@ record() {
 }
 
 case "${1:-}" in
-  snapshot) shift; snapshot "$@";; hangs) shift; hangs "$@";; fleet) fleet;; orphans) orphans;; cleanup) shift; cleanup "$@";;
+  rows) automation_rows;; snapshot) shift; snapshot "$@";; hangs) shift; hangs "$@";; fleet) fleet;; orphans) orphans;; cleanup) shift; cleanup "$@";;
   icloud) shift; icloud "$@";; verify) shift; verify "$@";; record) shift; record "$@";;
   *) sed -n '2,29p' "$0" | sed 's/^# \{0,1\}//'; exit 1;;
 esac

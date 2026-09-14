@@ -25,7 +25,7 @@ briefing. The harness shifted from something humans read to something agents use
 
 Now it ships as an **installable plugin** — `join-the-team` (current version in
 [CHANGELOG.md](CHANGELOG.md)). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 22 skills,
+Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 20 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
 re-explaining the contract.
@@ -35,7 +35,7 @@ The point: this stopped being something you read and became something you instal
 And what you install is the **operating model** — that is the value proposition here.
 Skill libraries are everywhere now; what teams are missing is the contract: who holds
 authority, how risk is tiered, what evidence binds a review, what "done" actually means
-when humans and agents ship together. The 22 skills are the capability layer that
+when humans and agents ship together. The 20 skills are the capability layer that
 executes inside that contract — not the other way round.
 
 The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters
@@ -95,8 +95,7 @@ Full per-harness detail (session-start hooks, verification, update path):
 [Codex](docs/install/codex.md) · [Antigravity](docs/install/antigravity.md)
 
 Antigravity is a first-class surface: this harness was built and battle-tested on
-Google Cloud's agent stack, and ships cloud-expert guardrails (`gcp-expert`,
-`aws-expert`, `azure-expert`, `alibaba-expert`) plus `adk-expert` and
+Google Cloud's agent stack, and ships cloud guardrails (`cloud-expert`, with GCP, AWS, Azure and Alibaba Cloud references) plus `adk-expert` and
 `mcp-server-scaffold` alongside the vendor-neutral contract.
 
 The plugin composes with — never duplicates — companion skill plugins;
@@ -110,7 +109,7 @@ After installing, confirm the harness is actually live rather than merely presen
 which skills are available?
 ```
 
-You should see `using-the-harness` plus the cloud and gate skills (`gcp-expert`,
+You should see `using-the-harness` plus the cloud and gate skills (`cloud-expert`,
 `adversarial-gate`, `pr-reviewer`). Then run the built-in validator against a
 bootstrapped repository:
 
@@ -142,8 +141,9 @@ commands cover the lifecycle.
 | "Is this safe to ship?" | `release-readiness` | Go/no-go against failure modes and rollback |
 | "Review this PR" | `pr-reviewer` | Structured verdict with findings |
 | "How would this break?" | `adversarial-gate` | Red-team pass argued against your own approach |
-| "We're on GCP, multi-tenant" | `gcp-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
+| "We're on GCP, multi-tenant" | `cloud-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
 | "Where do things stand?" | `sitrep` | Status, blockers, next actions |
+| "Get it done, I'll be back later" | `get-it-done` | Pursues the agreed goal to a merged outcome; banks decisions instead of blocking |
 | "The Mac is slow / the tests left Chrome open" | `system-performance-guardrail` | Snapshot, owner attribution, bounded cleanup, before/after numbers |
 
 **Worked example — a risk-touching change:**
@@ -181,7 +181,7 @@ you control. See
 | --- | --- | --- |
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
-| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 22 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 20 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
 | `/join-the-team:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
 | Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then let the session-start hook re-inject the orientation skill |
@@ -279,7 +279,7 @@ Skills supply capability; **named humans supply authority**.
 | Delivery Stage | Primary AI Skill / Harness Primitive | AI Agent Capability | Accountable Human SME |
 | :--- | :--- | :--- | :--- |
 | **Requirements & Scope** | `spec-first-delivery` | Drafts acceptance contract & spec | **Product Owner** |
-| **Architecture & ADRs** | `the-architect`, `gcp-expert` / `aws-expert` / `azure-expert` | Drafts ADRs & validates vendor constraints | **Lead Architect / Head of Eng** |
+| **Architecture & ADRs** | `the-architect`, `cloud-expert` | Drafts ADRs & validates vendor constraints | **Lead Architect / Head of Eng** |
 | **Data & Access Seams** | `mcp-server-scaffold` | Queries governed MCP data seams | **Head of Data / Security** |
 | **Risk & Authority** | `using-the-harness` | Classifies risk tier (R0–R3) | **Delivery Manager / Lead** |
 | **Verification & Red-Teaming** | `adversarial-gate`, `make check` | Runs red-team checks & test suite | **Lead Developer** |

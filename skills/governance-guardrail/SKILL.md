@@ -29,7 +29,7 @@ is expensive; discovering it during bootstrap or spec is cheap.
 
 This skill operates at the policy layer, above the cloud-expert skills:
 
-- `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` — vendor-specific
+- `cloud-expert` (per-vendor references for GCP, AWS, Azure, Alibaba Cloud) — vendor-specific
   technical guardrails: IAM, data residency, cost. Use them to implement correctly within
   a chosen platform.
 - `governance-guardrail` (this skill) — checks whether the chosen platform, stack, and

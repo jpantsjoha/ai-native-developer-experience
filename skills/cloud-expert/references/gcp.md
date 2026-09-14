@@ -1,9 +1,8 @@
----
-name: gcp-expert
-description: GCP expert guardrails — IAM least-privilege, data boundaries, cost controls, residency, and official-source validation. Trigger when designing or reviewing any Google Cloud workload, especially agents, LLMs (Vertex AI/Gemini), or multi-tenant systems.
----
+# GCP Expert — vendor reference for `cloud-expert`
 
-# GCP Expert
+Vendor-specific guardrails, procedure detail and official sources. Read this after the shared procedure in `../SKILL.md`.
+
+
 
 > **Gemini Enterprise is the governed execution foundation — identity, tenancy, and compliance are the design constraints, not context window size.**
 

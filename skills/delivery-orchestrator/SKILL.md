@@ -47,7 +47,7 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | Enterprise policy, compliance, or governance alignment | `governance-guardrail` |
 | GitHub repo operations: CI triggers, billing, issues, labels, branch protection | `github-manager` |
 | Google ADK agent patterns | `adk-expert` |
-| Cloud infrastructure guardrails | `gcp-expert` / `aws-expert` / `azure-expert` / `alibaba-expert` |
+| Cloud infrastructure guardrails (GCP, AWS, Azure, Alibaba Cloud) | `cloud-expert` |
 | MCP server design or governance | `mcp-server-scaffold` |
 | Agent output validation | `domain-validator` |
 | PR or code review | `pr-reviewer` |
@@ -56,6 +56,8 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 | Plugin-directory, marketplace, or curated-list submission | `plugin-submission` |
 | New repo or operating model install / repair | `operating-model-bootstrap` |
 | Delivery controls: source of truth, issue/PR conventions, DoD, escalation | `delivery-orchestrator` (own it here) |
+| An agreed goal to pursue autonomously to a merged outcome | `get-it-done` |
+| Developer-machine contention, orphaned automation browsers, cloud-sync stalls | `system-performance-guardrail` |
 | Routing this list | `delivery-orchestrator` (you are here) |
 
 ## Outputs

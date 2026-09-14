@@ -9,10 +9,7 @@ flowchart TD
     T["Ticket / epic / intent<br/>GH issue or written brief"] --> O[delivery-orchestrator]
     O --> SPEC[spec-first-delivery<br/>requirements + acceptance contract]
     O --> ARCH[the-architect<br/>ADR + cloud-vendor experts]
-    ARCH --> GCP[gcp-expert]
-    ARCH --> AWS[aws-expert]
-    ARCH --> AZ[azure-expert]
-    ARCH --> ALI[alibaba-expert]
+    ARCH --> CLOUD[cloud-expert]
 
     SPEC --> E{enough evidence<br/>to proceed?}
     ARCH --> E

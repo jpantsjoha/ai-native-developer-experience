@@ -1,9 +1,8 @@
----
-name: alibaba-expert
-description: Alibaba Cloud expert guardrails — RAM least-privilege, data boundaries, residency (mainland/international split), cost, and official-source validation. Trigger when designing or reviewing any Alibaba Cloud workload, especially agents or LLMs (Model Studio/Bailian, Qwen, AgentScope).
----
+# Alibaba Cloud Expert — vendor reference for `cloud-expert`
 
-# Alibaba Cloud Expert
+Vendor-specific guardrails, procedure detail and official sources. Read this after the shared procedure in `../SKILL.md`.
+
+
 
 > **Same discipline, different control plane: RAM and ActionTrail are the guardrails; Model Studio and AgentScope are the agent surface. The mainland/international split is a design input, not an afterthought.**
 

@@ -70,10 +70,7 @@ finalising the ADR, and record which guardrail checklist ran:
 
 | Vendor | Skill |
 |---|---|
-| Google Cloud | `gcp-expert` |
-| AWS | `aws-expert` |
-| Azure | `azure-expert` |
-| Alibaba Cloud | `alibaba-expert` |
+| Google Cloud, AWS, Azure, Alibaba Cloud | `cloud-expert` (read the matching `references/<vendor>.md`) |
 
 Multi-cloud decisions run every relevant checklist; the ADR names them. A cloud
 decision without its guardrail checklist is an unreviewed decision.

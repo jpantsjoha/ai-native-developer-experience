@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 #
-# Pre-commit hook: Markdown lint gate.
+# Pre-commit hook: Markdown lint gate, then the independent review gate.
 #
-# Mirrors the CI "Markdown Lint" job (.github/workflows/dx-validation.yml),
+# 1. Markdown lint — mirrors the CI "Markdown Lint" job (.github/workflows/dx-validation.yml),
 # which runs markdownlint-cli2 with the repo's .markdownlint.json config.
 # Lints only the markdown files staged for this commit, so it stays fast.
+# 2. Review gate — scripts/review-gate.sh asks a different model (Gemini 3.8 flash high via
+#    the agy or gemini CLI) to review the staged diff. Default REVIEW_GATE=async: the commit
+#    is not delayed; the verdict lands in .git/review-gate/ and is printed by the next commit.
+#    REVIEW_GATE=block waits and refuses a BLOCK verdict; REVIEW_GATE=off skips it.
 #
 # This hook is version-controlled under .githooks/ so it travels with the repo.
 # To activate it after cloning, run once:
@@ -21,9 +25,7 @@ while IFS= read -r -d '' f; do
   STAGED_MD+=("$f")
 done < <(git diff --cached --name-only -z --diff-filter=ACMR -- '*.md' '*.markdown')
 
-if [ "${#STAGED_MD[@]}" -eq 0 ]; then
-  exit 0
-fi
+if [ "${#STAGED_MD[@]}" -gt 0 ]; then
 
 echo "pre-commit: linting ${#STAGED_MD[@]} staged markdown file(s)..."
 
@@ -51,3 +53,10 @@ if ! "${LINT[@]}" "${STAGED_MD[@]}"; then
 fi
 
 echo "pre-commit: markdown lint passed."
+fi
+
+# ── Independent review gate (a different model reviews the staged diff) ─────
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+if [ -x "$REPO_ROOT/scripts/review-gate.sh" ]; then
+  REVIEW_GATE="${REVIEW_GATE:-async}" bash "$REPO_ROOT/scripts/review-gate.sh" --staged || exit $?
+fi

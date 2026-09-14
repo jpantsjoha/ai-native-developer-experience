@@ -9,7 +9,7 @@ Install from the repository as a marketplace plugin:
 
 What gets wired:
 
-- **Skills** — the 22 `skills/` capabilities. `skills/` is a real directory at the
+- **Skills** — the 20 `skills/` capabilities. `skills/` is a real directory at the
   Agent Plugins fixed discovery location, so it survives installers that flatten
   symlinks; `.agents/skills/` is a relative symlink alias kept for Codex and Kimi,
   which discover there natively. One skill set, zero copies.

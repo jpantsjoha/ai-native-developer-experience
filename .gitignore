@@ -11,3 +11,6 @@ __pycache__/
 /local.claude.md
 /local.gemini.md
 /CLAUDE.local.md
+
+# Local git worktrees (git worktree add .worktrees/<name>)
+/.worktrees/

@@ -7,7 +7,7 @@ this repository keeps pointing at the canonical `skills/` directory — and read
 > **Note on `codex plugin add`.** Codex's install cache flattens the package and drops
 > symlinks, so a marketplace-installed copy contains the real `skills/` directory and
 > **no `.agents/skills/` alias**. That is why `skills/` holds the real files: verified by
-> installing, the cache carries all 20 skills at the standard's fixed location. Use
+> installing, the cache carries all 22 skills at the standard's fixed location. Use
 > `.agents/skills/` only for a repository checkout (Option 1), where the alias is present.
 
 ## Option 1: Repository checkout (project-local)
@@ -23,7 +23,7 @@ in the CLI, or the Plugins sidebar in the Codex app).
 
 ## Verify
 
-1. Ask "which skills are available?" — the 20 skills should be named.
+1. Ask "which skills are available?" — the 22 skills should be named.
 2. `AGENTS.md` should appear in Codex's loaded context files.
 
 ## Standards

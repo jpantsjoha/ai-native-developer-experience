@@ -48,6 +48,7 @@ escape_for_json() {
 
 # Decide how much to inject. Adopted projects get the full orientation; others a pointer.
 orientation="${JOIN_THE_TEAM_ORIENTATION:-auto}"
+banner="Below is the full content of your 'join-the-team:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:"
 profile=""
 for candidate in "docs/operating-model/PROJECT-OPERATING-PROFILE.md" "PROJECT-OPERATING-PROFILE.md"; do
     [ -f "${PWD}/${candidate}" ] && { profile="$candidate"; break; }
@@ -55,12 +56,12 @@ done
 case "$orientation" in
     off) exit 0 ;;
     full) : ;;
-    pointer) skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model." ;;
-    *) if [ -z "$profile" ]; then skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model."; fi ;;
+    pointer) banner="Below is the join-the-team orientation pointer for this project (no operating-model profile found). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model." ;;
+    *) if [ -z "$profile" ]; then banner="Below is the join-the-team orientation pointer for this project (no operating-model profile found). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model."; fi ;;
 esac
 
 skill_escaped=$(escape_for_json "$skill_content")
-session_context="<EXTREMELY_IMPORTANT>\nYou are working inside a team operating harness.\n\n**Below is the full content of your 'join-the-team:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
+session_context="<EXTREMELY_IMPORTANT>\nYou are working inside a team operating harness.\n\n**${banner}**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
 
 # Emit the SessionStart payload in the shape the current runner consumes.
 # printf, not heredoc (bash 5.3+ heredoc hang, obra/superpowers#571).

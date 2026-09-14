@@ -1,13 +1,15 @@
 ---
 name: delivery-orchestrator
-description: Decompose an epic into atomic parallelizable tasks and route each task to the right skill. Use this as a meta-router when you have more than one skill available and need to decide which applies. Trigger at the start of any multi-track epic or when the skill count in your harness exceeds ~12.
+description: Decompose an epic into atomic parallelizable tasks, route each to the right skill, and keep the four delivery records straight — issues, STATUS, ROADMAP, CHANGELOG. Use as a meta-router when several skills could apply, and as the baseline for how delivery state is recorded. Trigger at the start of any multi-track epic, when the skill count exceeds ~12, or when the records have drifted from reality.
 ---
 
 # Delivery Orchestrator
 
 > **A skill for choosing skills.** Once your harness grows past a handful of skills, the agent needs a way to select the right one. This is that skill.
 
-The orchestrator has two jobs: decompose work into the smallest independently executable units, then route each unit to the skill that owns it.
+The orchestrator has three jobs: decompose work into the smallest independently executable units,
+route each unit to the skill that owns it, and **keep the delivery records honest** — because a
+plan nobody can trust is worse than no plan, and it takes longer to discover.
 
 ## When to use
 
@@ -15,6 +17,33 @@ The orchestrator has two jobs: decompose work into the smallest independently ex
 - When an agent is about to attempt everything in one context window
 - When parallel execution across multiple agents is needed
 - When you need to decide which skill applies to an incoming task
+- **When the records have drifted** — a status file that stops before today's work, a roadmap
+  asking for a decision already made, a tracker claiming `gated` with nothing that walks it
+
+## The delivery records — the baseline
+
+**One fact, one owner.** Four artefacts carry delivery state, and each answers exactly one
+question. Full doctrine, including the issue template and the audit: `docs/DELIVERY-RECORDS.md`.
+
+| Record | The one question it answers | Written when |
+|---|---|---|
+| **GitHub issues** | *What exactly is this work, and how will we know it is done?* | Before the first line of code |
+| **`STATUS.md`** | *What is happening now, and what waits on whom?* | One entry per working session |
+| **`ROADMAP.md`** | *What are we building toward, in what order?* | When a milestone or the plan changes |
+| **`CHANGELOG.md`** | *What shipped — proven, tested?* | When user-visible work merges |
+
+The four rules that keep them from drifting:
+
+1. **`ROADMAP` owns build order.** Where another document disagrees about what is next, the
+   roadmap wins.
+2. **`CHANGELOG` records the proven, not the intended.** A changelog of intentions reads as
+   evidence, which makes it worse than none.
+3. **An issue not filed is not started.** The tracker is current *before* the code, because the
+   failure this prevents is work that accretes from a small fix and is reconciled afterwards,
+   if at all.
+4. **`gated` means a test proves a user can reach it; `shipped` means a person used it.** These
+   two are the ones routinely overclaimed. Code existing is `built`, and deployment is not
+   shipping.
 
 ## Procedure
 

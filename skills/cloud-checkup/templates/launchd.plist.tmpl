@@ -1,0 +1,69 @@
+<!--
+  cloud-checkup — weekly schedule (macOS launchd).
+
+  Install:
+    sed -e 's|__LABEL__|com.example.cloud-checkup|g' \
+        -e 's|__HOME__|'"$HOME"'|g' \
+        -e 's|__REPO__|'"$HOME"'/path/to/project|g' \
+        -e 's|__MANIFEST__|.cloud-checkup.yaml|g' \
+        -e 's|__WEEKDAY__|3|g' -e 's|__HOUR__|7|g' \
+        <path-to-skill>/templates/launchd.plist.tmpl \
+      > ~/Library/LaunchAgents/com.example.cloud-checkup.plist
+    launchctl load ~/Library/LaunchAgents/com.example.cloud-checkup.plist
+
+  Run once now:      launchctl start com.example.cloud-checkup
+  Check it is loaded: launchctl list | grep cloud-checkup
+  Read the logs:     tail -f ~/.local/state/cloud-checkup/*-stdout.log
+
+  StartCalendarInterval fires on LOCAL machine time, so the hour tracks the operator's
+  clock through daylight saving with no UTC conversion. Weekday: 0 = Sunday, 3 = Wednesday.
+
+  Logs go under ~/.local/state, never /tmp: macOS purges /tmp after three days of no
+  access, and it does so while a long-lived process still holds the descriptors, so the
+  failure whose log you need is exactly the one that disappears.
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>__LABEL__</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>__HOME__/.claude/skills/cloud-checkup/scripts/cloud_checkup.sh</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>HOME</key>
+        <string>__HOME__</string>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:__HOME__/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>CC_MANIFEST</key>
+        <string>__MANIFEST__</string>
+        <key>CC_STATE_DIR</key>
+        <string>__HOME__/.local/state/cloud-checkup</string>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>__REPO__</string>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key><integer>__WEEKDAY__</integer>
+        <key>Hour</key><integer>__HOUR__</integer>
+        <key>Minute</key><integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>__HOME__/.local/state/cloud-checkup/__LABEL__-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/.local/state/cloud-checkup/__LABEL__-stderr.log</string>
+</dict>
+</plist>

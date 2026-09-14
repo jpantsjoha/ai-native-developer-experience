@@ -25,7 +25,7 @@ briefing. The harness shifted from something humans read to something agents use
 
 Now it ships as an **installable plugin** — `join-the-team` (current version in
 [CHANGELOG.md](CHANGELOG.md)). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 20 skills,
+Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 22 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
 re-explaining the contract.
@@ -35,7 +35,7 @@ The point: this stopped being something you read and became something you instal
 And what you install is the **operating model** — that is the value proposition here.
 Skill libraries are everywhere now; what teams are missing is the contract: who holds
 authority, how risk is tiered, what evidence binds a review, what "done" actually means
-when humans and agents ship together. The 20 skills are the capability layer that
+when humans and agents ship together. The 22 skills are the capability layer that
 executes inside that contract — not the other way round.
 
 The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters
@@ -181,7 +181,7 @@ you control. See
 | --- | --- | --- |
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
-| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 20 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 22 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
 | `/join-the-team:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
 | Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then let the session-start hook re-inject the orientation skill |

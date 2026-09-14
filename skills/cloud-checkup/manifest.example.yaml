@@ -1,0 +1,140 @@
+# cloud-checkup manifest. Copy to the project as `.cloud-checkup.yaml` and edit.
+# Everything project-specific lives here; the skill itself carries no project identity.
+#
+# The probe script reads this with `yq` when present, PyYAML next, and a small built-in
+# parser last. The built-in parser covers what the probe script needs: top-level scalars,
+# top-level lists of strings, and one nested level of scalars. The inspection layer reads
+# this file directly, so the richer structures below (data_stores, ticket_map, extra_rows,
+# security_header_expectations) need no parser support.
+
+# ── Identity and location ──────────────────────────────────────────────────
+project: my-gcp-project-id
+region: europe-west1
+
+# The identity that holds read access. Pinned per gcloud call with --account; the script
+# never runs `gcloud config set`. Its access token is verified against oauth2 tokeninfo,
+# because the machine default drifts and a stored credential can mint another account's
+# token. If the token's email is not this address, the cloud plane reads INCONCLUSIVE.
+account: ops@example.com
+
+# ── Serving surfaces ───────────────────────────────────────────────────────
+# Cloud Run service names in `region`. One status row per entry.
+services:
+  - my-api
+  - my-web
+
+# The public front door. Probed unauthenticated for status code and time to first byte.
+public_url: https://example.com
+
+# Routes to probe at the edge. Include the unauthenticated front door, the sign-in entry,
+# and any auth-callback path a proxy or edge rule could break.
+edge_routes:
+  - /
+  - /home
+  - /login
+  - /__/auth/handler
+
+# Header -> expectation, checked on the first edge route that returns 200.
+# required        : must be present and enforcing
+# report-only-ok  : present in report-only form is acceptable
+# optional        : note the value, do not grade it
+security_header_expectations:
+  strict-transport-security: required
+  content-security-policy: required
+  x-frame-options: required
+  x-content-type-options: required
+  referrer-policy: required
+  permissions-policy: optional
+
+# ── Log review ─────────────────────────────────────────────────────────────
+# Window in days for `severity>=ERROR` and 5xx counts. 7 matches a weekly cadence.
+log_review_days: 7
+
+# ── Data stores ────────────────────────────────────────────────────────────
+# One status block per store. See modules/<type>.md for the per-type routine.
+# type: mongodb-atlas | firestore | bigquery | cloud-sql
+data_stores:
+  - name: primary
+    type: mongodb-atlas
+    # Env var holding the connection string. The value is never read into the report.
+    connection_env: MONGODB_URI
+    database: my_database
+    # Collections or tables whose staleness is a real signal, with the field that carries
+    # the write time and the age past which the row is no longer LIVE.
+    freshness:
+      - collection: events
+        field: created_at
+        max_age_hours: 24
+      - collection: daily_rollup
+        field: date_utc
+        max_age_hours: 48
+    # The partition key every tenant-scoped write must stamp and every read must filter.
+    # Leave empty for a single-tenant store.
+    tenant_key: tenant_id
+    # Collections that are deliberately global and carry no tenant key.
+    shared_collections:
+      - reference_data
+    # How backup posture is read. driver stores cannot report it; say so rather than
+    # scoring the row green. one of: provider-ui | admin-api | scheduled-dump | none
+    backup: admin-api
+
+  - name: warehouse
+    type: bigquery
+    connection_env: GOOGLE_APPLICATION_CREDENTIALS
+    database: analytics
+    freshness:
+      - collection: fct_events
+        field: ingested_at
+        max_age_hours: 26
+    tenant_key: ""
+    backup: none
+
+# ── Jobs on this machine ───────────────────────────────────────────────────
+# launchd labels on macOS, systemd user units elsewhere. Last exit code and pid are read;
+# nothing is started, stopped or kickstarted.
+local_jobs:
+  - com.example.daemon
+  - com.example.feeds
+  - com.example.backup
+
+# ── Reporting ──────────────────────────────────────────────────────────────
+# Where reports land, relative to the repo root. Created if absent.
+report_dir: audits
+
+# Repo root, for the deploy-currency row. Omit for a project with no local checkout.
+repo: .
+
+# Finding category -> tracker reference, so a repeat finding lands on the same ticket
+# instead of a new one. Categories are free text; use the ones the report keeps emitting.
+ticket_map:
+  alerting: "#000"
+  backup: "#000"
+  runbook_drift: "#000"
+  scheduler: "#000"
+
+# Project-specific rows appended to the generic table. Keep them few: a row that is never
+# anything but green is noise.
+extra_rows:
+  - feature: Background worker
+    requirement: The nightly rollup wrote inside the last 26 hours
+    check: data store freshness on daily_rollup
+  - feature: Third-party integration
+    requirement: No auth or quota errors from the upstream API in the window
+    check: log review
+
+# ── Notification ───────────────────────────────────────────────────────────
+slack:
+  # Env var holding the incoming webhook URL. The URL itself never goes in this file.
+  webhook_env: CLOUD_CHECKUP_WEBHOOK_URL
+  # Optional: replace the default Slack sink with any command taking
+  # <level> <title> <line>... on argv.
+  command: ""
+
+# ── Schedule ───────────────────────────────────────────────────────────────
+schedule:
+  # launchd Weekday: 0 = Sunday, 3 = Wednesday. cron uses the same numbering.
+  weekday: 3
+  hour: 7
+  # Both scaffolds fire on LOCAL machine time, so the hour tracks the operator's clock
+  # through daylight saving with no UTC conversion. Name the zone here for the reader.
+  timezone_note: Europe/London (local machine time; no UTC conversion)

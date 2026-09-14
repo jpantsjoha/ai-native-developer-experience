@@ -14,7 +14,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 20 Skills
+## The 22 Skills
 
 | Skill | One-line purpose |
 |---|---|
@@ -38,6 +38,8 @@ assistant expects a different location; do not maintain divergent skill constitu
 | [`system-performance-guardrail`](./system-performance-guardrail/SKILL.md) | Measure, root-cause, fix, verify and record developer-machine contention — cloud sync, indexers, MCP fleets, orphaned automation browsers — plus the test-hygiene contract |
 | [`operating-model-bootstrap`](./operating-model-bootstrap/SKILL.md) | Install a versioned manual, profile, adapters, checkpoints, and exact-candidate evidence contract for a human–AI squad |
 | [`plugin-submission`](./plugin-submission/SKILL.md) | Govern directory and marketplace listings: current policy, artifact eligibility, final confirmation, and receipts |
+| [`frontend-performance-audit`](./frontend-performance-audit/SKILL.md) | Measure Core Web Vitals, load traces, throttled conditions and heap growth via chrome-devtools-mcp — with the routing rule that keeps browser tools from overlapping |
+| [`cloud-checkup`](./cloud-checkup/SKILL.md) | Read-only SRE checkup of a GCP project — deterministic probes, one fixed status table (LIVE / WARNING / RED / INCONCLUSIVE), one `OVERALL:` notification; in-session or scheduled |
 
 ---
 

@@ -25,7 +25,7 @@ Reinstall with the same command to update.
   reads. The plugin therefore ships both, kept identical by the validator. Confirm with
   `agy plugin install …` — the summary must report `hooks: 1 processed`; `hooks:
   skipped (not found)` means the root manifest is missing.
-- **Skills** — the 21 `skills/` capabilities, discovered natively at the Agent Plugins
+- **Skills** — the 22 `skills/` capabilities, discovered natively at the Agent Plugins
   fixed location (`.agents/skills/` remains as a symlink alias).
 - **MCP data seams** → `.agents/mcp_config.json` — the governed tool-access pattern;
   see the file before adding servers.
@@ -39,7 +39,7 @@ Reinstall with the same command to update.
 ## Verify
 
 1. Start a session: the harness contract should be active from the first message.
-2. Ask "which skills are available?" — the 21 skills should be named, including
+2. Ask "which skills are available?" — the 22 skills should be named, including
    `gcp-expert` and `adk-expert`.
 3. Ask the agent to track a small multi-step task — it should create a **task
    artifact**, not reach for a todo tool.

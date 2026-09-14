@@ -25,7 +25,7 @@ briefing. The harness shifted from something humans read to something agents use
 
 Now it ships as an **installable plugin** — `join-the-team` (current version in
 [CHANGELOG.md](CHANGELOG.md)). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 21 skills,
+Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 22 skills,
 session-start orientation, slash commands, drift-checked in CI. The discipline travels
 with the agent from day one, across every project, without anyone copying files or
 re-explaining the contract.
@@ -144,6 +144,7 @@ commands cover the lifecycle.
 | "How would this break?" | `adversarial-gate` | Red-team pass argued against your own approach |
 | "We're on GCP, multi-tenant" | `gcp-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
 | "Where do things stand?" | `sitrep` | Status, blockers, next actions |
+| "The Mac is slow / the tests left Chrome open" | `system-performance-guardrail` | Snapshot, owner attribution, bounded cleanup, before/after numbers |
 
 **Worked example — a risk-touching change:**
 

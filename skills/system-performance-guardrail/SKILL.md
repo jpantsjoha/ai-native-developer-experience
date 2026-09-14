@@ -19,8 +19,8 @@ bugs — timeouts, flaky UI tests, "the site is slow" — and the next agent spe
 diagnosing a healthy remote. This skill makes the machine's state a measured input, gives each
 signature a cause and a bounded action, and makes cleanup a contract rather than a hope.
 
-Script: `scripts/perf-guardrail.sh` (bash 3.2, macOS, no sudo, no third-party tools). Every
-subcommand is read-only except `cleanup` and `icloud`. Linux notes are at the end.
+Script: `scripts/perf-guardrail.sh` (bash 3.2, macOS, no sudo, no third-party tools). Read-only
+except `cleanup --yes` (kills), `icloud throttle|restore` (signals) and `record` (appends). Linux notes are at the end.
 
 ## The loop
 
@@ -45,15 +45,15 @@ memory is CPU contention, not paging; `ps %cpu` is a lifetime average, confirm l
 | Indexer (`mds_stores`, Windows Search) at 150–250% CPU, workers respawning | indexing git repositories and `node_modules` inside a cloud-synced folder | keep repositories outside the sync root; exclude dev trees from the indexer |
 | `git`, `rsync`, `mv` asleep for minutes at 0% CPU on a synced path | evicted ("online-only") files being materialised; moving a tree out of the sync root downloads all of it first | work outside the sync root; copy out, verify against `origin`, delete in place — never `mv` out. Git state read inside a sync root is not trustworthy: the client can rewrite `.git` from a stale cloud snapshot |
 | Sync client at 50–100% CPU with hundreds of item-not-found errors per 30 s | retry storm after a mass deletion inside the sync root | one restart of the client; then let it drain (overnight, if needed); last resort: sign the folder out and back in |
-| Browser family memory > 6 GB, or a browser with `--remote-debugging-port` / `--headless` / a Playwright or Selenium profile whose parent is gone | a test or browser skill opened it and never closed it | `perf-guardrail.sh cleanup` (orphans only; `--all` after a test run). The user's own browser carries none of those flags and is never touched |
+| Browser family memory > 6 GB, or a headless / throwaway-profile browser or WebDriver whose launcher is gone | a test or browser skill opened it and never closed it | `perf-guardrail.sh cleanup` lists the candidates; `cleanup --yes` kills them; `--all --yes` every disposable one after a test run. Only **disposable** browsers qualify: headless, or a profile under a temp dir / Playwright / Puppeteer / Selenium / harness path (extend with `PERF_DISPOSABLE_RE`). A browser on a normal profile is never a candidate, even with `--remote-debugging-port` — that is a developer's DevTools session; `PERF_KEEP_RE` protects anything else |
 | Several AI CLI sessions each holding stdio MCP children | every session starts its own servers | close idle sessions; remote servers where they exist |
 
 ## Sanctioned actions and guards
 
 Safe, reversible, no permission needed: SIGCONT a stopped daemon; throttle a sync client to
 background priority (`taskpolicy -b` on macOS, `renice`/`ionice` on Linux) rather than stopping it;
-kill orphaned automation browsers and drivers; remove unused MCP servers after backing up the
-config; one `killall` of a wedged daemon that its supervisor will respawn.
+kill disposable automation browsers and drivers (`cleanup --yes`; dry run first); remove unused MCP
+servers after backing up the config; one `killall` of a wedged daemon that its supervisor will respawn.
 
 Needs the operator: system extensions, privileged daemons, indexer privacy lists, turning
 "optimise storage" off (check how many gigabytes would download first).
@@ -83,7 +83,7 @@ Use it to say where a machine or a team is, and what the next step costs.
    ends; never leave the automation browser with more than ten tabs.
 4. Performance tests measure a quiet machine: snapshot first; if load exceeds the core count
    or a sync daemon is busy, the numbers are not the product's.
-5. The failsafe is not the fix: a leftover that `cleanup` finds is a defect filed against the
+5. The failsafe is not the fix: a leftover that `cleanup` lists is a defect filed against the
    suite, with the `orphans` output as evidence.
 
 ## Cross-harness

@@ -34,3 +34,7 @@ spec-conformance:
 	$(PYTHON) scripts/validate_plugin.py --root . --spec-only
 
 check: lint typecheck test spec-conformance
+
+hooks: ## Activate the version-controlled git hooks (markdown lint + independent review gate)
+	git config core.hooksPath .githooks
+	@echo "git hooks active: .githooks/pre-commit (markdown lint; the review gate is opt-in: REVIEW_GATE=async|block or git config review.gate; on demand: scripts/review-gate.sh --staged | --pr N)"

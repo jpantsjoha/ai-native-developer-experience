@@ -1,9 +1,8 @@
----
-name: aws-expert
-description: AWS expert guardrails — IAM least-privilege, data boundaries, cost controls, residency, and official-source validation. Trigger when designing or reviewing any AWS workload, especially agents, LLMs (Bedrock), or multi-account systems.
----
+# AWS Expert — vendor reference for `cloud-expert`
 
-# AWS Expert
+Vendor-specific guardrails, procedure detail and official sources. Read this after the shared procedure in `../SKILL.md`.
+
+
 
 > **The Well-Architected pillars are the floor, not the ceiling. On AWS, IAM and cost are where agent workloads blow up first.**
 

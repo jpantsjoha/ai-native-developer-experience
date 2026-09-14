@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 # SessionStart hook for the join-the-team plugin (Claude Code).
 #
-# Injects the full using-the-harness orientation skill into the model's context
-# at session start, after clear, and after compaction. This injection is the
-# integration: without it the skills sit on disk, discovered but not loaded.
+# Injects the using-the-harness orientation into the model's context at session
+# start, after clear, and after compaction. The full skill (~6 KB) is injected only
+# where it earns its context cost: a project that has adopted the operating model
+# (docs/operating-model/PROJECT-OPERATING-PROFILE.md exists) or when
+# JOIN_THE_TEAM_ORIENTATION=full. Everywhere else a short pointer is injected so the
+# harness stays discoverable without taxing every session. JOIN_THE_TEAM_ORIENTATION=pointer
+# forces the short form; =off injects nothing.
 #
 # Extensionless on purpose: Claude Code's Windows auto-detection prepends
 # "bash" to commands containing .sh. Requires bash on PATH; if bash is absent
@@ -42,8 +46,22 @@ escape_for_json() {
     printf '%s' "$s"
 }
 
+# Decide how much to inject. Adopted projects get the full orientation; others a pointer.
+orientation="${JOIN_THE_TEAM_ORIENTATION:-auto}"
+banner="Below is the full content of your 'join-the-team:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:"
+profile=""
+for candidate in "docs/operating-model/PROJECT-OPERATING-PROFILE.md" "PROJECT-OPERATING-PROFILE.md"; do
+    [ -f "${PWD}/${candidate}" ] && { profile="$candidate"; break; }
+done
+case "$orientation" in
+    off) exit 0 ;;
+    full) : ;;
+    pointer) banner="Below is the join-the-team orientation pointer (JOIN_THE_TEAM_ORIENTATION=pointer). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model." ;;
+    *) if [ -z "$profile" ]; then banner="Below is the join-the-team orientation pointer for this project (no operating-model profile found). For the full contract and every other skill, use the 'Skill' tool:"; skill_content="join-the-team harness installed (skills discovered on disk). This project has no operating-model profile, so the full orientation was not injected. Before consequential work run the using-the-harness skill (classify risk R0-R3, route through its skill table); run join-the-team:bootstrap to adopt the operating model."; fi ;;
+esac
+
 skill_escaped=$(escape_for_json "$skill_content")
-session_context="<EXTREMELY_IMPORTANT>\nYou are working inside a team operating harness.\n\n**Below is the full content of your 'join-the-team:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
+session_context="<EXTREMELY_IMPORTANT>\nYou are working inside a team operating harness.\n\n**${banner}**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
 
 # Emit the SessionStart payload in the shape the current runner consumes.
 # printf, not heredoc (bash 5.3+ heredoc hang, obra/superpowers#571).

@@ -63,6 +63,10 @@ This skill runs a structured code review and produces a verdict: approve, approv
 - Finding list: location | severity | description | suggested fix
 - Verdict: Approve / Approve with comments / Request changes
 
+## Independent second reviewer (on demand)
+
+The writer never approves its own work. Before merging, get a verdict from a different model or a fresh reviewer subagent: `scripts/review-gate.sh --pr N` (Gemini 3.8 flash high via the `agy` or `gemini` CLI; posts the verdict on the PR) or `--staged` for what the next commit will contain. It is on demand, not a hook default, because teams work on different machines; a clone can opt in with `git config review.gate async|block`. A changed candidate gets a fresh review; `VERDICT: NONE` (lane unavailable) is never an approval.
+
 ## Guardrails
 
 - **Every BLOCKING finding must have a suggested fix.** "This is wrong" is not actionable.

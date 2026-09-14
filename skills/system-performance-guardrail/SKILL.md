@@ -1,13 +1,7 @@
 ---
 name: system-performance-guardrail
 description: >-
-  Measure, root-cause, fix, verify and record performance contention on a developer machine —
-  cloud-sync daemons (iCloud Drive, OneDrive, Dropbox, Google Drive), file indexers, AI-tool MCP
-  server fleets, and automation browsers left behind by tests and browser skills. Activate when
-  the machine feels slow, apps freeze, browser or MCP tool calls time out, git/npm/pip/rsync
-  stall, load exceeds the core count, or before and after any UI/UX/performance test run as the
-  failsafe that finds and kills orphaned browsers. Includes the cloud-sync and performance
-  optimisation scale (L0–L4) and the test-hygiene contract every generated test must meet.
+  Measure, root-cause, fix, verify and record performance contention on a developer machine: cloud-sync daemons (iCloud Drive, OneDrive, Dropbox, Google Drive), file indexers, AI-tool MCP server fleets, and automation browsers left behind by tests and browser skills. Trigger when the machine is slow, apps freeze, browser or MCP tool calls time out, load exceeds the core count, or before and after any UI/UX/performance test run. Includes the L0–L4 optimisation scale and the test-hygiene contract.
 ---
 
 # system-performance-guardrail — the machine is part of the test environment

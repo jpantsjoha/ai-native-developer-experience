@@ -1,10 +1,26 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@1.6.0",
+        "--isolated",
+        "--no-usage-statistics"
+      ],
+      "env": {}
+    },
     "data-warehouse": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@example/mcp-data-server", "--project", "${GCP_PROJECT_ID}"],
+      "args": [
+        "-y",
+        "@example/mcp-data-server",
+        "--project",
+        "${GCP_PROJECT_ID}"
+      ],
       "env": {
         "GCP_PROJECT_ID": "your-project-id",
         "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}"
@@ -13,13 +29,20 @@
     "official-docs": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "args": [
+        "awslabs.aws-documentation-mcp-server@latest"
+      ],
       "env": {}
     },
     "knowledge-base": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@example/mcp-knowledge-server", "--site", "${KB_SITE}"],
+      "args": [
+        "-y",
+        "@example/mcp-knowledge-server",
+        "--site",
+        "${KB_SITE}"
+      ],
       "env": {
         "KB_SITE": "your-site-or-space",
         "KB_TOKEN": "${KB_TOKEN}"

@@ -26,20 +26,20 @@ assistant expects a different location; do not maintain divergent skill constitu
 | [`delivery-orchestrator`](./delivery-orchestrator/SKILL.md) | Decompose an epic into atomic parallel tasks; route to the right skill; owns delivery controls |
 | [`the-architect`](./the-architect/SKILL.md) | Architecture decisions, trade-off analysis, ADR authoring — routes cloud decisions to the matching vendor expert |
 | [`governance-guardrail`](./governance-guardrail/SKILL.md) | Enterprise policy, compliance, and approved-vendor alignment — triggered at R2/R3, feeds adversarial-gate |
-| [`gcp-expert`](./gcp-expert/SKILL.md) | Google Cloud guardrails: IAM least-privilege, data boundaries, cost, residency, official-source validation |
-| [`aws-expert`](./aws-expert/SKILL.md) | AWS guardrails: IAM, data boundaries, cost, residency, official-source validation |
-| [`azure-expert`](./azure-expert/SKILL.md) | Azure guardrails: Entra ID, policy-first governance, cost, residency, official-source validation |
-| [`alibaba-expert`](./alibaba-expert/SKILL.md) | Alibaba Cloud guardrails: RAM, residency (mainland/international split), cost, official-source validation |
+| [`cloud-expert`](./cloud-expert/SKILL.md) | Cloud guardrails for GCP, AWS, Azure and Alibaba Cloud: identity least-privilege, mechanical policy, data boundaries, residency, cost, official-source validation — one procedure, four vendor references |
 | [`adk-expert`](./adk-expert/SKILL.md) | Google ADK orchestration patterns; boundaries not tutorials |
 | [`mcp-server-scaffold`](./mcp-server-scaffold/SKILL.md) | Scaffold and govern an MCP server as a bounded tool seam |
 | [`domain-validator`](./domain-validator/SKILL.md) | Validate agent output against declared domain rules before trusting it |
 | [`pr-reviewer`](./pr-reviewer/SKILL.md) | Review gate: correctness, reuse, simplification — receipts not polish |
 | [`cost-guardrail`](./cost-guardrail/SKILL.md) | LLM/token cost awareness: model tiering, budgets, right-sizing |
+| [`get-it-done`](./get-it-done/SKILL.md) | Pursue an agreed goal to a merged, working outcome without waiting: branch, gate, independent review, merge, prune, bank the operator's decisions |
 | [`github-manager`](./github-manager/SKILL.md) | Cost-effective, consistent GitHub operations: CI triggers, Actions billing, issues, labels, branch protection, releases |
 | [`sitrep`](./sitrep/SKILL.md) | Synthesise a status / standup / situation-report from work state |
 | [`system-performance-guardrail`](./system-performance-guardrail/SKILL.md) | Measure, root-cause, fix, verify and record developer-machine contention — cloud sync, indexers, MCP fleets, orphaned automation browsers — plus the test-hygiene contract |
 | [`operating-model-bootstrap`](./operating-model-bootstrap/SKILL.md) | Install a versioned manual, profile, adapters, checkpoints, and exact-candidate evidence contract for a human–AI squad |
 | [`plugin-submission`](./plugin-submission/SKILL.md) | Govern directory and marketplace listings: current policy, artifact eligibility, final confirmation, and receipts |
+| [`frontend-performance-audit`](./frontend-performance-audit/SKILL.md) | Measure Core Web Vitals, load traces, throttled conditions and heap growth via chrome-devtools-mcp — with the routing rule that keeps browser tools from overlapping |
+| [`cloud-checkup`](./cloud-checkup/SKILL.md) | Read-only SRE checkup of a GCP project — deterministic probes, one fixed status table (LIVE / WARNING / RED / INCONCLUSIVE), one `OVERALL:` notification; in-session or scheduled |
 
 ---
 

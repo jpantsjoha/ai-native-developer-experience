@@ -8,14 +8,76 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
-## [Unreleased]
+## [0.3.0] — 2026-09-14
+
+Five skills in, four folded into one, and the delivery records made a first-class part of the
+contract. Every count, manifest and install guide is checked by `make check`; the package was
+reviewed by a second model before merge.
 
 ### Added
 
-- `system-performance-guardrail` skill: measure → attribute → act → verify → record loop for
+- **`cloud-checkup`** — a read-only SRE checkup of a GCP project: deterministic probes of the
+  edge, Cloud Run, seven-day error logs, Cloud Scheduler, alerting, Secret Manager and IAM, the
+  data stores and the machine's own scheduled jobs, audited into one fixed status table
+  (LIVE / WARNING / RED / INCONCLUSIVE) with evidence and a single `OVERALL:` line. Runs in
+  session or headless on a schedule; never deploys, mutates or restarts anything. Ships a
+  manifest template, launchd and cron templates, and a MongoDB Atlas module.
+- **`frontend-performance-audit`** — measure Core Web Vitals (LCP, CLS, INP), page-load traces,
+  throttled runs, Lighthouse scores and heap growth with `chrome-devtools-mcp`, including the
+  routing rule that keeps the measurement instrument from overlapping a browser driver the
+  harness already has. Measurement only; it never drives functional journeys.
+- **`get-it-done`** — pursue a goal autonomously to a working outcome: decompose, branch, gate,
+  review through an independent reasoner, merge, and bank the operator's decisions instead of
+  blocking on them.
+- **`cloud-expert`** — GCP, AWS, Azure and Alibaba Cloud guardrails folded into one skill with a
+  reference file per vendor, so a workload is routed once rather than to one of four near-twins.
+- **`system-performance-guardrail`** — the measure → attribute → act → verify → record loop for
   developer-machine contention (cloud-sync daemons, indexers, AI-tool MCP fleets, orphaned
-  automation browsers), the cloud-sync and performance optimisation scale (L0–L4), the
-  test-hygiene contract for generated UI/UX/performance tests, and `scripts/perf-guardrail.sh`.
+  automation browsers), the L0–L4 optimisation scale, the test-hygiene contract for generated
+  UI/UX/performance tests, and `scripts/perf-guardrail.sh`.
+- **The four delivery records** (`docs/DELIVERY-RECORDS.md`): issues, `STATUS.md`,
+  `ROADMAP.md`, `CHANGELOG.md` — one fact, one owner, and the rules that keep them from
+  drifting (`ROADMAP` owns build order; `CHANGELOG` records the proven; an issue not filed is
+  not started; `gated` means a test walks it, `shipped` means a person used it). Includes the
+  six-question audit with a command for each answer.
+- **Context-graph freshness as a day-0 capability** (`docs/CONTEXT-GRAPH-FRESHNESS.md`,
+  `scripts/context-graph-refresh.sh`). A semantic code graph rots silently; this is an
+  idempotent, lock-guarded, freshness-gated rebuild guard driven by git hooks, an agent
+  SessionStart hook, or `--force`. Fed back from a live project where the graph had drifted
+  five days and ~640 commits unnoticed. Portable via `CGF_*` env to any indexer and language,
+  with the security guardrails from the graft review carried over.
+- **`scripts/review-gate.sh`** — an on-demand second reviewer (Gemini via the `agy` or
+  `gemini` CLI) for the staged diff or a PR. Opt-in from `.githooks/pre-commit` with
+  `REVIEW_GATE=async|block` or `git config review.gate`; `make hooks` activates the
+  version-controlled hooks.
+- **`chrome-devtools` seam** in the `.agents/mcp_config.json` template, in Agent Plugins 1.0.0
+  shape (pinned version, isolated profile, telemetry off). The governance notes — telemetry,
+  CrUX calls, the open debugging port — live in the `frontend-performance-audit` skill.
+
+### Changed
+
+- **`delivery-orchestrator`** now owns the delivery-records baseline as its third job, beside
+  decomposition and routing, and triggers when the records have drifted from reality.
+- **`docs/WORKFLOW.md` — two invariants made explicit.** *Parallelism is earned by planning:* a
+  task fans out only once it is an independently-shippable ticket with an acceptance contract,
+  a DoD and its user journey. *The independent-reasoner gate runs at scope and at audit, not
+  only at review:* disagreement is the signal, agreement is not proof, the accountable human
+  overrides.
+- **Session-start orientation is proportional.** The full `using-the-harness` orientation is
+  injected only in a project that has adopted the operating model
+  (`docs/operating-model/PROJECT-OPERATING-PROFILE.md`) or when
+  `JOIN_THE_TEAM_ORIENTATION=full`; elsewhere a short pointer is injected so the harness stays
+  discoverable without taxing every session (`=pointer` forces the short form, `=off` injects
+  nothing). The injected banner now says which of the two it is.
+- Skill count 21 → 22 (v0.2.3 → 0.3.0: five added, four folded into one) across `README.md`,
+  `skills/README.md` and every install guide; version 0.3.0 in the root `plugin.json`, the
+  Claude, Kimi and Gemini projections and the marketplace entry.
+
+### Removed
+
+- `gcp-expert`, `aws-expert`, `azure-expert`, `alibaba-expert` — folded into `cloud-expert`.
+  Their guidance is unchanged; only the entry point moved. Route through `the-architect` or
+  `cloud-expert` directly.
 
 ## [0.2.3] — 2026-08-07
 

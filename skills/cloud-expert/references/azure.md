@@ -1,9 +1,8 @@
----
-name: azure-expert
-description: Azure expert guardrails — Entra ID least-privilege, policy-first governance, data boundaries, cost, residency, and official-source validation. Trigger when designing or reviewing any Azure workload, especially agents, LLMs (Foundry/OpenAI), or landing-zone systems.
----
+# Azure Expert — vendor reference for `cloud-expert`
 
-# Azure Expert
+Vendor-specific guardrails, procedure detail and official sources. Read this after the shared procedure in `../SKILL.md`.
+
+
 
 > **Azure is policy-first: Entra ID and Azure Policy are the guardrails; the Foundry is the agent surface. If it is not enforced by policy, it is a wish.**
 

@@ -95,8 +95,7 @@ Full per-harness detail (session-start hooks, verification, update path):
 [Codex](docs/install/codex.md) · [Antigravity](docs/install/antigravity.md)
 
 Antigravity is a first-class surface: this harness was built and battle-tested on
-Google Cloud's agent stack, and ships cloud-expert guardrails (`gcp-expert`,
-`aws-expert`, `azure-expert`, `alibaba-expert`) plus `adk-expert` and
+Google Cloud's agent stack, and ships cloud guardrails (`cloud-expert`, with GCP, AWS, Azure and Alibaba Cloud references) plus `adk-expert` and
 `mcp-server-scaffold` alongside the vendor-neutral contract.
 
 The plugin composes with — never duplicates — companion skill plugins;
@@ -110,7 +109,7 @@ After installing, confirm the harness is actually live rather than merely presen
 which skills are available?
 ```
 
-You should see `using-the-harness` plus the cloud and gate skills (`gcp-expert`,
+You should see `using-the-harness` plus the cloud and gate skills (`cloud-expert`,
 `adversarial-gate`, `pr-reviewer`). Then run the built-in validator against a
 bootstrapped repository:
 
@@ -142,9 +141,12 @@ commands cover the lifecycle.
 | "Is this safe to ship?" | `release-readiness` | Go/no-go against failure modes and rollback |
 | "Review this PR" | `pr-reviewer` | Structured verdict with findings |
 | "How would this break?" | `adversarial-gate` | Red-team pass argued against your own approach |
-| "We're on GCP, multi-tenant" | `gcp-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
+| "We're on GCP, multi-tenant" | `cloud-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
 | "Where do things stand?" | `sitrep` | Status, blockers, next actions |
+| "Get it done, I'll be back later" | `get-it-done` | Pursues the agreed goal to a merged outcome; banks decisions instead of blocking |
 | "The Mac is slow / the tests left Chrome open" | `system-performance-guardrail` | Snapshot, owner attribution, bounded cleanup, before/after numbers |
+| "Is everything live? Any errors this week?" | `cloud-checkup` | Read-only GCP checkup: one status table, one `OVERALL:` line, in session or on a schedule |
+| "Is the page fast enough? Why is this route slow?" | `frontend-performance-audit` | Core Web Vitals and traces from the real authenticated page, not an estimate |
 
 **Worked example — a risk-touching change:**
 
@@ -279,7 +281,7 @@ Skills supply capability; **named humans supply authority**.
 | Delivery Stage | Primary AI Skill / Harness Primitive | AI Agent Capability | Accountable Human SME |
 | :--- | :--- | :--- | :--- |
 | **Requirements & Scope** | `spec-first-delivery` | Drafts acceptance contract & spec | **Product Owner** |
-| **Architecture & ADRs** | `the-architect`, `gcp-expert` / `aws-expert` / `azure-expert` | Drafts ADRs & validates vendor constraints | **Lead Architect / Head of Eng** |
+| **Architecture & ADRs** | `the-architect`, `cloud-expert` | Drafts ADRs & validates vendor constraints | **Lead Architect / Head of Eng** |
 | **Data & Access Seams** | `mcp-server-scaffold` | Queries governed MCP data seams | **Head of Data / Security** |
 | **Risk & Authority** | `using-the-harness` | Classifies risk tier (R0–R3) | **Delivery Manager / Lead** |
 | **Verification & Red-Teaming** | `adversarial-gate`, `make check` | Runs red-team checks & test suite | **Lead Developer** |
@@ -427,9 +429,9 @@ both decisions and the trade-offs behind them.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](skills/README.md)**
-  Twenty-one tracked capabilities for orchestration, architecture, specification, validation,
-  review, release readiness, governance, plugin submission, status, cost, and selected
-  platform work.
+  Twenty-two tracked capabilities for orchestration, architecture, specification, validation,
+  review, release readiness, governance, plugin submission, status, cost, cloud operations,
+  frontend performance, and selected platform work.
 - **[Plugin Submission](skills/plugin-submission/SKILL.md)**
   The policy-backed directory and marketplace listing gate; its
   [capability specification](docs/PLUGIN-SUBMISSION.md) defines the external-send
@@ -443,6 +445,12 @@ both decisions and the trade-offs behind them.
   The evaluated companion-plugin map: agent-craft lanes (TDD methodology, simplicity
   discipline, frontend design) route to installed sister plugins; the team contract
   stays canonical here. Reference, never vendor.
+- **[The Four Delivery Records](docs/DELIVERY-RECORDS.md)**
+  Issues, `STATUS.md`, `ROADMAP.md`, `CHANGELOG.md` — one fact, one owner; the rules that
+  stop them drifting and a six-question audit with a command for every answer.
+- **[Context-Graph Freshness](docs/CONTEXT-GRAPH-FRESHNESS.md)**
+  A day-0 guard that keeps a semantic code graph from rotting silently: idempotent,
+  lock-guarded, rebuilt only when stale, triggered by git hooks or the agent session start.
 - **[Team Workflow](docs/WORKFLOW.md)**
   The skills dependency diagram, the requirement → ADR → ticket → evidence → status
   traceability chain, and the accountability model: how skills route work while named

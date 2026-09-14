@@ -1,0 +1,42 @@
+# cloud-checkup — weekly schedule (cron, for Linux and anything without launchd).
+#
+# Install:
+#   mkdir -p ~/.local/state/cloud-checkup
+#   crontab -e     # then paste the line below, edited
+#
+# Fields: minute hour day-of-month month day-of-week. Day-of-week 3 = Wednesday, matching
+# the launchd numbering. cron fires on the machine's LOCAL time, so the hour tracks the
+# operator's clock through daylight saving with no UTC conversion. Set CRON_TZ above the
+# line if the machine's zone is not the operator's.
+#
+# Logs go under ~/.local/state, never /tmp: /tmp is purged on a schedule the checkup does
+# not control, and the failure whose log you need is exactly the one that disappears.
+# Redirect appends, so a week of runs is one readable file; rotate it with logrotate or a
+# monthly truncate if it grows.
+
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+CC_MANIFEST=/home/USER/path/to/project/.cloud-checkup.yaml
+CC_STATE_DIR=/home/USER/.local/state/cloud-checkup
+
+0 7 * * 3 cd /home/USER/path/to/project && /bin/bash /home/USER/path/to/skills/cloud-checkup/scripts/cloud_checkup.sh >> /home/USER/.local/state/cloud-checkup/cron-stdout.log 2>&1
+
+# systemd timer equivalent, if the machine prefers one:
+#
+#   ~/.config/systemd/user/cloud-checkup.service
+#     [Service]
+#     Type=oneshot
+#     WorkingDirectory=/home/USER/path/to/project
+#     Environment=CC_MANIFEST=.cloud-checkup.yaml
+#     Environment=CC_STATE_DIR=/home/USER/.local/state/cloud-checkup
+#     ExecStart=/bin/bash /home/USER/path/to/skills/cloud-checkup/scripts/cloud_checkup.sh
+#
+#   ~/.config/systemd/user/cloud-checkup.timer
+#     [Timer]
+#     OnCalendar=Wed 07:00
+#     Persistent=true
+#     [Install]
+#     WantedBy=timers.target
+#
+#   systemctl --user enable --now cloud-checkup.timer
+#   journalctl --user -u cloud-checkup -n 100

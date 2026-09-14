@@ -16,6 +16,14 @@ packaging version declared in the harness manifests.
   developer-machine contention (cloud-sync daemons, indexers, AI-tool MCP fleets, orphaned
   automation browsers), the cloud-sync and performance optimisation scale (L0–L4), the
   test-hygiene contract for generated UI/UX/performance tests, and `scripts/perf-guardrail.sh`.
+- `get-it-done` skill; `cloud-expert` (GCP, AWS, Azure and Alibaba Cloud folded into one skill with
+  per-vendor references); `scripts/review-gate.sh` — an on-demand Gemini second reviewer for the staged
+  diff or a PR, opt-in from `.githooks/pre-commit`; the session-start orientation is injected in full only
+  in projects that adopted the operating model (a short pointer elsewhere).
+
+### Removed
+
+- `gcp-expert`, `aws-expert`, `azure-expert`, `alibaba-expert` (folded into `cloud-expert`).
 
 ## [0.2.3] — 2026-08-07
 

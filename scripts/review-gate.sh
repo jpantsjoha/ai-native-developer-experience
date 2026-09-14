@@ -6,13 +6,14 @@
 # Records live under .git/review-gate/; a PR review is also posted as a comment when `gh` is
 # available. Bash 3.2 compatible; no repo-external dependencies beyond the CLI.
 #
-#   scripts/review-gate.sh --staged [--mode async|block]     staged diff (the pre-commit default: async)
+#   scripts/review-gate.sh --staged [--mode block|async]     what the next commit will contain (default block: wait for the verdict)
 #   scripts/review-gate.sh --range <base>..<head>           any commit range
 #   scripts/review-gate.sh --pr <number> [--no-comment]     a pull request (uses gh)
 #   scripts/review-gate.sh --last                           print the most recent record
 #
-# Modes:   async  detach; the commit is not delayed; the verdict is recorded and printed by the next hook run
-#          block  wait for the verdict; exit 1 on BLOCK (or on CONCERNS when REVIEW_GATE_STRICT=1)
+# Modes:   block  (default on demand) wait for the verdict; exit 1 on BLOCK (or on CONCERNS when REVIEW_GATE_STRICT=1)
+#          async  detach; the verdict is recorded and printed by the next hook run (the opt-in pre-commit uses this)
+# Not wired to run automatically: enable per commit with REVIEW_GATE=async|block or per clone with git config review.gate.
 # Env:     REVIEW_GATE=off|async|block   REVIEW_GATE_MODEL (default gemini-3.8-flash-high)
 #          REVIEW_GATE_LANE=agy|gemini    REVIEW_GATE_TIMEOUT seconds (default 600)   REVIEW_GATE_MAXLINES (default 4000)
 set -uo pipefail
@@ -47,7 +48,7 @@ review() {  # $1 label, $2 diff file, $3 commits file, $4 record id -> prints re
   rm -f "$p" "$diff" "$commits"; printf '%s\n' "$v" > "$DIR/LAST"; VERDICT="$v"; echo "$DIR/$id.md"
 }
 
-mode="${REVIEW_GATE:-async}"; what=""; arg=""; comment=1
+mode="${REVIEW_GATE:-block}"; what=""; arg=""; comment=1
 while [ $# -gt 0 ]; do case "$1" in --staged) what=staged; shift;; --range) what=range; arg=$2; shift 2;; --pr) what=pr; arg=$2; shift 2;; --last) what=last; shift;; --mode) mode=$2; shift 2;; --no-comment) comment=0; shift;; --worker) what=worker; shift;; *) shift;; esac; done
 [ "$mode" = off ] && exit 0
 case "$what" in

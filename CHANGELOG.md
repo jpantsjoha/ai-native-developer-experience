@@ -8,6 +8,15 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [Unreleased]
+
+### Added
+
+- `system-performance-guardrail` skill: measure → attribute → act → verify → record loop for
+  developer-machine contention (cloud-sync daemons, indexers, AI-tool MCP fleets, orphaned
+  automation browsers), the cloud-sync and performance optimisation scale (L0–L4), the
+  test-hygiene contract for generated UI/UX/performance tests, and `scripts/perf-guardrail.sh`.
+
 ## [0.2.3] — 2026-08-07
 
 Independent cross-model review of `v0.1.7..v0.2.2` found three defects in the conformance

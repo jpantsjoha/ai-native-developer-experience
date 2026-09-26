@@ -12,6 +12,10 @@ packaging version declared in the harness manifests.
 
 Branch candidate under HFE-001; not yet a published plugin release.
 
+- Explicitly record the adopted Graft context-provider pattern, its optional role,
+  package/hook provenance and source fallback; correct freshness/coherence claims
+  and retain hardening work as an unfiled follow-up.
+
 - Add a source-backed audit of mac-control, FeedEval, exam-prep and this harness;
   current status and ordered, issue-ready follow-ups keep automation gaps explicit.
 - Extend existing skills and the bootstrap workflow with outcome traceability,

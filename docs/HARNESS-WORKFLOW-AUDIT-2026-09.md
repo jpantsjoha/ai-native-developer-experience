@@ -105,7 +105,28 @@ The local council registry listed `agy` as Gemini 3.8 Flash high and `sol-high` 
 GPT-5.6-sol high; registry output is configuration evidence, not successful execution
 for every lane. The Gemini plan-review invocation did return a substantive response.
 
-## Completion boundary
+## Graft adoption addendum
+
+The first audit underrepresented an existing adoption: the plugin already shipped
+`docs/CONTEXT-GRAPH-FRESHNESS.md` and `scripts/context-graph-refresh.sh`, but Graft was
+absent from the companion map and this synthesis. That omission is now reconciled
+in [INTEGRATIONS](../INTEGRATIONS.md#graft--adopted-context-provider).
+
+Primary local evidence: FeedEval
+`architecture/decisions/ADR-035-adopt-graft-context-layer.md` (accepted), exam-prep
+`ADR/ADR-0065-the-agent-context-layer-is-a-local-graph-and-the-deep-tier-stays-off-proposed.md`
+(proposed), both root package manifests/installed packages, and committed
+`.claude/helpers/graft-hooks.cjs` plus settings hook references. Installed versions
+are 0.10.1; graph files exist in both checkouts. No successful fresh query, current
+security re-audit, cross-harness execution parity or realised cost saving is claimed.
+
+The adopted pattern is useful: pinned development tooling, local structural graph,
+shared reviewed Claude wiring, per-developer MCP, regenerable cache and `--deep`
+disabled. Reuse it as an optional context capability, with source verification and
+explicit fallback. The existing mtime guard does not prove tracked-file completeness
+or reader/writer coherence; its limitations and acceptance work are now explicit.
+
+## Completion boundary (delivery scope)
 
 This feedback slice produces an audited plan, portable skill improvements, a tested
 local helper correction and a reviewable feature branch. It does not complete all

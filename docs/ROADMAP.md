@@ -22,6 +22,7 @@ unfiled items below are not GitHub issues or accepted release commitments.
 | DPS-PROMOTE / release owner | Record release ADR, tag rules, build provenance, UAT/live environment contracts, recovery and observation. Reconcile CI retirement/migration | Release rehearsal proves source→artifact→environment identity and rollback. Requires separately approved remote/environment changes |
 | DPS-VALUE / product owner | Link customer/commercial hypotheses to experiment, measure, stop threshold, evidence and roadmap decision; measure engineering lead time/rework/known cost | One real completed experiment and one delivery outcome measured with provenance. No invented savings, usage or revenue |
 | ADOPT-DRIFT / each adopter owner | Repair audited current-fact and retired-CI delegation drift in individual reviewed branches | Each project's canonical gate and independent review, then regenerate current docs. This feedback branch does not mutate adopters |
+| DPS-CONTEXT / context integration maintainer | Reconcile Graft ADR status, effective package resolution, active hook paths and worktree-specific cache identity; harden freshness before claiming coherence | Fixtures cover deletion/rename, old timestamps, failed scans/builds, concurrent readers/writers, missing local package and fallback version. Verify pinned query refresh before adding overlapping hooks; no automatic install |
 
 Existing insight issues [#23](https://github.com/jpantsjoha/ai-native-developer-experience/issues/23)
 and [#24](https://github.com/jpantsjoha/ai-native-developer-experience/issues/24)

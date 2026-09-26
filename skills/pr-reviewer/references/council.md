@@ -56,6 +56,18 @@ or tool denial, first narrow the question or repair the input/tool contract; rep
 the same impossible task on another model wastes the second budget. When only one
 lane completes, call it single-lane review, not corroborating council consensus.
 
+Track review attempts across candidate commits against the stable work item/lineage;
+fixing a finding must not reset the budget. Repeated findings trigger design diagnosis,
+then a qualified alternative lens if useful, and replanning at the declared ceiling.
+Record reset/override reasons and retain history; a new branch name is not a new task.
+Changing reviewers never dismisses unresolved findings. Keep thresholds project-owned.
+
+For specialist reviews, derive required capabilities from changed surfaces and risk,
+including deleted/renamed files and changes to the classifier itself. Bind specialist
+receipts to their exact scoped inputs and retain review of the assembled candidate.
+Any waiver needs authorised scope, owner, expiry/trigger and rationale. These are
+adoption criteria, not capabilities already enforced by the local review helper.
+
 ## Bind evidence and preserve the trust boundary
 
 Record review scope, input hash/tree, base/head, command exit, requested/resolved

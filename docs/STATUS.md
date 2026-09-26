@@ -29,6 +29,13 @@ the reviewed branch. Follow-up ordering and unfiled task contracts are in
 [ROADMAP](ROADMAP.md); findings are in the
 [workflow audit](HARNESS-WORKFLOW-AUDIT-2026-09.md).
 
+The [follow-up optimisation review](OPTIMISATION-REVIEW-2026-09.md) covers four additional
+recently updated projects: PersonalTrader, SentinelTrader, browser-harness and Riter.
+It adds source-backed recommendations and focused guidance; Riter's isolated stub-council
+self-test passed 56/56. Other adopter mechanisms were source-inspected, not rerun.
+New preflight, WIP, reconciliation and specialist-review automation remains proposed.
+This does not establish a measured optimum or adopter production readiness.
+
 ## Operator decisions
 
 | Decision | Recommendation | Reversibility |

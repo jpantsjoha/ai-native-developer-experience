@@ -81,6 +81,17 @@ share a checkout; mutating lanes get separate branches/worktrees and resources.
 Reconcile progress against that contract, not token use or apparent activity.
 Use the council procedure in the pr-reviewer references for complex plan/audit work.
 
+Count review and integration against the project's WIP limit. Ready means eligible,
+not dispatched; leave ready work queued when slots are occupied. Record how blocked
+work reserves or releases capacity. Author completion alone does not release a slot.
+
+Before expensive dispatch, verify the intended checkout and resolved dependencies:
+a nested worktree can import a parent checkout's workspace package and test the wrong
+code. Use the declared locked setup path and inspect resolved imports/tool identity.
+Keep preflight non-provisioning; report required missing capabilities separately from
+repair/install. Sharing a browser daemon with one mutable current tab requires a
+serialised resource lane even when each coding lane has its own worktree.
+
 When evidence invalidates a premise, pause affected work, revise the task graph and
 revalidate changed acceptance with its owner. Do not keep dispatching descendants
 of a decision that is no longer true. Record abandoned effort and the reason.
@@ -104,6 +115,13 @@ prove user behaviour. A unit suite does not prove a reachable journey.
 Report passed, failed, skipped with reasons, duration and real exit status together.
 Missing optional infrastructure is inconclusive for that lane; required missing
 evidence blocks promotion. A skipped requirement cannot become covered.
+
+Completion hooks must verify the required persisted result, not merely that a skill
+was invoked. Bind the receipt to its work item/session; failed writes and unrelated
+receipts leave completion pending. A stop-hook loop limit is a nudge limit, not proof.
+Preserve partial-artifact errors and distinguish a valid structural test mapping from
+current execution. Receipts identify toolchain, execution mode, required skipped lanes
+and pre/post candidate identity; clean porcelain alone does not prove tree stability.
 
 Use explicit PASS, FAIL, NOT_APPLICABLE and INCOMPLETE states. NOT_APPLICABLE needs
 the scope-classifier evidence and reason; it is not a generic success substitute
@@ -148,6 +166,10 @@ source; they are not approvals, test receipts or deployments. Never move a publi
 tag to conceal a bad release. Tag rules and environment controls require their own
 inspection; main branch protection alone does not protect release tags.
 
+Where recovery requires independent custody, distinguish a same-machine/key round-trip
+from an independent environment and separately recovered identity/key. Record logical
+reconciliation, RPO/RTO and activation/rollback evidence against the profile's criteria.
+
 ## Value and learning
 
 Measure accepted outcomes per elapsed time and total known cost, including review,
@@ -161,6 +183,11 @@ and linked objective. Marketing claims must link to public-safe evidence and nam
 their limits. Delivery speed or cost savings from one project are hypotheses for
 another until measured. Review the opportunity queue when planning; publishing or
 contacting customers remains a separately authorised action.
+
+Apply the same discipline to the harness: before adding an agent, hook, validator or
+shared platform, name the measured gap, existing simpler alternative, quality floor,
+cost/time ceiling and removal trigger. Trial one bounded change on comparable tasks.
+More skills or council lanes are not evidence of improved accepted-outcome economics.
 
 ## Audit output and completion
 

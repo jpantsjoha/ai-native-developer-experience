@@ -32,6 +32,7 @@ tree. Original checkout untracked/dirty content is evidence only, never staged.
 | HFE-4 | Define maturity exits and release promotion without equating tags with readiness | MVP/beta/production evidence table and test/CI/promotion contract |
 | HFE-5 | Correct the local review gate's result propagation and unsafe success paths | Offline stub tests reproduce the base defect and prove refusal on missing/failed/ambiguous review |
 | HFE-6 | Reconcile this repository's status, roadmap, README and pending delivery work | Honest branch status, ordered backlog with issue-ready acceptance criteria, Unreleased entry |
+| HFE-7 | Inspect additional recently updated local projects for material portable improvements | Follow-up comparison records source identities, dirty caveats, evidence limits and prioritised acceptance cases; guidance extends existing skills |
 
 ## Design and boundaries
 

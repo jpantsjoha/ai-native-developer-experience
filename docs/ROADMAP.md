@@ -7,7 +7,7 @@ unfiled items below are not GitHub issues or accepted release commitments.
 
 | Order | Outcome | Exit gate | State |
 | --- | --- | --- | --- |
-| Now — HFE-001 | Feed measured adopter experience back into the plugin | Four-source audit, usable procedures, review-gate regressions, convergence and independent review | Feature branch; see STATUS |
+| Now — HFE-001 | Feed measured adopter experience back into the plugin | Initial four-source audit plus four-project follow-up, usable procedures, review-gate regressions, convergence and independent review | Feature branch; see STATUS |
 | Next — DPS-TRACE | Planning records reconcile deterministically | Offline invalid-ID/state/link fixtures fail; live reconciliation reports freshness, completeness and API failures separately | Approved DPS-001 direction; detailed slice unfiled |
 | Next — DPS-REVIEW | Review evidence can govern a merge | Candidate/base binding, non-author identity boundary, stale/conditional/error rejection and trusted enforcement tests | Proposed; authority/trust design unresolved |
 | Next — DPS-PROMOTE | MVP/UAT/live transitions prove the artifact and outcome | Project-owned maturity exits, immutable digest, upgrade/rollback and observation receipts | Proposed; per-project adoption required |
@@ -28,6 +28,25 @@ Existing insight issues [#23](https://github.com/jpantsjoha/ai-native-developer-
 and [#24](https://github.com/jpantsjoha/ai-native-developer-experience/issues/24)
 should be reconciled with this queue before creating duplicates. Neither had a
 milestone in the 26 September API snapshot. External tracker updates remain pending.
+
+## Follow-up optimisation slices
+
+The [additional project review](OPTIMISATION-REVIEW-2026-09.md) supplies source evidence
+and negative acceptance cases. These refine the contracts above; they are unfiled,
+not a parallel issue system. Suggested order, subject to measured value:
+
+1. DPS-REVIEW: review-inclusive WIP and persistent attempt budgets; DPS-CONTEXT and
+   DPS-REVIEW: non-provisioning execution-context checks, including dependency identity.
+2. DPS-TRACE / ADOPT-DRIFT: canonical policy/gate conflicts and ADR reconciliation,
+   then requirement→test→executed-lane coverage with explicit evidence levels.
+3. DPS-REVIEW: path-derived specialist requirements and optional per-rule/test-ID debt
+   ratchets; baseline updates cannot trade one defect for another.
+4. DPS-PROMOTE: persisted completion receipts and profile-specific independent recovery.
+   DPS-VALUE: evaluate these changes against matched delivery tasks before scaling.
+
+Portable guidance is included in this branch; these new mechanical controls remain
+unimplemented here. No additional always-loaded skill or permanent council lane is
+proposed without a measured gap and an experiment/removal rule.
 
 ## Deferred cost and ownership
 

@@ -61,7 +61,11 @@ resume dispatch.
 
 - Product Owner acceptance evidence: `<field, issue check, or signed record>`
 - Maximum active lanes: `<number>`
+- WIP accounting: `<include review/integration; queued-ready state; blocked-slot policy>`
+- Execution preflight: `<checkout/import/tool identity; no implicit provisioning>`
+- Shared-resource custody: `<browser/port/database owner, serialisation and cleanup>`
 - Planner / worker / reviewer model tiers: `<mapping and evidence>`
+- Review attempt ceiling: `<work-item lineage, replan trigger, retained reset reasons>`
 - Epic cost and time ceiling: `<limit>`
 - Convergence command: `<command>`
 - Live work-system reconciliation: `<command or owned manual process>`
@@ -78,6 +82,7 @@ resume dispatch.
 - Release and promotion: `<tag/source/artifact digest, environment, approver, rollback>`
 - Observation: `<signals, duration, stop thresholds, retained receipt>`
 - Value feedback: `<accepted outcome, elapsed time, known cost, rework and experiment result>`
+- Harness-change admission: `<measured gap, simpler alternative, trial and removal trigger>`
 
 Distinguish declared, implemented, enforced and observed controls. Local hooks and
 review records do not prove remote enforcement. Missing evidence stays unknown or

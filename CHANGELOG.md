@@ -12,6 +12,10 @@ packaging version declared in the harness manifests.
 
 Branch candidate under HFE-001; not yet a published plugin release.
 
+- Compare four additional recent projects and capture review-inclusive WIP, bounded
+  review loops, worktree dependency identity, persisted completion and measured
+  harness-change admission in existing guidance; retain automation as proposed work.
+
 - Explicitly record the adopted Graft context-provider pattern, its optional role,
   package/hook provenance and source fallback; correct freshness/coherence claims
   and retain hardening work as an unfiled follow-up.

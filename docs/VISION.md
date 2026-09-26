@@ -25,6 +25,13 @@ The harness succeeds when it makes these behaviours routine:
   churn, and agent spend—not by task or commit volume alone;
 - teams capture delivery surprises so later human and agent trajectories become shorter.
 
+The primary outcome, confirmed by the operator on 26 September 2026, is consistent
+delivery of value at a sustainable pace, with deterministic quality gates, independent
+review and coherent requirements, architecture and observed acceptance. This applies
+to an individual and to a team. Commercial viability, marketing, professional reputation
+and community benefit are optional project objectives. Their absence does not lower
+core delivery maturity. Measure them only where the project has chosen them.
+
 ## Product principles
 
 1. **Intent is scarce.** High-quality requirements and acceptance decisions are

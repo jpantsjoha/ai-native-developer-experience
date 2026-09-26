@@ -47,6 +47,14 @@ audit receipts; no remote CI execution or protection enforcement is inferred.
 
 ## Operator decisions
 
+The [five-project adoption audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) now adds
+delivery traces for Cert Prep, FeedEval, SentinelTrader, Riter and Proofly. Four have
+explicit harness lineage; Proofly's package attribution remains operator-attested.
+Public marketplace evidence strengthens demonstrated adoption; current policy,
+artifact retention and UAT reconciliation gaps remain. Primary success is proven
+delivery value; marketing/commercial outcomes are optional. No adopter was changed.
+Claude's inspected global installation is 0.2.3; the Codex cache is labelled 0.3.0.
+
 An [executive scorecard](EXECUTIVE-SCORECARD.md) separates capability maturity,
 demonstrated impact and JP's experience. Its baseline assesses `e379580`: local
 engineering assurance is strongest; lifecycle coherence/enforcement remain incomplete;

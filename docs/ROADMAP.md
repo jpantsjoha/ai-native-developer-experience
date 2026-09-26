@@ -50,6 +50,13 @@ proposed without a measured gap and an experiment/removal rule.
 
 ## Deferred cost and ownership
 
+The [adoption outcomes audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) supplies five real
+delivery traces and prioritises existing contracts: policy drift, portable review
+evidence, release/acceptance reconciliation, optional Graft freshness and measured
+delivery effort. These are follow-ups, not newly implemented controls. DPS-VALUE's
+core scope is engineering outcome/effort; customer, commercial and marketing
+experiments apply only where the project chooses those objectives.
+
 DPS-VALUE uses the [executive rubric](EXECUTIVE-SCORECARD.md) across strategy,
 ownership, technology, security, operations, experience and wider value. First collect
 accepted-outcome yield, effort per accepted outcome and repeat use with quality/authority

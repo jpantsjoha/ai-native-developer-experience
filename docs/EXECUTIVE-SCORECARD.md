@@ -16,9 +16,9 @@ criteria, not objective measurements of quality.
 The [vision](VISION.md) is to help human–AI teams turn intent into accepted outcomes
 without losing ownership, evidence or continuity. The value hypothesis is less avoidable
 rework, coordination and operator effort at an equal or better quality floor.
-The provisional primary purpose is internal delivery value, with open-source reuse
-and professional reputation as additional benefits. Revenue is an optional hypothesis,
-not a prerequisite for success. The operator can change these priorities.
+The operator confirmed the primary purpose: consistent, proven delivery of value,
+with proportionate effort and coherent engineering. Commercial, marketing, reputation
+and community outcomes are optional project objectives, not core maturity conditions.
 
 Every additional control should name the recurring failure it prevents, its operating
 cost and the simpler existing alternative it was compared with. No new skills are
@@ -74,10 +74,32 @@ impact remain **U**. No lens earns 4. Continued measured internal use is reasona
 this is not release approval or public-beta readiness. Installed 0.3.0 cannot inherit
 an unreleased branch's scores.
 
-Do not average yet: lenses overlap, priorities are provisional and outcomes are unknown.
+Do not average yet: lenses overlap and several outcomes are unknown.
 If a portfolio decision later requires weights, agree them before scoring, show evidence
 coverage and retain the dimensions. Authority, security, required acceptance and recovery
 failures cannot be averaged away.
+
+## Portfolio evidence addendum — 26 September 2026
+
+The initial table above remains a snapshot of the local plugin candidate. It
+underweights the delivery evidence available from adopters. The subsequent
+[five-project adoption audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) establishes explicit
+lineage and delivery use in Cert Prep, FeedEval, SentinelTrader and Riter. Proofly
+adds useful delivery and Graft evidence; its package lineage remains operator-attested.
+Public marketplace listings and candidate-linked corrections strengthen the case for
+practical usefulness. They do not retroactively validate this unreleased branch.
+
+Use the audit's separate adoption scale, where 3 means evidenced delivery use; it is
+not interchangeable with this rubric's capability level 3. The portfolio supports
+successful internal adoption and useful quality interventions. Full semantic coherence,
+authenticated review, current UAT acceptance and comparative efficiency remain uneven
+or unmeasured. No aggregate percentage or claim of optimality follows.
+
+Installation correction: the inspected Claude registry and cached manifest identify
+user-scoped **0.2.3**, globally enabled, with project overrides also at 0.2.3. The
+Codex skill cache is labelled **0.3.0**. Earlier references to installed 0.3.0 apply
+to that Codex surface, not every Claude session. Copied manuals and project adapters
+have their own revisions; exact runtime invocation was not retrospectively proven.
 
 ## CTO's four Cs
 

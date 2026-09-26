@@ -12,6 +12,11 @@ packaging version declared in the harness manifests.
 
 Branch candidate under HFE-001; not yet a published plugin release.
 
+- Audit adoption and delivery traces across five active projects, corroborate public
+  marketplace outcomes, correct installation/version assumptions and prioritise
+  drift, evidence retention and release reconciliation. Confirm delivery value as
+  primary; commercial and marketing objectives remain optional. No new skills.
+
 - Add an executive rubric and candidate-bound initial assessment, separating
   capability maturity, measured impact and operator experience; no new skills.
 

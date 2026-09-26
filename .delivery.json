@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "documents": {
+    "vision": "docs/VISION.md",
+    "roadmap": "docs/ROADMAP.md",
+    "status": "docs/STATUS.md",
+    "changelog": "CHANGELOG.md",
+    "readme": "README.md",
+    "workflow": "docs/WORKFLOW.md",
+    "gate-runbook": "docs/DETERMINISTIC-GATES.md"
+  },
+  "records": {
+    "spec": "requirements",
+    "decision": "architecture/decisions"
+  }
+}

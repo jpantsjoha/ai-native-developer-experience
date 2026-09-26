@@ -12,6 +12,11 @@ packaging version declared in the harness manifests.
 
 Branch candidate under HFE-001; not yet a published plugin release.
 
+- Add `make planning`: offline required-document, ID/state, parent/dependency,
+  supersession, local-link and Done-evidence checks with negative CLI fixtures.
+  Wire it into the existing test/CI path and expand Python/shell syntax checks.
+  No new skills; structural validation does not authenticate review or prove release.
+
 - Compare four additional recent projects and capture review-inclusive WIP, bounded
   review loops, worktree dependency identity, persisted completion and measured
   harness-change admission in existing guidance; retain automation as proposed work.
@@ -110,8 +115,8 @@ to stop bad packaging was letting them through.
 
 ### Fixed
 
-- **MCP transport fields were presence-checked, not type-checked.** `{"type":"stdio",
-  "command":null}` and `{"type":"streamable-http","url":null}` both passed: the required-key
+- **MCP transport fields were presence-checked, not type-checked.**
+  `{"type":"stdio", "command":null}` and `{"type":"streamable-http","url":null}` both passed: the required-key
   check saw the key, then `isinstance` guards silently skipped every subsequent check. All
   transport fields are now type-validated — `command`, `url`, `args`, `env`, `headers`, `cwd`.
 - **`cwd` accepted traversal outside the plugin root.** The published schema anchors only the

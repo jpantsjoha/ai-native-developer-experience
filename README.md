@@ -386,6 +386,12 @@ That is a gate, not a badge — run it yourself:
 make spec-conformance
 ```
 
+For all local checks run `make check`. The offline `make planning` gate also checks
+the declared delivery documents, stable IDs, lifecycle states, task parents,
+dependencies, supersession, local file links and presence of Done evidence. See the
+[deterministic gate runbook](docs/DETERMINISTIC-GATES.md) for its grammar and limits.
+Structural PASS does not establish semantic correctness or release approval.
+
 The check is standard-library Python, runs offline, and reports as its own CI job. It is
 backed by 51 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that
 only ever passes is decoration.

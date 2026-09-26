@@ -8,7 +8,7 @@ unfiled items below are not GitHub issues or accepted release commitments.
 | Order | Outcome | Exit gate | State |
 | --- | --- | --- | --- |
 | Now — HFE-001 | Feed measured adopter experience back into the plugin | Initial four-source audit plus four-project follow-up, usable procedures, review-gate regressions, convergence and independent review | Feature branch; see STATUS |
-| Next — DPS-TRACE | Planning records reconcile deterministically | Offline invalid-ID/state/link fixtures fail; live reconciliation reports freshness, completeness and API failures separately | Approved DPS-001 direction; detailed slice unfiled |
+| Now / Next — DPS-TRACE | Planning records reconcile deterministically | DDG-001 structural gate; next semantic reconciliation and executed-test coverage, then opt-in live freshness/completeness | Structural slice on branch; remaining work unfiled |
 | Next — DPS-REVIEW | Review evidence can govern a merge | Candidate/base binding, non-author identity boundary, stale/conditional/error rejection and trusted enforcement tests | Proposed; authority/trust design unresolved |
 | Next — DPS-PROMOTE | MVP/UAT/live transitions prove the artifact and outcome | Project-owned maturity exits, immutable digest, upgrade/rollback and observation receipts | Proposed; per-project adoption required |
 | Later — DPS-VALUE | Priorities learn from delivery and customer evidence | Opportunity experiments and accepted-outcome economics reconcile to objectives | Proposed; no commercial validation asserted |
@@ -17,7 +17,7 @@ unfiled items below are not GitHub issues or accepted release commitments.
 
 | ID / owner | Scope and DoD | Validation / dependency |
 | --- | --- | --- |
-| DPS-TRACE / planning maintainer | Implement remaining DPS-001 FR-8: IDs, lifecycle states, links, rejected/superseded ADR references and current-fact conflicts. Keep unknowns explicit | Fixture suite fails missing documents, broken links, stale state and incomplete paginated API reads. Depends on agreed schema; bounded optional live adapter |
+| DPS-TRACE / planning maintainer | DDG-001 implements structural IDs/states/parents/dependencies/supersession/local links. Next add semantic current-fact conflicts, requirement→executed-test coverage and opt-in live reconciliation | Structural refusal fixtures run locally. Remaining fixtures must reject stale facts, absent execution and incomplete paginated API reads; no claim of full semantic reconciliation |
 | DPS-REVIEW / security and delivery maintainer | Specify trusted receipt producer, author/reviewer distinction, exact candidate, verdict semantics and bypass policy; then enforce through authorised hosted check or declared local mode | Reject replay, changed base/head/tree, malformed/failed lane, wrong identity and open conditions. Local file forgery must not pass as authenticated review |
 | DPS-PROMOTE / release owner | Record release ADR, tag rules, build provenance, UAT/live environment contracts, recovery and observation. Reconcile CI retirement/migration | Release rehearsal proves source→artifact→environment identity and rollback. Requires separately approved remote/environment changes |
 | DPS-VALUE / product owner | Link customer/commercial hypotheses to experiment, measure, stop threshold, evidence and roadmap decision; measure engineering lead time/rework/known cost | One real completed experiment and one delivery outcome measured with provenance. No invented savings, usage or revenue |

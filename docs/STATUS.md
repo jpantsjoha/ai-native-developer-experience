@@ -7,8 +7,9 @@
 HFE-001 is a local branch candidate on `feat/harness-workflow-audit-2026-09-26`, based on
 `164946c3337e630256ff7a1f258e2c18b61aaac2`. Four-project source audit is complete.
 Portable workflow/council guidance and local review-helper correction are this
-slice; generic traceability and authenticated remote review enforcement remain
-follow-up work. The branch has not been merged, tagged, installed or released.
+slice. DDG-001 now adds an offline structural delivery-record gate; semantic
+reconciliation and authenticated remote review enforcement remain follow-up work.
+The branch has not been merged, tagged, installed or released.
 
 Baseline `make check`: 79 tests passed; lint, operating-model and packaging gates
 passed. Exact candidate results and review are retained in the adjacent
@@ -33,8 +34,16 @@ The [follow-up optimisation review](OPTIMISATION-REVIEW-2026-09.md) covers four 
 recently updated projects: PersonalTrader, SentinelTrader, browser-harness and Riter.
 It adds source-backed recommendations and focused guidance; Riter's isolated stub-council
 self-test passed 56/56. Other adopter mechanisms were source-inspected, not rerun.
-New preflight, WIP, reconciliation and specialist-review automation remains proposed.
+New preflight, WIP, semantic reconciliation and specialist-review automation remains proposed.
 This does not establish a measured optimum or adopter production readiness.
+
+DDG-001 implements required-document/inventory checks, IDs/states, task parents,
+dependency/supersession graphs, local file links and nonempty Done evidence. Negative
+fixtures exercise the CLI and plant an invalid state through `make planning`.
+`make test` invokes this gate in both local convergence and the existing CI definition.
+Python/shell syntax coverage is expanded. No skills were added. Exact results and
+independent verdict are retained in `delivery-gates-handoff.json` beside the earlier
+audit receipts; no remote CI execution or protection enforcement is inferred.
 
 ## Operator decisions
 

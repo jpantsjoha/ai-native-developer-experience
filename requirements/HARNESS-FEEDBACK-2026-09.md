@@ -1,6 +1,10 @@
 # Harness feedback — September 2026
 
-**ID:** HFE-001 · **Owner:** jpantsjoha · **Date:** 2026-09-26
+**Spec ID:** HFE-001
+**Status:** In review
+**Owner:** jpantsjoha
+**Date:** 2026-09-26
+**Depends on:** DPS-001
 
 ## Authority and scope
 

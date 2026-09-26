@@ -47,6 +47,11 @@ audit receipts; no remote CI execution or protection enforcement is inferred.
 
 ## Operator decisions
 
+The [AutoHarness research](AUTOHARNESS-COMPARISON-2026-09.md) compares automatic
+skill maintenance with governed outcome delivery. Source inspection and isolated
+probes support borrowing observable proposals and provenance, with promotion behind
+existing tests/review. No plugin installation or learning automation was enabled.
+
 The [five-project adoption audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) now adds
 delivery traces for Cert Prep, FeedEval, SentinelTrader, Riter and Proofly. Four have
 explicit harness lineage; Proofly's package attribution remains operator-attested.

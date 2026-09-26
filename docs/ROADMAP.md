@@ -50,6 +50,12 @@ proposed without a measured gap and an experiment/removal rule.
 
 ## Deferred cost and ownership
 
+The [AutoHarness comparison](AUTOHARNESS-COMPARISON-2026-09.md) refines DPS-VALUE,
+DPS-TRACE and DPS-REVIEW: capture proposed learning from existing receipts, measure
+outcomes separately from invocation, and require fixed quality gates and independent
+review before a bounded trial. No automatic skill edits, telemetry service or new
+skills are implemented. Upstream ownership/provenance gaps were reproduced offline.
+
 The [adoption outcomes audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) supplies five real
 delivery traces and prioritises existing contracts: policy drift, portable review
 evidence, release/acceptance reconciliation, optional Graft freshness and measured

@@ -12,6 +12,10 @@ packaging version declared in the harness manifests.
 
 Branch candidate under HFE-001; not yet a published plugin release.
 
+- Research AutoHarness's learning loop, verify benchmark attribution, reproduce
+  ownership/proposal-transport gaps in isolated fixtures, and describe a bounded
+  learning experiment behind existing gates. No new skills or automatic mutation.
+
 - Audit adoption and delivery traces across five active projects, corroborate public
   marketplace outcomes, correct installation/version assumptions and prioritise
   drift, evidence retention and release reconciliation. Confirm delivery value as

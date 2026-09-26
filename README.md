@@ -54,6 +54,8 @@ semantics are non-negotiable.
 
 For the current improvement programme, see [STATUS](docs/STATUS.md),
 [ROADMAP](docs/ROADMAP.md) and the [cross-project workflow audit](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md).
+The [executive scorecard](docs/EXECUTIVE-SCORECARD.md) assesses strategic fit, delivery,
+technology, operations and wider value, separating maturity from measured impact.
 The [audit procedure](skills/delivery-orchestrator/references/workflow-audit.md)
 connects objectives, issues, tests, maturity and promotion; the
 [council procedure](skills/pr-reviewer/references/council.md) matches bounded tasks

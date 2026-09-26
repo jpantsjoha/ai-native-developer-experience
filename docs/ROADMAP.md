@@ -50,6 +50,11 @@ proposed without a measured gap and an experiment/removal rule.
 
 ## Deferred cost and ownership
 
+DPS-VALUE uses the [executive rubric](EXECUTIVE-SCORECARD.md) across strategy,
+ownership, technology, security, operations, experience and wider value. First collect
+accepted-outcome yield, effort per accepted outcome and repeat use with quality/authority
+guardrails. No savings target or market validation is assumed.
+
 Trusted merge enforcement is deferred until its identity/authority design is agreed;
 this leaves a known procedural boundary, owned by the delivery maintainer. Automated
 promotion is deferred until a release owner and target are declared; it blocks claims

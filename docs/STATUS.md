@@ -47,6 +47,11 @@ audit receipts; no remote CI execution or protection enforcement is inferred.
 
 ## Operator decisions
 
+An [executive scorecard](EXECUTIVE-SCORECARD.md) separates capability maturity,
+demonstrated impact and JP's experience. Its baseline assesses `e379580`: local
+engineering assurance is strongest; lifecycle coherence/enforcement remain incomplete;
+economic/commercial/community impact is unmeasured. It is not a score of installed 0.3.0.
+
 | Decision | Recommendation | Reversibility |
 | --- | --- | --- |
 | Merge and release this slice | Review the completed branch; choose plugin version/release separately | Branch edits reversible; published tags/releases require explicit handling |

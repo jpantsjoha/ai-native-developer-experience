@@ -12,6 +12,9 @@ packaging version declared in the harness manifests.
 
 Branch candidate under HFE-001; not yet a published plugin release.
 
+- Add an executive rubric and candidate-bound initial assessment, separating
+  capability maturity, measured impact and operator experience; no new skills.
+
 - Add `make planning`: offline required-document, ID/state, parent/dependency,
   supersession, local-link and Done-evidence checks with negative CLI fixtures.
   Wire it into the existing test/CI path and expand Python/shell syntax checks.

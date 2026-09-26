@@ -16,6 +16,8 @@ machine; this project workflow maps that contract to the team's roles and work s
 | Current derived status | Repository | `docs/STATUS.md` |
 | Released behaviour | Repository | `CHANGELOG.md` |
 | Checkpoints and exact-candidate evidence | Repository | `docs/operating-model/` |
+| Current user entrypoint and operations | Repository | `<README and runbook paths>` |
+| Commercial hypotheses and experiments | `<repository or product system>` | `<opportunity log or explicit not applicable>` |
 
 ## Lifecycle
 
@@ -66,3 +68,19 @@ resume dispatch.
 - Status reconciliation trigger: `<trigger>`
 - Changelog rule: material delivered behaviour only
 - Escalation path: `<human role and channel>`
+
+## Evidence and promotion
+
+- Gate execution mode: `<hosted, local or hybrid; required versus advisory checks>`
+- Capability registry: `<requested/resolved model and effort, tool limits, fallback policy>`
+- Review provenance: `<base/head or tree, independent role, verdict, receipt; trust boundary>`
+- Maturity exits: `<MVP, beta/UAT and production dimensions, thresholds and owners>`
+- Release and promotion: `<tag/source/artifact digest, environment, approver, rollback>`
+- Observation: `<signals, duration, stop thresholds, retained receipt>`
+- Value feedback: `<accepted outcome, elapsed time, known cost, rework and experiment result>`
+
+Distinguish declared, implemented, enforced and observed controls. Local hooks and
+review records do not prove remote enforcement. Missing evidence stays unknown or
+incomplete. When CI, runtime or release mode changes, reconcile every command and
+runbook that delegates to it. A changed candidate needs renewed review; a tag alone
+does not prove maturity or successful promotion.

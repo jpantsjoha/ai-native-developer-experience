@@ -8,6 +8,21 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## [Unreleased]
+
+Branch candidate under HFE-001; not yet a published plugin release.
+
+- Add a source-backed audit of mac-control, FeedEval, exam-prep and this harness;
+  current status and ordered, issue-ready follow-ups keep automation gaps explicit.
+- Extend existing skills and the bootstrap workflow with outcome traceability,
+  evidence levels, task/model/effort routing, council failure semantics, maturity
+  exits, artifact promotion and commercial experiment feedback.
+- Correct release checklist ordering and distinguish tag protection from main
+  branch protection. Correct per-call cost formula grouping.
+- Fix the local review helper's lost verdict; refuse failed, ambiguous, stale or
+  incomplete review inputs, preserve full candidate receipts and require explicit
+  PR-comment opt-in. Offline regressions use fake providers and GitHub clients.
+
 ## [0.3.0] — 2026-09-14
 
 Five skills in, four folded into one, and the delivery records made a first-class part of the

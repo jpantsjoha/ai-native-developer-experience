@@ -75,7 +75,7 @@ Check the repository for evidence of adherence:
 
 - Are version tags following the declared convention?
 - Is `CHANGELOG.md` up to date for every tagged release?
-- Are release artifacts produced by CI, not locally?
+- Are release artifacts produced through the ADR-approved build path with retained provenance?
 - Are GitHub releases linked to tags and changelog entries?
 - Does a single named release owner control version-tag pushes to the default branch?
 
@@ -86,27 +86,42 @@ acceptable workarounds.
 
 Confirm the following are in place (coordinate with `github-manager` for CI config):
 
+The list below describes the default tag-triggered CI path. For an ADR-approved
+alternative, substitute its build/tag sequence and equivalent provenance controls.
+
 - A CI workflow triggers on `v*` tags
 - The workflow produces and uploads the release artifact
 - The workflow creates a GitHub release with the changelog entry as its body
-- Branch protection prevents unauthorised pushes of `v*` tags
+- Tag-specific rules prevent unauthorised creation, movement or deletion of `v*`
+  tags; inspect them directly, because main branch protection does not protect tags
 
 ### 4. Define the release checklist
 
-The release owner runs this checklist before every release:
+Before any tag push, the release owner verifies:
 
 - [ ] `CHANGELOG.md` entry written, reviewed, and committed
 - [ ] Version identifier bumped in all manifests and committed
+- [ ] Exact candidate convergence and independent review are current with zero conditions
+- [ ] `release-readiness` go/no-go, target, authority and rollback are recorded
+
+After authorisation, execute and observe the release using the ADR's sequence
+(the entries below show the default CI path):
+
 - [ ] `v{version}` tag pushed to the default branch
 - [ ] CI release workflow completed and artifact verified
 - [ ] GitHub release created and linked to tag and changelog
+- [ ] Promoted artifact digest, environment, health/acceptance and observation recorded
 - [ ] Downstream consumers notified if the release contains breaking changes
 
 ### 5. Hand off to release-readiness
 
-Once the release process confirms the candidate is ready to tag, invoke `release-readiness`
-for the go/no-go deployment gate. The release checklist above is an input to that gate,
-not a substitute for it.
+Invoke `release-readiness` before the tag/promotion action, not after the execution
+checklist. Keep merge, artifact release and environment promotion as separate gates.
+Use the maturity and promotion contract in
+[`workflow-audit.md`](../delivery-orchestrator/references/workflow-audit.md).
+Promote the verified artifact and retain its source/tag/digest/environment chain;
+rebuilding requires new artifact evidence. Project ADRs may select a different
+release sequence, but must state it and prove equivalent provenance and rollback.
 
 ## Outputs
 
@@ -118,8 +133,10 @@ not a substitute for it.
 ## Guardrails
 
 - **No release process without an ADR.** Conventions without a decision record drift.
-- **Tags trigger releases; local builds do not.** A release artifact that cannot be
-  reproduced from a tag is not a release.
+- **Follow the approved build and tag sequence.** Tag-triggered CI is the default;
+  an ADR may choose a controlled local/hybrid build or tag-as-record sequence.
+  Reproducibility depends on pinned inputs, environment and verified artifact
+  provenance, not merely where a build runs.
 - **The changelog is not optional.** Every release without a changelog entry is invisible
   to users and to future maintainers.
 - **Release authority must be named.** Shared ownership of version tags is no ownership.
@@ -132,6 +149,6 @@ not a substitute for it.
 |---|---|
 | "We all know the release process" | Tribal knowledge drifts. An ADR does not. |
 | "The changelog is a nice-to-have" | Every future debugging session starts there. Write it now. |
-| "I'll build the release locally, it's faster" | Local builds are not reproducible. CI builds from the tag are. |
+| "I'll build the release locally, it's faster" | Use the ADR-approved path and prove source, build environment and artifact digest. Neither local execution nor CI alone proves reproducibility. |
 | "We don't need an ADR for something this simple" | One page of ADR prevents months of inconsistency. Write it. |
 | "The tag was already pushed, I'll do the changelog after" | The changelog belongs before the tag. Reversing this loses the discipline. |

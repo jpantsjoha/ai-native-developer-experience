@@ -97,6 +97,9 @@ planned well enough to parallelise.** If a task still needs a conversation to sc
 ready to fan out — it is ready to plan. Quality comes from the plan being complete *before* the
 fan-out, not from the fan-out being wide.
 
+Where the adopted operating manual requires one worktree per mutating lane, that
+stricter isolation rule governs even when the intended files appear disjoint.
+
 ## The independent-reasoner gate runs at scope and at audit, not only at review
 
 An independent reasoner — a genuinely separate model (a cross-model council: e.g. a non-primary
@@ -114,3 +117,15 @@ the lane, not just in the middle:
 Disagreement is the signal — dig where the independent reasoner and the primary diverge.
 Agreement is not proof; shared blind spots exist, so load-bearing claims are still re-derived
 from source. The council is an input; the accountable human's ruling overrides.
+
+## Audit, maturity and value feedback
+
+Use the maintained [workflow audit procedure](../skills/delivery-orchestrator/references/workflow-audit.md)
+for the record ownership matrix, test strategy, maturity exits, release promotion and
+opportunity feedback. Use the [council procedure](../skills/pr-reviewer/references/council.md)
+for task/model/effort selection, independent briefs and failure handling. These are
+portable procedures, not a claim of automatic tracker or hosted enforcement.
+
+The [September feedback audit](HARNESS-WORKFLOW-AUDIT-2026-09.md) records the adopter
+evidence behind this slice. [STATUS](STATUS.md) distinguishes its delivery state from
+the further automation ordered in [ROADMAP](ROADMAP.md).

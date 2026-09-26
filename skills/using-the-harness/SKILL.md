@@ -16,7 +16,10 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 
 1. **Ground in the contract.** If this project has adopted the operating model, read its
    project profile before anything else (`docs/operating-model/PROJECT-OPERATING-PROFILE.md`),
-   then the manual it binds. Profile facts beat inference.
+   then the manual it binds. Load the mapped delivery workflow, current STATUS,
+   ROADMAP and any applicable checkpoint before planning. Check dates and executable
+   commands against current evidence; a stale profile is a finding, not a fact to
+   silently preserve. Hooks provide orientation, not proof that these reads happened.
 2. **Classify risk before acting.** Map the requested work to R0–R3. Round ambiguity
    upward. Confirm authority at that tier before any consequential, destructive,
    external, or credential-touching action.

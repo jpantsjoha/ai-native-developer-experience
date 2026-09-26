@@ -52,6 +52,14 @@ semantics are non-negotiable.
 
 ## Install — two ways to adopt
 
+For the current improvement programme, see [STATUS](docs/STATUS.md),
+[ROADMAP](docs/ROADMAP.md) and the [cross-project workflow audit](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md).
+The [audit procedure](skills/delivery-orchestrator/references/workflow-audit.md)
+connects objectives, issues, tests, maturity and promotion; the
+[council procedure](skills/pr-reviewer/references/council.md) matches bounded tasks
+to model effort and independent review. Proposed automation is labelled separately
+from executable controls.
+
 **By hand** — clone the repo and share it with your agents. Copy `skills/` into
 your project, keep the `CLAUDE.md`/`GEMINI.md`/`AGENTS.md` adapters at root, and your
 assistant picks up the contract at session start. [BOOTSTRAP.md](BOOTSTRAP.md) is the

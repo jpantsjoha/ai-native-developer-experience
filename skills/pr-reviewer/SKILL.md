@@ -7,7 +7,8 @@ description: Review gate for correctness, reuse, and simplification. Produces a 
 
 > **Receipts, not polish.** A review that says "looks good" is not a review. A review that says "line 47 will panic on a nil pointer and here is the fix" is a review.
 
-This skill runs a structured code review and produces a verdict: approve, approve with comments, or request changes. Every finding is actionable. No findings without evidence.
+This skill runs a structured code review and produces a verdict with explicit
+conditions. Every finding is actionable. No findings without evidence.
 
 ## When to use
 
@@ -54,18 +55,30 @@ This skill runs a structured code review and produces a verdict: approve, approv
    - **NOTE**: observation for awareness, no action required
 
 7. **Produce the verdict**:
-   - **Approve**: no BLOCKING findings
-   - **Approve with comments**: no BLOCKING findings, SUGGESTED improvements noted
-   - **Request changes**: one or more BLOCKING findings
+   - **PASS / Approve**: zero unresolved conditions; optional suggestions clearly separated
+   - **BLOCK / Request changes**: any unresolved condition or blocking finding
+   - **INCOMPLETE**: required scope or evidence missing; never approval
 
 ## Outputs
 
 - Finding list: location | severity | description | suggested fix
-- Verdict: Approve / Approve with comments / Request changes
+- Verdict: PASS / BLOCK / INCOMPLETE, exact candidate identity and open conditions
 
 ## Independent second reviewer (on demand)
 
-The writer never approves its own work. Before merging, get a verdict from a different model or a fresh reviewer subagent: `scripts/review-gate.sh --pr N` (Gemini 3.8 flash high via the `agy` or `gemini` CLI; posts the verdict on the PR) or `--staged` for what the next commit will contain. It is on demand, not a hook default, because teams work on different machines; a clone can opt in with `git config review.gate async|block`. A changed candidate gets a fresh review; `VERDICT: NONE` (lane unavailable) is never an approval.
+The writer never approves its own work. Before merging, obtain a verdict from a
+qualified different model or fresh reviewer subagent under project policy. For
+complex planning, audits, model/effort selection and failures, read
+[`references/council.md`](references/council.md).
+
+Where the repository helper is available, `scripts/review-gate.sh --pr N` or
+`--staged` requests local review using Python 3's standard library and a configured
+review CLI. PR comments require explicit `--comment` and
+authorisation to post. Configure the available lane/model; no alias is guaranteed
+on every machine. A clone can opt in with `git config review.gate async|block`.
+Async is advisory. Only a completed, current PASS can support a blocking decision;
+unavailable/failed/conditional reviews do not approve. The helper's local receipt
+does not authenticate reviewer identity or enforce GitHub merge protection.
 
 ## Guardrails
 

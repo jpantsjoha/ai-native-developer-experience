@@ -20,7 +20,13 @@ This skill enforces the production bar. It produces a go / no-go verdict with a 
 
 1. **Validate the definition of done** — confirm that acceptance criteria from the spec are met. "Looks good" is not a criterion. Run the actual validation commands.
 
-2. **Check all quality gates pass**:
+2. **Check all quality gates pass** under the approved release ADR and profile.
+   Require candidate/artifact-bound receipts from the declared executor; a hosted CI
+   outage never permits silently dropping a gate. Run the
+   [release structural preflight](../operating-model-bootstrap/references/release-contract.md)
+   after the artifact exists and before promotion, then independently verify its
+   receipts. Structural PASS neither authenticates approvals nor proves test outcomes.
+   The commands below are defaults; use the project's declared equivalents:
    - `make lint` — style and static analysis clean
    - `make typecheck` — no type errors
    - `make test` — unit tests green
@@ -52,7 +58,8 @@ This skill enforces the production bar. It produces a go / no-go verdict with a 
 ## Guardrails
 
 - **No go without a rollback plan.** "We'll figure it out" is not a rollback.
-- **Green CI is necessary, not sufficient.** CI validates happy paths. Release readiness validates failure modes.
+- **Passing declared gates is necessary, not sufficient.** Release readiness also
+  checks failure modes, authority, artifact identity and observation in either mode.
 - **Cost estimates are not optional.** An unbounded LLM call in a hot path is a production incident waiting to happen.
 - **Monitoring must exist before go-live, not after.** "We'll add monitoring later" means the first incident is invisible.
 

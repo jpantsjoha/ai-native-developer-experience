@@ -162,6 +162,25 @@ Agent: [spec-first-delivery] Spec before code. Who is the actor, what is out of 
 The point is the routing, not the vocabulary: you describe intent, the contract decides
 which gate applies.
 
+## DevDash companion
+
+If you work across several repositories, **DevDash** is an optional native macOS desktop
+app for seeing which projects need attention. It collects delivery signals from
+GitHub and git, shows available signals and when they were checked, and keeps missing data
+visibly missing. Displayed metrics are deterministic. Optional AI proposes short explanations
+from available status and roadmap documents; it never supplies the displayed numbers.
+The core needs no AI subscription.
+
+Used alongside `join-the-team`, clear status and roadmap records give DevDash more context
+for the work behind those signals. The harness is not required: ordinary GitHub repositories
+still provide available API and git signals, with less delivery context where documents are
+missing. See [the four delivery records](docs/DELIVERY-RECORDS.md) for the shared practice.
+
+[DevDash repository (`mac-control`) — private preview, access required](https://github.com/jpantsjoha/mac-control).
+DevDash is currently an internal MVP, with no public signed download or release. The link is
+accessible only to people granted repository access. Local AI is experimental and has not
+completed qualification.
+
 ## Configuration
 
 The harness works unconfigured. Three seams are worth knowing:

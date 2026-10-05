@@ -166,8 +166,9 @@ which gate applies.
 
 If you work across several repositories, **DevDash** is an optional native Mac desktop
 companion for seeing which projects need attention. It collects delivery signals from
-GitHub and git, shows their sources and freshness, and keeps missing data visibly missing.
-Displayed metrics are deterministic; optional AI explanations summarise collected evidence.
+GitHub and git, shows available signals and when they were checked, and keeps missing data
+visibly missing. Displayed metrics are deterministic. Optional AI proposes short explanations
+from available status and roadmap documents; it never supplies the displayed numbers.
 The core needs no AI subscription.
 
 Used alongside `join-the-team`, clear status and roadmap records give DevDash more context

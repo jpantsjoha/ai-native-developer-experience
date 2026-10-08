@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import re
 import sys
 from dataclasses import dataclass, field
@@ -293,6 +294,114 @@ def validate_templates(root: Path, findings: Findings) -> None:
     validate_adapters(adapters, version, "", findings, allow_placeholder_digest=True)
 
 
+
+RELEASE_FIELDS = {
+    "mode": "Release mode",
+    "build_trigger": "Build trigger",
+    "build_executor": "Build executor",
+    "promotion_trigger": "Promotion trigger",
+    "release_owner": "Release owner",
+    "release_decision": "Release decision",
+}
+RELEASE_RECEIPTS = {"approval", "build", "validation", "review", "rollback", "observation_plan"}
+
+
+def release_file(target: Path, value: object, label: str, findings: Findings) -> Path | None:
+    """Resolve a nonempty local receipt; absolute paths and escaping symlinks fail."""
+
+    if not isinstance(value, str) or not value.strip() or Path(value).is_absolute():
+        findings.errors.append(f"release {label}: expected project-relative file")
+        return None
+    try:
+        path = (target / value).resolve()
+        if not path.is_relative_to(target):
+            raise ValueError("outside project")
+        if not path.is_file():
+            findings.errors.append(f"release {label}: missing file {value}")
+            return None
+        if not path.read_bytes().strip():
+            findings.errors.append(f"release {label}: empty file {value}")
+            return None
+        return path
+    except (OSError, ValueError, RuntimeError):
+        findings.errors.append(f"release {label}: unreadable or non-project-relative file")
+        return None
+
+
+def unique_json_object(pairs: list[tuple[str, object]]) -> dict:
+    """Reject duplicate JSON keys rather than silently trusting the last value."""
+
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate key: {key}")
+        result[key] = value
+    return result
+
+
+def validate_release(target: Path, evidence: str, candidate: str, findings: Findings) -> None:
+    """Check declared release structure only; neither receipts nor authority are authenticated."""
+
+    profile = target / PROFILE_REL
+    if not profile.is_file():
+        return  # validate_profile already reports this
+    text = profile.read_text(encoding="utf-8")
+    policy = {}
+    for key, label in RELEASE_FIELDS.items():
+        matches = re.findall(rf"^\*\*{label}:\*\*[^\S\n]*(.*?)\s*$", text, re.MULTILINE)
+        value = matches[0].strip(" `") if len(matches) == 1 else ""
+        findings.require(bool(value) and not PLACEHOLDER.search(value),
+                         f"release policy: {label} must have one resolved value")
+        policy[key] = value
+    findings.require(policy["mode"] in {"tag-ci", "approved-alternative"},
+                     "release policy: unknown release mode")
+    findings.require(policy["build_trigger"] in {"tag", "manual", "pipeline"},
+                     "release policy: unknown build trigger")
+    findings.require(policy["build_executor"] in {"ci", "controlled-runner"},
+                     "release policy: unknown build executor")
+    findings.require(policy["promotion_trigger"] in {"tag", "separate-approval"},
+                     "release policy: unknown promotion trigger")
+    if policy["mode"] == "tag-ci":
+        findings.require(policy["build_trigger"] == "tag" and policy["build_executor"] == "ci",
+                         "release policy: tag-ci requires tag build trigger and ci executor")
+    if policy["promotion_trigger"] == "tag":
+        findings.require(policy["build_trigger"] == "tag",
+                         "release policy: tag promotion requires tag build trigger")
+    decision = release_file(target, policy["release_decision"], "decision", findings)
+    findings.require(bool(re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", candidate)),
+                     "release candidate: expected full SHA-1 or SHA-256 identity")
+    path = release_file(target, evidence, "evidence record", findings)
+    if path is None:
+        return
+    try:
+        record = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_json_object)
+    except (OSError, UnicodeError, ValueError, RecursionError) as exc:
+        findings.errors.append(f"release evidence: invalid JSON ({type(exc).__name__})")
+        return
+    fields = {"schema_version", "policy", "candidate", "artifact_sha256", "decision_sha256",
+              "review_candidate", "review_verdict", "receipts"}
+    if not isinstance(record, dict) or set(record) != fields:
+        findings.errors.append("release evidence: missing or unknown fields")
+        return
+    findings.require(type(record["schema_version"]) is int and record["schema_version"] == 1,
+                     "release evidence: unsupported schema_version")
+    findings.require(decision is not None and record["decision_sha256"] == sha256(decision),
+                     "release evidence: decision digest differs from current decision")
+    findings.require(record["policy"] == policy, "release evidence: policy differs from profile")
+    findings.require(record["candidate"] == candidate and record["review_candidate"] == candidate,
+                     "release evidence: candidate/review identity differs from requested candidate")
+    artifact = record["artifact_sha256"]
+    findings.require(isinstance(artifact, str) and bool(re.fullmatch(r"[0-9a-f]{64}", artifact)),
+                     "release evidence: missing or invalid artifact_sha256")
+    findings.require(record["review_verdict"] == "PASS", "release evidence: review must be PASS")
+    receipts = record["receipts"]
+    if not isinstance(receipts, dict) or set(receipts) != RELEASE_RECEIPTS:
+        findings.errors.append("release receipts: missing or unknown required receipts")
+        return
+    for key, value in receipts.items():
+        release_file(target, value, key, findings)
+
+
 def parse_args() -> argparse.Namespace:
     """Parse validation mode and optional exact task artifacts."""
 
@@ -327,7 +436,16 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help="Resolved evidence manifest; repeatable.",
     )
-    return parser.parse_args()
+    parser.add_argument("--release-evidence", help="Release preflight JSON, relative to target.")
+    parser.add_argument("--candidate", help="Expected full release candidate SHA/tree digest.")
+    args = parser.parse_args()
+    if (args.release_evidence is None) != (args.candidate is None):
+        parser.error("--release-evidence and --candidate must be supplied together")
+    if args.release_evidence is not None and (not args.release_evidence.strip() or not args.candidate.strip()):
+        parser.error("release evidence and candidate must be nonempty")
+    if args.template_root and args.release_evidence:
+        parser.error("release preflight requires --target, not --template-root")
+    return args
 
 
 def main() -> int:
@@ -344,8 +462,10 @@ def main() -> int:
             return 2
         version, digest = validate_manual(target / MANUAL_REL, findings)
         validate_profile(
-            target / PROFILE_REL, version, digest, args.require_active, findings
+            target / PROFILE_REL, version, digest, args.require_active or bool(args.release_evidence), findings
         )
+        if args.release_evidence:
+            validate_release(target, args.release_evidence, args.candidate, findings)
         adapters = (
             [target / path for path in args.adapter]
             if args.adapter
@@ -386,6 +506,8 @@ def main() -> int:
             file=sys.stderr,
         )
         return 1
+    if args.release_evidence:
+        print("PASS release structure only — not approval, authenticated evidence or observed delivery")
     print(f"PASS operating-model validation ({len(findings.warnings)} warning(s))")
     return 0
 

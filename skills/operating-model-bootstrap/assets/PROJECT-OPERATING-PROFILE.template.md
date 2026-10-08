@@ -223,6 +223,29 @@ delete the section.
 
 ## Deployment and observation
 
+### Release policy
+
+**Release mode:** <tag-ci|approved-alternative>
+**Build trigger:** <tag|manual|pipeline>
+**Build executor:** <ci|controlled-runner>
+**Promotion trigger:** <separate-approval|tag>
+**Release owner:** <accountable release owner>
+**Release decision:** <project-relative approved ADR file>
+
+Resolve these fields against the approved ADR before release preflight. A mode name
+is a declaration, not authority. `tag-ci` requires tag-triggered CI builds. A
+`controlled-runner` or non-tag build requires `approved-alternative`. Tag-triggered
+promotion requires a tag-triggered build and a protected approval boundary after the
+artifact checks. Other combinations require separate promotion approval.
+
+Add the existing operating-model validator's `--release-evidence FILE --candidate ID`
+check to the declared release command. Its structural PASS is not release approval:
+a human verifies authority, provenance, review conditions and required outcomes.
+Ordinary profile validation does not run release preflight. Existing adopters must
+explicitly adopt these fields and wire that gate before claiming enforcement.
+
+### Environment controls
+
 - Authorized delivery destination: <branch/environment/service>.
 - Pre-delivery gates: <commands/evidence>.
 - Deployment owner and authority: <role>.

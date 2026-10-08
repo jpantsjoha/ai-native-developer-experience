@@ -8,6 +8,16 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## Unreleased
+
+### Changed
+
+- Reconcile CI and release guidance with the project's approved delivery mode (#27),
+  separating authorised builds from artifact-gated promotion. Extend the existing
+  operating-model validator with opt-in release structural preflight, candidate and
+  decision binding, and required local evidence checks. Existing adopters must wire
+  the gate explicitly; structural PASS is not release approval or observed delivery.
+
 ## [0.3.0] — 2026-09-14
 
 Five skills in, four folded into one, and the delivery records made a first-class part of the

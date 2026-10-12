@@ -8,6 +8,23 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
 packaging version declared in the harness manifests.
 
+## Unreleased
+
+### Changed
+
+- Define provider-neutral independent Council review and bounded loop recovery in the
+  existing skills. Preserve finding history and local subscription authority.
+- Make the optional review helper fail closed with exact input/candidate receipts and
+  an explicit executable-adapter seam. Offline regressions use fake providers only.
+- Clarify conversation-to-requirement acceptance, skill maintenance ownership, early
+  operational handover dependencies and fixed-quality-floor improvement measurement.
+
+- Reconcile CI and release guidance with the project's approved delivery mode (#27),
+  separating authorised builds from artifact-gated promotion. Extend the existing
+  operating-model validator with opt-in release structural preflight, candidate and
+  decision binding, and required local evidence checks. Existing adopters must wire
+  the gate explicitly; structural PASS is not release approval or observed delivery.
+
 ## [0.3.0] — 2026-09-14
 
 Five skills in, four folded into one, and the delivery records made a first-class part of the

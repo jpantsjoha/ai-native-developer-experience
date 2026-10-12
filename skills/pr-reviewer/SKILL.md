@@ -7,7 +7,7 @@ description: Review gate for correctness, reuse, and simplification. Produces a 
 
 > **Receipts, not polish.** A review that says "looks good" is not a review. A review that says "line 47 will panic on a nil pointer and here is the fix" is a review.
 
-This skill runs a structured code review and produces a verdict: approve, approve with comments, or request changes. Every finding is actionable. No findings without evidence.
+This skill runs a structured code review and produces a verdict: PASS or FAIL. Every finding is actionable. No findings without evidence.
 
 ## When to use
 
@@ -54,18 +54,24 @@ This skill runs a structured code review and produces a verdict: approve, approv
    - **NOTE**: observation for awareness, no action required
 
 7. **Produce the verdict**:
-   - **Approve**: no BLOCKING findings
-   - **Approve with comments**: no BLOCKING findings, SUGGESTED improvements noted
-   - **Request changes**: one or more BLOCKING findings
+   - **PASS**: no unresolved conditions; optional suggestions are explicitly nonblocking
+   - **FAIL**: one or more unresolved conditions
 
 ## Outputs
 
 - Finding list: location | severity | description | suggested fix
-- Verdict: Approve / Approve with comments / Request changes
+- Verdict: PASS / FAIL; conditions never count as approval
 
-## Independent second reviewer (on demand)
+## Independent review and Council
 
-The writer never approves its own work. Before merging, get a verdict from a different model or a fresh reviewer subagent: `scripts/review-gate.sh --pr N` (Gemini 3.8 flash high via the `agy` or `gemini` CLI; posts the verdict on the PR) or `--staged` for what the next commit will contain. It is on demand, not a hook default, because teams work on different machines; a clone can opt in with `git config review.gate async|block`. A changed candidate gets a fresh review; `VERDICT: NONE` (lane unavailable) is never an approval.
+The writer never approves its own work. Use a fresh, read-only reviewer context on a
+permitted host and retain a substantive verdict bound to the exact candidate. A
+provider change is optional and never grants authority. Missing review is incomplete.
+
+Read [independent Council review](references/independent-council.md) before dispatch
+or when a review loop stalls. It separates the shared contract, host adapters and
+local subscription policy, preserves unresolved findings across reviewers, and defines
+bounded escalation. It also documents the optional fail-closed local receipt helper.
 
 ## Guardrails
 

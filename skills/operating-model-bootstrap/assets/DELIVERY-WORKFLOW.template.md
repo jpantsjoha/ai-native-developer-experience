@@ -19,11 +19,15 @@ machine; this project workflow maps that contract to the team's roles and work s
 
 ## Lifecycle
 
-1. **Intake** — capture the problem, actor, desired outcome, and Product Owner.
+1. **Intake** — capture the problem, actor, desired outcome, Product Owner and source/date.
+   Conversation-derived intent is proposed evidence, not permission; link it to the
+   existing issue/spec and retain accepted/superseded decisions.
 2. **Accept** — the Product Owner validates scope, priority, acceptance criteria, and
    milestone. Agent-drafted intent remains a draft until this gate passes.
 3. **Plan** — `delivery-orchestrator` creates the dependency-aware task tree, ownership,
-   context boundaries, success tests, budgets, and documentation impact.
+   context boundaries, success tests, budgets, and documentation impact. Include applicable
+   operational receiving-owner, support, recovery and handover prerequisites before
+   the releases they enable.
 4. **Decide** — human SMEs accept required ADRs and constraints before dependent work is
    dispatched.
 5. **Execute** — bounded human or agent workers implement independently verifiable tasks
@@ -59,7 +63,9 @@ resume dispatch.
 
 - Product Owner acceptance evidence: `<field, issue check, or signed record>`
 - Maximum active lanes: `<number>`
-- Planner / worker / reviewer model tiers: `<mapping and evidence>`
+- Planner / worker / reviewer capabilities and host mapping: `<risk/effort fit and evidence>`
+- Review attempt/time ceiling and escalation owner: `<limit and owner>`
+- Selected skill maintainers and review triggers: `<existing profile routing record>`
 - Epic cost and time ceiling: `<limit>`
 - Convergence command: `<command>`
 - Live work-system reconciliation: `<command or owned manual process>`

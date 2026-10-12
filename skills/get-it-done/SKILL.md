@@ -1,6 +1,6 @@
 ---
 name: get-it-done
-description: Pursue an agreed goal to a working outcome without waiting: decompose it, re-prioritise as evidence arrives, branch, gate, get an independent review (a different model or a fresh reviewer subagent — the writer never approves), merge, prune, and bank the operator's decisions in STATUS.md instead of blocking on them. Trigger on "get it done", "don't wait for me", "proceed autonomously", or when an epic or roadmap objective is handed over. Not a close-out: this work set is expected to grow.
+description: "Pursue an agreed goal to a working outcome without waiting: decompose it, re-prioritise as evidence arrives, branch, gate, get an independent review (a different model or a fresh reviewer subagent — the writer never approves), merge, prune, and bank the operator's decisions in STATUS.md instead of blocking on them. Trigger on \"get it done\", \"don't wait for me\", \"proceed autonomously\", or when an epic or roadmap objective is handed over. Not a close-out: this work set is expected to grow."
 ---
 
 # Get it done
@@ -67,7 +67,7 @@ the substitution.
 |---|---|---|
 | Hosted CI (quota, outage, no runner) | Run the local equivalent of **each** required check | Name each check and its local equivalent, with exit codes |
 | Hosted code review (quota) | An independent reviewer: a different model or a fresh reviewer subagent | Which reviewer, what verdict, what it found |
-| The first reviewer unavailable | The next independent reviewer available | That the first choice failed, and why |
+| The first reviewer unavailable | An alternative only within the project's authorised review policy; otherwise stop the affected gate | Availability, authority and unresolved evidence |
 | A required check that *cannot execute* | Merge on the local evidence if the repo permits it | **Say "past checks that could not run", never "past checks"** |
 
 The distinction in that last row is the whole point. A check that failed and a
@@ -86,8 +86,9 @@ For each unit of work:
 2. **Build**, with the project's own gates run as you go — not saved for the end.
 3. **Prove it bites.** Break the source deliberately and confirm the test fails.
    A green suite you have not seen go red is a hypothesis.
-4. **Review independently.** A different model (`scripts/review-gate.sh --pr N`, the Gemini
-   lane) or a fresh reviewer subagent running `pr-reviewer`; `adversarial-gate` for design.
+4. **Review independently.** A fresh reviewer context running `pr-reviewer`, with optional
+   provider diversity under local policy; `adversarial-gate` for design. Follow the
+   [Council contract](../pr-reviewer/references/independent-council.md) for bounded loops.
    **The writer never approves the work.** If the candidate changes after review, the review
    is void — re-run it.
 5. **Merge** with a merge commit. Never squash, never rebase onto the trunk.

@@ -32,20 +32,31 @@ Three release-adjacent skills exist in this harness with distinct responsibiliti
 | `release-readiness` | Go/no-go gate for a specific deployment: failure modes, rollback, monitoring |
 
 Use all three in sequence for a new project. Use `release-manager` alone when auditing or
-repairing an existing process. Always hand off to `release-readiness` before the tag is
-pushed.
+repairing an existing process. Check authority before any tag or build trigger. Hand off to `release-readiness`
+before promotion; when a tag starts deployment, its workflow must hold promotion
+until the artifact checks and authorised go/no-go decision are complete.
 
 ## Default release strategy
 
-Unless a team ADR explicitly records a different approach, the default is:
+First resolve the project's approved release ADR and operating profile. The default
+below is a recommendation until adopted. An approved alternative governs the audit,
+checklist and pipeline too; it is not an exception to evidence or authority requirements.
+If the ADR and profile disagree, stop the affected release action and reconcile them.
+
+Declare `tag-ci` or `approved-alternative`, build trigger/executor, promotion trigger,
+release owner and decision reference in the profile. Read
+[the release contract](../operating-model-bootstrap/references/release-contract.md)
+for the fields and offline structural check. The default, unless the ADR differs, is:
 
 - **Versioning**: Semantic Versioning — `MAJOR.MINOR.PATCH`
   - `PATCH` — backwards-compatible bug fixes
   - `MINOR` — backwards-compatible new capability
   - `MAJOR` — breaking changes
 - **Tagging**: `v{MAJOR}.{MINOR}.{PATCH}` tags on the default branch trigger release
-  builds in CI. No other event produces a release artifact.
-- **Artifacts**: produced by CI from the tagged commit — never from a local workstation.
+  builds in CI. Promotion is separately gated; the tag alone grants no authority.
+- **Artifacts**: produced by CI from the tagged commit in `tag-ci` mode. An approved
+  alternative must identify its controlled executor and retained provenance; a local
+  build does not qualify merely because it completed.
 - **Changelog**: `CHANGELOG.md` updated before every release; format follows
   [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **GitHub release**: created by the CI pipeline, linked to the tag, with the changelog
@@ -75,7 +86,7 @@ Check the repository for evidence of adherence:
 
 - Are version tags following the declared convention?
 - Is `CHANGELOG.md` up to date for every tagged release?
-- Are release artifacts produced by CI, not locally?
+- Do trigger, executor and artifact provenance match the approved mode?
 - Are GitHub releases linked to tags and changelog entries?
 - Does a single named release owner control version-tag pushes to the default branch?
 
@@ -86,27 +97,36 @@ acceptable workarounds.
 
 Confirm the following are in place (coordinate with `github-manager` for CI config):
 
-- A CI workflow triggers on `v*` tags
-- The workflow produces and uploads the release artifact
-- The workflow creates a GitHub release with the changelog entry as its body
-- Branch protection prevents unauthorised pushes of `v*` tags
+- Trigger and executor match the profile (`v*` → CI for the default mode).
+- Build evidence binds the exact source to the immutable artifact digest.
+- Publication and promotion use the declared destination and approval boundary.
+- Tag rules or equivalent repository rules restrict version-tag creation; branch
+  protection alone does not protect tags.
+- The adopted release command runs the structural preflight and retains its result.
+  Missing required lanes remain blocking, including during hosted-CI outages; any
+  substitute must already be authorised and retain equivalent required evidence.
 
 ### 4. Define the release checklist
 
-The release owner runs this checklist before every release:
+The release owner applies the declared mode, not an unconditional CI checklist:
 
-- [ ] `CHANGELOG.md` entry written, reviewed, and committed
-- [ ] Version identifier bumped in all manifests and committed
-- [ ] `v{version}` tag pushed to the default branch
-- [ ] CI release workflow completed and artifact verified
-- [ ] GitHub release created and linked to tag and changelog
-- [ ] Downstream consumers notified if the release contains breaking changes
+- [ ] Approved ADR, profile and effective trigger/executor agree; owner is named.
+- [ ] Changelog and manifest versions agree with the chosen version convention.
+- [ ] Exact source candidate has passed required checks and independent review.
+- [ ] Build/tag action is authorised; controlled build produces an immutable artifact.
+- [ ] Build, validation and review receipts bind that candidate and artifact.
+- [ ] Run the release structural check with the expected candidate, then inspect the
+  receipts for authenticity, adequacy and any unresolved review conditions.
+- [ ] Rollback is tested; observation plan and stop criteria are ready.
 
 ### 5. Hand off to release-readiness
 
-Once the release process confirms the candidate is ready to tag, invoke `release-readiness`
-for the go/no-go deployment gate. The release checklist above is an input to that gate,
-not a substitute for it.
+Before promotion, obtain the authorised go/no-go decision for the actual artifact and
+target environment. If a tag triggers the pipeline, hold its deployment/publication
+stage until this gate completes. A structurally valid record is not release approval.
+After authorised delivery, verify the destination digest, observe the agreed signals,
+and reconcile the release record, changelog and status. Notify downstream consumers
+of breaking changes through the approved channel.
 
 ## Outputs
 
@@ -118,8 +138,9 @@ not a substitute for it.
 ## Guardrails
 
 - **No release process without an ADR.** Conventions without a decision record drift.
-- **Tags trigger releases; local builds do not.** A release artifact that cannot be
-  reproduced from a tag is not a release.
+- **The declared mode governs all steps.** Preserve reproducible source-to-artifact
+  identity and required evidence in either mode; never treat an unavailable runner as
+  permission to substitute or skip a gate.
 - **The changelog is not optional.** Every release without a changelog entry is invisible
   to users and to future maintainers.
 - **Release authority must be named.** Shared ownership of version tags is no ownership.
@@ -132,6 +153,6 @@ not a substitute for it.
 |---|---|
 | "We all know the release process" | Tribal knowledge drifts. An ADR does not. |
 | "The changelog is a nice-to-have" | Every future debugging session starts there. Write it now. |
-| "I'll build the release locally, it's faster" | Local builds are not reproducible. CI builds from the tag are. |
+| "I'll build the release locally, it's faster" | Use only the approved executor and retain provenance; speed does not approve an alternative. |
 | "We don't need an ADR for something this simple" | One page of ADR prevents months of inconsistency. Write it. |
 | "The tag was already pushed, I'll do the changelog after" | The changelog belongs before the tag. Reversing this loses the discipline. |

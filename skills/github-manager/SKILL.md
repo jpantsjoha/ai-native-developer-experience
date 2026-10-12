@@ -26,9 +26,9 @@ invariant:
 - **Branch protection + required status checks** are the enforcement mechanism for the
   PR review gate and the exact-candidate binding rule. A CI check that passes on an
   unprotected branch is a claim; a passing check required by branch rules is evidence.
-- **CI receipts are delivery evidence.** "It worked locally" is not an artefact. A CI
-  run tied to a commit SHA is. Structure your workflow so evidence is machine-readable
-  and SHA-bound, not dependent on a contributor's local environment.
+- **Receipts are delivery evidence.** Both CI and an explicitly approved controlled
+  runner must retain candidate/artifact-bound commands, results and provenance. A green
+  label or local success claim alone does not establish release readiness.
 - **Modifying branch protection, CI pipelines, or billing settings is an R2 action.**
   These changes affect all contributors and shared infrastructure. Classify risk, confirm
   authority, and record the decision before any write.
@@ -39,6 +39,11 @@ audit the repository surfaces that make those gates trustworthy.
 ## Procedure
 
 ### 1. Rightsize CI triggers
+
+Resolve the approved release ADR and profile first. The following CI layout is the
+default recommendation; audit and configure the mode the team actually approved.
+Do not silently reinstate retired CI, substitute a runner during an outage, or treat
+local execution as equivalent without review of the required evidence.
 
 - **Push to default branches** should run lightweight gates only (lint, typecheck, unit tests).
 - **Pull requests and version tags** run the full pipeline, including packaging and cross-platform smoke tests.
@@ -80,9 +85,14 @@ Adopt a namespaced taxonomy and avoid one-off labels:
 
 ### 6. Define the release workflow
 
-- Tags (`v*`) trigger release builds and deployments, not manual uploads.
-- A release checklist verifies version alignment, changelog entry, and rollback plan.
-- Generated artifacts (VSIX, containers, packages) are produced by CI, not a local workstation.
+- In `tag-ci` mode, version tags trigger CI builds. Promotion needs its own evidence
+  and release-owner approval boundary, even if the same tag starts that pipeline.
+- In `approved-alternative` mode, follow the ADR's trigger and controlled executor.
+  Validate the same candidate/artifact, review, rollback and observation requirements.
+- Reconcile the effective pipeline with the profile; invoke `release-manager` and its
+  [structural contract check](../operating-model-bootstrap/references/release-contract.md).
+- Verify version/changelog alignment and protect tags with tag rules, not merely branch
+  protection. Neither a label nor a successful build authorises deployment.
 
 ## Outputs
 
@@ -99,7 +109,8 @@ Adopt a namespaced taxonomy and avoid one-off labels:
 - **macOS minutes are the silent budget killer.** A one-minute macOS job costs ten billable minutes.
 - **Unconditional full pipelines scale badly.** Every unconditional job is a tax on every future commit.
 - **Labels without a taxonomy become noise.** Delete or consolidate labels that do not fit the scheme.
-- **Never deploy from a local build.** Release artifacts must come from CI to be reproducible.
+- **Never substitute an unapproved build path.** Reproducibility and provenance must
+  be demonstrated for the declared executor, whether hosted or locally controlled.
 
 ## Anti-rationalization table
 
@@ -109,4 +120,4 @@ Adopt a namespaced taxonomy and avoid one-off labels:
 | "It's only a few CI minutes" | At 10× for macOS, "a few minutes" becomes hundreds of dollars per cycle. |
 | "We'll clean up labels later" | Label debt compounds fast and breaks automation that depends on them. |
 | "Force-push is fine, we're a small team" | Force-push on `main` destroys recovery options. Protect the branch. |
-| "I'll build the release artifact locally" | Local builds are not reproducible or auditable. CI produces release artifacts. |
+| "I'll build the release artifact locally" | The approved mode and evidence requirements decide whether that executor is allowed. |

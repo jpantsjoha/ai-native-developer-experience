@@ -91,6 +91,16 @@ The four rules that keep them from drifting:
 | Frontend performance measurement: Core Web Vitals, traces, Lighthouse, heap growth | `frontend-performance-audit` |
 | Routing this list | `delivery-orchestrator` (you are here) |
 
+## Adoption and review recovery
+
+Use [the adoption guide](../../docs/HARNESS-ADOPTION.md) to reconcile conversational
+requirements, skill maintenance ownership, early operational dependencies and measured
+improvement. Preserve one integration owner and include review/integration in WIP.
+
+Before consequential review declare the work-item attempt/time ceiling. On repeated
+findings or exhaustion, follow [Council loop recovery](../pr-reviewer/references/independent-council.md);
+changing candidate or reviewer never erases unresolved findings or spent attempts.
+
 ## Outputs
 
 - Task breakdown: tracks, atomic tasks, dependencies

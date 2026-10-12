@@ -43,11 +43,15 @@ This skill enforces the production bar. It produces a go / no-go verdict with a 
 
 5. **Estimate cost impact** — LLM calls, storage writes, egress, third-party API calls. Any unbounded cost vector must be capped or accepted explicitly.
 
-6. **Confirm monitoring and alerting** — what fires when this breaks? Who gets the alert? What is the on-call runbook?
+6. **Confirm planned service acceptance** — verify applicable receiving-owner acceptance,
+   support and knowledge-transfer evidence from the planning prerequisites. A document
+   existing is not proof that the receiving team can operate the service.
 
-7. **Check data boundaries** — does the release touch PII, regulated data, or cross a tenant boundary? If yes, confirm the appropriate controls are in place.
+7. **Confirm monitoring and alerting** — what fires when this breaks? Who gets the alert? What is the on-call runbook?
 
-8. **Sign off** — record: who reviewed, what was checked, what was accepted as known risk, and the go/no-go verdict.
+8. **Check data boundaries** — does the release touch PII, regulated data, or cross a tenant boundary? If yes, confirm the appropriate controls are in place.
+
+9. **Sign off** — record: who reviewed, what was checked, what was accepted as known risk, and the go/no-go verdict.
 
 ## Outputs
 

@@ -23,6 +23,10 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 3. **Route before doing.** Check the routing table below. If a skill applies to the
    work, use it. If you are unsure which applies, use `delivery-orchestrator`.
 
+The shared plugin is provider-neutral. Host adapters implement invocation; the project
+profile selects authorised reviewers, subscriptions and budgets. Independent Council
+review is a capability, not a fixed roster. See the [review contract](../pr-reviewer/references/independent-council.md).
+
 ## Core invariants — not negotiable
 
 - **Classify risk before confirming authority.** Approval is scoped to actual risk.

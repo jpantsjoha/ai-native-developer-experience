@@ -50,6 +50,12 @@ semantics are non-negotiable.
 **New project?** [Bootstrap in fifteen minutes](BOOTSTRAP.md). **Existing agent setup?**
 [Two ways to adopt](#install--two-ways-to-adopt) below — by hand, or as a plugin.
 
+The [adoption guide](docs/HARNESS-ADOPTION.md) connects team ownership, accepted
+requirements and operational readiness. [STATUS](docs/STATUS.md) and
+[ROADMAP](docs/ROADMAP.md) distinguish current source work from released capabilities.
+Independent Council review is provider-neutral; host adapters and local policy select
+permitted reviewers under the [shared review contract](skills/pr-reviewer/references/independent-council.md).
+
 ## Install — two ways to adopt
 
 **By hand** — clone the repo and share it with your agents. Copy `skills/` into

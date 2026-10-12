@@ -12,6 +12,13 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Define provider-neutral independent Council review and bounded loop recovery in the
+  existing skills. Preserve finding history and local subscription authority.
+- Make the optional review helper fail closed with exact input/candidate receipts and
+  an explicit executable-adapter seam. Offline regressions use fake providers only.
+- Clarify conversation-to-requirement acceptance, skill maintenance ownership, early
+  operational handover dependencies and fixed-quality-floor improvement measurement.
+
 - Reconcile CI and release guidance with the project's approved delivery mode (#27),
   separating authorised builds from artifact-gated promotion. Extend the existing
   operating-model validator with opt-in release structural preflight, candidate and

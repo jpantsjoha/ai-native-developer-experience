@@ -142,18 +142,18 @@ Keep the capability names stable even when a chosen assistant uses a different i
 syntax. If a named skill is unavailable, record the equivalent procedure and owner; capability
 never grants authority.
 
-| Delivery need | Baseline skill/capability | Project location or equivalent |
-|---|---|---|
-| Decomposition and routing | `delivery-orchestrator` | <path or equivalent> |
-| System design and ADRs | `the-architect` | <path or equivalent> |
-| Requirements and acceptance contract | `spec-first-delivery` | <path or equivalent> |
-| Adversarial self-refutation | `adversarial-gate` | <path or equivalent> |
-| Domain-specific correctness | `domain-validator` | <path or equivalent> |
-| Exact-candidate code review | `pr-reviewer` | <path or equivalent> |
-| Go/no-go and rollback readiness | `release-readiness` | <path or equivalent> |
-| Durable team status | `sitrep` | <path or equivalent> |
-| Cost/time limits | `cost-guardrail` | <path or equivalent> |
-| Cloud-vendor guardrails | `cloud-expert` | <path or equivalent> |
+| Delivery need | Baseline skill/capability | Project location or equivalent | Maintainer / review trigger |
+|---|---|---|---|
+| Decomposition and routing | `delivery-orchestrator` | <path or equivalent> | <owner / trigger> |
+| System design and ADRs | `the-architect` | <path or equivalent> | <owner / trigger> |
+| Requirements and acceptance contract | `spec-first-delivery` | <path or equivalent> | <owner / trigger> |
+| Adversarial self-refutation | `adversarial-gate` | <path or equivalent> | <owner / trigger> |
+| Domain-specific correctness | `domain-validator` | <path or equivalent> | <owner / trigger> |
+| Exact-candidate code review | `pr-reviewer` | <path or equivalent> | <owner / trigger> |
+| Go/no-go and rollback readiness | `release-readiness` | <path or equivalent> | <owner / trigger> |
+| Durable team status | `sitrep` | <path or equivalent> | <owner / trigger> |
+| Cost/time limits | `cost-guardrail` | <path or equivalent> | <owner / trigger> |
+| Cloud-vendor guardrails | `cloud-expert` | <path or equivalent> | <owner / trigger> |
 
 Routing order for consequential work: operating model → orchestration → architecture/spec
 → implementation → domain/adversarial validation → review → release readiness →
@@ -206,6 +206,9 @@ delete the section.
 ## Review roles and verdict semantics
 
 - Required independent roles by tier: <mapping>.
+- Permitted review capabilities/subscriptions and host adapter: <selection and authority>.
+- Work-item review attempt/time ceiling and escalation owner: <limit and owner>.
+- Reviewer changes retain unresolved findings and attempt history; no automatic fallback.
 - Exact candidate binding: <tree/manifest/SHA mechanism>.
 - PASS: zero conditions.
 - Conditional/amendment: blocking until fixed and re-reviewed.
@@ -243,6 +246,12 @@ check to the declared release command. Its structural PASS is not release approv
 a human verifies authority, provenance, review conditions and required outcomes.
 Ordinary profile validation does not run release preflight. Existing adopters must
 explicitly adopt these fields and wire that gate before claiming enforcement.
+
+### Planning prerequisites
+
+- Applicable receiving owner, support, runbooks, monitoring, knowledge transfer and
+  recovery prerequisites: <roadmap dependencies, owners and acceptance evidence>.
+- Proportionate non-applicability: <reason for excluded service-transition requirements>.
 
 ### Environment controls
 

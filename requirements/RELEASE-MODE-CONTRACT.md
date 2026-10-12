@@ -36,8 +36,10 @@ can be claimed. Existing adopters are not modified or silently opted in.
    review, missing/empty/out-of-project receipts and malformed JSON. Evidence paths
    cannot substitute for human verification of their contents.
 4. Run all repository gates and obtain independent review of the exact candidate.
-   Commit the reviewed change and publish a PR linked to issue 27. Merge, release,
-   installation, remote enforcement and the private scanner proposal are out of scope.
+   Commit the reviewed change and publish a PR linked to issue 27. The original
+   October 2 slice stopped at PR publication. The October 12
+   [coherence scope](HARNESS-COHERENCE.md) adds review and conditional merge; release,
+   installation, remote enforcement and the private scanner proposal remain out of scope.
 
 ## Adversarial check and rollback
 

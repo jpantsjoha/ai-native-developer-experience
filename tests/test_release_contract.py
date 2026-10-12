@@ -105,6 +105,26 @@ class ReleaseContractTests(unittest.TestCase):
         self.profile.write_text(self.profile.read_text() + '\n**Release mode:** tag-ci\n')
         self.rejected(message='Release mode')
 
+    def test_indented_contradictory_duplicates_fail(self):
+        for spaces in range(1, 4):
+            for label in FIELDS.values():
+                with self.subTest(spaces=spaces, field=label):
+                    self.write_profile()
+                    self.profile.write_text(self.profile.read_text()
+                                            + f'\n{" " * spaces}**{label}:** contradictory\n')
+                    self.rejected(message=f'{label} must have one resolved value')
+
+    def test_indented_single_policy_fields_pass(self):
+        for spaces in range(1, 4):
+            with self.subTest(spaces=spaces):
+                self.write_profile()
+                text = self.profile.read_text()
+                for label in FIELDS.values():
+                    text = text.replace(f'**{label}:**', f'{" " * spaces}**{label}:**')
+                self.profile.write_text(text)
+                result = self.run_gate()
+                self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_contradictory_or_unknown_policy_fails(self):
         original = self.policy.copy()
         for changes in ({'mode': 'anything'}, {'build_trigger': 'manual'},

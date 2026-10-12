@@ -348,7 +348,7 @@ def validate_release(target: Path, evidence: str, candidate: str, findings: Find
     text = profile.read_text(encoding="utf-8")
     policy = {}
     for key, label in RELEASE_FIELDS.items():
-        matches = re.findall(rf"^\*\*{label}:\*\*[^\S\n]*(.*?)\s*$", text, re.MULTILINE)
+        matches = re.findall(rf"^ {{0,3}}\*\*{label}:\*\*[^\S\n]*(.*?)\s*$", text, re.MULTILINE)
         value = matches[0].strip(" `") if len(matches) == 1 else ""
         findings.require(bool(value) and not PLACEHOLDER.search(value),
                          f"release policy: {label} must have one resolved value")

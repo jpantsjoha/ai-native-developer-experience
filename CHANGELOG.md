@@ -12,6 +12,11 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Add a guarded instruction-based model-routing pilot, Codex discovery adapter,
+  reversible mode and manual receipt guidance (#30). Publish an anonymised historical
+  benchmark with its failed quality gate; no automatic dispatch, telemetry or consumer
+  rollout. Proposed on the feature branch; adoption follows merge and explicit selection.
+
 - Define provider-neutral independent Council review and bounded loop recovery in the
   existing skills. Preserve finding history and local subscription authority.
 - Make the optional review helper fail closed with exact input/candidate receipts and

@@ -46,3 +46,10 @@ Before you call any change done, answer in writing: **"How would I break this?"*
 `make lint` · `make typecheck` · `make test` · `make spec-conformance` — then the Adversarial Gate above. When an agent misbehaves, **debug the harness first**: inspect tools, context, rules, permissions, and validation before assuming the model is the only cause.
 
 Rinse and repeat.
+
+## Guarded sub-agent routing
+
+Before dispatch, read [MODEL-ROUTING.md](docs/MODEL-ROUTING.md) for the current mode,
+assignment contract, conservative matrix, receipts and rollback. Encourage independently
+verifiable decomposition where useful; do not force unnecessary fan-out. This is an
+instruction pilot, not an automatic dispatcher or proven cost-saving rollout.

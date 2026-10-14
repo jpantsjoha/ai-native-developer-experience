@@ -555,3 +555,26 @@ This is an active, evolving project.
 Expect revisions, additions, and corrections as tools and practices mature.
 
 Feedback, discussion, and constructive disagreement are welcome.
+
+## Guarded model routing: benchmark and reversible pilot
+
+The [routing policy](docs/MODEL-ROUTING.md) adds a conservative instruction-based pilot,
+a single mode switch and per-attempt monitoring guidance. No automatic dispatch or
+telemetry is installed. Consumer projects must explicitly adopt their own policy.
+
+A historical study covered three development repositories, Python and JavaScript,
+24 generated patches, six JEV classifications and 600 declared checks.
+
+| Selection policy | Accepted outcomes | API-equivalent cost | Interpretation |
+|---|---:|---:|---|
+| Fixed Sol medium | 12/12 | $0.47537120 | Reference |
+| Rules | 11/12 | $0.12775958 | 73.12% lower estimate, but quality gate failed |
+| JEV-assisted | 11/12 | $0.12827450 | Same decisions; 0.403% more than rules |
+
+These are paired selections from the same captures, not independent policy runs.
+The [anonymised findings](docs/research/model-routing-2026-10.md) retain all failures,
+small-sample limits, pricing assumptions and unattested worker identities. Lower cost
+is not a proven quality-preserving saving. Code changes stay on the baseline; narrowly
+bounded, independently checked read-only tasks may trial a smaller model. Medium remains
+the measured effort; Luna high is untested. Rollback and failed-attempt accounting are
+part of the policy. This change is unreleased until merged and adopted.

@@ -1,8 +1,8 @@
 # Model-routing benchmark: lower estimated cost did not preserve quality
 
 Study date: 13 October 2026; public summary prepared 14 October 2026. Operator-generated
-research, independently reviewed. Source: private JevModelRouter research checkpoint
-`4d9fda0`, crossrepo-v1. This summary omits private repository names, code, prompts, paths,
+research, independently reviewed. Detailed source and replay provenance are held privately
+by the study operator. This summary omits private repository names, code, prompts, paths,
 issue identifiers and raw logs. Full source is not publicly reproducible from this note.
 
 Three real historical single-file patches across Python and JavaScript were replayed:

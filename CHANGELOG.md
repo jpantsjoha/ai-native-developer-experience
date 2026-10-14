@@ -12,6 +12,9 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Update the `join-the-team` README listing links to
+  [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team).
+
 - Add a guarded instruction-based model-routing pilot, Codex discovery adapter,
   reversible mode and manual receipt guidance (#30). Publish an anonymised historical
   benchmark with its failed quality gate; no automatic dispatch, telemetry or consumer

@@ -1,12 +1,12 @@
 # AI-Native Developer Experience Harness
 
-[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/jpantsjoha-join-the-team)](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team?ref=badge)
+[Listed on Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 [![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
 
 > **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
 
-> 📦 **Now listed on [Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team)** —
+> 📦 **Now listed on [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)** —
 > install the harness as the `join-the-team` plugin for Claude Code, Codex, Kimi Code,
 > and Google Antigravity. [Jump to install](#install--two-ways-to-adopt).
 
@@ -69,7 +69,7 @@ git clone https://github.com/jpantsjoha/ai-native-developer-experience
 
 **As a plugin** — the harness ships as `join-the-team`: one canonical skill
 set, thin per-harness adapters, drift-checked in CI. It is listed on
-[Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team);
+[Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team);
 install straight from this repository into whichever coding assistant you run:
 
 **Claude Code**

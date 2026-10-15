@@ -12,6 +12,10 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Select Luna high for the bounded, independently checked read-only routing pilot,
+  retaining Sol medium as the baseline. Version the policy and receipts as v2; historical
+  medium benchmarks remain unchanged and do not qualify high or establish savings.
+
 - Update the `join-the-team` README listing links to
   [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team).
 

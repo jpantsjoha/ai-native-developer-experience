@@ -1,6 +1,6 @@
 # Guarded model-routing pilot
 
-Policy version: `guarded-routing-v1`. Tracking issue: #30.
+Policy version: `guarded-routing-v2`. Tracking issue: #30.
 
 **Mode: guarded**
 
@@ -22,7 +22,7 @@ Use isolated worktrees for mutating lanes; one owner integrates and verifies the
 | Work and evidence | Routing instruction |
 |---|---|
 | Search, arithmetic, parsing or transformation with an existing reliable command | Use deterministic tools first; no model needed |
-| Bounded read-only, non-sensitive extraction or formatting; explicit source/output; independently executable checks; no code, state or credential effects | Small model at medium effort may be used as a monitored pilot; otherwise baseline |
+| Bounded read-only, non-sensitive extraction or formatting; explicit source/output; independently executable checks; no code, state or credential effects | Small model at high effort may be used as a monitored pilot; otherwise baseline |
 | Code changes, unqualified task families, ambiguity, missing checks, or interacting state | Baseline at medium effort; a one-file diff or short ticket does not qualify a downgrade |
 | Security, permissions, privacy, data integrity or other higher-consequence work | At least the baseline; preserve any stricter project model/review floor |
 | Architecture or substantial uncertainty | Deliberately assess whether greater reasoning is needed; record rationale and budget |
@@ -30,14 +30,16 @@ Use isolated worktrees for mutating lanes; one owner integrates and verifies the
 
 For the current Codex-selected workflow, small means requested `gpt-6-luna` and baseline
 means requested `gpt-6.1-sol`. Verify host availability before dispatch, explicitly set
-medium, and record requested versus observed identity separately. Do not infer identity
+high for Luna and medium for the Sol baseline, and record requested versus observed
+identity separately. Do not infer identity
 from inheritance or availability from a table. If unavailable, stop that lane and use
 an already-authorised available baseline only after recording the change; no automatic
 subscription switch. Other providers need their own verified mapping and evaluation.
 
-All reported benchmark workers used medium. Luna high has not been evaluated here.
-A deliberate effort change is a separate experiment, with its reason and usage recorded;
-never pool it with medium or describe it as a proven improvement. This matrix is a
+JP selected Luna high for the bounded read-only pilot on 15 October 2026, aligning
+with the DevDash proposal. All reported benchmark workers used medium; Luna high has
+not been evaluated here. Start a separate v2 comparison and record its reason and usage;
+never pool high with medium or describe the selection as a proven improvement. This matrix is a
 conservative proposal informed by failures, not a universally qualified routing policy.
 
 ## Acceptance, recovery and rollback
@@ -69,7 +71,7 @@ tracked source, or in a gitignored local folder. Do not store prompts, code, cus
 content, credentials or identifiable task text. A minimal example (null means unknown):
 
 ```json
-{"task_id":"pilot-001","policy_version":"guarded-routing-v1","mode":"guarded","family":"read-only-extraction","arm":"pilot","baseline_model":"gpt-6.1-sol","requested_model":"gpt-6-luna","requested_effort":"medium","observed_model":null,"observed_effort":null,"attempt":1,"parent_task_id":null,"started_at":null,"finished_at":null,"accepted":false,"check_receipt":null,"input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"api_equivalent_usd":null,"pricing_date":null,"fallback_reason":null}
+{"task_id":"pilot-001","policy_version":"guarded-routing-v2","mode":"guarded","family":"read-only-extraction","arm":"pilot","baseline_model":"gpt-6.1-sol","baseline_effort":"medium","requested_model":"gpt-6-luna","requested_effort":"high","observed_model":null,"observed_effort":null,"attempt":1,"parent_task_id":null,"started_at":null,"finished_at":null,"accepted":false,"check_receipt":null,"input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"api_equivalent_usd":null,"pricing_date":null,"fallback_reason":null}
 ```
 
 Fill acceptance only after the named check runs; missing evidence is not a pass. Record

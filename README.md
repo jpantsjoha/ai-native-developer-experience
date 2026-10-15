@@ -575,6 +575,6 @@ These are paired selections from the same captures, not independent policy runs.
 The [anonymised findings](docs/research/model-routing-2026-10.md) retain all failures,
 small-sample limits, pricing assumptions and unattested worker identities. Lower cost
 is not a proven quality-preserving saving. Code changes stay on the baseline; narrowly
-bounded, independently checked read-only tasks may trial a smaller model. Medium remains
-the measured effort; Luna high is untested. Rollback and failed-attempt accounting are
+bounded, independently checked read-only tasks may trial Luna high. Sol medium remains
+the baseline. Historical benchmarks used medium; Luna high is untested. Rollback and failed-attempt accounting are
 part of the policy. This change is unreleased until merged and adopted.

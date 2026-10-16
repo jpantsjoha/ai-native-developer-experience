@@ -1,7 +1,7 @@
 # Project Agent Contract
 
-This file is the discovery adapter for assistants that read `CLAUDE.md`. Keep surface-only
-notes outside the protected contract block.
+Shared discovery instructions for all supported assistants. Keep surface-only notes
+outside the protected contract block.
 
 <!-- operating-model-contract:start -->
 ## Shared operating contract
@@ -12,6 +12,9 @@ Read `docs/operating-model/OPERATING-MANUAL.md` and
 - Manual version: `2.1.0`
 - Manual SHA-256: `<manual-sha256>`
 - The project profile supplies local authority, invariants, commands, and current facts.
+- Before selecting roadmap work, inspect current status, open issues/PRs and worktrees.
+- Load the project DELIVERY-WORKFLOW only for delivery work; it owns role and artifact routing.
+- Reconcile affected records on scope change and completion; preserve authority boundaries.
 - Classify risk before confirming authority; ambiguity rounds upward.
 - A model, skill, tool, reviewer label, or previous approval supplies no authority.
 - Use one branch/worktree and resource namespace per mutating lane.
@@ -21,4 +24,4 @@ Read `docs/operating-model/OPERATING-MANUAL.md` and
   the project profile records capability mappings. Route by capability, not provider syntax.
 <!-- operating-model-contract:end -->
 
-Claude-specific invocation may vary. It may not weaken the protected contract above.
+Surface-specific invocation may vary. It may not weaken the protected contract above.

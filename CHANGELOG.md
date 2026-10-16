@@ -12,6 +12,12 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Maintain the golden thread from evolving requirements and vision through roadmap,
+  GitHub tickets, acceptance checks, independent adversarial review and release links.
+  Add Product Owner, CXO oversight and test-strategy capabilities; reconcile records
+  and safely clean up integrated work. Keep root agent instructions identical and
+  session orientation compact by default (#32). Existing adoption files are preserved.
+
 - Resolve plugin bootstrap, inspection and validation scripts from the installed package
   while targeting the consumer project. Generated adapters support project/user installs;
   adoption guidance covers shared planning, tickets, model choice, checks and route to live

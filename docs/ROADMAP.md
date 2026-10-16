@@ -4,7 +4,7 @@
 
 | Order | Outcome / work item | Exit evidence | State |
 | --- | --- | --- | --- |
-| 1 | #32: project, user and plugin adoption from intent to live | Fresh consumer journey, preserved existing records, local checks and independent review | Current source work; not released |
+| 1 | #32 / PR #33: project/user adoption and golden-thread delivery from intent to live | Fresh consumer journey, preserved existing records, local checks and independent review | Current source work; not released |
 | 2 | Release and installation reconciliation | Chosen release version, host install/update checks and rollback | Next; published version remains v0.3.0 |
 | 3 | Demonstrate adopted workflow value | One bounded contributor trial: accepted outcome, friction, rework, effort and limits | Proposed; no savings baseline |
 | 4 | #24: context loading and incremental review findings | Bounded trial, retained finding history, fixed quality floor | Proposed; prioritise observed friction |

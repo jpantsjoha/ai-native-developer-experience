@@ -100,7 +100,24 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ### Verify the install
 
-The library contains 22 skills. After installing, verify discovery and project adoption:
+The golden thread connects evolving intent to versioned requirements and business
+journeys, ADRs, roadmap outcomes, GitHub milestones/issues, acceptance checks and releases.
+`product-owner` maintains intent and priorities; `cxo-oversight` challenges material
+value/risk decisions; `test-strategy` maps acceptance to the real user path.
+`delivery-orchestrator` checks in-flight work first, maintains tickets and reconciles
+records through reviewed delivery and safe branch/worktree cleanup. See the
+[portable workflow](skills/operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md#golden-thread-evolving-intent-to-accepted-capability).
+
+Root AGENTS.md, CLAUDE.md and GEMINI.md share identical lean instructions. Session hooks
+inject a compact pointer by default, even for adopted projects; detailed roles and
+procedures load when needed. Set `JOIN_THE_TEAM_ORIENTATION=full` for full orientation.
+Model choice follows [guarded routing](docs/MODEL-ROUTING.md), including qualification,
+risk floors and retry/integration costs; a task's T-shirt size does not select its model.
+These are maintained agent workflows, not an automatic requirements synchroniser or
+measured efficiency claim. Existing adopters must deliberately reconcile their local
+adapters/workflow when upgrading; preserved project files are not silently overwritten.
+
+The library contains 25 skills. After installing, verify discovery and project adoption:
 
 ```text
 which skills are available?
@@ -204,10 +221,10 @@ you control. See
 | --- | --- | --- |
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
-| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 22 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 25 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
 | `/join-the-team:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
-| Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then let the session-start hook re-inject the orientation skill |
+| Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then use the session-start pointer to reload the applicable contract |
 
 Still stuck? Open an [issue](https://github.com/jpantsjoha/ai-native-developer-experience/issues)
 with the client, version (`plugin.json`), and the output of `make spec-conformance`.
@@ -232,8 +249,8 @@ can borrow anywhere — the contract is the part teams keep missing.
 
 ## What it looks like
 
-Install the plugin, and at session start the `using-the-harness` skill grounds the agent
-in the contract before any work. Ask it what the harness changes, and it answers in the
+Install the plugin, and the session-start pointer routes delivery work to
+`using-the-harness` and the project contract. Ask it what the harness changes, and it answers in the
 terms that matter — where the system accelerates, and where it stops:
 
 ![join-the-team in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)

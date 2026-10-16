@@ -15,6 +15,9 @@ separate states. No release or installation update is claimed here.
 Issue #32 improves project/user/plugin adoption and the public delivery proposition.
 [Acceptance and design](../requirements/ADOPTION-DELIVERY.md) cover package-relative
 commands, installation-independent adapters and a tested consumer-project journey.
+The accepted extension adds lean shared context, product/CXO/test roles and golden-thread
+requirements-to-release reconciliation. PR #33 owns this active lane; coordinate there
+before taking overlapping roadmap work. Broader DPS planning-validator work remains open.
 Local checks and fresh independent review must bind to its exact candidate before
 merge; the PR owns those receipts. It is not yet a published plugin update.
 

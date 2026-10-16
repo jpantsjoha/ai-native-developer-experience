@@ -61,6 +61,9 @@ unadopted project needs orientation and an adoption path, not the full delivery 
 | The machine is slow, tests or browser skills left processes behind | `system-performance-guardrail` |
 | Is everything live, any errors this week, the weekly SRE checkup of a GCP project | `cloud-checkup` |
 | Is the page fast enough, Core Web Vitals, why is this route slow | `frontend-performance-audit` |
+| Vision, requirements, user journeys and product acceptance | `product-owner` |
+| Material strategic, cost/risk or operating ownership decision | `cxo-oversight` |
+| Acceptance coverage and executable user-path checks | `test-strategy` |
 | Significant technical decision or ADR | `the-architect` |
 | New feature, epic, or change — plan before code | `spec-first-delivery` |
 | High-stakes decision, or before claiming done | `adversarial-gate` |

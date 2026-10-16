@@ -32,7 +32,7 @@ Ask the bootstrap skill to perform the adoption sequence when commands are unava
 
 ## Verify
 
-1. In a fresh session, ask which skills are available; the 22 skills should be named
+1. In a fresh session, ask which skills are available; the 25 skills should be named
    when the full library is installed. Inspect the source path/version. Resolve duplicate installations before making changes.
 2. From a disposable project, run bootstrap’s dry-run, then initialise and validate.
    Expect a seed PASS with unresolved project decisions clearly reported.

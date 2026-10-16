@@ -18,12 +18,13 @@ needed. Bootstrap creates the project contract, not a global authority policy.
 
 What gets wired:
 
-- **Skills** — the 22 `skills/` capabilities. `skills/` is a real directory at the
+- **Skills** — the 25 `skills/` capabilities. `skills/` is a real directory at the
   Agent Plugins fixed discovery location, so it survives installers that flatten
   symlinks; `.agents/skills/` is a relative symlink alias kept for Codex and Kimi,
   which discover there natively. One skill set, zero copies.
 - **Session-start hook** — injects a short adoption pointer for unadopted projects, or the
-  `using-the-harness` orientation when a project profile exists. Requires `bash` on PATH; without it
+  compact orientation pointer; full `using-the-harness` content is opt-in with
+  `JOIN_THE_TEAM_ORIENTATION=full`. Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.
 - **Slash commands** — `/join-the-team:bootstrap`, `/join-the-team:init`, and
   `/join-the-team:validate`.

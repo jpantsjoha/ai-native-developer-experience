@@ -91,10 +91,12 @@ For each unit of work:
    [Council contract](../pr-reviewer/references/independent-council.md) for bounded loops.
    **The writer never approves the work.** If the candidate changes after review, the review
    is void — re-run it.
-5. **Merge** with a merge commit. Never squash, never rebase onto the trunk.
-6. **Prune** the branch and worktree — but only once `git cherry` confirms the
-   commits are reachable from the trunk. Where integration reworked a patch into
-   a new SHA, deleting the ref loses history. Keep it and say why.
+5. **Merge** using the project's authorised merge strategy after exact-candidate gates.
+6. **Prune** only this lane's clean worktree and merged local/remote branch after
+   verifying merged PR state and integration on main. Squash/rebase changes commit IDs;
+   ancestry alone is insufficient. If integration or ownership is uncertain, preserve
+   the work and explain why. Fetch and fast-forward clean main safely; never reset
+   another lane's checkout or discard uncommitted/unintegrated changes.
 7. **Reconcile.** STATUS, CHANGELOG, ROADMAP, ADRs, issues. Findings that live
    only in a chat message evaporate; file them.
 

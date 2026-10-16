@@ -21,7 +21,8 @@ typecheck:
 		scripts/validate_plugin.py \
 		tests/test_operating_model.py \
 		tests/test_plugin_packaging.py \
-		tests/test_adoption_journey.py
+		tests/test_adoption_journey.py \
+		tests/test_lean_context.py
 
 test:
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py'

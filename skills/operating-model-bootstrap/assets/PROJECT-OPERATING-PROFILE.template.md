@@ -146,6 +146,9 @@ never grants authority.
 
 | Delivery need | Baseline skill/capability | Project location or equivalent | Maintainer / review trigger |
 |---|---|---|---|
+| Vision, journeys and requirement acceptance | `product-owner` | <path or equivalent> | <owner / trigger> |
+| Strategic value, risk and operating ownership | `cxo-oversight` | <path or equivalent> | <owner / trigger> |
+| Acceptance-to-check coverage | `test-strategy` | <path or equivalent> | <owner / trigger> |
 | Decomposition and routing | `delivery-orchestrator` | <path or equivalent> | <owner / trigger> |
 | System design and ADRs | `the-architect` | <path or equivalent> | <owner / trigger> |
 | Requirements and acceptance contract | `spec-first-delivery` | <path or equivalent> | <owner / trigger> |

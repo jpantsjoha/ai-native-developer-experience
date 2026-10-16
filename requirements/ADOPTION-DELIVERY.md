@@ -47,3 +47,27 @@ Host scope/path documentation checked 16 October 2026:
 [Claude plugin scopes](https://code.claude.com/docs/en/discover-plugins#choose-an-install-scope),
 [Claude package substitution](https://code.claude.com/docs/en/plugins-reference#environment-variables),
 [Codex skill locations](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills).
+
+
+## Accepted extension: golden-thread delivery (16 October 2026)
+
+JP explicitly requested this extension; scope remains issue #32 / PR #33. The public
+contract captures the operational requirements, not the private source conversation.
+
+| ID | Requirement | Verification |
+| --- | --- | --- |
+| ADP-01 | Identical lean root adapters and compact default hook for adopted/unadopted projects | Adapter parity and executed hook mode tests |
+| ADP-02 | Product/vision ownership, material CXO oversight and acceptance-driven test strategy | Discoverable skills, packaging checks and independent scenario review |
+| ADP-03 | Stable requirement identity, changed decisions/journeys, owned/sized GitHub tickets and in-flight checks | Portable workflow, issue template and independent scenario review |
+| ADP-04 | Completion traces to accepted requirement; source merge, release and observation stay distinct | Workflow and delivery-record review |
+| ADP-05 | Reconcile records and safely clean only integrated owned lanes | Cleanup procedure review including squash merge and dirty-worktree scenarios |
+
+Reuse the existing installed DELIVERY-WORKFLOW asset as the detailed portable contract;
+root adapters route to it through delivery-orchestrator. Three narrowly scoped skills
+supply missing role capabilities. Default hooks emit a pointer; full content is opt-in.
+No tracker daemon, automatic semantic coverage validator or global installation change
+is included. The broader DPS planning validator remains separate work.
+
+Validation: full local convergence, then one fresh independent Codex review and at most
+one repair review for this extension. Review must exercise an evolving requirement,
+a duplicate active lane and a partial delivery, plus secret inspection of the added diff.

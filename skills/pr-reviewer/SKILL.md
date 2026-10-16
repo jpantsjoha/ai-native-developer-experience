@@ -64,6 +64,11 @@ This skill runs a structured code review and produces a verdict: PASS or FAIL. E
 
 ## Independent review and Council
 
+The independent review must include an adversarial subagent activity: attempt to refute
+requirement acceptance, exercise failure/recovery assumptions and identify tests that miss
+the real user path. One fresh reviewer may cover these lenses; extra agents are not a
+quota. Give it requirement links and the exact candidate, not the author's desired verdict.
+
 The writer never approves its own work. Use a fresh, read-only reviewer context on a
 permitted host and retain a substantive verdict bound to the exact candidate. A
 provider change is optional and never grants authority. Missing review is incomplete.

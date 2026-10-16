@@ -8,6 +8,13 @@ This is the default way of working. A project may add records; it may not merge 
 
 ---
 
+
+The [portable workflow](../skills/operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md#golden-thread-evolving-intent-to-accepted-capability)
+defines evolving requirements, role ownership and safe cleanup. This repository's
+[task template](../.github/ISSUE_TEMPLATE/delivery-task.md) carries the ticket fields.
+Unreleased records merged source; version sections link published tags/releases.
+Neither establishes installed adoption or observed use.
+
 ## The four
 
 | Record | The one question it answers | Written when |

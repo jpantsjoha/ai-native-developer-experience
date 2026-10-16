@@ -36,7 +36,7 @@ LLM cost is not a finance problem — it is an architecture problem. The design 
 
    A short ticket or one-file change does not qualify a cheap model. Require independent
    acceptance, preserve consequence floors, count failed attempts and bound escalation.
-   Use the project's explicitly adopted routing mode; the [reference pilot](../../docs/MODEL-ROUTING.md)
+   Use the project's explicitly adopted routing mode; the [routing guide](references/model-routing.md)
    is not automatic consumer activation. Model/effort changes require a fresh baseline.
 
 3. **Identify unbounded cost vectors** — flag any call pattern where the token count or call volume has no upper bound:

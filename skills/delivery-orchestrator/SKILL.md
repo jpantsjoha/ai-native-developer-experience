@@ -121,5 +121,5 @@ Use the adopting project's model-routing policy before dispatch. Record requeste
 model/effort, allowed paths, Definition of Done and independent checks. Prefer
 deterministic tools where sufficient; do not equate a smaller task with a qualified
 cheaper model. Track failed attempts, escalation and parent integration costs. Preserve
-existing risk floors and stop rules. The [reference pilot](../../docs/MODEL-ROUTING.md)
+existing risk floors and stop rules. The [routing guide](../cost-guardrail/references/model-routing.md)
 shows a reversible approach; it does not automatically enable routing in consumers.

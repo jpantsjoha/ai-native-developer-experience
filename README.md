@@ -58,10 +58,11 @@ permitted reviewers under the [shared review contract](skills/pr-reviewer/refere
 
 ## Install — two ways to adopt
 
-**By hand** — clone the repo and share it with your agents. Copy `skills/` into
-your project, keep the `CLAUDE.md`/`GEMINI.md`/`AGENTS.md` adapters at root, and your
-assistant picks up the contract at session start. [BOOTSTRAP.md](BOOTSTRAP.md) is the
-fifteen-minute walkthrough.
+**By hand** — clone the complete repository to work on this harness. To adopt it in
+another project, copy `skills/` to `.agents/skills/` and follow
+[BOOTSTRAP.md](BOOTSTRAP.md) to generate that project’s adapters and operating contract.
+The root adapters and active routing pilot in this repository are maintainer settings;
+do not copy them into an adopter project.
 
 ```bash
 git clone https://github.com/jpantsjoha/ai-native-developer-experience
@@ -556,25 +557,14 @@ Expect revisions, additions, and corrections as tools and practices mature.
 
 Feedback, discussion, and constructive disagreement are welcome.
 
-## Guarded model routing: benchmark and reversible pilot
+## Guarded model routing
 
-The [routing policy](docs/MODEL-ROUTING.md) adds a conservative instruction-based pilot,
-a single mode switch and per-attempt monitoring guidance. No automatic dispatch or
-telemetry is installed. Consumer projects must explicitly adopt their own policy.
+Use deterministic tools first. Trial a smaller model only for bounded, non-sensitive,
+read-only tasks with independent acceptance checks. Keep code changes and unqualified
+work on the baseline; count failed attempts, review and repair when comparing cost.
 
-A historical study covered three development repositories, Python and JavaScript,
-24 generated patches, six JEV classifications and 600 declared checks.
-
-| Selection policy | Accepted outcomes | API-equivalent cost | Interpretation |
-|---|---:|---:|---|
-| Fixed Sol medium | 12/12 | $0.47537120 | Reference |
-| Rules | 11/12 | $0.12775958 | 73.12% lower estimate, but quality gate failed |
-| JEV-assisted | 11/12 | $0.12827450 | Same decisions; 0.403% more than rules |
-
-These are paired selections from the same captures, not independent policy runs.
-The [anonymised findings](docs/research/model-routing-2026-10.md) retain all failures,
-small-sample limits, pricing assumptions and unattested worker identities. Lower cost
-is not a proven quality-preserving saving. Code changes stay on the baseline; narrowly
-bounded, independently checked read-only tasks may trial Luna high. Sol medium remains
-the baseline. Historical benchmarks used medium; Luna high is untested. Rollback and failed-attempt accounting are
-part of the policy. This change is unreleased until merged and adopted.
+The [routing guide](skills/cost-guardrail/references/model-routing.md) explains adoption,
+measurement and rollback. This repository’s [pilot settings](docs/MODEL-ROUTING.md)
+select Luna high and Sol medium. Efficiency gains remain unproven; Luna high has not
+been evaluated here. Routing and monitoring are manual, and installing the plugin does
+not activate a pilot in consumer projects.

@@ -20,9 +20,9 @@ packaging version declared in the harness manifests.
   [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team).
 
 - Add a guarded instruction-based model-routing pilot, Codex discovery adapter,
-  reversible mode and manual receipt guidance (#30). Publish an anonymised historical
-  benchmark with its failed quality gate; no automatic dispatch, telemetry or consumer
-  rollout. Proposed on the feature branch; adoption follows merge and explicit selection.
+  reversible mode and private measurement guidance (#30). Keep portable routing guidance
+  with the skills and generate adopter-specific adapters through bootstrap. No automatic
+  dispatch, telemetry or consumer activation; efficiency gains remain unproven.
 
 - Define provider-neutral independent Council review and bounded loop recovery in the
   existing skills. Preserve finding history and local subscription authority.

@@ -4,57 +4,41 @@
 [![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
 
-> **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
+**Shared ways of working for you, your team and your AI agents — from a new idea to a
+change running live.**
 
-> 📦 **Now listed on [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)** —
-> install the harness as the `join-the-team` plugin for Claude Code, Codex, Kimi Code,
-> and Google Antigravity. [Jump to install](#install--two-ways-to-adopt).
+`join-the-team` brings planning, delivery and ticket management, model selection,
+testing, independent review and release practices into one reusable plugin. Install it
+for a project or across your own projects, then give each project a shared operating
+contract: what you are building, who owns the decisions, how work is tracked and what
+must pass before delivery.
 
-This repository has gone through three real phases — and the progression tracks something
-happening across the field.
+The aim is reliable delivery with less repeated setup, lost context and avoidable
+rework. The plugin supplies skills, templates and executable checks; your project
+supplies its goals, people, tools and authority. Installation makes those capabilities
+available. Adoption makes them part of how the team works.
 
-It started as a **reference guide**: [`DEVELOPER_EXPERIENCE.md`](DEVELOPER_EXPERIENCE.md)
-and [`BOOTSTRAP.md`](BOOTSTRAP.md), something to read, walk through, and adapt. A concrete
-baseline for teams getting serious about AI-native delivery — the operating model, the
-guardrails, spec-first discipline, the Adversarial Gate.
+| From intent to live | What the harness provides |
+| --- | --- |
+| Agree the work | Vision, requirements and acceptance criteria before implementation |
+| Plan and track it | Owned tasks, dependencies, tickets, roadmap and current status |
+| Choose how to execute | Skills, model-selection guidance, bounded delegation and cost checks |
+| Build and verify | Isolated work, executable tests, validation and independent review |
+| Release and operate | Readiness checks, explicit promotion authority, rollback and observation |
+| Improve the practice | Reconcile decisions and outcomes into existing project records |
 
-Then it became **context for your agents**: `CLAUDE.md` and `GEMINI.md` here, plus the
-thin `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` adapters the bootstrap generates — drop them
-into a project and the agent picks up the operating contract at session start without a
-briefing. The harness shifted from something humans read to something agents use.
+Use it alone or with a team. Team members share the project’s contract and records;
+their assistants can use different supported hosts. Platform adapters handle discovery
+and invocation; detailed host support is documented below. The plugin does not replace
+your issue tracker, provision CI, deploy an application or guarantee a performance gain.
 
-Now it ships as an **installable plugin** — `join-the-team` (current version in
-[CHANGELOG.md](CHANGELOG.md)). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 22 skills,
-session-start orientation, slash commands, drift-checked in CI. The discipline travels
-with the agent from day one, across every project, without anyone copying files or
-re-explaining the contract.
+**Start here:** [install for your host](#install--two-ways-to-adopt), then
+[bootstrap a project](BOOTSTRAP.md). Existing projects keep their records; bootstrap
+reports conflicting contracts before writing.
 
-The point: this stopped being something you read and became something you install.
-
-And what you install is the **operating model** — that is the value proposition here.
-Skill libraries are everywhere now; what teams are missing is the contract: who holds
-authority, how risk is tiered, what evidence binds a review, what "done" actually means
-when humans and agents ship together. The 22 skills are the capability layer that
-executes inside that contract — not the other way round.
-
-The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters
-handle discovery and invocation; the authority, risk, evidence, review, and completion
-semantics are non-negotiable.
-
-> **Speed is easy. Safe speed is engineered.**
-
-> **This is deliberately opinionated.** Refine it for your team, technology, domain,
-> authority model, and definition of done. Keep one coherent shared contract while doing so.
-
-**New project?** [Bootstrap in fifteen minutes](BOOTSTRAP.md). **Existing agent setup?**
-[Two ways to adopt](#install--two-ways-to-adopt) below — by hand, or as a plugin.
-
-The [adoption guide](docs/HARNESS-ADOPTION.md) connects team ownership, accepted
-requirements and operational readiness. [STATUS](docs/STATUS.md) and
-[ROADMAP](docs/ROADMAP.md) distinguish current source work from released capabilities.
-Independent Council review is provider-neutral; host adapters and local policy select
-permitted reviewers under the [shared review contract](skills/pr-reviewer/references/independent-council.md).
+[Current source status](docs/STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
+[Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases) ·
+[Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 
 ## Install — two ways to adopt
 
@@ -73,11 +57,12 @@ set, thin per-harness adapters, drift-checked in CI. It is listed on
 [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team);
 install straight from this repository into whichever coding assistant you run:
 
-**Claude Code**
+**Claude Code** — choose user scope for your projects or project scope for a shared
+repository. See the [scope and team setup guide](docs/install/claude.md).
 
-```text
-/plugin marketplace add jpantsjoha/ai-native-developer-experience
-/plugin install join-the-team@join-the-team-marketplace
+```bash
+claude plugin marketplace add jpantsjoha/ai-native-developer-experience
+claude plugin install join-the-team@join-the-team-marketplace --scope user
 ```
 
 **Kimi Code**
@@ -92,10 +77,15 @@ install straight from this repository into whichever coding assistant you run:
 agy plugin install https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**Codex** — no install command needed: Codex reads `AGENTS.md` as its always-on adapter and
-discovers skills from `.agents/skills/`. The by-hand clone above is the install; if you are
-vendoring rather than cloning, put the directory at `.agents/skills/` (or symlink it there)
-so Codex finds it.
+**Codex** — use the Plugins interface when available, or install the skills in
+`.agents/skills/` for a project or `~/.agents/skills/` for your user. Keep each skill’s
+supporting files together and avoid competing copies. Follow the
+[Codex guide](docs/install/codex.md) for discovery and verification.
+
+Global/user scope applies to one user’s host setup; it does not install the plugin for
+every teammate. Each collaborator needs access to the selected skill version. Commit
+the adopted project contract and agreed host configuration so people share the same
+ways of working, while credentials and personal settings stay private.
 
 Full per-harness detail (session-start hooks, verification, update path):
 [Claude Code](docs/install/claude.md) · [Kimi Code](docs/install/kimi.md) ·
@@ -110,7 +100,7 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ### Verify the install
 
-After installing, confirm the harness is actually live rather than merely present:
+The library contains 22 skills. After installing, verify discovery and project adoption:
 
 ```text
 which skills are available?
@@ -118,7 +108,8 @@ which skills are available?
 
 You should see `using-the-harness` plus the cloud and gate skills (`cloud-expert`,
 `adversarial-gate`, `pr-reviewer`). Then run the built-in validator against a
-bootstrapped repository:
+bootstrapped repository using `/join-the-team:validate` where available, or the
+`operating-model-bootstrap` skill on skill-only hosts:
 
 ```text
 /join-the-team:validate
@@ -132,13 +123,16 @@ is expected before the profile is promoted to `active`.
 The harness is not a set of commands you memorise. Skills trigger on intent; three slash
 commands cover the lifecycle.
 
-**Three commands, in order:**
+**On hosts that expose the plugin commands:**
 
 ```text
 /join-the-team:bootstrap    # seed the operating model (dry-run first, never overwrites)
 /join-the-team:init         # record the humans: roles, authority, escalation channels
 /join-the-team:validate     # check adapter drift, adoption state, evidence binding
 ```
+
+On skill-only hosts, ask `operating-model-bootstrap` to run the same sequence. It finds
+scripts in the selected installation and writes only the consumer project’s seed.
 
 **Typical sessions** — say the intent, and the router picks the skill:
 
@@ -190,7 +184,8 @@ completed qualification.
 
 ## Configuration
 
-The harness works unconfigured. Three seams are worth knowing:
+The skills are discoverable after installation. Adoption records the project’s controls
+before consequential work. Three seams are worth knowing:
 
 | Seam | File | What it controls |
 | --- | --- | --- |
@@ -243,20 +238,20 @@ terms that matter — where the system accelerates, and where it stops:
 
 ![join-the-team in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)
 
-> **Coherence and auditability — not speed.** The value is visible when the system knows
-> where to accelerate *and* where to stop: a risk-touching decision triggers the
-> adversarial gate, evidence is re-verified before it becomes actionable, and the
-> decision is captured as a receipt. Same contract for the humans and the agents.
+The example shows how shared rules guide an actual decision: check the risk, verify
+the result and retain the decision for the next person or agent. Those practices support
+reliable delivery. Measure their effect on completion, rework and effort in your own
+project; this screenshot is an illustration, not a performance result.
 
 ---
 
 ## The Hybrid Human-AI Squad Model & Workflow
 
-Installing the harness gets you the skills. What it doesn't give you is the operating
-model — who decides, who executes, what counts as done, where the escalation circuit
-breakers sit. This is that model.
+Installation supplies the reusable contract and procedures. During adoption, the team
+names its decision-makers, chooses its tools and checks, and records its release and
+escalation rules. The workflow below shows how those project decisions guide delivery.
 
-Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills scale execution velocity**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
+Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills take on bounded execution**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
 
 ```mermaid
 %%{init: {'sequence': {'boxMargin': 15, 'messageMargin': 30}, 'themeVariables': {'actorLineColor': '#000000'}}}%%

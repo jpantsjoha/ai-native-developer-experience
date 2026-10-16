@@ -139,7 +139,9 @@ outputs, and gate self-changes are covered.
 ## Baseline skills and routing
 
 Keep the capability names stable even when a chosen assistant uses a different invocation
-syntax. If a named skill is unavailable, record the equivalent procedure and owner; capability
+syntax. Record the selected installation source/version and scope (project, user or
+plugin) in the existing routing table; global availability does not override this profile.
+If a named skill is unavailable, record the equivalent procedure and owner; capability
 never grants authority.
 
 | Delivery need | Baseline skill/capability | Project location or equivalent | Maintainer / review trigger |

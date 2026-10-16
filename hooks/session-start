@@ -21,7 +21,7 @@ PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # Read through whichever discovery path survived installation. `skills/` is the
 # canonical directory and the Agent Plugins fixed location; `.agents/skills/` is
 # the alias some runners discover natively. Installers drop one or the other:
-# Codex's install cache drops `skills/`, so never depend on a single path.
+# Some install caches drop symlink aliases; never depend on a single path.
 skill_content=""
 for skills_dir in "${PLUGIN_ROOT}/skills" "${PLUGIN_ROOT}/.agents/skills"; do
     candidate="${skills_dir}/using-the-harness/SKILL.md"

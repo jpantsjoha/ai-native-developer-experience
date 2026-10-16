@@ -1,31 +1,26 @@
 # Delivery status
 
-**As of:** 2026-10-12. **Owner:** harness maintainer.
+**As of:** 16 October 2026. **Owner:** harness maintainer.
 
-## Current candidate
+## Source and release state
 
-PR #28 combines the approved release-mode correction (#27) with portable independent
-review and delivery-coherence guidance. Scope and acceptance are in
-[HARNESS-COHERENCE](../requirements/HARNESS-COHERENCE.md) and
-[RELEASE-MODE-CONTRACT](../requirements/RELEASE-MODE-CONTRACT.md).
+PR #28 merged on 12 October: release-policy correction and portable review/delivery
+controls. PR #31 merged on 16 October: portable guarded routing guidance and leaner
+public documentation. Latest published release remains **v0.3.0**, dated 14 September.
+Merged source, a tagged package, an updated installation and observed adoption are
+separate states. No release or installation update is claimed here.
 
-This is an unreleased source candidate. Local validation and an independent reviewer
-must bind to its exact tree/commit before merge. The PR records the final identities,
-commands, results and remaining conditions; this file is not a review attestation.
-No installed plugin or adopter has inherited these changes merely because they exist
-on this branch. Release version, installation and promotion are separate decisions.
+## Current work
 
-The repository follows its existing GEMINI.md/CLAUDE.md contract and `make check`.
-The optional review helper is tested with offline fixtures; this change does not
-install hooks, select a provider or claim compatibility for untested host wrappers.
-Review-loop history is an owned procedure, not newly automated enforcement.
+Issue #32 improves project/user/plugin adoption and the public delivery proposition.
+[Acceptance and design](../requirements/ADOPTION-DELIVERY.md) cover package-relative
+commands, installation-independent adapters and a tested consumer-project journey.
+Local checks and fresh independent review must bind to its exact candidate before
+merge; the PR owns those receipts. It is not yet a published plugin update.
 
-## Next action and remaining work
+## Next action
 
-Finish exact-candidate validation/review, reconcile PR #28 and merge if its controls
-permit. Keep the [roadmap](ROADMAP.md) and release changelog separate from this state.
-Historical audit proposals beyond this slice remain proposals; measured effectiveness,
-semantic traceability and cross-project adoption are not declared complete.
-
-The operator retains release/tag/install decisions. The selected local review policy
-belongs to the session/project, not the portable plugin's model roster.
+Validate and review #32, then reconcile its PR state. Before a versioned release, verify
+the intended host installation and update paths under the release policy. Use one
+bounded adopter trial to measure completion, friction and rework; effectiveness and
+enterprise adoption remain unproven. [ROADMAP](ROADMAP.md) owns the remaining order.

@@ -30,6 +30,9 @@ machine; this project workflow maps that contract to the team's roles and work s
    the releases they enable.
 4. **Decide** — human SMEs accept required ADRs and constraints before dependent work is
    dispatched.
+   Select available model/effort against the project’s declared policy and task risk;
+   use deterministic tools first and count review/retry costs. Installation does not
+   activate a model-routing pilot or authorise a subscription change.
 5. **Execute** — bounded human or agent workers implement independently verifiable tasks
    in isolated mutable lanes.
 6. **Integrate** — one named integration owner assembles pinned outputs and runs the
@@ -67,6 +70,9 @@ resume dispatch.
 - Review attempt/time ceiling and escalation owner: `<limit and owner>`
 - Selected skill maintainers and review triggers: `<existing profile routing record>`
 - Epic cost and time ceiling: `<limit>`
+- Model selection policy and permitted subscriptions: `<project policy or existing baseline>`
+- Deployment target, promotion authority and rollback trigger: `<profile or release decision>`
+- Post-release observation and receiving owner: `<signal, window and owner>`
 - Convergence command: `<command>`
 - Live work-system reconciliation: `<command or owned manual process>`
 - Status reconciliation trigger: `<trigger>`

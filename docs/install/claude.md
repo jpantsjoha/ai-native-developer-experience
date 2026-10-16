@@ -1,11 +1,20 @@
 # Install — Claude Code
 
-Install from the repository as a marketplace plugin:
+Choose an installation scope from your shell:
 
 ```bash
-/plugin marketplace add jpantsjoha/ai-native-developer-experience
-/plugin install join-the-team@join-the-team-marketplace
+claude plugin marketplace add jpantsjoha/ai-native-developer-experience
+claude plugin install join-the-team@join-the-team-marketplace --scope user
 ```
+
+Use `--scope project` instead to record enablement in the repository’s shared Claude
+settings, or `--scope local` for yourself in this repository only. Each teammate still
+installs the plugin on their machine. Preserve existing settings and keep credentials
+out of shared configuration. Follow the host’s reload/install result.
+
+Open the consumer project and run `/join-the-team:bootstrap`, then `:init` and `:validate`.
+These commands use scripts from the installed package; no project-local skills copy is
+needed. Bootstrap creates the project contract, not a global authority policy.
 
 What gets wired:
 
@@ -13,8 +22,8 @@ What gets wired:
   Agent Plugins fixed discovery location, so it survives installers that flatten
   symlinks; `.agents/skills/` is a relative symlink alias kept for Codex and Kimi,
   which discover there natively. One skill set, zero copies.
-- **Session-start hook** — injects the `using-the-harness` orientation skill at
-  startup, after `/clear`, and after compaction. Requires `bash` on PATH; without it
+- **Session-start hook** — injects a short adoption pointer for unadopted projects, or the
+  `using-the-harness` orientation when a project profile exists. Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.
 - **Slash commands** — `/join-the-team:bootstrap`, `/join-the-team:init`, and
   `/join-the-team:validate`.
@@ -37,6 +46,12 @@ manifests must agree on name and version or CI fails.
 
 ## Update
 
-Reinstall with the same two commands. The packaging drift validator
+Use the host’s plugin update flow for your selected scope. The packaging drift validator
 (`python3 scripts/validate_plugin.py --root .`) and the conformance gate
 (`--spec-only`, wired as `make spec-conformance`) both run in this repository's own CI.
+
+Scope and package-path behaviour checked against the official
+[installation documentation](https://code.claude.com/docs/en/discover-plugins#choose-an-install-scope)
+and [plugin variables](https://code.claude.com/docs/en/plugins-reference#environment-variables)
+on 16 October 2026. Local regression tests simulate package-path substitution; they do
+not attest every live host version.

@@ -21,6 +21,16 @@ agents, skills, tools, and gates as one delivery system with explicit authority,
 ownership, evidence, and completion semantics. The day-one seed lets a new team begin
 system design and delivery planning while explicitly owned project unknowns are resolved.
 
+## Resolve the installation before running scripts
+
+Keep the working directory at the consumer project root. Find this `SKILL.md` in the
+host’s selected project, user or plugin installation, and resolve `scripts/` beside it.
+Use that absolute script path; do not assume `.agents/skills/` exists in the consumer.
+In the commands below, replace `<bootstrap-skill-dir>` with that discovered directory.
+Never run bootstrap against the installed package or a global home directory. If more
+than one installation is available, use the project’s declared version/source and resolve
+ambiguity before mutation. Preserve existing adapters; conflicts require a deliberate merge.
+
 ## Project awareness — seven areas to establish at init
 
 The bootstrap must establish or explicitly own each of the following. Required areas must
@@ -44,7 +54,7 @@ When adopting into a repo that already has code, do not present a blank seven-ar
 Run the read-only inspection pass to pre-fill what the repository already reveals:
 
 ```bash
-python3 .agents/skills/operating-model-bootstrap/scripts/inspect_repo.py .
+python3 "<bootstrap-skill-dir>/scripts/inspect_repo.py" .
 ```
 
 It reads manifests, tool configs, CI, `CODEOWNERS`, and docs, and prints **inferred**
@@ -126,12 +136,13 @@ fabricated. Never call a seed profile active while applicable placeholders remai
 
 ## Initialise safely
 
-From a target repository containing this skill, preflight and install the day-one seed:
+From the consumer project root, using the discovered skill directory, preflight and
+install the day-one seed:
 
 ```bash
-python3 .agents/skills/operating-model-bootstrap/scripts/bootstrap_operating_model.py \
+python3 "<bootstrap-skill-dir>/scripts/bootstrap_operating_model.py" \
   --dry-run --project-name "<project name>" .
-python3 .agents/skills/operating-model-bootstrap/scripts/bootstrap_operating_model.py \
+python3 "<bootstrap-skill-dir>/scripts/bootstrap_operating_model.py" \
   --project-name "<project name>" .
 ```
 
@@ -206,17 +217,17 @@ Before completion:
 1. Validate the distributed assets before adoption:
 
    ```bash
-   python3 .agents/skills/operating-model-bootstrap/scripts/validate_operating_model.py \
-     --template-root .agents/skills/operating-model-bootstrap
+   python3 "<bootstrap-skill-dir>/scripts/validate_operating_model.py" \
+     --template-root "<bootstrap-skill-dir>"
    ```
 
 2. Validate an adopted seed. Before R2/R3, repeat with `--require-active` and pass the
    resolved checkpoint/evidence paths:
 
    ```bash
-   python3 .agents/skills/operating-model-bootstrap/scripts/validate_operating_model.py \
+   python3 "<bootstrap-skill-dir>/scripts/validate_operating_model.py" \
      --target .
-   python3 .agents/skills/operating-model-bootstrap/scripts/validate_operating_model.py \
+   python3 "<bootstrap-skill-dir>/scripts/validate_operating_model.py" \
      --target . --require-active \
      --checkpoint docs/operating-model/checkpoints/<task-id>.yaml \
      --evidence docs/operating-model/evidence/<task-id>.yaml

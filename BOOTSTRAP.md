@@ -10,28 +10,35 @@ can start system design and technical delivery planning coherently on day one.
 
 ## Fifteen-minute path
 
-### 1. Put the baseline skills in the project
+### 1. Choose the installation and project
 
-Copy this repository's complete `skills/` directory to `.agents/skills/` in the new
-repository, including references, assets and scripts. Keep it tracked. Let the initializer
-generate the target project’s adapters; do not copy this repository’s root adapters or
-maintainer routing settings. The operating-model initializer and validator require Python 3.10 or newer but
-have no package or provider SDK dependency; they use only the standard library.
+Install `join-the-team` in your host, or copy the complete `skills/` directory to
+`.agents/skills/` in the project. User-level installation makes the capabilities available
+across your projects; project-level installation shares the chosen baseline with a team.
+See the [host guides](README.md#install--two-ways-to-adopt) for scope and discovery.
 
-If the chosen assistant does not discover `.agents/skills/` automatically, point its
-project adapter or configuration at that directory. Skill discovery syntax is
-surface-specific; the operating contract is not.
+Keep references, assets and scripts with each skill. The initializer and validator need
+Python 3.10 or newer and use only the standard library. Let the initializer generate
+project adapters; do not copy this repository’s maintainer adapters or routing settings.
 
 ### 2. Preflight and initialise
 
-Run from the new repository:
+Open the **consumer project root**. On hosts with plugin commands, run
+`/join-the-team:bootstrap`; it resolves the package scripts and preflights before writing.
+On other hosts, invoke `operating-model-bootstrap` and use its discovered script path.
+For a manual run, set `HARNESS_SKILL_DIR` to the absolute directory containing that
+skill’s `SKILL.md`; this can be in a plugin cache, user install or project copy:
 
 ```bash
-python3 .agents/skills/operating-model-bootstrap/scripts/bootstrap_operating_model.py \
+HARNESS_SKILL_DIR="/absolute/path/to/operating-model-bootstrap"
+python3 "$HARNESS_SKILL_DIR/scripts/bootstrap_operating_model.py" \
   --dry-run --project-name "My Project" .
-python3 .agents/skills/operating-model-bootstrap/scripts/bootstrap_operating_model.py \
+python3 "$HARNESS_SKILL_DIR/scripts/bootstrap_operating_model.py" \
   --project-name "My Project" .
 ```
+
+The commands target the current project, not the installation directory. Run the second
+only after a clean preflight. Keep the installed package read-only.
 
 The initializer creates:
 
@@ -69,7 +76,7 @@ minimum profile, route the initial skills, and leave decisions requiring the tea
 ### 4. Validate the shared seed
 
 ```bash
-python3 .agents/skills/operating-model-bootstrap/scripts/validate_operating_model.py \
+python3 "$HARNESS_SKILL_DIR/scripts/validate_operating_model.py" \
   --target .
 ```
 
@@ -77,6 +84,18 @@ A seed may pass with warnings about unresolved project facts. That is enough for
 architecture, ADRs, backlog formation, interface design, and R0/R1 work. Before R2/R3,
 resolve applicable controls, set the profile to `active`, and validate again with
 `--require-active` plus the task checkpoint/evidence paths.
+
+## From the seed to the first delivered change
+
+Use the generated profile and delivery workflow as the shared agreement. Record the
+vision, people and authority, ticket system, model policy, test commands, review process,
+deployment target, release owner and rollback/observation checks. Reuse existing project
+records. A global skill installation does not resolve these project-specific decisions.
+
+Take one bounded ticket through accepted scope → plan and model choice → implementation
+→ tests and independent review → authorised release → live verification. Update its
+status from observed results. Resolve applicable `active` controls before consequential
+work; a seed validation alone does not make a project ready for production.
 
 ## Baseline capability map
 

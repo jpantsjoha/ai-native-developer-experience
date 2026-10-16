@@ -12,6 +12,11 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Resolve plugin bootstrap, inspection and validation scripts from the installed package
+  while targeting the consumer project. Generated adapters support project/user installs;
+  adoption guidance covers shared planning, tickets, model choice, checks and route to live
+  (#32). Existing project records and explicit authority remain in control.
+
 - Select Luna high for the bounded, independently checked read-only routing pilot,
   retaining Sol medium as the baseline. Version the policy and receipts as v2; historical
   medium benchmarks remain unchanged and do not qualify high or establish savings.

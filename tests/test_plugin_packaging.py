@@ -129,7 +129,7 @@ class PluginPackagingTests(unittest.TestCase):
         expected = str(skill_count)
         claims = {
             "skills/README.md": f"## The {expected} Skills",
-            "README.md": f"full harness is live: {expected} skills",
+            "README.md": f"The library contains {expected} skills",
             "docs/install/claude.md": f"the {expected} `skills/` capabilities",
             "docs/install/codex.md": f"the {expected} skills should be named",
             "docs/install/kimi.md": f"to see the {expected} skills",

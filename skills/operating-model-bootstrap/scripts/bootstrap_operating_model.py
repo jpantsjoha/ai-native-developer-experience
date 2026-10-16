@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import shlex
 import sys
 from dataclasses import dataclass
 from datetime import date
@@ -221,10 +222,10 @@ def main() -> int:
             "NEXT ground the vision and workflow, initialise the roadmap/status, and "
             "resolve the profile's day-one activation minimum"
         )
-        print(
-            "NEXT run: python3 .agents/skills/operating-model-bootstrap/scripts/"
-            "validate_operating_model.py --target ."
-        )
+        validator = Path(__file__).resolve().with_name("validate_operating_model.py")
+        print("NEXT run: " + shlex.join(
+            [sys.executable, str(validator), "--target", str(target)]
+        ))
     return 0
 
 

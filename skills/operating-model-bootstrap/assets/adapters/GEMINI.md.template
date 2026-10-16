@@ -17,7 +17,8 @@ Read `docs/operating-model/OPERATING-MANUAL.md` and
 - Use one branch/worktree and resource namespace per mutating lane.
 - Bind R2/R3 evidence and independent review to the exact candidate.
 - PASS has zero conditions; delivery, observation, docs, and rollback are part of completion.
-- Baseline team skills live under `.agents/skills/`; route by capability, not provider syntax.
+- Locate baseline skills through the host’s selected installation (project or user scope);
+  the project profile records capability mappings. Route by capability, not provider syntax.
 <!-- operating-model-contract:end -->
 
 Gemini-specific invocation may vary. It may not weaken the protected contract above.

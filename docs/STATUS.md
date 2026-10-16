@@ -1,31 +1,24 @@
 # Delivery status
 
-**As of:** 2026-10-12. **Owner:** harness maintainer.
+**As of:** 16 October 2026. **Owner:** harness maintainer.
 
-## Current candidate
+## Delivery record
 
-PR #28 combines the approved release-mode correction (#27) with portable independent
-review and delivery-coherence guidance. Scope and acceptance are in
-[HARNESS-COHERENCE](../requirements/HARNESS-COHERENCE.md) and
-[RELEASE-MODE-CONTRACT](../requirements/RELEASE-MODE-CONTRACT.md).
+[#32](https://github.com/jpantsjoha/ai-native-developer-experience/issues/32) and
+[PR #33](https://github.com/jpantsjoha/ai-native-developer-experience/pull/33) own the
+adoption/golden-thread delivery and exact-candidate checks. Coordinate with that lane
+while the PR is open; its live merged state is authoritative.
+[Acceptance](../requirements/ADOPTION-DELIVERY.md) covers portable installation,
+lean context, product/CXO/test roles, requirement reconciliation and safe cleanup.
 
-This is an unreleased source candidate. Local validation and an independent reviewer
-must bind to its exact tree/commit before merge. The PR records the final identities,
-commands, results and remaining conditions; this file is not a review attestation.
-No installed plugin or adopter has inherited these changes merely because they exist
-on this branch. Release version, installation and promotion are separate decisions.
+The release target is [v0.4.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.4.0).
+The tag/release record owns publication state; a version in a manifest alone is not
+publication. See the [source-release decision](../architecture/decisions/ADR-003-source-release.md).
+Merged source, a published tag, updated installations and observed use remain distinct.
 
-The repository follows its existing GEMINI.md/CLAUDE.md contract and `make check`.
-The optional review helper is tested with offline fixtures; this change does not
-install hooks, select a provider or claim compatibility for untested host wrappers.
-Review-loop history is an owned procedure, not newly automated enforcement.
+## Remaining work
 
-## Next action and remaining work
-
-Finish exact-candidate validation/review, reconcile PR #28 and merge if its controls
-permit. Keep the [roadmap](ROADMAP.md) and release changelog separate from this state.
-Historical audit proposals beyond this slice remain proposals; measured effectiveness,
-semantic traceability and cross-project adoption are not declared complete.
-
-The operator retains release/tag/install decisions. The selected local review policy
-belongs to the session/project, not the portable plugin's model roster.
+Run one bounded adopter trial to measure completion, friction, duplicated updates and
+rework. Live host installation/update coverage and enterprise effectiveness remain
+unproven; local fixtures establish package paths and preservation, not every host UI.
+The broader DPS planning validator remains open. [ROADMAP](ROADMAP.md) owns order.

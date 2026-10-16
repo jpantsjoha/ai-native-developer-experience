@@ -9,16 +9,19 @@ are distilled from the DX-001 harness and firsthand delivery experience. Borrow 
 the patterns; they do not make a project production-ready by themselves.
 
 Each skill is a `SKILL.md` in its own directory. Keep the tracked canonical copy under
-`.agents/skills/<name>/SKILL.md`. Configure a thin adapter or discovery path when a chosen
+`skills/<name>/SKILL.md` (`.agents/skills/` is a discovery alias). Configure a thin adapter or discovery path when a chosen
 assistant expects a different location; do not maintain divergent skill constitutions.
 
 ---
 
-## The 22 Skills
+## The 25 Skills
 
 | Skill | One-line purpose |
 |---|---|
 | [`using-the-harness`](./using-the-harness/SKILL.md) | Session-start orientation: the contract, the routing table, and how companion plugins supply craft capabilities |
+| [`product-owner`](./product-owner/SKILL.md) | Vision, journeys, evolving requirements and product acceptance |
+| [`cxo-oversight`](./cxo-oversight/SKILL.md) | Material strategic value, cost/risk and operating ownership |
+| [`test-strategy`](./test-strategy/SKILL.md) | Acceptance-to-check coverage through the actual user path |
 | [`spec-first-delivery`](./spec-first-delivery/SKILL.md) | Force plan / HLD / ADRs before any code is generated |
 | [`adversarial-gate`](./adversarial-gate/SKILL.md) | JP's red-team pass: "how would I break this?" — catches brittle assumptions before they ship |
 | [`release-readiness`](./release-readiness/SKILL.md) | Go / no-go gate: failure modes, rollback, cost, prod bar, definition of done |

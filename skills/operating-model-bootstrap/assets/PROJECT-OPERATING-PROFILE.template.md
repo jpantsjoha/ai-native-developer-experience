@@ -139,11 +139,16 @@ outputs, and gate self-changes are covered.
 ## Baseline skills and routing
 
 Keep the capability names stable even when a chosen assistant uses a different invocation
-syntax. If a named skill is unavailable, record the equivalent procedure and owner; capability
+syntax. Record the selected installation source/version and scope (project, user or
+plugin) in the existing routing table; global availability does not override this profile.
+If a named skill is unavailable, record the equivalent procedure and owner; capability
 never grants authority.
 
 | Delivery need | Baseline skill/capability | Project location or equivalent | Maintainer / review trigger |
 |---|---|---|---|
+| Vision, journeys and requirement acceptance | `product-owner` | <path or equivalent> | <owner / trigger> |
+| Strategic value, risk and operating ownership | `cxo-oversight` | <path or equivalent> | <owner / trigger> |
+| Acceptance-to-check coverage | `test-strategy` | <path or equivalent> | <owner / trigger> |
 | Decomposition and routing | `delivery-orchestrator` | <path or equivalent> | <owner / trigger> |
 | System design and ADRs | `the-architect` | <path or equivalent> | <owner / trigger> |
 | Requirements and acceptance contract | `spec-first-delivery` | <path or equivalent> | <owner / trigger> |

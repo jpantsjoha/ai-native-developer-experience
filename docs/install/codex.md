@@ -1,48 +1,44 @@
 # Install — Codex (CLI and App)
 
-Codex discovers project skills natively from `.agents/skills/` — a symlinked alias
-this repository keeps pointing at the canonical `skills/` directory — and reads
-`AGENTS.md` as its always-on adapter. No plugin manifest is required for the skill layer.
+Choose one source of the skills for each working context. Use the Codex Plugins
+interface when `join-the-team` is available, or install the skills using native discovery.
+Host interfaces vary; this guide does not prescribe a universal plugin CLI command.
 
-> **Note on `codex plugin add`.** Codex's install cache flattens the package and drops
-> symlinks, so a marketplace-installed copy contains the real `skills/` directory and
-> **no `.agents/skills/` alias**. That is why `skills/` holds the real files: verified by
-> installing, the cache carries all 22 skills at the standard's fixed location. Use
-> `.agents/skills/` only for a repository checkout (Option 1), where the alias is present.
+## Project or user skills
 
-## Option 1: Repository checkout (project-local)
+| Scope | Location | Use |
+| --- | --- | --- |
+| Project | `<project>/.agents/skills/<skill-name>/` | Track the chosen skills with a team repository |
+| User | `~/.agents/skills/<skill-name>/` | Make the skills available across your projects |
 
-A full clone includes the root adapters and this repository’s maintainer routing policy.
+Copy each complete directory from this repository’s `skills/`, retaining its references,
+assets and scripts. Preserve existing skills; resolve name collisions instead of replacing
+them or keeping competing versions. A user installation applies to your account, not
+every teammate. Record the selected source/version with the team’s project controls.
 
-To adopt the skills in another project, copy the complete `skills/` directory to
-`.agents/skills/`, including its `references/`, `assets/` and `scripts/` subdirectories.
-Follow [BOOTSTRAP.md](../../BOOTSTRAP.md) to generate the target project’s `AGENTS.md`
-and operating contract. Preserve existing adapters and resolve any initializer conflict;
-do not replace them with this repository’s root adapters. The portable routing guide
-travels inside the skills; routing stays inactive until the adopter selects a policy.
+Codex discovers the skills and supplies their locations to the assistant. Invoke
+`operating-model-bootstrap` from the consumer project and follow [BOOTSTRAP](../../BOOTSTRAP.md).
+The skill resolves scripts beside its own file; it does not require a local copy when
+installed globally. Bootstrap generates project-specific adapters and operating records.
+Preserve existing adapters and resolve conflicts rather than copying maintainer settings.
 
-## Option 2: Plugin marketplace
+## Plugin installation
 
-When listed, install `join-the-team` from the Codex plugin marketplace (`/plugins`
-in the CLI, or the Plugins sidebar in the Codex app).
+Use the host’s Plugins interface and verify that the skills are available in the intended
+project. Installed packages contain the real `skills/` directory; a cache may omit the
+repository’s `.agents/skills` symlink. Skills, commands and hooks are host capabilities,
+so do not assume every host exposes Claude-style slash commands or session-start hooks.
+Ask the bootstrap skill to perform the adoption sequence when commands are unavailable.
 
 ## Verify
 
-1. Ask "which skills are available?" — the 22 skills should be named.
-2. `AGENTS.md` should appear in Codex's loaded context files.
+1. In a fresh session, ask which skills are available; the 25 skills should be named
+   when the full library is installed. Inspect the source path/version. Resolve duplicate installations before making changes.
+2. From a disposable project, run bootstrap’s dry-run, then initialise and validate.
+   Expect a seed PASS with unresolved project decisions clearly reported.
+3. Confirm the generated `AGENTS.md` and project profile are loaded for that project.
+   Global skill discovery alone does not create project authority or release readiness.
 
-## Standards
-
-The skills follow [Agent Skills](https://agentskills.io/specification), which is what lets
-Codex discover them from `.agents/skills/` with no manifest at all. The root `plugin.json`
-follows [Agent Plugins 1.0.0](https://agent-plugins.org/specification) and is the portable
-entry point for clients that do want a manifest. Codex has no declared `extensions`
-namespace here, because it needs none — native discovery plus `AGENTS.md` is the whole
-integration.
-
-## Notes
-
-- Session-start injection on Codex uses `.codex/hooks.json` in the *target* project;
-  that is the project's own file to adopt, and this plugin never writes to a user's
-  personal config. The always-on `AGENTS.md` adapter is the baseline integration and
-  is sufficient.
+The [official skill locations](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills)
+were checked on 16 October 2026. The full repository checkout retains its own maintainer
+adapters; it is distinct from adopting the skills in another project.

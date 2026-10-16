@@ -10,7 +10,23 @@ packaging version declared in the harness manifests.
 
 ## Unreleased
 
+## [0.4.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.4.0) — 2026-10-16
+
+Source changes: PRs #28, #31 and #33. Existing project files remain preserved on
+upgrade; reconcile adopted workflows deliberately. No automatic global update.
+
 ### Changed
+
+- Maintain the golden thread from evolving requirements and vision through roadmap,
+  GitHub tickets, acceptance checks, independent adversarial review and release links.
+  Add Product Owner, CXO oversight and test-strategy capabilities; reconcile records
+  and safely clean up integrated work. Keep root agent instructions identical and
+  session orientation compact by default (#32). Existing adoption files are preserved.
+
+- Resolve plugin bootstrap, inspection and validation scripts from the installed package
+  while targeting the consumer project. Generated adapters support project/user installs;
+  adoption guidance covers shared planning, tickets, model choice, checks and route to live
+  (#32). Existing project records and explicit authority remain in control.
 
 - Select Luna high for the bounded, independently checked read-only routing pilot,
   retaining Sol medium as the baseline. Version the policy and receipts as v2; historical

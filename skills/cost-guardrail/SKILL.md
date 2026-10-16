@@ -26,13 +26,18 @@ LLM cost is not a finance problem — it is an architecture problem. The design 
    - Can the task be completed with a smaller or faster model?
    - Is the model tier choice based on evidence (benchmark, A/B test) or assumption?
 
-   General tiering principle (verify current pricing against your provider's documentation before relying on it):
+   Starting hypotheses only (verify current pricing and qualify each task family before relying on them):
 
    | Task type | Appropriate tier |
    |---|---|
    | Simple classification, extraction, summarisation | Small / fast model |
    | Complex reasoning, multi-step planning, code generation | Mid-tier model |
    | Deep analysis, architecture decisions, adversarial review | Highest-tier model |
+
+   A short ticket or one-file change does not qualify a cheap model. Require independent
+   acceptance, preserve consequence floors, count failed attempts and bound escalation.
+   Use the project's explicitly adopted routing mode; the [routing guide](references/model-routing.md)
+   is not automatic consumer activation. Model/effort changes require a fresh baseline.
 
 3. **Identify unbounded cost vectors** — flag any call pattern where the token count or call volume has no upper bound:
    - Loops that call an LLM until a condition is met (with no max-iteration guard)

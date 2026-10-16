@@ -114,3 +114,12 @@ changing candidate or reviewer never erases unresolved findings or spent attempt
 - **Parallel agents must not share mutable state without a coordination strategy.** If two tracks write to the same file or schema, they are not independent. Use worktrees or serialise them.
 - **Integration validation is not optional.** Parallel work that skips the post-merge regression check is not complete.
 - **Keep agent context lean.** Each agent gets its task spec and relevant ADRs, not the entire repo.
+
+## Model choice at the delegation boundary
+
+Use the adopting project's model-routing policy before dispatch. Record requested
+model/effort, allowed paths, Definition of Done and independent checks. Prefer
+deterministic tools where sufficient; do not equate a smaller task with a qualified
+cheaper model. Track failed attempts, escalation and parent integration costs. Preserve
+existing risk floors and stop rules. The [routing guide](../cost-guardrail/references/model-routing.md)
+shows a reversible approach; it does not automatically enable routing in consumers.

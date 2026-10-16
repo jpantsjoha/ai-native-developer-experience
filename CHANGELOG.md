@@ -12,6 +12,18 @@ packaging version declared in the harness manifests.
 
 ### Changed
 
+- Select Luna high for the bounded, independently checked read-only routing pilot,
+  retaining Sol medium as the baseline. Version the policy and receipts as v2; historical
+  medium benchmarks remain unchanged and do not qualify high or establish savings.
+
+- Update the `join-the-team` README listing links to
+  [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team).
+
+- Add a guarded instruction-based model-routing pilot, Codex discovery adapter,
+  reversible mode and private measurement guidance (#30). Keep portable routing guidance
+  with the skills and generate adopter-specific adapters through bootstrap. No automatic
+  dispatch, telemetry or consumer activation; efficiency gains remain unproven.
+
 - Define provider-neutral independent Council review and bounded loop recovery in the
   existing skills. Preserve finding history and local subscription authority.
 - Make the optional review helper fail closed with exact input/candidate receipts and

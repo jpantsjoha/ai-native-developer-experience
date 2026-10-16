@@ -12,9 +12,14 @@ this repository keeps pointing at the canonical `skills/` directory — and read
 
 ## Option 1: Repository checkout (project-local)
 
-Clone or vendor this repository's `skills/` directory into your project and keep the
-generated `AGENTS.md` adapter at the project root. Codex picks both up on the next
-session.
+A full clone includes the root adapters and this repository’s maintainer routing policy.
+
+To adopt the skills in another project, copy the complete `skills/` directory to
+`.agents/skills/`, including its `references/`, `assets/` and `scripts/` subdirectories.
+Follow [BOOTSTRAP.md](../../BOOTSTRAP.md) to generate the target project’s `AGENTS.md`
+and operating contract. Preserve existing adapters and resolve any initializer conflict;
+do not replace them with this repository’s root adapters. The portable routing guide
+travels inside the skills; routing stays inactive until the adopter selects a policy.
 
 ## Option 2: Plugin marketplace
 

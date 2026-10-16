@@ -49,7 +49,10 @@ The four rules that keep them from drifting:
 
 For intake, dispatch, scope changes and completion, follow the golden-thread section
 of the adopting project's `DELIVERY-WORKFLOW.md`, located by its profile. Without an
-adopted workflow, use the portable [workflow template](../operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md).
+adopted workflow, start with `operating-model-bootstrap` in the consumer project.
+Use the [workflow template](../operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md)
+as a checklist while mapping existing records; unresolved placeholders are project
+questions, not executable paths or permission to invent defaults.
 Product Owner maintains accepted intent and priorities; CXO provides material oversight;
 test strategy corroborates coverage. The orchestrator actions and reconciles the tickets,
 dependencies, status and delivery links. Check in-flight owners before selecting roadmap work.

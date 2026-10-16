@@ -71,3 +71,13 @@ is included. The broader DPS planning validator remains separate work.
 Validation: full local convergence, then one fresh independent Codex review and at most
 one repair review for this extension. Review must exercise an evolving requirement,
 a duplicate active lane and a partial delivery, plus secret inspection of the added diff.
+
+
+## Authorised close-out and source release (16 October 2026)
+
+The owner extended scope to the useful advisory clarifications, fresh checks/review,
+merge of PR #33, branch cleanup and a new version tag. This supersedes the earlier
+no-release boundary for this cut only. Clarify unadopted starting steps, optional hooks,
+planning versus test execution, and affected-record-only reconciliation. Prepare v0.4.0
+under ADR-003; verify source archive/bootstrap and rollback before publishing. One fresh
+Codex review and at most one repair review cover the final clarification/release tree.

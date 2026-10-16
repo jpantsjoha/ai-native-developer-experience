@@ -125,7 +125,9 @@ do not create competing Status.md/STATUS.md or Roadmap.md/ROADMAP.md records.
     and local/remote branch; preserve uncommitted or unintegrated work and other owners'
     lanes. Prune stale worktree metadata only after checking the worktree inventory.
 
-Reconcile these records at intake, scope change, handoff, merge and release. Update
+Reconcile only affected records at intake, scope change, handoff, merge and release;
+link to the owning record instead of copying its content. In the first adopter trial,
+record duplicated updates or drift before adding automation or another tracker. Update
 agent entrypoints only when the shared contract itself changes; operational progress
 belongs in the records they reference. Never self-amend authority to pass a gate.
 The orchestrator reports broken links and semantic gaps; this workflow is an agent

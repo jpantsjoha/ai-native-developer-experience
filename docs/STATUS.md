@@ -2,28 +2,23 @@
 
 **As of:** 16 October 2026. **Owner:** harness maintainer.
 
-## Source and release state
+## Delivery record
 
-PR #28 merged on 12 October: release-policy correction and portable review/delivery
-controls. PR #31 merged on 16 October: portable guarded routing guidance and leaner
-public documentation. Latest published release remains **v0.3.0**, dated 14 September.
-Merged source, a tagged package, an updated installation and observed adoption are
-separate states. No release or installation update is claimed here.
+[#32](https://github.com/jpantsjoha/ai-native-developer-experience/issues/32) and
+[PR #33](https://github.com/jpantsjoha/ai-native-developer-experience/pull/33) own the
+adoption/golden-thread delivery and exact-candidate checks. Coordinate with that lane
+while the PR is open; its live merged state is authoritative.
+[Acceptance](../requirements/ADOPTION-DELIVERY.md) covers portable installation,
+lean context, product/CXO/test roles, requirement reconciliation and safe cleanup.
 
-## Current work
+The release target is [v0.4.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.4.0).
+The tag/release record owns publication state; a version in a manifest alone is not
+publication. See the [source-release decision](../architecture/decisions/ADR-003-source-release.md).
+Merged source, a published tag, updated installations and observed use remain distinct.
 
-Issue #32 improves project/user/plugin adoption and the public delivery proposition.
-[Acceptance and design](../requirements/ADOPTION-DELIVERY.md) cover package-relative
-commands, installation-independent adapters and a tested consumer-project journey.
-The accepted extension adds lean shared context, product/CXO/test roles and golden-thread
-requirements-to-release reconciliation. PR #33 owns this active lane; coordinate there
-before taking overlapping roadmap work. Broader DPS planning-validator work remains open.
-Local checks and fresh independent review must bind to its exact candidate before
-merge; the PR owns those receipts. It is not yet a published plugin update.
+## Remaining work
 
-## Next action
-
-Validate and review #32, then reconcile its PR state. Before a versioned release, verify
-the intended host installation and update paths under the release policy. Use one
-bounded adopter trial to measure completion, friction and rework; effectiveness and
-enterprise adoption remain unproven. [ROADMAP](ROADMAP.md) owns the remaining order.
+Run one bounded adopter trial to measure completion, friction, duplicated updates and
+rework. Live host installation/update coverage and enterprise effectiveness remain
+unproven; local fixtures establish package paths and preservation, not every host UI.
+The broader DPS planning validator remains open. [ROADMAP](ROADMAP.md) owns order.

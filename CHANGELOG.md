@@ -10,6 +10,11 @@ packaging version declared in the harness manifests.
 
 ## Unreleased
 
+## [0.4.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.4.0) — 2026-10-16
+
+Source changes: PRs #28, #31 and #33. Existing project files remain preserved on
+upgrade; reconcile adopted workflows deliberately. No automatic global update.
+
 ### Changed
 
 - Maintain the golden thread from evolving requirements and vision through roadmap,

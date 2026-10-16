@@ -87,6 +87,10 @@ every teammate. Each collaborator needs access to the selected skill version. Co
 the adopted project contract and agreed host configuration so people share the same
 ways of working, while credentials and personal settings stay private.
 
+Hooks are optional host conveniences. Without them, invoke `using-the-harness` and
+`operating-model-bootstrap` from the consumer project; verify its generated agent
+adapter and profile are loaded. Installation alone does not adopt project controls.
+
 Full per-harness detail (session-start hooks, verification, update path):
 [Claude Code](docs/install/claude.md) · [Kimi Code](docs/install/kimi.md) ·
 [Codex](docs/install/codex.md) · [Antigravity](docs/install/antigravity.md)

@@ -9,7 +9,7 @@
     {
       "name": "join-the-team",
       "description": "Shared delivery practices for human–AI teams: planning, tickets, model selection, testing, independent review and release readiness. Install for a project or user; adopt project-owned authority and checks.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "source": "./",
       "author": {
         "name": "Jaroslav Pantsjoha",

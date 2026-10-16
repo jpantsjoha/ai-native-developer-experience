@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "join-the-team",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Shared delivery practices for human–AI teams: planning, tickets, model selection, testing, independent review and release readiness. Install for a project or user; adopt project-owned authority and checks.",
   "author": {
     "name": "Jaroslav Pantsjoha",

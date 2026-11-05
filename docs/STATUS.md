@@ -6,7 +6,15 @@ The local `codex/squadroom-adoption-plan` branch prepares a
 [Squadroom-informed scope](planning/SQUADROOM-ADOPTION.md) and preserves the separate
 [EGM paired review protocol](evaluation/egm-review/PLAN.md). Both are plans; no runtime,
 new experiment, measured benefit or installation is delivered. The
-[naming shortlist](planning/PLUGIN-NAMING.md) is a proposal, not a rename.
+[naming decision](planning/PLUGIN-NAMING.md) now selects DevEx Charter.
+
+## DevEx Charter source rebrand
+
+[#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34) owns
+the source rename on this branch: manifests, commands, README, changelog and migration
+guidance. Release, live host migration and upstream listing updates remain separate
+gates; installed global plugins are unchanged. Local checks and independent review
+receipts must accompany the candidate before integration.
 
 
 **As of:** 16 October 2026. **Owner:** harness maintainer.

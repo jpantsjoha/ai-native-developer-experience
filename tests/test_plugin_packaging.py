@@ -14,7 +14,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR = REPO_ROOT / "scripts" / "validate_plugin.py"
 
-NAME = "join-the-team"
+NAME = "devex-charter"
 VERSION = "0.1.0"
 PLUGIN_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
@@ -250,7 +250,7 @@ class SpecConformanceTests(unittest.TestCase):
         self.assert_spec_failure("violates the spec name pattern")
 
     def test_leading_hyphen_name_fails(self) -> None:
-        self.mutate_manifest(name="-join-the-team")
+        self.mutate_manifest(name="-devex-charter")
         self.assert_spec_failure("violates the spec name pattern")
 
     def test_consecutive_hyphen_name_fails(self) -> None:

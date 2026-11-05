@@ -1,5 +1,5 @@
 {
-  "name": "join-the-team",
+  "name": "devex-charter",
   "description": "Shared delivery practices for human–AI teams: planning, tickets, model selection, testing, independent review and release readiness. Install for a project or user; adopt project-owned authority and checks.",
   "version": "0.4.0",
   "contextFileName": "GEMINI.md"

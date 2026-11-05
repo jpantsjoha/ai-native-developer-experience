@@ -212,7 +212,7 @@ publication, model qualification or improved performance follows from this plan.
 | Host permission enforcement and termination evidence | Integration owner, S0 capability probe | Unsupported routes refused |
 | Corpus labels, thresholds and live-run budgets | JP + independent test reviewer, before S5 | No adoption claim or live pilot |
 | DevDash read-only contract | DevDash owner, after S5 | No consumer edits |
-| Plugin name and compatibility migration | JP, separate naming decision | Retain `join-the-team` identifiers |
+| Plugin name and compatibility migration | JP, separate naming decision | DevEx Charter selected; see [ADR-004](../../architecture/decisions/ADR-004-devex-charter.md) |
 
 How would this fail? A stale worker might still mutate files after its lease expires;
 fencing only protects effects routed through the adapter, so termination/isolation is

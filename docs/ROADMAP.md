@@ -6,8 +6,8 @@
 contract fixtures → durable handoffs and integration controls → paired Phoenix proof →
 optional read-only DevDash view. [EGM review measurement](evaluation/egm-review/PLAN.md)
 remains independently controlled; do not combine treatments. Implementation children
-must be filed and accepted before code. Naming is a separate decision with compatibility
-migration gates. No release sequence is changed by this planning branch.
+must be filed and accepted before code. DevEx Charter is the selected name; [#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34)
+tracks source rebranding and [migration gates](install/rebrand.md). No release sequence is changed by this planning branch.
 
 
 **Owner:** harness maintainer. Order is by accepted outcome, not skill count.

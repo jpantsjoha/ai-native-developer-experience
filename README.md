@@ -1,13 +1,15 @@
-# AI-Native Developer Experience Harness
+# DevEx Charter
 
-[Listed on Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
+The AI-native developer experience harness.
+
+[Legacy listing on Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 [![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
 
 **Shared ways of working for you, your team and your AI agents — from a new idea to a
 change running live.**
 
-`join-the-team` brings planning, delivery and ticket management, model selection,
+`devex-charter` brings planning, delivery and ticket management, model selection,
 testing, independent review and release practices into one reusable plugin. Install it
 for a project or across your own projects, then give each project a shared operating
 contract: what you are building, who owns the decisions, how work is tracked and what
@@ -40,6 +42,11 @@ reports conflicting contracts before writing.
 [Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases) ·
 [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 
+This branch prepares the **DevEx Charter** rebrand (formerly **Join the Team**).
+The repository remains `ai-native-developer-experience`; the released v0.4.0 package
+still uses the old name. New commands below apply to this candidate after installation.
+See [migration and upstream tracking](docs/install/rebrand.md) before switching.
+
 ## Install — two ways to adopt
 
 **By hand** — clone the complete repository to work on this harness. To adopt it in
@@ -52,7 +59,7 @@ do not copy them into an adopter project.
 git clone https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**As a plugin** — the harness ships as `join-the-team`: one canonical skill
+**As a plugin** — the harness ships as `devex-charter`: one canonical skill
 set, thin per-harness adapters, drift-checked in CI. It is listed on
 [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team);
 install straight from this repository into whichever coding assistant you run:
@@ -62,7 +69,7 @@ repository. See the [scope and team setup guide](docs/install/claude.md).
 
 ```bash
 claude plugin marketplace add jpantsjoha/ai-native-developer-experience
-claude plugin install join-the-team@join-the-team-marketplace --scope user
+claude plugin install devex-charter@join-the-team-marketplace --scope user
 ```
 
 **Kimi Code**
@@ -129,11 +136,11 @@ which skills are available?
 
 You should see `using-the-harness` plus the cloud and gate skills (`cloud-expert`,
 `adversarial-gate`, `pr-reviewer`). Then run the built-in validator against a
-bootstrapped repository using `/join-the-team:validate` where available, or the
+bootstrapped repository using `/devex-charter:validate` where available, or the
 `operating-model-bootstrap` skill on skill-only hosts:
 
 ```text
-/join-the-team:validate
+/devex-charter:validate
 ```
 
 Expect `PASS operating-model validation`. A `seed` profile may pass with warnings — that
@@ -147,9 +154,9 @@ commands cover the lifecycle.
 **On hosts that expose the plugin commands:**
 
 ```text
-/join-the-team:bootstrap    # seed the operating model (dry-run first, never overwrites)
-/join-the-team:init         # record the humans: roles, authority, escalation channels
-/join-the-team:validate     # check adapter drift, adoption state, evidence binding
+/devex-charter:bootstrap    # seed the operating model (dry-run first, never overwrites)
+/devex-charter:init         # record the humans: roles, authority, escalation channels
+/devex-charter:validate     # check adapter drift, adoption state, evidence binding
 ```
 
 On skill-only hosts, ask `operating-model-bootstrap` to run the same sequence. It finds
@@ -193,7 +200,7 @@ visibly missing. Displayed metrics are deterministic. Optional AI proposes short
 from available status and roadmap documents; it never supplies the displayed numbers.
 The core needs no AI subscription.
 
-Used alongside `join-the-team`, clear status and roadmap records give DevDash more context
+Used alongside `devex-charter`, clear status and roadmap records give DevDash more context
 for the work behind those signals. The harness is not required: ordinary GitHub repositories
 still provide available API and git signals, with less delivery context where documents are
 missing. See [the four delivery records](docs/DELIVERY-RECORDS.md) for the shared practice.
@@ -226,7 +233,7 @@ you control. See
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
 | Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 25 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
-| `/join-the-team:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
+| `/devex-charter:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
 | Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then use the session-start pointer to reload the applicable contract |
 
@@ -240,12 +247,12 @@ with the client, version (`plugin.json`), and the output of `make spec-conforman
 No — and the difference is the point. [BMAD](https://docs.bmad-method.org/) is a
 methodology engine: it drives an idea through phased workflows — analysis, planning,
 solutioning, implementation — with AI personas playing Analyst, PM, Architect, Developer.
-It answers *what to do next*. `join-the-team` answers *who is accountable, and what is
+It answers *what to do next*. `devex-charter` answers *who is accountable, and what is
 allowed* — the contract the work runs **inside**: risk tiers, named human authority,
 evidence bound to an exact commit, a definition of done that means the checks pass. They
 scale on different axes — BMAD scales *ceremony by size*, this harness scales *gates by
 risk*. So they compose rather than compete: run BMAD as the workflow engine, and let
-`join-the-team` keep a mixed human-and-agent team coherent while it does. Reach for it the
+`devex-charter` keep a mixed human-and-agent team coherent while it does. Reach for it the
 moment *"who decided this, and on what evidence?"* stops being obvious. The workflow you
 can borrow anywhere — the contract is the part teams keep missing.
 
@@ -257,7 +264,7 @@ Install the plugin, and the session-start pointer routes delivery work to
 `using-the-harness` and the project contract. Ask it what the harness changes, and it answers in the
 terms that matter — where the system accelerates, and where it stops:
 
-![join-the-team in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)
+![Legacy Join the Team installation in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)
 
 The example shows how shared rules guide an actual decision: check the risk, verify
 the result and retain the decision for the next person or agent. Those practices support
@@ -407,7 +414,7 @@ Borrow the patterns. As ever — your mileage may vary.
 
 ## Standards conformance
 
-**`join-the-team` is compliant with [Agent Plugins 1.0.0](https://agent-plugins.org/specification)**
+**`devex-charter` is compliant with [Agent Plugins 1.0.0](https://agent-plugins.org/specification)**
 — the open, vendor-neutral packaging standard
 [announced by Google](https://developers.googleblog.com/agent-plugins-package-your-skills-tools-and-more/)
 and stewarded by a Technical Steering Committee spanning Amazon, Cursor, Google, Microsoft,

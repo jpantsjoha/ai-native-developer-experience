@@ -2,7 +2,7 @@
 
 ## Intent
 
-Provide one portable `plugin-submission` skill that governs how `join-the-team` and its
+Provide one portable `plugin-submission` skill that governs how `devex-charter` and its
 adopters are listed in plugin directories, skill registries, marketplaces, and curated
 repositories.
 

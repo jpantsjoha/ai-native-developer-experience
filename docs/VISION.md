@@ -1,10 +1,10 @@
 # Vision — Shared Delivery Practices for Human–AI Teams
 
-`join-the-team` can be installed for one project or made available across a user’s
+`devex-charter` can be installed for one project or made available across a user’s
 projects. Adoption establishes shared practices for planning, tickets, model choice,
 testing, review and the route to live, with authority and controls owned by each project.
 
-`join-the-team` should make a mixed human–AI delivery team behave like one coherent
+`devex-charter` should make a mixed human–AI delivery team behave like one coherent
 delivery system. Human Product Owners and subject-matter experts retain authority over
 intent, priority, acceptance, architecture, risk, and external effects. AI planners and
 workers increase throughput inside those boundaries without fragmenting decisions,

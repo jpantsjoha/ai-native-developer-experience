@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SessionStart hook for the join-the-team plugin (Claude Code).
+# SessionStart hook for the devex-charter plugin (Claude Code).
 #
 # Injects a compact pointer by default, including adopted projects. Full orientation
 # is opt-in with JOIN_THE_TEAM_ORIENTATION=full; =off injects nothing.
@@ -43,7 +43,7 @@ escape_for_json() {
 
 # Full orientation is explicit; default context remains compact.
 orientation="${JOIN_THE_TEAM_ORIENTATION:-auto}"
-banner="Below is the full content of your 'join-the-team:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:"
+banner="Below is the full content of your 'devex-charter:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:"
 profile=""
 for candidate in "docs/operating-model/PROJECT-OPERATING-PROFILE.md" "PROJECT-OPERATING-PROFILE.md"; do
     [ -f "${PWD}/${candidate}" ] && { profile="$candidate"; break; }
@@ -51,11 +51,11 @@ done
 case "$orientation" in
     off) exit 0 ;;
     full) : ;;
-    *) banner="join-the-team: load only the skills and records needed for this task."
+    *) banner="devex-charter: load only the skills and records needed for this task."
        if [ -n "$profile" ]; then
            skill_content="Project contract: $profile and its bound manual. Before selecting roadmap work, check current STATUS, open issues/PRs and worktrees. For delivery, load using-the-harness and the project's DELIVERY-WORKFLOW; route intent to product-owner, material oversight to cxo-oversight, acceptance checks to test-strategy and execution to delivery-orchestrator. Preserve authority and exact-candidate independent review."
        else
-           skill_content="join-the-team skills are available. For delivery work load using-the-harness; use operating-model-bootstrap to adopt project-owned controls. Installation grants no authority. Load detailed procedures only when needed."
+           skill_content="devex-charter skills are available. For delivery work load using-the-harness; use operating-model-bootstrap to adopt project-owned controls. Installation grants no authority. Load detailed procedures only when needed."
        fi ;;
 
 esac

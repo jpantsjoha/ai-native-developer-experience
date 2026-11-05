@@ -1,6 +1,9 @@
 # Plugin naming shortlist
 
-Decision proposal only. The plugin and repository identifiers remain unchanged.
+JP selected **DevEx Charter**. Canonical plugin identifier: `devex-charter`.
+The repository remains `ai-native-developer-experience`.
+See [ADR-004](../../architecture/decisions/ADR-004-devex-charter.md) and
+[migration](../install/rebrand.md). The shortlist below is retained as decision history.
 
 ## Positioning
 
@@ -17,7 +20,7 @@ without DevDash, and avoid implying guaranteed outcomes or autonomous authority.
 | DevMandate | Purpose-led work within explicit authority and scope | Strong intent; may feel overly hierarchical |
 | DevBearing | Direction and alignment throughout delivery; a natural companion to DevDash | More abstract; explain what it does in the tagline |
 
-Recommendation: **DevAccord — the delivery harness for human–AI teams.**
+Superseded recommendation: **DevAccord — the delivery harness for human–AI teams.**
 Pairing: **DevAccord establishes the working agreement. DevDash shows the evidence.**
 Alternative when project intent is the emphasis: DevCharter.
 
@@ -28,7 +31,7 @@ check exact/similar marketplace identifiers, package registries, repository name
 domains and relevant trademarks; search silence is not clearance. No domain purchase,
 reservation or legal conclusion is part of this task.
 
-## Rebrand work package, only after selection
+## Rebrand acceptance and release work package
 
 1. Record chosen name, purpose, target audience and compatibility policy in an ADR.
 2. Inventory root/vendor/marketplace manifests, commands, skill references, setup docs,
@@ -44,5 +47,5 @@ reservation or legal conclusion is part of this task.
    changing the name is neither a benchmark treatment nor evidence of improved delivery.
 
 Rebranding does not rename DevDash, alter its architecture or change the plugin's
-licence. No manifests, remote URLs, installed skills or marketplace listings change
-on this planning branch.
+licence. Source manifests and documentation change on this branch. Installed skills and
+external marketplace listings have not been migrated.

@@ -1,5 +1,14 @@
 # Delivery status
 
+## Coordination adoption planning
+
+The local `codex/squadroom-adoption-plan` branch prepares a
+[Squadroom-informed scope](planning/SQUADROOM-ADOPTION.md) and preserves the separate
+[EGM paired review protocol](evaluation/egm-review/PLAN.md). Both are plans; no runtime,
+new experiment, measured benefit or installation is delivered. The
+[naming shortlist](planning/PLUGIN-NAMING.md) is a proposal, not a rename.
+
+
 **As of:** 16 October 2026. **Owner:** harness maintainer.
 
 ## Delivery record

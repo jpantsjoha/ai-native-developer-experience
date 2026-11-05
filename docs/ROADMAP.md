@@ -1,5 +1,15 @@
 # Delivery roadmap
 
+## Proposed experiment under workflow-value outcome 3
+
+[Coordination pilot](planning/SQUADROOM-ADOPTION.md): capability/reuse decision →
+contract fixtures → durable handoffs and integration controls → paired Phoenix proof →
+optional read-only DevDash view. [EGM review measurement](evaluation/egm-review/PLAN.md)
+remains independently controlled; do not combine treatments. Implementation children
+must be filed and accepted before code. Naming is a separate decision with compatibility
+migration gates. No release sequence is changed by this planning branch.
+
+
 **Owner:** harness maintainer. Order is by accepted outcome, not skill count.
 
 | Order | Outcome / work item | Exit evidence | State |

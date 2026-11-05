@@ -43,10 +43,18 @@ The existing [Agent Plugins Directory listing](https://agent-plugins.directory/j
 is a legacy URL; retain it until the directory confirms its replacement or redirect.
 Do not substitute an assumed `devex-charter` URL.
 
-The requested upstream `claudeplugin` repository has not yet been uniquely identified.
+The installed Claude marketplace README identifies the upstream as
+[Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team).
+The existing page returned HTTP 200 and links to this source repository. This is a
+directory listing; a separate editable registry repository has not been established.
 Its follow-up payload is: display name **DevEx Charter**, plugin slug `devex-charter`,
 unchanged source repository and marketplace identifier, plus the new release version
-once cut. Locate the exact entry and repository before preparing its patch; follow
+once cut. Confirm the directory's supported owner-update process before submitting; follow
 [submission policy](../PLUGIN-SUBMISSION.md) for any external submission.
 No upstream listing, installed global cache or third-party repository has been updated
 by this source change. Old issue titles and release records remain historical evidence.
+
+The locally installed official Claude marketplace README describes a top-level
+`renames` map for slug migration. Treat this as a candidate host-specific mechanism:
+verify current host support and upgrade/rollback behaviour before enabling it here.
+No automatic migration mapping is included in this source candidate.

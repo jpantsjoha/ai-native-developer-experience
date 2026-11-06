@@ -118,6 +118,14 @@ changing candidate or reviewer never erases unresolved findings or spent attempt
 
 ## Outputs
 
+For workflow audits, maturity exits or reconciliation across records, read
+[`references/workflow-audit.md`](references/workflow-audit.md). It defines the
+vision-to-observation thread, evidence levels, test strategy, promotion and value
+feedback. Distinguish declared, implemented, enforced and observed controls.
+Track lane identity/effort, mutation boundary, budget, expected output and acceptance
+command; check actual lane health before reporting progress. A registry entry is
+not proof that a model or reviewer ran.
+
 - Task breakdown: tracks, atomic tasks, dependencies
 - Skill routing: task → skill mapping
 - Parallel execution plan with integration validation step

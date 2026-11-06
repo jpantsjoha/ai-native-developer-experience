@@ -47,6 +47,13 @@ the new name; v0.4.0 and earlier install as `join-the-team`. The repository rema
 `ai-native-developer-experience`. See [migration and upstream tracking](docs/install/rebrand.md)
 before switching an existing installation.
 
+The [September 2026 workflow audit](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md), the
+[executive scorecard](docs/EXECUTIVE-SCORECARD.md) and the
+[adoption outcomes audit](docs/ADOPTION-OUTCOMES-AUDIT-2026-09.md) assess strategic fit,
+delivery and measured impact across real projects. The
+[audit procedure](skills/delivery-orchestrator/references/workflow-audit.md) connects
+objectives, issues, tests, maturity and promotion.
+
 ## Install — two ways to adopt
 
 **By hand** — clone the complete repository to work on this harness. To adopt it in
@@ -426,6 +433,12 @@ That is a gate, not a badge — run it yourself:
 ```bash
 make spec-conformance
 ```
+
+The offline `make planning` gate (part of `make check`) also checks the declared
+delivery documents, stable IDs, lifecycle states, task parents, dependencies,
+supersession, local file links and presence of Done evidence. See the
+[deterministic gate runbook](docs/DETERMINISTIC-GATES.md). Structural PASS does not
+establish semantic correctness or release approval.
 
 The check is standard-library Python, runs offline, and reports as its own CI job. It is
 backed by 51 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that

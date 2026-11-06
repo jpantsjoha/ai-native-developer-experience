@@ -8,6 +8,43 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the plugin
 packaging version (originally `join-the-team`, now DevEx Charter) declared in the harness manifests.
 
+## [Unreleased]
+
+September 2026 workflow audit (HFE-001), integrated 6 November 2026; not yet released.
+
+- Research AutoHarness's learning loop, verify benchmark attribution, reproduce
+  ownership/proposal-transport gaps in isolated fixtures, and describe a bounded
+  learning experiment behind existing gates. No new skills or automatic mutation.
+
+- Audit adoption and delivery traces across five active projects, corroborate public
+  marketplace outcomes, correct installation/version assumptions and prioritise
+  drift, evidence retention and release reconciliation. Confirm delivery value as
+  primary; commercial and marketing objectives remain optional. No new skills.
+
+- Add an executive rubric and candidate-bound initial assessment, separating
+  capability maturity, measured impact and operator experience; no new skills.
+
+- Add `make planning`: offline required-document, ID/state, parent/dependency,
+  supersession, local-link and Done-evidence checks with negative CLI fixtures.
+  Wire it into the existing test/CI path and expand Python/shell syntax checks.
+  No new skills; structural validation does not authenticate review or prove release.
+
+- Compare four additional recent projects and capture review-inclusive WIP, bounded
+  review loops, worktree dependency identity, persisted completion and measured
+  harness-change admission in existing guidance; retain automation as proposed work.
+
+- Explicitly record the adopted Graft context-provider pattern, its optional role,
+  package/hook provenance and source fallback; correct freshness/coherence claims
+  and retain hardening work as an unfiled follow-up.
+
+- Add a source-backed audit of mac-control, FeedEval, exam-prep and this harness;
+  current status and ordered, issue-ready follow-ups keep automation gaps explicit.
+- Extend existing skills and the bootstrap workflow with outcome traceability,
+  evidence levels, task/model/effort routing, council failure semantics, maturity
+  exits, artifact promotion and commercial experiment feedback.
+- Correct per-call cost formula grouping. The audit's review-helper and
+  release-manager edits are superseded by the later 0.4.0 versions on main.
+
 ## [0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0) — 2026-11-06
 
 Source change: PR #35. First release under the DevEx Charter name. This is a pre-1.0
@@ -145,8 +182,8 @@ to stop bad packaging was letting them through.
 
 ### Fixed
 
-- **MCP transport fields were presence-checked, not type-checked.** `{"type":"stdio",
-  "command":null}` and `{"type":"streamable-http","url":null}` both passed: the required-key
+- **MCP transport fields were presence-checked, not type-checked.**
+  `{"type":"stdio", "command":null}` and `{"type":"streamable-http","url":null}` both passed: the required-key
   check saw the key, then `isinstance` guards silently skipped every subsequent check. All
   transport fields are now type-validated — `command`, `url`, `args`, `env`, `headers`, `cwd`.
 - **`cwd` accepted traversal outside the plugin root.** The published schema anchors only the

@@ -1,6 +1,10 @@
 # Release mode contract — issue 27
 
-**Status:** implementation approved by JP, 2026-10-02 (issue 27 proposal).
+**Spec ID:** RMC-001
+
+**Status:** Accepted
+
+**Approval:** implementation approved by JP, 2026-10-02 (issue 27 proposal).
 **Risk:** R2; changes portable guidance and an offline validator, not an adopter's policy.
 **Owner:** harness maintainer. **Scope:** existing skills and operating-model validator.
 

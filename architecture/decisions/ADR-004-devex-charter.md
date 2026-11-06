@@ -1,5 +1,10 @@
 # ADR-004: DevEx Charter identity and staged migration
 
+## Status
+
+Accepted — 2026-11-05
+
+
 Decision owner: JP. Accepted name: **DevEx Charter**. Work item:
 [#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34).
 

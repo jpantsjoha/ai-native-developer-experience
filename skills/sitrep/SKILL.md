@@ -26,7 +26,8 @@ A sitrep is not a diary of activity. It is a compressed, actionable picture of c
    - Any blocking flags, risk register entries, or escalation notes
 
 2. **Classify items** into three buckets:
-   - **Done** — completed and verifiably closed (test passing, ticket closed, deployed)
+   - **Done** — the task's full acceptance and completion contract is evidenced;
+     a passing test, closed ticket or deployment alone is insufficient
    - **Blocked** — work that cannot progress without a specific unresolved dependency (name the blocker precisely)
    - **Next** — the highest-priority items that will be worked next (ordered by priority)
 
@@ -54,6 +55,13 @@ A sitrep is not a diary of activity. It is a compressed, actionable picture of c
 6. **Do not editorialise progress** — "made good progress" is noise. "Delivered X, which unblocks Y" is signal.
 
 ## Outputs
+
+On milestone or release transitions, reconcile the current-fact matrix in
+[`workflow-audit.md`](../delivery-orchestrator/references/workflow-audit.md).
+Keep current status separate from historical receipts. Report maturity dimensions,
+candidate/environment identity and unresolved evidence; never derive readiness from
+issue counts or version labels. Update generated dashboards only through their
+declared generator, and distinguish offline results from live tracker reconciliation.
 
 - A sitrep in the format above
 - Optional: a one-paragraph executive summary for stakeholders who need even less

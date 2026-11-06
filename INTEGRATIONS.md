@@ -34,6 +34,34 @@ pinning into a project profile.
 Listing a plugin is an interoperability note, not an endorsement or a warranty. Each
 project profile names its own providers and fallbacks.
 
+## Graft — adopted context provider
+
+**Recommendation, 2026-09-26:** use [Graft](https://github.com/trailhq/Graft) as an
+optional code-context provider where structural navigation reduces repeated source
+exploration. It complements the harness; it does not replace requirements, tests,
+decision records or independent review. Small/documentation-only tasks may gain
+little from indexing. Keep direct source search/reading as the fallback.
+
+FeedEval's accepted ADR-035 pins `@nanonets/graft` **0.10.1** with a lockfile and
+committed Claude hook/helper/skill wiring; MCP registration remains per developer.
+Exam-prep reuses the root dependency and hook pattern. Its ADR-0065 is still marked
+**proposed**, despite installed wiring: adoption evidence and decision ratification
+must be reported separately. Both installed package versions and local graph files
+were inspected on 26 September; fresh successful queries were not demonstrated here.
+
+The adopted boundary is local structural indexing; `--deep` stays off under those
+project decisions. Resolve the package from the repository root, record the effective
+provider/version, and review hook/configuration changes before installation or
+upgrade. Do not generalise a historical package security review to newer versions.
+Do not copy upstream skill bodies into this plugin. The installed Graft guidance
+may help with navigation, but cannot override this harness's source verification
+or authority rules.
+
+Read [Context-Graph Freshness](docs/CONTEXT-GRAPH-FRESHNESS.md) for wiring and its
+limits, and the [audit addendum](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md#graft-adoption-addendum)
+for provenance and remaining work. No Graft dependency, MCP registration or hook
+is automatically installed by this recommendation.
+
 ## Adjacent plugins — different job, do not cite as companions
 
 These operate near the team-governance space. Study them; do not list them as

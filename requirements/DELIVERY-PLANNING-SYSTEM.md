@@ -2,7 +2,10 @@
 
 **Spec ID:** DPS-001
 
-**Status:** Approved for implementation — Product Owner accepted 2026-07-21
+**Status:** Accepted
+
+Approved for implementation — Product Owner accepted 2026-07-21. Acceptance of
+the specification does not claim that all implementation slices are complete.
 
 **Product Owner:** Jaroslav Pantsjoha (`@jpantsjoha`)
 

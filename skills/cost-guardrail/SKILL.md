@@ -47,7 +47,7 @@ LLM cost is not a finance problem — it is an architecture problem. The design 
 
 4. **Estimate the monthly cost envelope** — for each LLM call:
    ```
-   estimated monthly cost ≈ (input tokens × input price) + (output tokens × output price) × calls/month
+   estimated monthly cost ≈ ((input tokens/call × input price) + (output tokens/call × output price)) × calls/month
    ```
    Use current published rates from your provider. Do not use rates from training data — they change.
 
@@ -62,6 +62,13 @@ LLM cost is not a finance problem — it is an architecture problem. The design 
 7. **Document the cost model** — in the ADR or design doc, record: model tiers chosen, rationale, estimated monthly cost at target scale, and the controls in place.
 
 ## Outputs
+
+For engineering-agent routing, use the task/effort matrix in
+[`council.md`](../pr-reviewer/references/council.md). Declare requested and resolved
+model, reasoning, bounded inputs, timeout, retry ceiling and acceptance test per
+lane. Measure total time/known cost to accepted outcomes including review and rework;
+unknown usage is not zero. Start with the smallest proven capable model, escalating
+on observed failure or ambiguity while preserving the quality and independence floor.
 
 - LLM call inventory: component | model tier | input tokens (est.) | output tokens (est.) | frequency | monthly cost (est.)
 - Unbounded cost vectors flagged with mitigations

@@ -16,6 +16,8 @@ machine; this project workflow maps that contract to the team's roles and work s
 | Current derived status | Repository | `docs/STATUS.md` |
 | Released behaviour | Repository | `CHANGELOG.md` |
 | Checkpoints and exact-candidate evidence | Repository | `docs/operating-model/` |
+| Current user entrypoint and operations | Repository | `<README and runbook paths>` |
+| Commercial hypotheses and experiments | `<repository or product system>` | `<opportunity log or explicit not applicable>` |
 
 ## Lifecycle
 
@@ -68,6 +70,10 @@ resume dispatch.
 
 - Product Owner acceptance evidence: `<field, issue check, or signed record>`
 - Maximum active lanes: `<number>`
+- WIP accounting: `<include review/integration; queued-ready state; blocked-slot policy>`
+- Execution preflight: `<checkout/import/tool identity; no implicit provisioning>`
+- Shared-resource custody: `<browser/port/database owner, serialisation and cleanup>`
+- Review attempt ceiling: `<work-item lineage, replan trigger, retained reset reasons>`
 - Planner / worker / reviewer capabilities and host mapping: `<risk/effort fit and evidence>`
 - Review attempt/time ceiling and escalation owner: `<limit and owner>`
 - Selected skill maintainers and review triggers: `<existing profile routing record>`

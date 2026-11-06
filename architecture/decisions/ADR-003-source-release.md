@@ -1,5 +1,10 @@
 # ADR-003: source-only plugin release
 
+## Status
+
+Accepted — 2026-10-16
+
+
 Date: 16 October 2026. Decision owner and release authority: Jaroslav Pantsjoha.
 Scope: the owner-authorised PR #33 merge and version-tag cut, conditional on passing
 checks and independent review. This records that execution; it grants no standing

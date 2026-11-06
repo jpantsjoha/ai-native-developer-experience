@@ -1,5 +1,16 @@
 # Delivery roadmap
 
+
+## September 2026 workflow audit — integrated 6 November 2026
+
+The HFE-001 audit branch (`feat/harness-workflow-audit-2026-09-26`) is integrated:
+[workflow audit](HARNESS-WORKFLOW-AUDIT-2026-09.md), [executive scorecard](EXECUTIVE-SCORECARD.md),
+[adoption outcomes](ADOPTION-OUTCOMES-AUDIT-2026-09.md), [optimisation review](OPTIMISATION-REVIEW-2026-09.md),
+[AutoHarness comparison](AUTOHARNESS-COMPARISON-2026-09.md) and the offline
+[`make planning` gate](DETERMINISTIC-GATES.md). Its dated findings predate 0.4.0 and 0.5.0;
+reconcile each follow-up against current `main` before filing work. Its review-helper and
+release-manager edits were superseded by later versions.
+
 ## Next priority: Harness delivery benchmark v1
 
 JP accepted this sequence on 5 November 2026. Prove material delivery outcomes before

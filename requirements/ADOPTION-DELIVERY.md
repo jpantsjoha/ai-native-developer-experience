@@ -1,5 +1,9 @@
 # Adoption from installation to delivery
 
+**Spec ID:** ADOPT-001
+
+**Status:** Accepted
+
 Issue: #32. Owner: harness maintainer. Date: 16 October 2026.
 Scope: user-authorised adoption improvements; no release or global configuration writes.
 

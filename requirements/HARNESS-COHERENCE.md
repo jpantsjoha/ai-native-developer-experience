@@ -1,5 +1,9 @@
 # Portable review and delivery coherence
 
+**Spec ID:** HCOH-001
+
+**Status:** Accepted
+
 **Owner:** harness maintainer. **Date:** 2026-10-12. **Risk:** R3 governance guidance.
 **Authority:** operator requested consolidation of the agreed provider-neutral review
 and adoption insights into PR #28, with independent review before merge.

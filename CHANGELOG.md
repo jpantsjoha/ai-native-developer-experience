@@ -8,16 +8,20 @@ does not infer a repository release number from the internal version of one docu
 operating-manual asset; from 0.1.0 the changelog tracks the plugin
 packaging version (originally `join-the-team`, now DevEx Charter) declared in the harness manifests.
 
-## Unreleased
+## [0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0) — 2026-11-06
+
+Source change: PR #35. First release under the DevEx Charter name. This is a pre-1.0
+identifier break: installed `join-the-team` plugins do not update to it automatically.
 
 ### Changed
 
-- Prepare the DevEx Charter source rebrand (`devex-charter`) across portable,
+- Rebrand the plugin as DevEx Charter (`devex-charter`) across portable,
   Claude, Kimi and Gemini manifests, commands, README and installation guidance
   ([#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34)).
   Keep the repository, legacy marketplace identifier and orientation environment
-  variable stable. See [migration](docs/install/rebrand.md); this is not a release
-  or an automatic update of installed plugins or upstream listings.
+  variable stable. Follow the [migration guide](docs/install/rebrand.md); live host
+  migration and upstream directory listings are separate, unverified gates.
+- Plan the paired harness delivery benchmark and coordination pilot; no runtime change.
 
 ## [0.4.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.4.0) — 2026-10-16
 

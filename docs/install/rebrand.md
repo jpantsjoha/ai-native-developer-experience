@@ -1,7 +1,8 @@
 # Migrating to DevEx Charter
 
 Tracking: [#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34).
-This is an **unreleased source candidate**, not an installed global update.
+Released in [v0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0).
+Installed plugins do not update automatically; follow the steps below.
 
 | Surface | Decision |
 | --- | --- |

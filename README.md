@@ -42,10 +42,10 @@ reports conflicting contracts before writing.
 [Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases) ·
 [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 
-This branch prepares the **DevEx Charter** rebrand (formerly **Join the Team**).
-The repository remains `ai-native-developer-experience`; the released v0.4.0 package
-still uses the old name. New commands below apply to this candidate after installation.
-See [migration and upstream tracking](docs/install/rebrand.md) before switching.
+**DevEx Charter** was formerly **Join the Team**. v0.5.0 is the first release under
+the new name; v0.4.0 and earlier install as `join-the-team`. The repository remains
+`ai-native-developer-experience`. See [migration and upstream tracking](docs/install/rebrand.md)
+before switching an existing installation.
 
 ## Install — two ways to adopt
 

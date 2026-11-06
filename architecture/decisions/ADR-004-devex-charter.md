@@ -20,6 +20,9 @@ publication select a new aligned version, at least 0.5.0 for the pre-1.0 identif
 break, and complete the host migration gates in the [guide](../../docs/install/rebrand.md).
 Never publish different identities under the existing v0.4.0 tag.
 
+Status, 6 November 2026: merged in PR #35 and released as v0.5.0. Host migration
+and upstream listing gates remain open.
+
 Acceptance: all manifests agree; active command references use the new slug; README,
 changelog and migration guidance agree; local `make check` and fresh read-only Council
 review pass. Live host upgrades and upstream listing publication are separate gates.

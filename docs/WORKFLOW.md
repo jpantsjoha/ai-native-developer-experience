@@ -126,6 +126,4 @@ opportunity feedback. Use the [council procedure](../skills/pr-reviewer/referenc
 for task/model/effort selection, independent briefs and failure handling. These are
 portable procedures, not a claim of automatic tracker or hosted enforcement.
 
-The [September feedback audit](HARNESS-WORKFLOW-AUDIT-2026-09.md) records the adopter
-evidence behind this slice. [STATUS](STATUS.md) distinguishes its delivery state from
-the further automation ordered in [ROADMAP](ROADMAP.md).
+[STATUS](STATUS.md) records delivery state; [ROADMAP](ROADMAP.md) orders the milestones.

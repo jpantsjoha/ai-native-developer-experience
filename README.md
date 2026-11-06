@@ -47,12 +47,8 @@ the new name; v0.4.0 and earlier install as `join-the-team`. The repository rema
 `ai-native-developer-experience`. See [migration and upstream tracking](docs/install/rebrand.md)
 before switching an existing installation.
 
-The [September 2026 workflow audit](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md), the
-[executive scorecard](docs/EXECUTIVE-SCORECARD.md) and the
-[adoption outcomes audit](docs/ADOPTION-OUTCOMES-AUDIT-2026-09.md) assess strategic fit,
-delivery and measured impact across real projects. The
-[audit procedure](skills/delivery-orchestrator/references/workflow-audit.md) connects
-objectives, issues, tests, maturity and promotion.
+The [audit procedure](skills/delivery-orchestrator/references/workflow-audit.md)
+connects objectives, issues, tests, maturity and promotion.
 
 ## Install — two ways to adopt
 

@@ -64,7 +64,8 @@ contract fixtures → durable handoffs and integration controls → paired Phoen
 optional read-only DevDash view. [EGM review measurement](evaluation/egm-review/PLAN.md)
 remains independently controlled; do not combine treatments. Implementation children
 must be filed and accepted before code. DevEx Charter is the selected name; [#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34)
-tracks source rebranding and [migration gates](install/rebrand.md). No release sequence is changed by this planning branch.
+delivered the rebrand, released as v0.5.0 on 6 November 2026. Open: live host migration
+checks and upstream listing moves, per the [migration gates](install/rebrand.md).
 
 
 **Owner:** harness maintainer. Order is by accepted outcome, not skill count.
@@ -73,6 +74,7 @@ tracks source rebranding and [migration gates](install/rebrand.md). No release s
 | --- | --- | --- | --- |
 | 1 | #32 / PR #33: project/user adoption and golden-thread delivery from intent to live | Fresh consumer journey, preserved existing records, local checks and independent review | Delivery tracked by PR #33 and v0.4.0 |
 | 2 | Publish v0.4.0 and reconcile installation behaviour | Chosen release version, host install/update checks and rollback | Tag/release owns publication state; live host trials remain |
+| 3 | #34 / PR #35: DevEx Charter rebrand, released as v0.5.0 | Aligned manifests, migration guide, local checks and independent review | Released; host migration and listing moves remain |
 | 3 | Demonstrate adopted workflow value | One bounded contributor trial: accepted outcome, friction, rework, effort and limits | Proposed; no savings baseline |
 | 4 | #24: context loading and incremental review findings | Bounded trial, retained finding history, fixed quality floor | Proposed; prioritise observed friction |
 | 5 | #23: decision-record hygiene | Existing-record validation with negative fixtures and owned rollout | Captured; not implemented |

@@ -5,12 +5,12 @@ included only where a change directly adopts or discusses an external pattern.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This project
 does not infer a repository release number from the internal version of one document or
-operating-manual asset; from 0.1.0 the changelog tracks the `join-the-team` plugin
-packaging version declared in the harness manifests.
+operating-manual asset; from 0.1.0 the changelog tracks the plugin
+packaging version (originally `join-the-team`, now DevEx Charter) declared in the harness manifests.
 
 ## [Unreleased]
 
-Branch candidate under HFE-001; not yet a published plugin release.
+September 2026 workflow audit (HFE-001), integrated 6 November 2026; not yet released.
 
 - Research AutoHarness's learning loop, verify benchmark attribution, reproduce
   ownership/proposal-transport gaps in isolated fixtures, and describe a bounded
@@ -42,11 +42,66 @@ Branch candidate under HFE-001; not yet a published plugin release.
 - Extend existing skills and the bootstrap workflow with outcome traceability,
   evidence levels, task/model/effort routing, council failure semantics, maturity
   exits, artifact promotion and commercial experiment feedback.
-- Correct release checklist ordering and distinguish tag protection from main
-  branch protection. Correct per-call cost formula grouping.
-- Fix the local review helper's lost verdict; refuse failed, ambiguous, stale or
-  incomplete review inputs, preserve full candidate receipts and require explicit
-  PR-comment opt-in. Offline regressions use fake providers and GitHub clients.
+- Correct per-call cost formula grouping. The audit's review-helper and
+  release-manager edits are superseded by the later 0.4.0 versions on main.
+
+## [0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0) — 2026-11-06
+
+Source change: PR #35. First release under the DevEx Charter name. This is a pre-1.0
+identifier break: installed `join-the-team` plugins do not update to it automatically.
+
+### Changed
+
+- Rebrand the plugin as DevEx Charter (`devex-charter`) across portable,
+  Claude, Kimi and Gemini manifests, commands, README and installation guidance
+  ([#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34)).
+  Keep the repository, legacy marketplace identifier and orientation environment
+  variable stable. Follow the [migration guide](docs/install/rebrand.md); live host
+  migration and upstream directory listings are separate, unverified gates.
+- Plan the paired harness delivery benchmark and coordination pilot; no runtime change.
+
+## [0.4.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.4.0) — 2026-10-16
+
+Source changes: PRs #28, #31 and #33. Existing project files remain preserved on
+upgrade; reconcile adopted workflows deliberately. No automatic global update.
+
+### Changed
+
+- Maintain the golden thread from evolving requirements and vision through roadmap,
+  GitHub tickets, acceptance checks, independent adversarial review and release links.
+  Add Product Owner, CXO oversight and test-strategy capabilities; reconcile records
+  and safely clean up integrated work. Keep root agent instructions identical and
+  session orientation compact by default (#32). Existing adoption files are preserved.
+
+- Resolve plugin bootstrap, inspection and validation scripts from the installed package
+  while targeting the consumer project. Generated adapters support project/user installs;
+  adoption guidance covers shared planning, tickets, model choice, checks and route to live
+  (#32). Existing project records and explicit authority remain in control.
+
+- Select Luna high for the bounded, independently checked read-only routing pilot,
+  retaining Sol medium as the baseline. Version the policy and receipts as v2; historical
+  medium benchmarks remain unchanged and do not qualify high or establish savings.
+
+- Update the `join-the-team` README listing links to
+  [Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team).
+
+- Add a guarded instruction-based model-routing pilot, Codex discovery adapter,
+  reversible mode and private measurement guidance (#30). Keep portable routing guidance
+  with the skills and generate adopter-specific adapters through bootstrap. No automatic
+  dispatch, telemetry or consumer activation; efficiency gains remain unproven.
+
+- Define provider-neutral independent Council review and bounded loop recovery in the
+  existing skills. Preserve finding history and local subscription authority.
+- Make the optional review helper fail closed with exact input/candidate receipts and
+  an explicit executable-adapter seam. Offline regressions use fake providers only.
+- Clarify conversation-to-requirement acceptance, skill maintenance ownership, early
+  operational handover dependencies and fixed-quality-floor improvement measurement.
+
+- Reconcile CI and release guidance with the project's approved delivery mode (#27),
+  separating authorised builds from artifact-gated promotion. Extend the existing
+  operating-model validator with opt-in release structural preflight, candidate and
+  decision binding, and required local evidence checks. Existing adopters must wire
+  the gate explicitly; structural PASS is not release approval or observed delivery.
 
 ## [0.3.0] — 2026-09-14
 

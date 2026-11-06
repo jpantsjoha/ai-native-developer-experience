@@ -1,12 +1,23 @@
-# CLAUDE.md
+# Shared agent contract
 
-This repo's rules live in **[GEMINI.md](GEMINI.md)** — read it first. It is the always-on harness: design-before-generate, the Adversarial Gate ("how would I break this?"), receipts-not-polish, file standards, and where skills and MCP config live. Those rules apply here unchanged.
+AGENTS.md, CLAUDE.md and GEMINI.md carry the same portable instructions.
 
-## Claude Code specifics
+Before taking delivery work, read `docs/STATUS.md`, then the relevant slice of
+`docs/ROADMAP.md`; inspect open issues, PRs and worktrees and coordinate with the
+active owner before starting a competing lane.
 
-- Skills are the same `.agents/skills/` SKILL.md workflows GEMINI.md points to — reuse them, don't reinvent.
-- Run the quality gates before you claim done: `make lint && make typecheck && make test && make spec-conformance`, then the Adversarial Gate.
-- Packaging is standards-bound: the root `plugin.json` follows [Agent Plugins 1.0.0](https://agent-plugins.org/specification) and `.claude-plugin/` is a declared client projection of it. Change one manifest, change them all — `make spec-conformance` and the drift check will tell you.
-- The deep mechanics live in [DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md) (DX-001).
+Ground changed intent in `docs/VISION.md` and the relevant versioned requirement.
+Use `skills/delivery-orchestrator/SKILL.md` to maintain the golden thread through
+GitHub Issues, acceptance checks, review and release. Load only the role, skill and
+artifact sections needed for the current task; do not preload the whole library.
 
-Borrow the patterns, your mileage may vary.
+For repository changes read `docs/REPOSITORY-CONTRACT.md`. Run `make check` and
+fresh, read-only independent adversarial review of the exact candidate before merge.
+Before delegation read `docs/MODEL-ROUTING.md`. Explicit user authority and project
+controls govern external actions; skill installation grants no authority.
+
+Reconcile affected requirements, decisions, status, roadmap and changelog as work
+changes. After an authorised merge, verify integration and safely clean up only
+this lane's merged branches and clean worktrees. Never overwrite another lane.
+
+Canonical skills live in `skills/`; `.agents/skills/` is a discovery alias.

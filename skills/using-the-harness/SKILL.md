@@ -26,6 +26,23 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 3. **Route before doing.** Check the routing table below. If a skill applies to the
    work, use it. If you are unsure which applies, use `delivery-orchestrator`.
 
+The shared plugin is provider-neutral. Host adapters implement invocation; the project
+profile selects authorised reviewers, subscriptions and budgets. Independent Council
+review is a capability, not a fixed roster. See the [review contract](../pr-reviewer/references/independent-council.md).
+
+## Installation and project adoption
+
+A user-level installation makes the skills available across that user’s projects; a
+project installation shares a selected baseline with collaborators. Neither creates
+project authority. Use the host’s selected skill location, including bundled references
+and scripts, without assuming a copied `.agents/skills/` directory.
+
+For a new adoption, route to `operating-model-bootstrap` from the consumer project.
+Ground its project-owned vision, workflow and profile: ticket system, owners, model
+selection, executable checks, review, release and observation. Existing records and
+explicit operator authority take precedence. Load detailed skills when needed; an
+unadopted project needs orientation and an adoption path, not the full delivery process.
+
 ## Core invariants — not negotiable
 
 - **Classify risk before confirming authority.** Approval is scoped to actual risk.
@@ -47,6 +64,9 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 | The machine is slow, tests or browser skills left processes behind | `system-performance-guardrail` |
 | Is everything live, any errors this week, the weekly SRE checkup of a GCP project | `cloud-checkup` |
 | Is the page fast enough, Core Web Vitals, why is this route slow | `frontend-performance-audit` |
+| Vision, requirements, user journeys and product acceptance | `product-owner` |
+| Material strategic, cost/risk or operating ownership decision | `cxo-oversight` |
+| Acceptance coverage and executable user-path checks | `test-strategy` |
 | Significant technical decision or ADR | `the-architect` |
 | New feature, epic, or change — plan before code | `spec-first-delivery` |
 | High-stakes decision, or before claiming done | `adversarial-gate` |

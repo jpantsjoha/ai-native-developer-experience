@@ -1,5 +1,9 @@
 # Install — Kimi Code
 
+The renamed package is an unreleased source candidate. For existing installations
+and release prerequisites, read [the migration guide](rebrand.md).
+
+
 Install directly from the repository:
 
 ```text
@@ -18,9 +22,9 @@ What gets wired (via `.kimi-plugin/plugin.json`):
 
 ## Verify
 
-1. `/plugins` should list `join-the-team` as installed.
+1. `/plugins` should list `devex-charter` as installed.
 2. A fresh session should show the harness orientation; ask "which skills are
-   available?" to see the 22 skills.
+   available?" to see the 25 skills.
 
 ## Standards
 

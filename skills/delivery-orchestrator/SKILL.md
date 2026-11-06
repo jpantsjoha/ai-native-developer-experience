@@ -30,7 +30,7 @@ question. Full doctrine, including the issue template and the audit: `docs/DELIV
 | **GitHub issues** | *What exactly is this work, and how will we know it is done?* | Before the first line of code |
 | **`STATUS.md`** | *What is happening now, and what waits on whom?* | One entry per working session |
 | **`ROADMAP.md`** | *What are we building toward, in what order?* | When a milestone or the plan changes |
-| **`CHANGELOG.md`** | *What shipped — proven, tested?* | When user-visible work merges |
+| **`CHANGELOG.md`** | *What merged or released, with checks and version links?* | When user-visible work merges |
 
 The four rules that keep them from drifting:
 
@@ -44,6 +44,18 @@ The four rules that keep them from drifting:
 4. **`gated` means a test proves a user can reach it; `shipped` means a person used it.** These
    two are the ones routinely overclaimed. Code existing is `built`, and deployment is not
    shipping.
+
+## Golden-thread ownership
+
+For intake, dispatch, scope changes and completion, follow the golden-thread section
+of the adopting project's `DELIVERY-WORKFLOW.md`, located by its profile. Without an
+adopted workflow, start with `operating-model-bootstrap` in the consumer project.
+Use the [workflow template](../operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md)
+as a checklist while mapping existing records; unresolved placeholders are project
+questions, not executable paths or permission to invent defaults.
+Product Owner maintains accepted intent and priorities; CXO provides material oversight;
+test strategy corroborates coverage. The orchestrator actions and reconciles the tickets,
+dependencies, status and delivery links. Check in-flight owners before selecting roadmap work.
 
 ## Procedure
 
@@ -69,6 +81,9 @@ The four rules that keep them from drifting:
 | Task type | Route to skill |
 |---|---|
 | New feature / epic planning | `spec-first-delivery` |
+| Vision, requirements, user journeys and product acceptance | `product-owner` |
+| Material strategic, cost/risk or operating ownership decision | `cxo-oversight` |
+| Acceptance coverage and executable user-path checks | `test-strategy` |
 | Architecture decision or trade-off | `the-architect` |
 | High-stakes design review | `adversarial-gate` |
 | Pre-deployment go/no-go | `release-readiness` |
@@ -91,6 +106,16 @@ The four rules that keep them from drifting:
 | Frontend performance measurement: Core Web Vitals, traces, Lighthouse, heap growth | `frontend-performance-audit` |
 | Routing this list | `delivery-orchestrator` (you are here) |
 
+## Adoption and review recovery
+
+Use [the adoption guide](../../docs/HARNESS-ADOPTION.md) to reconcile conversational
+requirements, skill maintenance ownership, early operational dependencies and measured
+improvement. Preserve one integration owner and include review/integration in WIP.
+
+Before consequential review declare the work-item attempt/time ceiling. On repeated
+findings or exhaustion, follow [Council loop recovery](../pr-reviewer/references/independent-council.md);
+changing candidate or reviewer never erases unresolved findings or spent attempts.
+
 ## Outputs
 
 For workflow audits, maturity exits or reconciliation across records, read
@@ -112,3 +137,12 @@ not proof that a model or reviewer ran.
 - **Parallel agents must not share mutable state without a coordination strategy.** If two tracks write to the same file or schema, they are not independent. Use worktrees or serialise them.
 - **Integration validation is not optional.** Parallel work that skips the post-merge regression check is not complete.
 - **Keep agent context lean.** Each agent gets its task spec and relevant ADRs, not the entire repo.
+
+## Model choice at the delegation boundary
+
+Use the adopting project's model-routing policy before dispatch. Record requested
+model/effort, allowed paths, Definition of Done and independent checks. Prefer
+deterministic tools where sufficient; do not equate a smaller task with a qualified
+cheaper model. Track failed attempts, escalation and parent integration costs. Preserve
+existing risk floors and stop rules. The [routing guide](../cost-guardrail/references/model-routing.md)
+shows a reversible approach; it does not automatically enable routing in consumers.

@@ -23,8 +23,15 @@ The harness runs in this order: spec → plan → tasks → code. Skipping the s
 3. **Author or reference the HLD** — a high-level design covering: components affected, data flows, integration points, and failure modes. Diagrams preferred (C4 or sequence).
 4. **Create or update ADRs** — one ADR per significant technical decision. Format: Context → Decision → Consequences (trade-offs). Number sequentially (`ADR-NNN`).
 5. **Document constraints up front** — security requirements, data residency, budget ceiling, compliance scope, team skill set. Constraints missed here surface as blockers late.
-6. **Validate spec completeness** — the spec is done when: acceptance criteria are testable, the failure mode is named, rollback is considered, and cost impact is estimated.
-7. **Only then**: generate the implementation plan and tasks. Hand the spec (not a prompt) to the agent.
+6. **Plan applicable service transition** — identify receiving owner, support, monitoring,
+   runbooks, recovery, knowledge transfer and user acceptance. Schedule their dependencies
+   before the releases they enable; document proportionate non-applicability.
+7. **Validate spec completeness** — the spec is done when: acceptance criteria are testable, the failure mode is named, rollback is considered, and cost impact is estimated.
+8. **Only then**: generate the implementation plan and tasks. Hand the spec (not a prompt) to the agent.
+
+Use [adoption and evidence guidance](../../docs/HARNESS-ADOPTION.md) when requirements
+come from conversations or when operational ownership is unclear. A discussion remains
+a proposal until its accountable owner accepts it within scope.
 
 ## Outputs
 

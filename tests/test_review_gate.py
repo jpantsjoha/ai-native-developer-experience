@@ -47,7 +47,20 @@ values = {
     'stderr': 'No verdict here\n',
     'long': 'full output ' * 10000 + '\nVERDICT: PASS\n',
 }
-sys.stdout.write(values.get(mode, 'Checked the full diff.\nVERDICT: PASS\n'))
+answer = values.get(mode, 'Checked the full diff. Candidate binding, failed provider exits, input integrity and local receipt semantics match the stated contract; no blocking correctness or security finding remains.\nVERDICT: PASS\n')
+if pathlib.Path(sys.argv[0]).name == 'claude':
+    model = sys.argv[sys.argv.index('--model') + 1]
+    envelope = {'type': 'result', 'subtype': 'success', 'is_error': False,
+                'result': answer, 'modelUsage': {model: {'inputTokens': 12}}}
+    if mode == 'api_error': envelope.update(is_error=True, result='Session limit; VERDICT: PASS')
+    if mode == 'wrong_model': envelope['modelUsage'] = {'wrong-model': {}}
+    if mode == 'no_model': envelope['modelUsage'] = {}
+    if mode == 'one_line': envelope['result'] = 'VERDICT: PASS'
+    if mode == 'bad_json':
+        sys.stdout.write('{'); sys.exit(0)
+    sys.stdout.write(json.dumps(envelope))
+else:
+    sys.stdout.write(answer)
 if mode == 'stderr':
     sys.stderr.write('VERDICT: PASS\n')
 sys.exit(3 if mode == 'fail' else 0)
@@ -66,7 +79,10 @@ if args[1] == 'view':
     print(json.dumps({'baseRefOid': 'a' * 40, 'headRefOid': ('c' if changed else 'b') * 40,
                       'commits': [{'oid': 'b' * 40, 'messageHeadline': 'change'}]}))
 elif args[1] == 'diff':
-    print('diff --git a/a b/a\n--- a/a\n+++ b/a\n@@ -1 +1 @@\n-old\n+new')
+    if os.environ.get('GH_BINARY'):
+        print('diff --git a/payload.bin b/payload.bin\nBinary files a/payload.bin and b/payload.bin differ')
+    else:
+        print('diff --git a/a b/a\n--- a/a\n+++ b/a\n@@ -1 +1 @@\n-old\n+new')
 elif args[1] == 'comment':
     pathlib.Path(os.environ['COMMENT']).write_text(pathlib.Path(args[-1]).read_text())
 else:
@@ -98,14 +114,14 @@ class ReviewGateTests(unittest.TestCase):
                     if not key.startswith(('REVIEW_GATE', 'GIT_'))}
         self.env.update(PATH=f'{self.bin}:/usr/bin:/bin',
                         GIT_CONFIG_GLOBAL='/dev/null', GIT_CONFIG_NOSYSTEM='1',
-                        REAL_GIT=REAL_GIT, REVIEW_GATE_LANE='agy',
+                        REAL_GIT=REAL_GIT, REVIEW_GATE_LANE='agy', REVIEW_GATE_MODEL='fixture-model',
                         LANE_LOG=str(self.root / 'lane.json'), LANE_PID=str(self.root / 'lane.pid'),
                         LANE_RELEASE=str(self.root / 'lane.release'),
                         GH_LOG=str(self.root / 'gh.log'),
                         PR_CHANGED=str(self.root / 'pr.changed'), COMMENT=str(self.root / 'comment'))
         (self.bin / 'python3').symlink_to(sys.executable)
         for name, body in [('agy', FAKE_LANE), ('gemini', FAKE_LANE),
-                           ('gh', FAKE_GH), ('git', FAKE_GIT)]:
+                           ('claude', FAKE_LANE), ('gh', FAKE_GH), ('git', FAKE_GIT)]:
             path = self.bin / name
             path.write_text(f'#!{sys.executable}\n' + body)
             path.chmod(0o755)
@@ -148,6 +164,34 @@ class ReviewGateTests(unittest.TestCase):
         self.assertEqual(len(receipt['identity']['diff_sha256']), 64)
         self.assertTrue((path.parent / 'diff').read_bytes())
         self.assertIn(b'VERDICT: PASS', (path.parent / 'stdout').read_bytes())
+
+    def test_explicit_adapter_receives_complete_stdin_and_no_shell_arguments(self):
+        adapter = self.root / 'review adapter'
+        adapter.write_text(f'#!{sys.executable}\n' +
+                          'import os, pathlib, sys\n' +
+                          "pathlib.Path(os.environ['LANE_LOG']).write_bytes(sys.stdin.buffer.read())\n" +
+                          "assert len(sys.argv) == 1\n" +
+                          "assert os.environ['REVIEW_GATE_MODEL'] == 'fixture-model'\n" +
+                          "print('Reviewed the complete supplied candidate and its boundaries. "
+                          "The input contains the full change, and no correctness, security or "
+                          "evidence conditions remain within this limited review scope.')\n" +
+                          "print('VERDICT: PASS')\n")
+        adapter.chmod(0o755)
+        result = self.gate(REVIEW_GATE_LANE='adapter', REVIEW_GATE_ADAPTER=str(adapter))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        path, = self.records()
+        self.assertEqual(Path(self.env['LANE_LOG']).read_bytes(),
+                         (path.parent / 'prompt').read_bytes())
+        receipt = json.loads(path.read_text())
+        self.assertEqual(receipt['lane_kind'], 'adapter')
+        self.assertNotIn('resolved_model', receipt)
+
+    def test_missing_or_relative_adapter_refuses_without_fallback(self):
+        for adapter in ('', 'agy', str(self.root / 'absent')):
+            with self.subTest(adapter=adapter):
+                result = self.gate(REVIEW_GATE_LANE='adapter', REVIEW_GATE_ADAPTER=adapter)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse(Path(self.env['LANE_LOG']).exists())
 
     def test_all_nonapprovals_refuse(self):
         for mode in ('concerns', 'block', 'missing', 'multiple', 'duplicate', 'malformed',
@@ -231,6 +275,13 @@ class ReviewGateTests(unittest.TestCase):
         identity = json.loads(path.read_text())['identity']
         self.assertEqual(identity['base'], 'a' * 40)
         self.assertEqual(identity['head'], 'b' * 40)
+
+    def test_pr_binary_omission_refuses_before_review(self):
+        result = self.gate('--pr', '123', GH_BINARY='1')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('omits binary content', result.stderr)
+        self.assertFalse(Path(self.env['LANE_LOG']).exists())
+        self.assertFalse(Path(self.env['COMMENT']).exists())
 
     def test_explicit_comment_posts_only_after_pass(self):
         self.assertEqual(self.gate('--pr', '123', '--comment').returncode, 0)
@@ -356,6 +407,30 @@ class ReviewGateTests(unittest.TestCase):
         for settings in ({'REVIEW_GATE_TIMEOUT': '0'}, {'REVIEW_GATE_TIMEOUT': 'bad'},
                          {'REVIEW_GATE_LANE': 'made-up'}, {'REVIEW_GATE': 'nonsense'}):
             self.assertNotEqual(self.gate(**settings).returncode, 0)
+
+    def test_claude_transport_is_explicit_readonly_and_identity_bound(self):
+        result = self.gate(REVIEW_GATE_LANE='claude', REVIEW_GATE_MODEL='claude-opus-5-5')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        argv = json.loads(Path(self.env['LANE_LOG']).read_text())
+        for flag in ('--safe-mode', '--strict-mcp-config', '--no-session-persistence'):
+            self.assertIn(flag, argv)
+        self.assertEqual(argv[argv.index('--tools') + 1], '')
+        self.assertEqual(argv[argv.index('--permission-mode') + 1], 'dontAsk')
+        self.assertNotIn('--fallback-model', argv)
+        path, = self.records()
+        self.assertEqual(json.loads(path.read_text())['resolved_model'], 'claude-opus-5-5')
+
+    def test_claude_errors_and_model_substitution_never_approve(self):
+        for mode in ('api_error', 'wrong_model', 'no_model', 'one_line', 'bad_json', 'fail'):
+            with self.subTest(mode=mode):
+                result = self.gate(REVIEW_GATE_LANE='claude', FAKE_MODE=mode)
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+
+    def test_configuration_required_even_when_providers_exist(self):
+        for settings in ({'REVIEW_GATE_LANE': ''}, {'REVIEW_GATE_MODEL': ''}):
+            with self.subTest(settings=settings):
+                self.assertNotEqual(self.gate(**settings).returncode, 0)
+                self.assertFalse(Path(self.env['LANE_LOG']).exists())
 
 
 if __name__ == '__main__':

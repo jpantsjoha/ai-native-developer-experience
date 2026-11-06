@@ -5,11 +5,12 @@
 # 1. Markdown lint — mirrors the CI "Markdown Lint" job (.github/workflows/dx-validation.yml),
 # which runs markdownlint-cli2 with the repo's .markdownlint.json config.
 # Lints only the markdown files staged for this commit, so it stays fast.
-# 2. Review gate (opt-in) — scripts/review-gate.sh asks a different model (Gemini 3.8 flash
-#    high via the agy or gemini CLI) to review the staged diff. Off by default: teams work
-#    on different machines and not all carry the CLI or its credential. Enable per commit
-#    with REVIEW_GATE=async|block, or per clone with `git config review.gate async|block`;
-#    on demand at any time via `scripts/review-gate.sh --staged | --pr N` (see pr-reviewer).
+# 2. Review gate (opt-in) — scripts/review-gate.sh uses the explicitly configured
+#    REVIEW_GATE_LANE and REVIEW_GATE_MODEL. No automatic provider fallback.
+#    Off by default; enable with REVIEW_GATE=async|block or git config review.gate.
+#    Async retains advisory history only. Blocking mode requires a complete current
+#    PASS; unavailable, failed or conditional review never approves.
+#    See skills/pr-reviewer/SKILL.md for the fresh-context Claude/Council adapter.
 #
 # This hook is version-controlled under .githooks/ so it travels with the repo.
 # To activate it after cloning, run once:
@@ -56,7 +57,7 @@ fi
 echo "pre-commit: markdown lint passed."
 fi
 
-# ── Independent review gate (a different model reviews the staged diff) ─────
+# ── Independent review gate (a fresh context reviews the staged diff) ─────
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 GATE="${REVIEW_GATE:-$(git config --get review.gate 2>/dev/null || echo off)}"
 if [ "$GATE" != off ] && [ -x "$REPO_ROOT/scripts/review-gate.sh" ]; then

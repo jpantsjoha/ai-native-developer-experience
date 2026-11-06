@@ -1,72 +1,102 @@
-# Status
+# Delivery status
 
-**As of:** 2026-09-26 · **Owner:** jpantsjoha
 
-## Current work
+## September 2026 workflow audit — integrated 6 November 2026
 
-HFE-001 is a local branch candidate on `feat/harness-workflow-audit-2026-09-26`, based on
-`164946c3337e630256ff7a1f258e2c18b61aaac2`. Four-project source audit is complete.
-Portable workflow/council guidance and local review-helper correction are this
-slice. DDG-001 now adds an offline structural delivery-record gate; semantic
-reconciliation and authenticated remote review enforcement remain follow-up work.
-The branch has not been merged, tagged, installed or released.
+The HFE-001 audit branch (`feat/harness-workflow-audit-2026-09-26`) is integrated:
+[workflow audit](HARNESS-WORKFLOW-AUDIT-2026-09.md), [executive scorecard](EXECUTIVE-SCORECARD.md),
+[adoption outcomes](ADOPTION-OUTCOMES-AUDIT-2026-09.md), [optimisation review](OPTIMISATION-REVIEW-2026-09.md),
+[AutoHarness comparison](AUTOHARNESS-COMPARISON-2026-09.md) and the offline
+[`make planning` gate](DETERMINISTIC-GATES.md). Its dated findings predate 0.4.0 and 0.5.0;
+reconcile each follow-up against current `main` before filing work. Its review-helper and
+release-manager edits were superseded by later versions.
 
-Baseline `make check`: 79 tests passed; lint, operating-model and packaging gates
-passed. Exact candidate results and review are retained in the adjacent
-`ai-native-developer-experience-audit-evidence/` directory at handoff, not inferred
-from that baseline. The evidence is local task provenance, not an installed plugin
-asset or authenticated remote attestation. Current hosted main has two required checks and zero required
-approvals; no remote policy was changed.
+## Dedicated-session handoff — 5 November 2026
 
-## Maturity and next action
+**Next work:** Harness delivery benchmark v1, accepted by JP; scope and priority order
+are in [ROADMAP](ROADMAP.md#next-priority-harness-delivery-benchmark-v1). Start with GCP
+exam prep. Implementation and experiments have not started; no measured improvement
+or global promotion is claimed.
 
-Plugin release baseline is 0.3.0. Planning templates and core gates exist; full
-DPS-001 reconciliation is not implemented. This slice improves local procedure and
-review handling but does not establish production promotion readiness for adopters.
+**Update, 6 November 2026:** the rebrand and planning commits merged to `main` in
+[PR #35](https://github.com/jpantsjoha/ai-native-developer-experience/pull/35)
+(`401b735`), closing #34, and were released as
+[v0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0).
+Main's two Actions-only required checks were removed on JP's instruction (Actions are
+retired); local `make check` plus a fresh independent review gate merges. Next owner:
+create the benchmark branch from `main`.
+Avoid the old iCloud-backed release-mode checkout, which previously stalled Git.
 
-Delivery remains conditional on the handoff receipt's successful convergence and
-independent verdict. Next delivery decision is whether to submit/merge and release
-the reviewed branch. Follow-up ordering and unfiled task contracts are in
-[ROADMAP](ROADMAP.md); findings are in the
-[workflow audit](HARNESS-WORKFLOW-AUDIT-2026-09.md).
+### Verified prerequisites and limits
 
-The [follow-up optimisation review](OPTIMISATION-REVIEW-2026-09.md) covers four additional
-recently updated projects: PersonalTrader, SentinelTrader, browser-harness and Riter.
-It adds source-backed recommendations and focused guidance; Riter's isolated stub-council
-self-test passed 56/56. Other adopter mechanisms were source-inspected, not rerun.
-New preflight, WIP, semantic reconciliation and specialist-review automation remains proposed.
-This does not establish a measured optimum or adopter production readiness.
+- Local Arize Phoenix 20.19.0 was checked on 5 November with `evalops status --json`:
+  health, database readiness, authentication and single-process checks passed. UI:
+  <http://127.0.0.1:6006>. Recheck at session start; this is a dated health receipt,
+  not proof of experiment quality or future availability.
+- Existing EvalOps supports dataset pin/push, task experiments, paired comparisons,
+  export and live verification. Load the global `evalops` skill for the supported flow.
+- The EGM plan and pinned review guides exist under `docs/evaluation/egm-review/`;
+  coordination scope exists under `docs/planning/`. Neither proves improved delivery.
+- This branch has no delivered whole-task replay runner, frozen historical task corpus,
+  independently labelled golden set or verified end-to-end comparative report.
+- Rebrand source passed 129 local tests, lint, packaging/conformance checks and fresh
+  Astra review; the upstream documentation delta passed fresh Sol review and lint.
+  Private receipts: `/Users/jp/local/harness-research/devex-charter-rebrand/`. These
+  establish source validation, not live host migration or harness effectiveness.
 
-DDG-001 implements required-document/inventory checks, IDs/states, task parents,
-dependency/supersession graphs, local file links and nonempty Done evidence. Negative
-fixtures exercise the CLI and plant an invalid state through `make planning`.
-`make test` invokes this gate in both local convergence and the existing CI definition.
-Python/shell syntax coverage is expanded. No skills were added. Exact results and
-independent verdict are retained in `delivery-gates-handoff.json` beside the earlier
-audit receipts; no remote CI execution or protection enforcement is inferred.
+### First actions for the new session
 
-## Operator decisions
+1. Read this handoff, ROADMAP and applicable repository/project contracts. Inspect live
+   worktrees/issues/PRs and establish one owner; file the benchmark execution issue
+   with requirements, scope, acceptance criteria and explicit budget before code.
+2. Recheck Phoenix/EvalOps and inspect available host launch/configuration controls.
+   Establish whether old/new instruction packets can be separated from global policy.
+   If not, document the limitation before starting a causal experiment.
+3. Inspect GCP exam prep history and propose three bounded tasks with reconstructable
+   pre-change states, clear deliverables and independent acceptance checks. Withhold
+   completed solutions from task agents; do not mutate the active project checkout.
+4. Freeze the feasibility manifest and build the smallest runner/evaluator adapter;
+   locally test failure accounting, missing/duplicate runs and evidence linkage, then
+   obtain fresh read-only Council review before running the pilot.
+5. Export/verify the pilot and report feasibility and observed variation. Only then
+   freeze the larger held-out comparison and its material-improvement decision rule.
 
-The [AutoHarness research](AUTOHARNESS-COMPARISON-2026-09.md) compares automatic
-skill maintenance with governed outcome delivery. Source inspection and isolated
-probes support borrowing observable proposals and provenance, with promotion behind
-existing tests/review. No plugin installation or learning automation was enabled.
+No benchmark is running in the background. This session records the handoff only.
 
-The [five-project adoption audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) now adds
-delivery traces for Cert Prep, FeedEval, SentinelTrader, Riter and Proofly. Four have
-explicit harness lineage; Proofly's package attribution remains operator-attested.
-Public marketplace evidence strengthens demonstrated adoption; current policy,
-artifact retention and UAT reconciliation gaps remain. Primary success is proven
-delivery value; marketing/commercial outcomes are optional. No adopter was changed.
-Claude's inspected global installation is 0.2.3; the Codex cache is labelled 0.3.0.
+## Coordination adoption planning
 
-An [executive scorecard](EXECUTIVE-SCORECARD.md) separates capability maturity,
-demonstrated impact and JP's experience. Its baseline assesses `e379580`: local
-engineering assurance is strongest; lifecycle coherence/enforcement remain incomplete;
-economic/commercial/community impact is unmeasured. It is not a score of installed 0.3.0.
+The local `codex/squadroom-adoption-plan` branch prepares a
+[Squadroom-informed scope](planning/SQUADROOM-ADOPTION.md) and preserves the separate
+[EGM paired review protocol](evaluation/egm-review/PLAN.md). Both are plans; no runtime,
+new experiment, measured benefit or installation is delivered. The
+[naming decision](planning/PLUGIN-NAMING.md) now selects DevEx Charter.
 
-| Decision | Recommendation | Reversibility |
-| --- | --- | --- |
-| Merge and release this slice | Review the completed branch; choose plugin version/release separately | Branch edits reversible; published tags/releases require explicit handling |
-| Remote issue/milestone and protection changes | Reconcile #23/#24 and approve trusted review design before enforcement changes | Tracker edits reversible; enforcement may block delivery |
-| Adopter retrofit | Separate scoped branches for each audit finding | Keep each adopter's existing release and runtime untouched until its own gates pass |
+## DevEx Charter source rebrand
+
+[#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34) owns
+the source rename: manifests, commands, README, changelog and migration guidance.
+Merged in PR #35 and released as v0.5.0 on 6 November 2026. Live host migration and
+upstream listing updates remain separate gates; installed plugins are unchanged.
+
+
+**Earlier release context (16 October 2026). Owner:** harness maintainer.
+
+## Delivery record
+
+[#32](https://github.com/jpantsjoha/ai-native-developer-experience/issues/32) and
+[PR #33](https://github.com/jpantsjoha/ai-native-developer-experience/pull/33) own the
+adoption/golden-thread delivery and exact-candidate checks. Coordinate with that lane
+while the PR is open; its live merged state is authoritative.
+[Acceptance](../requirements/ADOPTION-DELIVERY.md) covers portable installation,
+lean context, product/CXO/test roles, requirement reconciliation and safe cleanup.
+
+The latest release is [v0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0) (DevEx Charter); v0.4.0 was the last `join-the-team` release.
+The tag/release record owns publication state; a version in a manifest alone is not
+publication. See the [source-release decision](../architecture/decisions/ADR-003-source-release.md).
+Merged source, a published tag, updated installations and observed use remain distinct.
+
+## Remaining work
+
+Run the measurement-first sequence above before claiming delivery improvement. Live host installation/update coverage and enterprise effectiveness remain
+unproven; local fixtures establish package paths and preservation, not every host UI.
+The broader DPS planning validator remains open. [ROADMAP](ROADMAP.md) owns order.

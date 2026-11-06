@@ -4,7 +4,9 @@
 # Usage: --staged | --range BASE..HEAD | --pr NUMBER [--comment] | --last
 # --mode block (default) requires one exact final VERDICT: PASS from a successful lane.
 # --mode async is advisory only. --last displays advisory history, never approval.
-# Env: REVIEW_GATE=off|block|async, REVIEW_GATE_LANE=agy|gemini, REVIEW_GATE_MODEL,
+# Env: REVIEW_GATE=off|block|async, REVIEW_GATE_LANE=adapter|claude|agy|gemini and REVIEW_GATE_MODEL are REQUIRED,
+# REVIEW_GATE_ADAPTER is an absolute executable path for lane=adapter; receives prompt on stdin,
+# REVIEW_GATE_EFFORT=low|medium|high|xhigh|max (Claude; default high),
 # REVIEW_GATE_TIMEOUT (seconds, default 600), REVIEW_GATE_MAXBYTES (<=64000),
 # REVIEW_GATE_MAXLINES (default 4000). Oversized input is refused, never truncated.
 exec python3 - "$0" "$@" <<'PY'
@@ -106,6 +108,8 @@ def acquire(kind, target):
                    for oid in (base, head)):
             raise Refusal('PR base/head identity is missing or malformed')
         diff = command(['gh', 'pr', 'diff', target, '--color', 'never'])
+        if re.search(rb'^Binary files .+ differ\r?$', diff, flags=re.M):
+            raise Refusal('PR diff omits binary content; obtain a complete candidate-bound review')
         commits = json.dumps(data['commits'], sort_keys=True).encode()
         identity = {'base': base, 'head': head}
     identity.update(kind=kind, target=target, diff_sha256=digest(diff),
@@ -174,6 +178,8 @@ try:
         kind, target = identity['kind'], identity['target']
         diff, commits = (run / 'diff').read_bytes(), (run / 'commits').read_bytes()
         model, lane, timeout = saved['model'], saved['lane'], saved['timeout']
+        selected = saved['lane_kind']
+        effort = saved['effort']
         prompt = (run / 'prompt').read_bytes()
         if (digest(diff) != identity['diff_sha256']
                 or digest(commits) != identity['commits_sha256']
@@ -193,11 +199,20 @@ try:
         timeout = number('REVIEW_GATE_TIMEOUT', 600, 3600)
         if len(diff.splitlines()) > maxlines:
             raise Refusal('diff exceeds line limit; split the change')
-        model = os.environ.get('REVIEW_GATE_MODEL', 'gemini-3.8-flash-high')
-        selected = os.environ.get('REVIEW_GATE_LANE')
-        if selected and selected not in ('agy', 'gemini'):
-            raise Refusal('unsupported review lane')
-        lane = shutil.which(selected) if selected else (shutil.which('agy') or shutil.which('gemini'))
+        model = os.environ.get('REVIEW_GATE_MODEL', '').strip()
+        selected = os.environ.get('REVIEW_GATE_LANE', '').strip()
+        if selected not in ('adapter', 'claude', 'agy', 'gemini') or not model:
+            raise Refusal('explicit supported REVIEW_GATE_LANE and REVIEW_GATE_MODEL are required')
+        effort = os.environ.get('REVIEW_GATE_EFFORT', 'high')
+        if effort not in ('low', 'medium', 'high', 'xhigh', 'max'):
+            raise Refusal('unsupported REVIEW_GATE_EFFORT')
+        if selected == 'adapter':
+            adapter = Path(os.environ.get('REVIEW_GATE_ADAPTER', ''))
+            if not adapter.is_absolute() or not adapter.is_file() or not os.access(adapter, os.X_OK):
+                raise Refusal('REVIEW_GATE_ADAPTER must be an absolute executable file')
+            lane = str(adapter)
+        else:
+            lane = shutil.which(selected)
         if not lane:
             raise Refusal('no available review lane')
         prompt = (b'Independently review this complete candidate adversarially: correctness, '
@@ -211,7 +226,8 @@ try:
                   + commits + b'\n## Full diff\n' + diff)
         if len(prompt) > maxbytes or b'\0' in prompt:
             raise Refusal('complete prompt exceeds argument byte limit or contains NUL; split the change')
-        saved = {'identity': identity, 'model': model, 'lane': lane, 'timeout': timeout,
+        saved = {'identity': identity, 'model': model, 'lane': lane, 'lane_kind': selected,
+                 'timeout': timeout, 'effort': effort,
                  'prompt_sha256': digest(prompt), 'advisory': args.mode == 'async'}
         saved_bytes = json.dumps(saved, indent=2, sort_keys=True).encode()
         for filename, content in [('input.json', saved_bytes), ('diff', diff),
@@ -224,15 +240,24 @@ try:
                              stdin=subprocess.DEVNULL, stdout=log, stderr=log, start_new_session=True)
         print(f'review-gate: advisory review queued; no approval. Record: {run}')
         sys.exit(0)
-    argv = [lane, '-p', prompt.decode('utf-8', errors='strict')]
-    argv += ['--model', model, '--output-format', 'text'] if Path(lane).name == 'agy' else ['-m', model]
+    argv = [lane] if selected == 'adapter' else [lane, '-p', prompt.decode('utf-8', errors='strict')]
+    if selected == 'claude':
+        argv += ['--model', model, '--effort', effort, '--safe-mode', '--tools', '',
+                 '--strict-mcp-config', '--permission-mode', 'dontAsk',
+                 '--no-session-persistence', '--output-format', 'json']
+    elif selected == 'agy':
+        argv += ['--model', model, '--output-format', 'text']
+    elif selected == 'gemini':
+        argv += ['-m', model]
     # Keep stdout and stderr separately: stderr can never supply an approving verdict.
     try:
-        process = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE, start_new_session=True)
+        environment = dict(os.environ, REVIEW_GATE_MODEL=model, REVIEW_GATE_EFFORT=effort)
+        process = subprocess.Popen(argv, stdin=subprocess.PIPE if selected == 'adapter' else subprocess.DEVNULL,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   start_new_session=True, env=environment)
         active_process = process
         try:
-            raw, errors = process.communicate(timeout=timeout)
+            raw, errors = process.communicate(input=prompt if selected == 'adapter' else None, timeout=timeout)
         except subprocess.TimeoutExpired:
             os.killpg(process.pid, signal.SIGKILL)
             raw, errors = process.communicate()
@@ -252,6 +277,29 @@ try:
             or (not args.worker and acquire(kind, target) != (identity, diff, commits))):
         raise Refusal('candidate or review inputs changed during review')
     output = raw.decode('utf-8', errors='strict')
+    if selected == 'claude':
+        def unique_fields(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise Refusal('duplicate Claude response field')
+                result[key] = value
+            return result
+        response = json.loads(output, object_pairs_hook=unique_fields)
+        if (not isinstance(response, dict) or response.get('type') != 'result'
+                or response.get('subtype') != 'success' or response.get('is_error') is not False
+                or response.get('permission_denials')
+                or not isinstance(response.get('modelUsage'), dict)
+                or set(response['modelUsage']) != {model}
+                or not isinstance(response.get('result'), str)):
+            raise Refusal('Claude response failed or requested model identity was not confirmed')
+        receipt['resolved_model'] = model
+        output = response['result']
+        (run / 'report.txt').write_text(output, encoding='utf-8')
+    # Transport success and a verdict token alone cannot establish substantive review.
+    reasoning = re.sub(r'^.*VERDICT:.*$', '', output, flags=re.M)
+    if len(re.sub(r'\s+', '', reasoning)) < 120:
+        raise Refusal('review lacks substantive analysis; a verdict alone is not approval')
     lines = output.splitlines()
     while lines and lines[-1] == '':
         lines.pop()

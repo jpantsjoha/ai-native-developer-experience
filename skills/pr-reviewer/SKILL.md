@@ -7,8 +7,7 @@ description: Review gate for correctness, reuse, and simplification. Produces a 
 
 > **Receipts, not polish.** A review that says "looks good" is not a review. A review that says "line 47 will panic on a nil pointer and here is the fix" is a review.
 
-This skill runs a structured code review and produces a verdict with explicit
-conditions. Every finding is actionable. No findings without evidence.
+This skill runs a structured code review and produces a verdict: PASS or FAIL. Every finding is actionable. No findings without evidence.
 
 ## When to use
 
@@ -55,30 +54,29 @@ conditions. Every finding is actionable. No findings without evidence.
    - **NOTE**: observation for awareness, no action required
 
 7. **Produce the verdict**:
-   - **PASS / Approve**: zero unresolved conditions; optional suggestions clearly separated
-   - **BLOCK / Request changes**: any unresolved condition or blocking finding
-   - **INCOMPLETE**: required scope or evidence missing; never approval
+   - **PASS**: no unresolved conditions; optional suggestions are explicitly nonblocking
+   - **FAIL**: one or more unresolved conditions
 
 ## Outputs
 
 - Finding list: location | severity | description | suggested fix
-- Verdict: PASS / BLOCK / INCOMPLETE, exact candidate identity and open conditions
+- Verdict: PASS / FAIL; conditions never count as approval
 
-## Independent second reviewer (on demand)
+## Independent review and Council
 
-The writer never approves its own work. Before merging, obtain a verdict from a
-qualified different model or fresh reviewer subagent under project policy. For
-complex planning, audits, model/effort selection and failures, read
-[`references/council.md`](references/council.md).
+The independent review must include an adversarial subagent activity: attempt to refute
+requirement acceptance, exercise failure/recovery assumptions and identify tests that miss
+the real user path. One fresh reviewer may cover these lenses; extra agents are not a
+quota. Give it requirement links and the exact candidate, not the author's desired verdict.
 
-Where the repository helper is available, `scripts/review-gate.sh --pr N` or
-`--staged` requests local review using Python 3's standard library and a configured
-review CLI. PR comments require explicit `--comment` and
-authorisation to post. Configure the available lane/model; no alias is guaranteed
-on every machine. A clone can opt in with `git config review.gate async|block`.
-Async is advisory. Only a completed, current PASS can support a blocking decision;
-unavailable/failed/conditional reviews do not approve. The helper's local receipt
-does not authenticate reviewer identity or enforce GitHub merge protection.
+The writer never approves its own work. Use a fresh, read-only reviewer context on a
+permitted host and retain a substantive verdict bound to the exact candidate. A
+provider change is optional and never grants authority. Missing review is incomplete.
+
+Read [independent Council review](references/independent-council.md) before dispatch
+or when a review loop stalls. It separates the shared contract, host adapters and
+local subscription policy, preserves unresolved findings across reviewers, and defines
+bounded escalation. It also documents the optional fail-closed local receipt helper.
 
 ## Guardrails
 

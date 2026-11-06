@@ -1,88 +1,82 @@
-# AI-Native Developer Experience Harness
+# DevEx Charter
 
-[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/jpantsjoha-join-the-team)](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team?ref=badge)
+The AI-native developer experience harness.
+
+[Legacy listing on Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 [![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
 
-> **A team-project AI harness bootstrap that gives humans and agents a shared operating contract from day one, moving AI leverage from an individual “IC superhero” advantage to a repeatable team capability on an equal playing field.**
+**Shared ways of working for you, your team and your AI agents — from a new idea to a
+change running live.**
 
-> 📦 **Now listed on [Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team)** —
-> install the harness as the `join-the-team` plugin for Claude Code, Codex, Kimi Code,
-> and Google Antigravity. [Jump to install](#install--two-ways-to-adopt).
+`devex-charter` brings planning, delivery and ticket management, model selection,
+testing, independent review and release practices into one reusable plugin. Install it
+for a project or across your own projects, then give each project a shared operating
+contract: what you are building, who owns the decisions, how work is tracked and what
+must pass before delivery.
 
-This repository has gone through three real phases — and the progression tracks something
-happening across the field.
+The aim is reliable delivery with less repeated setup, lost context and avoidable
+rework. The plugin supplies skills, templates and executable checks; your project
+supplies its goals, people, tools and authority. Installation makes those capabilities
+available. Adoption makes them part of how the team works.
 
-It started as a **reference guide**: [`DEVELOPER_EXPERIENCE.md`](DEVELOPER_EXPERIENCE.md)
-and [`BOOTSTRAP.md`](BOOTSTRAP.md), something to read, walk through, and adapt. A concrete
-baseline for teams getting serious about AI-native delivery — the operating model, the
-guardrails, spec-first discipline, the Adversarial Gate.
+| From intent to live | What the harness provides |
+| --- | --- |
+| Agree the work | Vision, requirements and acceptance criteria before implementation |
+| Plan and track it | Owned tasks, dependencies, tickets, roadmap and current status |
+| Choose how to execute | Skills, model-selection guidance, bounded delegation and cost checks |
+| Build and verify | Isolated work, executable tests, validation and independent review |
+| Release and operate | Readiness checks, explicit promotion authority, rollback and observation |
+| Improve the practice | Reconcile decisions and outcomes into existing project records |
 
-Then it became **context for your agents**: `CLAUDE.md` and `GEMINI.md` here, plus the
-thin `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` adapters the bootstrap generates — drop them
-into a project and the agent picks up the operating contract at session start without a
-briefing. The harness shifted from something humans read to something agents use.
+Use it alone or with a team. Team members share the project’s contract and records;
+their assistants can use different supported hosts. Platform adapters handle discovery
+and invocation; detailed host support is documented below. The plugin does not replace
+your issue tracker, provision CI, deploy an application or guarantee a performance gain.
 
-Now it ships as an **installable plugin** — `join-the-team` (current version in
-[CHANGELOG.md](CHANGELOG.md)). One install across
-Claude Code, Codex, Kimi, and Antigravity, and the full harness is live: 22 skills,
-session-start orientation, slash commands, drift-checked in CI. The discipline travels
-with the agent from day one, across every project, without anyone copying files or
-re-explaining the contract.
+**Start here:** [install for your host](#install--two-ways-to-adopt), then
+[bootstrap a project](BOOTSTRAP.md). Existing projects keep their records; bootstrap
+reports conflicting contracts before writing.
 
-The point: this stopped being something you read and became something you install.
+[Current source status](docs/STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
+[Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases) ·
+[Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 
-And what you install is the **operating model** — that is the value proposition here.
-Skill libraries are everywhere now; what teams are missing is the contract: who holds
-authority, how risk is tiered, what evidence binds a review, what "done" actually means
-when humans and agents ship together. The 22 skills are the capability layer that
-executes inside that contract — not the other way round.
+**DevEx Charter** was formerly **Join the Team**. v0.5.0 is the first release under
+the new name; v0.4.0 and earlier install as `join-the-team`. The repository remains
+`ai-native-developer-experience`. See [migration and upstream tracking](docs/install/rebrand.md)
+before switching an existing installation.
 
-The kernel stays model-, vendor-, and IDE-agnostic throughout. Thin platform adapters
-handle discovery and invocation; the authority, risk, evidence, review, and completion
-semantics are non-negotiable.
-
-> **Speed is easy. Safe speed is engineered.**
-
-> **This is deliberately opinionated.** Refine it for your team, technology, domain,
-> authority model, and definition of done. Keep one coherent shared contract while doing so.
-
-**New project?** [Bootstrap in fifteen minutes](BOOTSTRAP.md). **Existing agent setup?**
-[Two ways to adopt](#install--two-ways-to-adopt) below — by hand, or as a plugin.
+The [September 2026 workflow audit](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md), the
+[executive scorecard](docs/EXECUTIVE-SCORECARD.md) and the
+[adoption outcomes audit](docs/ADOPTION-OUTCOMES-AUDIT-2026-09.md) assess strategic fit,
+delivery and measured impact across real projects. The
+[audit procedure](skills/delivery-orchestrator/references/workflow-audit.md) connects
+objectives, issues, tests, maturity and promotion.
 
 ## Install — two ways to adopt
 
-For the current improvement programme, see [STATUS](docs/STATUS.md),
-[ROADMAP](docs/ROADMAP.md) and the [cross-project workflow audit](docs/HARNESS-WORKFLOW-AUDIT-2026-09.md).
-The [executive scorecard](docs/EXECUTIVE-SCORECARD.md) assesses strategic fit, delivery,
-technology, operations and wider value, separating maturity from measured impact.
-The [adoption outcomes audit](docs/ADOPTION-OUTCOMES-AUDIT-2026-09.md) tests that
-assessment against five real projects, including public marketplace delivery.
-The [audit procedure](skills/delivery-orchestrator/references/workflow-audit.md)
-connects objectives, issues, tests, maturity and promotion; the
-[council procedure](skills/pr-reviewer/references/council.md) matches bounded tasks
-to model effort and independent review. Proposed automation is labelled separately
-from executable controls.
-
-**By hand** — clone the repo and share it with your agents. Copy `skills/` into
-your project, keep the `CLAUDE.md`/`GEMINI.md`/`AGENTS.md` adapters at root, and your
-assistant picks up the contract at session start. [BOOTSTRAP.md](BOOTSTRAP.md) is the
-fifteen-minute walkthrough.
+**By hand** — clone the complete repository to work on this harness. To adopt it in
+another project, copy `skills/` to `.agents/skills/` and follow
+[BOOTSTRAP.md](BOOTSTRAP.md) to generate that project’s adapters and operating contract.
+The root adapters and active routing pilot in this repository are maintainer settings;
+do not copy them into an adopter project.
 
 ```bash
 git clone https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**As a plugin** — the harness ships as `join-the-team`: one canonical skill
+**As a plugin** — the harness ships as `devex-charter`: one canonical skill
 set, thin per-harness adapters, drift-checked in CI. It is listed on
-[Claude Plugin Hub](https://www.claudepluginhub.com/plugins/jpantsjoha-join-the-team);
+[Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team);
 install straight from this repository into whichever coding assistant you run:
 
-**Claude Code**
+**Claude Code** — choose user scope for your projects or project scope for a shared
+repository. See the [scope and team setup guide](docs/install/claude.md).
 
-```text
-/plugin marketplace add jpantsjoha/ai-native-developer-experience
-/plugin install join-the-team@join-the-team-marketplace
+```bash
+claude plugin marketplace add jpantsjoha/ai-native-developer-experience
+claude plugin install devex-charter@join-the-team-marketplace --scope user
 ```
 
 **Kimi Code**
@@ -97,10 +91,19 @@ install straight from this repository into whichever coding assistant you run:
 agy plugin install https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
-**Codex** — no install command needed: Codex reads `AGENTS.md` as its always-on adapter and
-discovers skills from `.agents/skills/`. The by-hand clone above is the install; if you are
-vendoring rather than cloning, put the directory at `.agents/skills/` (or symlink it there)
-so Codex finds it.
+**Codex** — use the Plugins interface when available, or install the skills in
+`.agents/skills/` for a project or `~/.agents/skills/` for your user. Keep each skill’s
+supporting files together and avoid competing copies. Follow the
+[Codex guide](docs/install/codex.md) for discovery and verification.
+
+Global/user scope applies to one user’s host setup; it does not install the plugin for
+every teammate. Each collaborator needs access to the selected skill version. Commit
+the adopted project contract and agreed host configuration so people share the same
+ways of working, while credentials and personal settings stay private.
+
+Hooks are optional host conveniences. Without them, invoke `using-the-harness` and
+`operating-model-bootstrap` from the consumer project; verify its generated agent
+adapter and profile are loaded. Installation alone does not adopt project controls.
 
 Full per-harness detail (session-start hooks, verification, update path):
 [Claude Code](docs/install/claude.md) · [Kimi Code](docs/install/kimi.md) ·
@@ -115,7 +118,24 @@ see [INTEGRATIONS.md](INTEGRATIONS.md).
 
 ### Verify the install
 
-After installing, confirm the harness is actually live rather than merely present:
+The golden thread connects evolving intent to versioned requirements and business
+journeys, ADRs, roadmap outcomes, GitHub milestones/issues, acceptance checks and releases.
+`product-owner` maintains intent and priorities; `cxo-oversight` challenges material
+value/risk decisions; `test-strategy` maps acceptance to the real user path.
+`delivery-orchestrator` checks in-flight work first, maintains tickets and reconciles
+records through reviewed delivery and safe branch/worktree cleanup. See the
+[portable workflow](skills/operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md#golden-thread-evolving-intent-to-accepted-capability).
+
+Root AGENTS.md, CLAUDE.md and GEMINI.md share identical lean instructions. Session hooks
+inject a compact pointer by default, even for adopted projects; detailed roles and
+procedures load when needed. Set `JOIN_THE_TEAM_ORIENTATION=full` for full orientation.
+Model choice follows [guarded routing](docs/MODEL-ROUTING.md), including qualification,
+risk floors and retry/integration costs; a task's T-shirt size does not select its model.
+These are maintained agent workflows, not an automatic requirements synchroniser or
+measured efficiency claim. Existing adopters must deliberately reconcile their local
+adapters/workflow when upgrading; preserved project files are not silently overwritten.
+
+The library contains 25 skills. After installing, verify discovery and project adoption:
 
 ```text
 which skills are available?
@@ -123,10 +143,11 @@ which skills are available?
 
 You should see `using-the-harness` plus the cloud and gate skills (`cloud-expert`,
 `adversarial-gate`, `pr-reviewer`). Then run the built-in validator against a
-bootstrapped repository:
+bootstrapped repository using `/devex-charter:validate` where available, or the
+`operating-model-bootstrap` skill on skill-only hosts:
 
 ```text
-/join-the-team:validate
+/devex-charter:validate
 ```
 
 Expect `PASS operating-model validation`. A `seed` profile may pass with warnings — that
@@ -137,13 +158,16 @@ is expected before the profile is promoted to `active`.
 The harness is not a set of commands you memorise. Skills trigger on intent; three slash
 commands cover the lifecycle.
 
-**Three commands, in order:**
+**On hosts that expose the plugin commands:**
 
 ```text
-/join-the-team:bootstrap    # seed the operating model (dry-run first, never overwrites)
-/join-the-team:init         # record the humans: roles, authority, escalation channels
-/join-the-team:validate     # check adapter drift, adoption state, evidence binding
+/devex-charter:bootstrap    # seed the operating model (dry-run first, never overwrites)
+/devex-charter:init         # record the humans: roles, authority, escalation channels
+/devex-charter:validate     # check adapter drift, adoption state, evidence binding
 ```
+
+On skill-only hosts, ask `operating-model-bootstrap` to run the same sequence. It finds
+scripts in the selected installation and writes only the consumer project’s seed.
 
 **Typical sessions** — say the intent, and the router picks the skill:
 
@@ -174,9 +198,29 @@ Agent: [spec-first-delivery] Spec before code. Who is the actor, what is out of 
 The point is the routing, not the vocabulary: you describe intent, the contract decides
 which gate applies.
 
+## DevDash companion
+
+If you work across several repositories, **DevDash** is an optional native macOS desktop
+app for seeing which projects need attention. It collects delivery signals from
+GitHub and git, shows available signals and when they were checked, and keeps missing data
+visibly missing. Displayed metrics are deterministic. Optional AI proposes short explanations
+from available status and roadmap documents; it never supplies the displayed numbers.
+The core needs no AI subscription.
+
+Used alongside `devex-charter`, clear status and roadmap records give DevDash more context
+for the work behind those signals. The harness is not required: ordinary GitHub repositories
+still provide available API and git signals, with less delivery context where documents are
+missing. See [the four delivery records](docs/DELIVERY-RECORDS.md) for the shared practice.
+
+[DevDash repository (`mac-control`) — private preview, access required](https://github.com/jpantsjoha/mac-control).
+DevDash is currently an internal MVP, with no public signed download or release. The link is
+accessible only to people granted repository access. Local AI is experimental and has not
+completed qualification.
+
 ## Configuration
 
-The harness works unconfigured. Three seams are worth knowing:
+The skills are discoverable after installation. Adoption records the project’s controls
+before consequential work. Three seams are worth knowing:
 
 | Seam | File | What it controls |
 | --- | --- | --- |
@@ -195,10 +239,10 @@ you control. See
 | --- | --- | --- |
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
-| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 22 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
-| `/join-the-team:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 25 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| `/devex-charter:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
-| Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then let the session-start hook re-inject the orientation skill |
+| Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then use the session-start pointer to reload the applicable contract |
 
 Still stuck? Open an [issue](https://github.com/jpantsjoha/ai-native-developer-experience/issues)
 with the client, version (`plugin.json`), and the output of `make spec-conformance`.
@@ -210,12 +254,12 @@ with the client, version (`plugin.json`), and the output of `make spec-conforman
 No — and the difference is the point. [BMAD](https://docs.bmad-method.org/) is a
 methodology engine: it drives an idea through phased workflows — analysis, planning,
 solutioning, implementation — with AI personas playing Analyst, PM, Architect, Developer.
-It answers *what to do next*. `join-the-team` answers *who is accountable, and what is
+It answers *what to do next*. `devex-charter` answers *who is accountable, and what is
 allowed* — the contract the work runs **inside**: risk tiers, named human authority,
 evidence bound to an exact commit, a definition of done that means the checks pass. They
 scale on different axes — BMAD scales *ceremony by size*, this harness scales *gates by
 risk*. So they compose rather than compete: run BMAD as the workflow engine, and let
-`join-the-team` keep a mixed human-and-agent team coherent while it does. Reach for it the
+`devex-charter` keep a mixed human-and-agent team coherent while it does. Reach for it the
 moment *"who decided this, and on what evidence?"* stops being obvious. The workflow you
 can borrow anywhere — the contract is the part teams keep missing.
 
@@ -223,26 +267,26 @@ can borrow anywhere — the contract is the part teams keep missing.
 
 ## What it looks like
 
-Install the plugin, and at session start the `using-the-harness` skill grounds the agent
-in the contract before any work. Ask it what the harness changes, and it answers in the
+Install the plugin, and the session-start pointer routes delivery work to
+`using-the-harness` and the project contract. Ask it what the harness changes, and it answers in the
 terms that matter — where the system accelerates, and where it stops:
 
-![join-the-team in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)
+![Legacy Join the Team installation in a Claude Code session: the using-the-harness skill explaining that the plugin delivers coherence and auditability rather than speed, contrasting work with and without the harness, and showing how a decision routes through the adversarial gate, domain-validator, and pr-reviewer.](docs/images/harness-in-action.png)
 
-> **Coherence and auditability — not speed.** The value is visible when the system knows
-> where to accelerate *and* where to stop: a risk-touching decision triggers the
-> adversarial gate, evidence is re-verified before it becomes actionable, and the
-> decision is captured as a receipt. Same contract for the humans and the agents.
+The example shows how shared rules guide an actual decision: check the risk, verify
+the result and retain the decision for the next person or agent. Those practices support
+reliable delivery. Measure their effect on completion, rework and effort in your own
+project; this screenshot is an illustration, not a performance result.
 
 ---
 
 ## The Hybrid Human-AI Squad Model & Workflow
 
-Installing the harness gets you the skills. What it doesn't give you is the operating
-model — who decides, who executes, what counts as done, where the escalation circuit
-breakers sit. This is that model.
+Installation supplies the reusable contract and procedures. During adoption, the team
+names its decision-makers, chooses its tools and checks, and records its release and
+escalation rules. The workflow below shows how those project decisions guide delivery.
 
-Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills scale execution velocity**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
+Moving from an individual "copilot user" to a team delivering value requires shifting from ad-hoc prompting to a **governed value stream**. In this model, **AI agents and harness skills take on bounded execution**, while **named human Subject Matter Experts (SMEs) retain non-delegable accountability** for decisions, governance, and production state.
 
 ```mermaid
 %%{init: {'sequence': {'boxMargin': 15, 'messageMargin': 30}, 'themeVariables': {'actorLineColor': '#000000'}}}%%
@@ -377,7 +421,7 @@ Borrow the patterns. As ever — your mileage may vary.
 
 ## Standards conformance
 
-**`join-the-team` is compliant with [Agent Plugins 1.0.0](https://agent-plugins.org/specification)**
+**`devex-charter` is compliant with [Agent Plugins 1.0.0](https://agent-plugins.org/specification)**
 — the open, vendor-neutral packaging standard
 [announced by Google](https://developers.googleblog.com/agent-plugins-package-your-skills-tools-and-more/)
 and stewarded by a Technical Steering Committee spanning Amazon, Cursor, Google, Microsoft,
@@ -390,11 +434,11 @@ That is a gate, not a badge — run it yourself:
 make spec-conformance
 ```
 
-For all local checks run `make check`. The offline `make planning` gate also checks
-the declared delivery documents, stable IDs, lifecycle states, task parents,
-dependencies, supersession, local file links and presence of Done evidence. See the
-[deterministic gate runbook](docs/DETERMINISTIC-GATES.md) for its grammar and limits.
-Structural PASS does not establish semantic correctness or release approval.
+The offline `make planning` gate (part of `make check`) also checks the declared
+delivery documents, stable IDs, lifecycle states, task parents, dependencies,
+supersession, local file links and presence of Done evidence. See the
+[deterministic gate runbook](docs/DETERMINISTIC-GATES.md). Structural PASS does not
+establish semantic correctness or release approval.
 
 The check is standard-library Python, runs offline, and reports as its own CI job. It is
 backed by 51 negative fixtures in `tests/test_plugin_packaging.py`, because a validator that
@@ -548,3 +592,15 @@ This is an active, evolving project.
 Expect revisions, additions, and corrections as tools and practices mature.
 
 Feedback, discussion, and constructive disagreement are welcome.
+
+## Guarded model routing
+
+Use deterministic tools first. Trial a smaller model only for bounded, non-sensitive,
+read-only tasks with independent acceptance checks. Keep code changes and unqualified
+work on the baseline; count failed attempts, review and repair when comparing cost.
+
+The [routing guide](skills/cost-guardrail/references/model-routing.md) explains adoption,
+measurement and rollback. This repository’s [pilot settings](docs/MODEL-ROUTING.md)
+select Luna high and Sol medium. Efficiency gains remain unproven; Luna high has not
+been evaluated here. Routing and monitoring are manual, and installing the plugin does
+not activate a pilot in consumer projects.

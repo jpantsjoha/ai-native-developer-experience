@@ -17,15 +17,15 @@ Reinstall with the same command to update.
 - **`gemini-extension.json`** — declares the extension and points `contextFileName`
   at `GEMINI.md`, the always-on Rules primitive carrying the operating contract
   (design-before-generate, the Adversarial Gate, receipts-not-polish).
-- **Session start** — the plugin's session-start hook injects the `using-the-harness`
-  orientation skill; on non-Claude runners it emits the SDK-standard
+- **Session start** — the plugin's session-start hook injects a compact pointer by default
+  (`JOIN_THE_TEAM_ORIENTATION=full` opts into the orientation skill); on non-Claude runners it emits the SDK-standard
   `additionalContext` shape Antigravity consumes. Because the package ships a root
   `plugin.json`, `agy` loads it in Agent Plugins mode and reads the hook manifest from
   `hooks.json` at the **package root** — not the nested `hooks/hooks.json` Claude Code
   reads. The plugin therefore ships both, kept identical by the validator. Confirm with
   `agy plugin install …` — the summary must report `hooks: 1 processed`; `hooks:
   skipped (not found)` means the root manifest is missing.
-- **Skills** — the 22 `skills/` capabilities, discovered natively at the Agent Plugins
+- **Skills** — the 25 `skills/` capabilities, discovered natively at the Agent Plugins
   fixed location (`.agents/skills/` remains as a symlink alias).
 - **MCP data seams** → `.agents/mcp_config.json` — the governed tool-access pattern;
   see the file before adding servers.
@@ -39,7 +39,7 @@ Reinstall with the same command to update.
 ## Verify
 
 1. Start a session: the harness contract should be active from the first message.
-2. Ask "which skills are available?" — the 22 skills should be named, including
+2. Ask "which skills are available?" — the 25 skills should be named, including
    `cloud-expert` and `adk-expert`.
 3. Ask the agent to track a small multi-step task — it should create a **task
    artifact**, not reach for a todo tool.

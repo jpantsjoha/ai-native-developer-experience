@@ -2,7 +2,7 @@
 
 **Effective date:** 2026-07-20
 
-`join-the-team` is an open-source operating-model and skill plugin. It does not
+`devex-charter` is an open-source operating-model and skill plugin. It does not
 collect, transmit, sell, or share personal data, usage telemetry, prompts, source
 code, or analytics on its own.
 

@@ -1,76 +1,102 @@
-# Roadmap
+# Delivery roadmap
 
-**As of:** 2026-09-26 · **Owner:** jpantsjoha · **Plan:** DPS-001 / HFE-001
 
-Ordered outcomes, not duplicated live issue state. This is a local planning record;
-unfiled items below are not GitHub issues or accepted release commitments.
+## September 2026 workflow audit — integrated 6 November 2026
 
-| Order | Outcome | Exit gate | State |
-| --- | --- | --- | --- |
-| Now — HFE-001 | Feed measured adopter experience back into the plugin | Initial four-source audit plus four-project follow-up, usable procedures, review-gate regressions, convergence and independent review | Feature branch; see STATUS |
-| Now / Next — DPS-TRACE | Planning records reconcile deterministically | DDG-001 structural gate; next semantic reconciliation and executed-test coverage, then opt-in live freshness/completeness | Structural slice on branch; remaining work unfiled |
-| Next — DPS-REVIEW | Review evidence can govern a merge | Candidate/base binding, non-author identity boundary, stale/conditional/error rejection and trusted enforcement tests | Proposed; authority/trust design unresolved |
-| Next — DPS-PROMOTE | MVP/UAT/live transitions prove the artifact and outcome | Project-owned maturity exits, immutable digest, upgrade/rollback and observation receipts | Proposed; per-project adoption required |
-| Later — DPS-VALUE | Priorities learn from delivery and customer evidence | Opportunity experiments and accepted-outcome economics reconcile to objectives | Proposed; no commercial validation asserted |
+The HFE-001 audit branch (`feat/harness-workflow-audit-2026-09-26`) is integrated:
+[workflow audit](HARNESS-WORKFLOW-AUDIT-2026-09.md), [executive scorecard](EXECUTIVE-SCORECARD.md),
+[adoption outcomes](ADOPTION-OUTCOMES-AUDIT-2026-09.md), [optimisation review](OPTIMISATION-REVIEW-2026-09.md),
+[AutoHarness comparison](AUTOHARNESS-COMPARISON-2026-09.md) and the offline
+[`make planning` gate](DETERMINISTIC-GATES.md). Its dated findings predate 0.4.0 and 0.5.0;
+reconcile each follow-up against current `main` before filing work. Its review-helper and
+release-manager edits were superseded by later versions.
 
-## Issue-ready follow-up contracts — not filed
+## Next priority: Harness delivery benchmark v1
 
-| ID / owner | Scope and DoD | Validation / dependency |
+JP accepted this sequence on 5 November 2026. Prove material delivery outcomes before
+adding coordination features or changing model routing. Start with GCP exam prep;
+DevEx Charter branding is outside the treatment. This section owns the next build
+order; the earlier delivery table below is historical context.
+
+| Priority | Work package | Exit evidence |
 | --- | --- | --- |
-| DPS-TRACE / planning maintainer | DDG-001 implements structural IDs/states/parents/dependencies/supersession/local links. Next add semantic current-fact conflicts, requirement→executed-test coverage and opt-in live reconciliation | Structural refusal fixtures run locally. Remaining fixtures must reject stale facts, absent execution and incomplete paginated API reads; no claim of full semantic reconciliation |
-| DPS-REVIEW / security and delivery maintainer | Specify trusted receipt producer, author/reviewer distinction, exact candidate, verdict semantics and bypass policy; then enforce through authorised hosted check or declared local mode | Reject replay, changed base/head/tree, malformed/failed lane, wrong identity and open conditions. Local file forgery must not pass as authenticated review |
-| DPS-PROMOTE / release owner | Record release ADR, tag rules, build provenance, UAT/live environment contracts, recovery and observation. Reconcile CI retirement/migration | Release rehearsal proves source→artifact→environment identity and rollback. Requires separately approved remote/environment changes |
-| DPS-VALUE / product owner | Link customer/commercial hypotheses to experiment, measure, stop threshold, evidence and roadmap decision; measure engineering lead time/rework/known cost | One real completed experiment and one delivery outcome measured with provenance. No invented savings, usage or revenue |
-| ADOPT-DRIFT / each adopter owner | Repair audited current-fact and retired-CI delegation drift in individual reviewed branches | Each project's canonical gate and independent review, then regenerate current docs. This feedback branch does not mutate adopters |
-| DPS-CONTEXT / context integration maintainer | Reconcile Graft ADR status, effective package resolution, active hook paths and worktree-specific cache identity; harden freshness before claiming coherence | Fixtures cover deletion/rename, old timestamps, failed scans/builds, concurrent readers/writers, missing local package and fallback version. Verify pinned query refresh before adding overlapping hooks; no automatic install |
+| 1 | Freeze baseline and candidate harness instructions, project commit, host/model, tools and resource budgets | Reconstructable arm manifests; treatment separation verified, including globally injected instructions |
+| 2 | Select historical GCP exam prep tasks with clear requirements and executable acceptance | Pre-change checkouts, task briefs, independent labels and hidden acceptance/regression checks; completed solutions withheld from agents |
+| 3 | Build the smallest end-to-end replay adapter around existing EvalOps | Disposable checkouts; planning, implementation, local validation and independent review; artifacts, failures, retries, timing and resource usage linked to Phoenix |
+| 4 | Run a three-task feasibility pilot with repeated runs | Unchanged-harness comparison and deliberately failing control demonstrate noise and failure detection; no superiority claim |
+| 5 | Freeze and run a larger paired held-out benchmark | Randomised/counterbalanced order, complete attempt ledger, effect sizes, uncertainty and regression report; exported evidence passes live verification |
+| 6 | Adopt supported changes in one project, then consider global promotion | Accepted benchmark disposition, observed project outcomes and rollback; no automatic global rollout |
 
-Existing insight issues [#23](https://github.com/jpantsjoha/ai-native-developer-experience/issues/23)
-and [#24](https://github.com/jpantsjoha/ai-native-developer-experience/issues/24)
-should be reconciled with this queue before creating duplicates. Neither had a
-milestone in the 26 September API snapshot. External tracker updates remain pending.
+### Experiment contract
 
-## Follow-up optimisation slices
+The unit of success is an independently accepted deliverable, not an agent completion
+message, approval count or only tests written by the implementing agent. Each case
+traces product objective → requirement/task → delivered artifact → acceptance evidence.
+The end-to-end boundary is a locally validated, independently reviewed deliverable;
+production deployment is not part of the replay. Use scratch checkouts and local gates,
+not live issue churn, production changes or GitHub Actions/AI.
 
-The [additional project review](OPTIMISATION-REVIEW-2026-09.md) supplies source evidence
-and negative acceptance cases. These refine the contracts above; they are unfiled,
-not a parallel issue system. Suggested order, subject to measured value:
+Keep model, tools and resource limits matched initially. Compare frozen instruction
+bundles; a bundle result does not attribute the effect to each individual skill. Test
+model routing and parallel execution separately after the instruction experiment.
+Freeze the larger sample size, repetitions, material improvement threshold, uncertainty
+method, regression tolerances and total budget before holdout execution; the three-task
+pilot cannot establish general superiority. A smaller cost is not a win if quality falls.
 
-1. DPS-REVIEW: review-inclusive WIP and persistent attempt budgets; DPS-CONTEXT and
-   DPS-REVIEW: non-provisioning execution-context checks, including dependency identity.
-2. DPS-TRACE / ADOPT-DRIFT: canonical policy/gate conflicts and ADR reconciliation,
-   then requirement→test→executed-lane coverage with explicit evidence levels.
-3. DPS-REVIEW: path-derived specialist requirements and optional per-rule/test-ID debt
-   ratchets; baseline updates cannot trade one defect for another.
-4. DPS-PROMOTE: persisted completion receipts and profile-specific independent recovery.
-   DPS-VALUE: evaluate these changes against matched delivery tasks before scaling.
+Measure requirement acceptance, hidden regressions, user-journey behaviour, critical
+defects and harmful changes; elapsed time, review/repair rounds and human intervention
+minutes; parent/worker usage including cache/retries; and traceability/status accuracy
+and authority compliance. Unknown usage is unknown, not zero. Retain failures, timeouts
+and missing runs in planned coverage; do not select only successful repetitions.
 
-Portable guidance is included in this branch; these new mechanical controls remain
-unimplemented here. No additional always-loaded skill or permanent council lane is
-proposed without a measured gap and an experiment/removal rule.
+Keep answer-bearing patches, later docs and solution history out of task-agent inputs.
+Acceptance checks and labels are independently owned. Inspect treatment separation:
+if new global instructions contaminate the baseline, or separation cannot be established,
+label the run feasibility/sensitivity only, not causal evidence for adoption. Phoenix
+verification establishes record integrity, not that the harness is better.
 
-## Deferred cost and ownership
+### Scope and dependencies
 
-The [AutoHarness comparison](AUTOHARNESS-COMPARISON-2026-09.md) refines DPS-VALUE,
-DPS-TRACE and DPS-REVIEW: capture proposed learning from existing receipts, measure
-outcomes separately from invocation, and require fixed quality gates and independent
-review before a bounded trial. No automatic skill edits, telemetry service or new
-skills are implemented. Upstream ownership/provenance gaps were reproduced offline.
+The existing [EGM protocol](evaluation/egm-review/PLAN.md) isolates review instructions;
+its 24-case/144-execution proposal is not an approved sample size for this new whole-task
+benchmark. Keep datasets, treatment claims and execution budgets distinct. The
+[coordination pilot](planning/SQUADROOM-ADOPTION.md) remains planned and subordinate
+to this measurement-first priority; do not build its runtime as a benchmark prerequisite.
+Use existing host capabilities and EvalOps before adding infrastructure.
 
-The [adoption outcomes audit](ADOPTION-OUTCOMES-AUDIT-2026-09.md) supplies five real
-delivery traces and prioritises existing contracts: policy drift, portable review
-evidence, release/acceptance reconciliation, optional Graft freshness and measured
-delivery effort. These are follow-ups, not newly implemented controls. DPS-VALUE's
-core scope is engineering outcome/effort; customer, commercial and marketing
-experiments apply only where the project chooses those objectives.
+File the execution work item and acceptance criteria before runner implementation,
+inspect project contracts and active owners, and validate/review the exact runner and
+evaluators before inference. The dedicated session handoff is in [STATUS](STATUS.md).
 
-DPS-VALUE uses the [executive rubric](EXECUTIVE-SCORECARD.md) across strategy,
-ownership, technology, security, operations, experience and wider value. First collect
-accepted-outcome yield, effort per accepted outcome and repeat use with quality/authority
-guardrails. No savings target or market validation is assumed.
+## Other proposed experiments under workflow-value outcome 3
 
-Trusted merge enforcement is deferred until its identity/authority design is agreed;
-this leaves a known procedural boundary, owned by the delivery maintainer. Automated
-promotion is deferred until a release owner and target are declared; it blocks claims
-of mechanically enforced UAT/live readiness. Evidence is the September audit above.
-This ordering is revisable by the Product Owner; a prior roadmap never overrides a
-new explicit instruction within the operator's authority.
+[Coordination pilot](planning/SQUADROOM-ADOPTION.md): capability/reuse decision →
+contract fixtures → durable handoffs and integration controls → paired Phoenix proof →
+optional read-only DevDash view. [EGM review measurement](evaluation/egm-review/PLAN.md)
+remains independently controlled; do not combine treatments. Implementation children
+must be filed and accepted before code. DevEx Charter is the selected name; [#34](https://github.com/jpantsjoha/ai-native-developer-experience/issues/34)
+delivered the rebrand, released as v0.5.0 on 6 November 2026. Open: live host migration
+checks and upstream listing moves, per the [migration gates](install/rebrand.md).
+
+
+**Owner:** harness maintainer. Order is by accepted outcome, not skill count.
+
+| Order | Outcome / work item | Exit evidence | State |
+| --- | --- | --- | --- |
+| 1 | #32 / PR #33: project/user adoption and golden-thread delivery from intent to live | Fresh consumer journey, preserved existing records, local checks and independent review | Delivery tracked by PR #33 and v0.4.0 |
+| 2 | Publish v0.4.0 and reconcile installation behaviour | Chosen release version, host install/update checks and rollback | Tag/release owns publication state; live host trials remain |
+| 3 | #34 / PR #35: DevEx Charter rebrand, released as v0.5.0 | Aligned manifests, migration guide, local checks and independent review | Released; host migration and listing moves remain |
+| 3 | Demonstrate adopted workflow value | One bounded contributor trial: accepted outcome, friction, rework, effort and limits | Proposed; no savings baseline |
+| 4 | #24: context loading and incremental review findings | Bounded trial, retained finding history, fixed quality floor | Proposed; prioritise observed friction |
+| 5 | #23: decision-record hygiene | Existing-record validation with negative fixtures and owned rollout | Captured; not implemented |
+
+PR #28 (release/review controls) and PR #31 (guarded routing) are merged source changes.
+Their merge does not establish package release, installed adoption or efficiency gains.
+
+Use [HARNESS-ADOPTION](HARNESS-ADOPTION.md) for applicable service-transition prerequisites,
+conversation provenance and capability ownership. These are extensions of existing
+mechanisms, not additional skills or an automatic learning system. Optional commercial
+experiments do not block engineering acceptance.
+
+Release/tag/install follows the [source-release decision](../architecture/decisions/ADR-003-source-release.md) and operator authority.
+Source merge, package release and observed adopter outcomes are distinct milestones.

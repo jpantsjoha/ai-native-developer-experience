@@ -1,6 +1,10 @@
-# Vision — Governed Delivery for Human–AI Teams
+# Vision — Shared Delivery Practices for Human–AI Teams
 
-`join-the-team` should make a mixed human–AI delivery team behave like one coherent
+`devex-charter` can be installed for one project or made available across a user’s
+projects. Adoption establishes shared practices for planning, tickets, model choice,
+testing, review and the route to live, with authority and controls owned by each project.
+
+`devex-charter` should make a mixed human–AI delivery team behave like one coherent
 delivery system. Human Product Owners and subject-matter experts retain authority over
 intent, priority, acceptance, architecture, risk, and external effects. AI planners and
 workers increase throughput inside those boundaries without fragmenting decisions,
@@ -49,8 +53,9 @@ core delivery maturity. Measure them only where the project has chosen them.
 
 ## Current focus
 
-The first implementation milestone is the delivery-planning control plane described in
-[`requirements/DELIVERY-PLANNING-SYSTEM.md`](../requirements/DELIVERY-PLANNING-SYSTEM.md).
-It will add a shared installed workflow, minimal planning placeholders, coordinated skill
-contracts, and deterministic traceability checks without turning the harness into a
-heavyweight project-management product.
+Make the existing delivery tools usable from project, user and plugin installations.
+The bootstrap already creates the planning seed; the next improvement is a reliable
+adoption journey and a clear account of what users must configure. See
+[adoption acceptance](../requirements/ADOPTION-DELIVERY.md) and the [roadmap](ROADMAP.md).
+Demonstrate value through a bounded adoption trial before claiming less rework or lower
+cost. Broader traceability automation remains proposed, not an installed capability.

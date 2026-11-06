@@ -2,16 +2,22 @@
 description: Initialise the planning seed and record the human team, roles, and escalation channels
 ---
 
+Run from the consumer project root. Claude resolves `${CLAUDE_PLUGIN_ROOT}` in this
+command’s content to the installed package; keep that path quoted. Do not change the
+working directory to the package or copy its maintainer adapters into the project.
+If the host has not resolved the path, load `operating-model-bootstrap` and locate its
+scripts beside the discovered skill file before running anything.
+
 Initialise the project's delivery-planning records and human side of the harness. Skills
 supply capability; named humans supply authority.
 
-1. Run `/join-the-team:bootstrap` first, including its dry-run. This is safe for an
+1. Run `/devex-charter:bootstrap` first, including its dry-run. This is safe for an
    existing adoption: matching operating files are unchanged, existing project planning
    records are preserved, and missing vision/workflow/roadmap/status/changelog files are
    seeded. Stop on a reported operating-contract or adapter conflict.
 2. **If the repo already has code**, run the read-only inspection pass to pre-fill what
    the repository reveals instead of presenting a blank form:
-   `python3 .agents/skills/operating-model-bootstrap/scripts/inspect_repo.py .`
+   `python3 "${CLAUDE_PLUGIN_ROOT}/skills/operating-model-bootstrap/scripts/inspect_repo.py" .`
    Transcribe each finding into the profile as its `inferred — source: …; confirm: …`
    marker, then confirm them one at a time with the accountable human. Never promote an
    inferred value to a verified fact without confirmation; the profile cannot go `active`
@@ -30,7 +36,7 @@ supply capability; named humans supply authority.
    <trigger>` placeholder — never invent a person or a scope.
 6. Reconcile the profile's **Authority and approval roles** table and escalation path
    with the roster so the two agree.
-7. Run `/join-the-team:validate` and report the result.
+7. Run `/devex-charter:validate` and report the result.
 8. Remind the user: roster seats are humans, not agents; an agent may *route* a
    question to a seat but can never hold one. Insufficient evidence = lane stops and
    the seat is tagged; silence never converts to permission.

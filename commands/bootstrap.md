@@ -25,5 +25,5 @@ Bootstrap this repository with the team operating model:
    `docs/VISION.md`, and `docs/operating-model/DELIVERY-WORKFLOW.md` from tracked evidence.
    Keep the initial roadmap and status free of invented work or progress. Record unknowns
    with an owner and the trigger that resolves them.
-5. Run `/join-the-team:validate` and report the result. Keep the profile at `seed`; only
+5. Run `/devex-charter:validate` and report the result. Keep the profile at `seed`; only
    R0/R1 and design work may proceed until the team resolves `active` controls.

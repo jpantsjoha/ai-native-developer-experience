@@ -1,10 +1,14 @@
 # Install — Claude Code
 
+The renamed package is an unreleased source candidate. For existing installations
+and release prerequisites, read [the migration guide](rebrand.md).
+
+
 Choose an installation scope from your shell:
 
 ```bash
 claude plugin marketplace add jpantsjoha/ai-native-developer-experience
-claude plugin install join-the-team@join-the-team-marketplace --scope user
+claude plugin install devex-charter@join-the-team-marketplace --scope user
 ```
 
 Use `--scope project` instead to record enablement in the repository’s shared Claude
@@ -12,7 +16,7 @@ settings, or `--scope local` for yourself in this repository only. Each teammate
 installs the plugin on their machine. Preserve existing settings and keep credentials
 out of shared configuration. Follow the host’s reload/install result.
 
-Open the consumer project and run `/join-the-team:bootstrap`, then `:init` and `:validate`.
+Open the consumer project and run `/devex-charter:bootstrap`, then `:init` and `:validate`.
 These commands use scripts from the installed package; no project-local skills copy is
 needed. Bootstrap creates the project contract, not a global authority policy.
 
@@ -26,14 +30,14 @@ What gets wired:
   compact orientation pointer; full `using-the-harness` content is opt-in with
   `JOIN_THE_TEAM_ORIENTATION=full`. Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.
-- **Slash commands** — `/join-the-team:bootstrap`, `/join-the-team:init`, and
-  `/join-the-team:validate`.
+- **Slash commands** — `/devex-charter:bootstrap`, `/devex-charter:init`, and
+  `/devex-charter:validate`.
 
 ## Verify
 
 1. In a fresh session, ask "which skills are available?" — `using-the-harness` and the
    baseline skills should be named.
-2. Run `/join-the-team:validate` in a repository that has been bootstrapped; expect
+2. Run `/devex-charter:validate` in a repository that has been bootstrapped; expect
    `PASS operating-model validation` (a `seed` profile may pass with warnings).
 
 ## Standards

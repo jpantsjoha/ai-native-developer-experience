@@ -12,7 +12,7 @@ can start system design and technical delivery planning coherently on day one.
 
 ### 1. Choose the installation and project
 
-Install `join-the-team` in your host, or copy the complete `skills/` directory to
+Install `devex-charter` in your host, or copy the complete `skills/` directory to
 `.agents/skills/` in the project. User-level installation makes the capabilities available
 across your projects; project-level installation shares the chosen baseline with a team.
 See the [host guides](README.md#install--two-ways-to-adopt) for scope and discovery.
@@ -24,7 +24,7 @@ project adapters; do not copy this repository’s maintainer adapters or routing
 ### 2. Preflight and initialise
 
 Open the **consumer project root**. On hosts with plugin commands, run
-`/join-the-team:bootstrap`; it resolves the package scripts and preflights before writing.
+`/devex-charter:bootstrap`; it resolves the package scripts and preflights before writing.
 On other hosts, invoke `operating-model-bootstrap` and use its discovered script path.
 For a manual run, set `HARNESS_SKILL_DIR` to the absolute directory containing that
 skill’s `SKILL.md`; this can be in a plugin cache, user install or project copy:

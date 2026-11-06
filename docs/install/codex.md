@@ -1,7 +1,11 @@
 # Install — Codex (CLI and App)
 
+The renamed package is an unreleased source candidate. For existing installations
+and release prerequisites, read [the migration guide](rebrand.md).
+
+
 Choose one source of the skills for each working context. Use the Codex Plugins
-interface when `join-the-team` is available, or install the skills using native discovery.
+interface when `devex-charter` is available, or install the skills using native discovery.
 Host interfaces vary; this guide does not prescribe a universal plugin CLI command.
 
 ## Project or user skills

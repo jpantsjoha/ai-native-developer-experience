@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Packaging validator for the join-the-team plugin.
+"""Packaging validator for the devex-charter plugin.
 
 Two gates live here, and they answer different questions.
 

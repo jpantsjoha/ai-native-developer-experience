@@ -1,7 +1,6 @@
 # Install — Codex (CLI and App)
 
-The renamed package is an unreleased source candidate. For existing installations
-and release prerequisites, read [the migration guide](rebrand.md).
+Upgrading from `join-the-team`? It keeps working; see [the migration guide](rebrand.md).
 
 
 Choose one source of the skills for each working context. Use the Codex Plugins

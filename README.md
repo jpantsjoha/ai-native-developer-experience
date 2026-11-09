@@ -142,7 +142,7 @@ These are maintained agent workflows, not an automatic requirements synchroniser
 measured efficiency claim. Existing adopters must deliberately reconcile their local
 adapters/workflow when upgrading; preserved project files are not silently overwritten.
 
-The library contains 25 skills. After installing, verify discovery and project adoption:
+The library contains 26 skills. After installing, verify discovery and project adoption:
 
 ```text
 which skills are available?
@@ -162,8 +162,8 @@ is expected before the profile is promoted to `active`.
 
 ## Usage
 
-The harness is not a set of commands you memorise. Skills trigger on intent; three slash
-commands cover the lifecycle.
+The harness is not a set of commands you memorise. Skills trigger on intent; six slash
+commands cover the lifecycle and the working session.
 
 **On hosts that expose the plugin commands:**
 
@@ -171,6 +171,9 @@ commands cover the lifecycle.
 /devex-charter:bootstrap    # seed the operating model (dry-run first, never overwrites)
 /devex-charter:init         # record the humans: roles, authority, escalation channels
 /devex-charter:validate     # check adapter drift, adoption state, evidence binding
+/devex-charter:get-it-done  # pursue an agreed goal to a merged, working outcome
+/devex-charter:sitrep       # what landed, what is in flight, decisions waiting on you
+/devex-charter:wrap-it-up   # close out in-flight work to a clean baseline
 ```
 
 On skill-only hosts, ask `operating-model-bootstrap` to run the same sequence. It finds
@@ -246,7 +249,7 @@ you control. See
 | --- | --- | --- |
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
-| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 25 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 26 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
 | `/devex-charter:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
 | Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then use the session-start pointer to reload the applicable contract |

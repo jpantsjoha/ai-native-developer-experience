@@ -61,6 +61,7 @@ unadopted project needs orientation and an adoption path, not the full delivery 
 | New repo, or operating model install/repair | `operating-model-bootstrap` |
 | Multi-track epic, or "which skill applies?" | `delivery-orchestrator` |
 | An agreed goal to drive to a working, merged outcome while the operator is away | `get-it-done` |
+| Close out the in-flight set to a clean baseline (the set does not grow) | `wrap-it-up` |
 | The machine is slow, tests or browser skills left processes behind | `system-performance-guardrail` |
 | Is everything live, any errors this week, the weekly SRE checkup of a GCP project | `cloud-checkup` |
 | Is the page fast enough, Core Web Vitals, why is this route slow | `frontend-performance-audit` |

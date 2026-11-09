@@ -23,7 +23,7 @@ What gets wired (via `.kimi-plugin/plugin.json`):
 
 1. `/plugins` should list `devex-charter` as installed.
 2. A fresh session should show the harness orientation; ask "which skills are
-   available?" to see the 25 skills.
+   available?" to see the 26 skills.
 
 ## Standards
 

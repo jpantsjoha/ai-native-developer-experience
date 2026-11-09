@@ -14,7 +14,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 25 Skills
+## The 26 Skills
 
 | Skill | One-line purpose |
 |---|---|
@@ -36,6 +36,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 | [`pr-reviewer`](./pr-reviewer/SKILL.md) | Review gate: correctness, reuse, simplification — receipts not polish |
 | [`cost-guardrail`](./cost-guardrail/SKILL.md) | LLM/token cost awareness: model tiering, budgets, right-sizing |
 | [`get-it-done`](./get-it-done/SKILL.md) | Pursue an agreed goal to a merged, working outcome without waiting: branch, gate, independent review, merge, prune, bank the operator's decisions |
+| [`wrap-it-up`](./wrap-it-up/SKILL.md) | Close out the in-flight set: every item merged, deferred with a record, or operator-blocked with a decision brief; clean baseline and release advisory |
 | [`github-manager`](./github-manager/SKILL.md) | Cost-effective, consistent GitHub operations: CI triggers, Actions billing, issues, labels, branch protection, releases |
 | [`sitrep`](./sitrep/SKILL.md) | Synthesise a status / standup / situation-report from work state |
 | [`system-performance-guardrail`](./system-performance-guardrail/SKILL.md) | Measure, root-cause, fix, verify and record developer-machine contention — cloud sync, indexers, MCP fleets, orphaned automation browsers — plus the test-hygiene contract |

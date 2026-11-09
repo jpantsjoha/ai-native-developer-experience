@@ -1,6 +1,12 @@
 # DevEx Charter
 
-![DevEx Charter mascot: a line-art fox with a monocle and a pipe whose smoke curls into a tick](docs/images/devex-charter-banner.png)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/devex-charter-logo-dark.png">
+    <img src="docs/images/devex-charter-logo-transparent.png" width="220"
+      alt="DevEx Charter mascot: a line-art fox peeking over a charter scroll with three green ticks">
+  </picture>
+</p>
 
 The AI-native developer experience harness.
 

@@ -1,7 +1,7 @@
 PYTHON ?= python3
 SKILL_ROOT := .agents/skills/operating-model-bootstrap
 
-.PHONY: lint typecheck planning test spec-conformance check
+.PHONY: lint typecheck planning test spec-conformance check hygiene
 
 lint:
 	@if command -v markdownlint-cli2 >/dev/null 2>&1; then \
@@ -24,7 +24,9 @@ typecheck:
 		tests/test_adoption_journey.py \
 		tests/test_lean_context.py \
 		scripts/validate_delivery.py \
-		tests/test_delivery_validation.py
+		tests/test_delivery_validation.py \
+		scripts/lane_hygiene.py \
+		tests/test_lane_hygiene.py
 
 planning:
 	$(PYTHON) scripts/validate_delivery.py --root .
@@ -42,6 +44,11 @@ spec-conformance:
 	$(PYTHON) scripts/validate_plugin.py --root . --spec-only
 
 check: lint typecheck test spec-conformance
+
+# Read-only lane cleanup report (worktrees, branches, stale registrations). Warn-only: it is
+# not part of `check` and never deletes. Add HYGIENE_ARGS=--pr-state to consult gh.
+hygiene:
+	$(PYTHON) scripts/lane_hygiene.py --root . $(HYGIENE_ARGS)
 
 hooks: ## Activate the version-controlled git hooks (markdown lint + independent review gate)
 	git config core.hooksPath .githooks

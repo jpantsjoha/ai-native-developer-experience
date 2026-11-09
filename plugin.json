@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "devex-charter",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Shared delivery practices for human–AI teams: planning, tickets, model selection, testing, independent review and release readiness. Install for a project or user; adopt project-owned authority and checks.",
   "author": {
     "name": "Jaroslav Pantsjoha",
@@ -35,8 +35,7 @@
       "manifest": "./.claude-plugin/plugin.json",
       "marketplace": "./.claude-plugin/marketplace.json",
       "commands": "./commands/",
-      "hooks": "./hooks/hooks.json",
-      "contextFile": "./CLAUDE.md"
+      "hooks": "./hooks/hooks.json"
     },
     "com.google.gemini-cli": {
       "manifest": "./gemini-extension.json",

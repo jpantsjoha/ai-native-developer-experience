@@ -2,7 +2,7 @@
 
 **Profile schema:** 1.0.0
 **Manual path:** `docs/operating-model/OPERATING-MANUAL.md`
-**Manual version:** 2.1.0
+**Manual version:** 2.2.0
 **Manual SHA-256:** <digest>
 **Adoption status:** <seed|active|superseded>
 **Adopted on:** <YYYY-MM-DD>
@@ -279,7 +279,15 @@ explicitly adopt these fields and wire that gate before claiming enforcement.
 - Maximum active lanes: <number>; maximum mutating integrators: one.
 - Model/tool/compute/network budget: <limits and approval threshold>.
 - Timebox/escalation: <rule>.
+- No-progress limit (R2/R3): <attempts and elapsed time without a newly validated check; renewal owner>.
 - Paid/external loops: <explicit authorization requirement>.
+
+## Handoffs and lane hygiene
+
+- Handoff records H1–H4 (manual §2): <checkpoint `handoffs:` list, issue comment, or other durable location>.
+- Push/merge credential custody: <agents may push and merge | agents propose, a named human or service pushes>.
+- Lane cleanup evidence: <hygiene report command, for example `python3 <plugin-root>/scripts/lane_hygiene.py --root .`>.
+- Retained lanes: <owner and reason recorded where; review trigger>.
 
 ## Artifact retention
 
@@ -292,7 +300,8 @@ explicitly adopt these fields and wire that gate before claiming enforcement.
 
 Complete means the exact integrated candidate passed every applicable gate, all review
 conditions are closed, delivery was authorized and observed, docs/status/changelog agree,
-remaining risks and operator actions are explicit, and rollback is known.
+remaining risks and operator actions are explicit, rollback is known, and merged lanes are
+cleaned up or retained with a recorded owner.
 
 For design-only work, complete means the exact design candidate has resolved ownership,
 interfaces, assumptions, decision records, validation strategy, delivery sequence, and

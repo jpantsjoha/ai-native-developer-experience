@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 task_id: <stable-id>
 operating_contract:
-  manual_version: 2.1.0
+  manual_version: 2.2.0
   manual_sha256: <digest>
   profile_path: docs/operating-model/PROJECT-OPERATING-PROFILE.md
 base_sha: <full-sha>

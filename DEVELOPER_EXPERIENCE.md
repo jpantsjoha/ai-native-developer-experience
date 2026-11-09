@@ -1849,7 +1849,13 @@ NEVER:
 
 > **Treat the Definition of Done as a contract the agent answers to.** Left alone, an agent calls it done the moment the code runs. The contract is what makes 'done' mean shipped: it names the tests, the evidence, the docs to update, and the bar the work has to clear before review.
 
-**Task is NOT complete until:**
+The harness's Definition of Done is the ladder in the delivery workflow template
+(`skills/operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md`): lane checks,
+handoff and integration, independent review, merge, lane cleanup, delivery, observation.
+The table below is one **example** of the lane-level gates for a TypeScript project;
+your project profile names its own convergence command.
+
+**Example — a lane is not done until:**
 
 | Gate | Check | Command |
 |------|-------|---------|
@@ -1860,6 +1866,8 @@ NEVER:
 | **Secure** | No secrets, no vulns | `npm audit` |
 | **Coherent** | Aligns with ADRs | Manual check |
 | **Documented** | STATUS/CHANGELOG updated | Manual check |
+| **Handed off** | H1 record: candidate SHA, checks, open conditions | Checkpoint or issue |
+| **Cleaned up** | Merged worktree and branch removed | `scripts/lane_hygiene.py` (report only) |
 
 ### Error Handling
 

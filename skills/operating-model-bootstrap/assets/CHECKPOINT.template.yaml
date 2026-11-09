@@ -3,7 +3,7 @@ task_id: <stable-id>
 objective: <one-sentence outcome>
 artifact_and_decision: <artifact and downstream decision/action>
 operating_contract:
-  manual_version: 2.1.0
+  manual_version: 2.2.0
   manual_sha256: <digest>
   profile_path: docs/operating-model/PROJECT-OPERATING-PROFILE.md
 risk_tier: <R0|R1|R2|R3>
@@ -39,6 +39,11 @@ delivery:
   observation: <signals-and-window>
 rollback: <method-and-owner>
 cost_and_time_ceiling: <limit>
+no_progress_limit: <attempts-and-elapsed-time-without-a-newly-validated-check>
+# H1 lane->integrator, H2 integrator->reviewer, H3 approver->operator, H4 agent->human.
+# One entry per handoff: {id, from, to, candidate, checks: [{command, exit_code}],
+# open_conditions: [], next_action, acknowledged_by, acknowledged_at}.
+handoffs: []
 state: <INTAKE|GROUNDED|RISK_CLASSIFIED|AUTHORIZED|PLANNED|ISOLATED|IMPLEMENTED|LOCALLY_VERIFIED|INTEGRATED|CONVERGENCE_VERIFIED|INDEPENDENTLY_REVIEWED|APPROVED|DELIVERED|OBSERVED|COMPLETE|BLOCKED|ABORTED|SUPERSEDED>
 open_conditions: []
 next_action: <single-next-step>

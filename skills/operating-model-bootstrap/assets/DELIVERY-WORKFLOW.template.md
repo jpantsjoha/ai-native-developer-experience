@@ -37,14 +37,33 @@ machine; this project workflow maps that contract to the team's roles and work s
    activate a model-routing pilot or authorise a subscription change.
 5. **Execute** — bounded human or agent workers implement independently verifiable tasks
    in isolated mutable lanes.
-6. **Integrate** — one named integration owner assembles pinned outputs and runs the
-   convergence gate.
-7. **Review** — independent reviewers apply declared, decorrelated lenses to the exact
-   candidate; conditions block until resolved.
-8. **Deliver and observe** — an authorised operator releases, watches the declared
-   signals, and rolls back when thresholds are crossed.
-9. **Reconcile and learn** — update roadmap gates, derived status, release changelog,
-   evidence, risks, and reusable delivery learnings.
+6. **Integrate** — workers hand off (H1) to one named integration owner, who assembles
+   pinned outputs in the declared merge order and runs the convergence gate.
+7. **Review** — the integration owner hands off (H2) the exact candidate; independent
+   reviewers apply declared, decorrelated lenses; conditions block until resolved.
+8. **Deliver and observe** — on approval, hand off (H3) to an authorised operator, who
+   releases, watches the declared signals, and rolls back when thresholds are crossed.
+9. **Reconcile, clean up and learn** — update roadmap gates, derived status, release
+   changelog, evidence, risks, and reusable delivery learnings; remove merged lanes.
+
+Any step may hand off (H4) to an accountable human for a decision only they can take.
+The manual's no-progress limit applies throughout: activity is not progress, and a
+reached limit stops dependent dispatch until the owner replans.
+
+## Definition of Done ladder
+
+Each rung needs its own evidence; none implies the next.
+
+| Rung | Evidence | Manual state | Record vocabulary |
+| --- | --- | --- | --- |
+| Ticket DoD met in the lane | Focused checks with exit codes | LOCALLY_VERIFIED | `built` |
+| Handed off and integrated | H1 record; convergence command passes | INTEGRATED, CONVERGENCE_VERIFIED | `built` |
+| Reviewed | H2 record; PASS bound to the exact candidate | INDEPENDENTLY_REVIEWED, APPROVED | `built` |
+| Merged | PR merged on the authorised base | — | `gated` only if a user-path test walks it, else `built` |
+| Cleaned up (any time after merge; required by Complete) | Hygiene report lists no merged lane of this item | — | unchanged |
+| Delivered | H3 record; artefact at the authorised destination | DELIVERED | released / deployed |
+| Observed | Declared signals checked; a person used it | OBSERVED | `shipped` |
+| Complete | Records reconciled | COMPLETE | ticket closed with evidence |
 
 ## Role boundaries
 
@@ -73,9 +92,11 @@ resume dispatch.
 - WIP accounting: `<include review/integration; queued-ready state; blocked-slot policy>`
 - Execution preflight: `<checkout/import/tool identity; no implicit provisioning>`
 - Shared-resource custody: `<browser/port/database owner, serialisation and cleanup>`
-- Review attempt ceiling: `<work-item lineage, replan trigger, retained reset reasons>`
 - Planner / worker / reviewer capabilities and host mapping: `<risk/effort fit and evidence>`
-- Review attempt/time ceiling and escalation owner: `<limit and owner>`
+- Review attempt/time ceiling and escalation owner: `<limit, owner, work-item lineage, replan trigger, retained reset reasons>`
+- No-progress limit: `<attempts and elapsed time without a newly validated check; renewal owner>`
+- Handoff record location (H1–H4): `<checkpoint, issue comment or other durable record>`
+- Lane hygiene report: `<command; when it runs; retained-lane owner>`
 - Selected skill maintainers and review triggers: `<existing profile routing record>`
 - Epic cost and time ceiling: `<limit>`
 - Model selection policy and permitted subscriptions: `<project policy or existing baseline>`
@@ -127,9 +148,10 @@ do not create competing Status.md/STATUS.md or Roadmap.md/ROADMAP.md records.
    in-flight work and blockers, ROADMAP owns remaining outcomes and sequence.
 10. After verified merge, fetch and fast-forward a clean main checkout where safe.
     Confirm PR merged state and that this lane's changes are integrated (squash/rebase
-    may change commit IDs). Remove only this lane's clean, no-longer-needed worktree
-    and local/remote branch; preserve uncommitted or unintegrated work and other owners'
-    lanes. Prune stale worktree metadata only after checking the worktree inventory.
+    may change commit IDs). Run the lane hygiene report; it lists candidates and never
+    deletes. Remove only this lane's clean, no-longer-needed worktree and local/remote
+    branch; preserve uncommitted or unintegrated work and other owners' lanes. Prune
+    stale worktree metadata only after checking the worktree inventory.
 
 Reconcile only affected records at intake, scope change, handoff, merge and release;
 link to the owning record instead of copying its content. In the first adopter trial,

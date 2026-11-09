@@ -1,8 +1,9 @@
 # DevEx Charter
 
+![DevEx Charter mascot: a line-art fox with a monocle and a pipe whose smoke curls into a tick](docs/images/devex-charter-banner.png)
+
 The AI-native developer experience harness.
 
-[Legacy listing on Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
 [![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
 
@@ -39,13 +40,13 @@ your issue tracker, provision CI, deploy an application or guarantee a performan
 reports conflicting contracts before writing.
 
 [Current source status](docs/STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
-[Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases) ·
-[Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team)
+[Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases)
 
-**DevEx Charter** was formerly **Join the Team**. v0.5.0 is the first release under
-the new name; v0.4.0 and earlier install as `join-the-team`. The repository remains
-`ai-native-developer-experience`. See [migration and upstream tracking](docs/install/rebrand.md)
-before switching an existing installation.
+**DevEx Charter** was formerly **Join the Team**. Use `devex-charter` for new installs.
+The legacy name keeps working: the Claude marketplace is still `join-the-team-marketplace`,
+`join-the-team@join-the-team-marketplace` installs the same plugin, and the old
+`JOIN_THE_TEAM_ORIENTATION` setting is still read. Install one name, not both. The
+repository remains `ai-native-developer-experience`. See [migration](docs/install/rebrand.md).
 
 The [audit procedure](skills/delivery-orchestrator/references/workflow-audit.md)
 connects objectives, issues, tests, maturity and promotion.
@@ -63,9 +64,8 @@ git clone https://github.com/jpantsjoha/ai-native-developer-experience
 ```
 
 **As a plugin** — the harness ships as `devex-charter`: one canonical skill
-set, thin per-harness adapters, drift-checked in CI. It is listed on
-[Agent Plugins Directory](https://agent-plugins.directory/jpantsjoha/join-the-team);
-install straight from this repository into whichever coding assistant you run:
+set, thin per-harness adapters, drift-checked in CI. Install it straight from this
+repository into whichever coding assistant you run:
 
 **Claude Code** — choose user scope for your projects or project scope for a shared
 repository. See the [scope and team setup guide](docs/install/claude.md).
@@ -124,7 +124,7 @@ records through reviewed delivery and safe branch/worktree cleanup. See the
 
 Root AGENTS.md, CLAUDE.md and GEMINI.md share identical lean instructions. Session hooks
 inject a compact pointer by default, even for adopted projects; detailed roles and
-procedures load when needed. Set `JOIN_THE_TEAM_ORIENTATION=full` for full orientation.
+procedures load when needed. Set `DEVEX_CHARTER_ORIENTATION=full` for full orientation.
 Model choice follows [guarded routing](docs/MODEL-ROUTING.md), including qualification,
 risk floors and retry/integration costs; a task's T-shirt size does not select its model.
 These are maintained agent workflows, not an automatic requirements synchroniser or

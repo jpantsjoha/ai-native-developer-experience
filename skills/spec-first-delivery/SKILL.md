@@ -39,6 +39,9 @@ a proposal until its accountable owner accepts it within scope.
 - `architecture/decisions/ADR-NNN-<short-title>.md` (one per decision)
 - `architecture/HLD-<feature>.md` (if not already covered)
 - Updated project roadmap (e.g. `docs/ROADMAP.md` or equivalent per project structure) with new tasks or milestones
+- Optional `parking-lot.md` beside the spec: questions and ideas raised but not resolved,
+  each with an owner and the trigger that brings it back. It is a holding list, not a
+  backlog or a delivery record; promote an item by filing an issue, then remove it.
 
 ## Guardrails
 

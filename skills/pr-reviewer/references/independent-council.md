@@ -29,6 +29,8 @@ conditional verdict is not approval. Local receipt metadata is not authenticatio
 
 The project declares an attempt/time ceiling before consequential review starts.
 Track it by stable work-item identity, including changed commits and reviewer runs.
+It is the review-side form of the operating manual's no-progress limit: progress means
+a newly validated acceptance check, not a new commit or another review.
 When the ceiling is reached, or findings recur without relevant progress:
 
 1. Stop dependent dispatch and retain all findings, candidates and attempt history.

@@ -39,6 +39,8 @@ MANIFESTS = [
     "gemini-extension.json",
 ]
 MARKETPLACE = ".claude-plugin/marketplace.json"
+# Former plugin names kept as marketplace aliases for backward compatibility (ADR-005).
+LEGACY_ALIASES = {"join-the-team"}
 MCP_CONFIG = "mcp.json"
 HOOKS_ROOT_MANIFEST = "hooks.json"
 
@@ -268,10 +270,28 @@ def check_manifest_coherence(root: Path, errors: list[str]) -> None:
     marketplace = load_json(root, MARKETPLACE, errors)
     if marketplace is not None:
         plugins = marketplace.get("plugins") or []
-        if len(plugins) != 1:
-            errors.append(f"{MARKETPLACE}: expected exactly one plugin entry")
+        if not plugins:
+            errors.append(f"{MARKETPLACE}: expected one plugin entry")
         elif isinstance(plugins[0], dict):
             loaded[f"{MARKETPLACE} plugins[0]"] = plugins[0]
+            # Further entries may only be declared legacy aliases of the same package:
+            # same source and version, so an old install command resolves to this plugin.
+            seen: set[str] = set()
+            for index, alias in enumerate(plugins[1:], start=1):
+                name = alias.get("name") if isinstance(alias, dict) else None
+                if not isinstance(name, str) or name not in LEGACY_ALIASES:
+                    errors.append(f"{MARKETPLACE}: plugins[{index}] is not a declared legacy alias")
+                elif name in seen:
+                    errors.append(f"{MARKETPLACE}: legacy alias {name!r} is listed twice")
+                elif (alias.get("source"), alias.get("version")) != (
+                    plugins[0].get("source"), plugins[0].get("version")
+                ):
+                    errors.append(
+                        f"{MARKETPLACE}: legacy alias {alias.get('name')!r} must share "
+                        "source and version with the primary entry"
+                    )
+                else:
+                    seen.add(name)
 
     identities = {
         rel: (doc.get("name"), doc.get("version"))

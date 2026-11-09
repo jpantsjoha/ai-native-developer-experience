@@ -11,6 +11,12 @@ version in a manifest alone is not publication. See the
 
 ## Delivered since 0.5.0 (unreleased)
 
+Candidate 0.6.0 keeps the rename backward compatible (marketplace stays
+`join-the-team-marketplace`, `join-the-team` is a legacy alias of `devex-charter`,
+`DEVEX_CHARTER_ORIENTATION` with the old variable still read) and ships operating manual
+2.2.0: handoffs H1–H4, a no-progress limit, lane cleanup in COMPLETE, one Definition of
+Done ladder, and the read-only `make hygiene` report. See the [CHANGELOG](../CHANGELOG.md).
+
 The offline `make planning` gate (part of `make check`) validates the declared delivery
 records: required documents, stable IDs, lifecycle states, parents, dependencies,
 supersession, local links and Done evidence. See the

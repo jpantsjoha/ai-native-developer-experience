@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="DevEx Charter mascot: a shield-shaped fox head whose white face mask forms a tick, with a pipe">
+  <title>DevEx Charter fox - The Gatekeeper</title>
+  <defs>
+    <clipPath id="head">
+      <path d="M78 224 C78 160 150 118 256 118 C362 118 434 160 434 224 C434 304 334 384 256 450 C178 384 78 304 78 224 Z"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#1E2633"/>
+  <g stroke="#1E2633" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+    <!-- ears -->
+    <path d="M100 206 Q92 112 114 40 Q190 74 232 136 Z" fill="#F26B1D"/>
+    <path d="M412 206 Q420 112 398 40 Q322 74 280 136 Z" fill="#F26B1D"/>
+    <path d="M126 160 Q122 112 132 80 Q168 100 192 132 Z" fill="#1E2633" stroke="none"/>
+    <path d="M386 160 Q390 112 380 80 Q344 100 320 132 Z" fill="#1E2633" stroke="none"/>
+    <!-- head: a shield, the release gate -->
+    <path d="M78 224 C78 160 150 118 256 118 C362 118 434 160 434 224 C434 304 334 384 256 450 C178 384 78 304 78 224 Z" fill="#F26B1D"/>
+  </g>
+  <!-- the face mask is a tick -->
+  <g clip-path="url(#head)">
+    <path d="M96 288 L252 414 L470 176" fill="none" stroke="#FFF4E2" stroke-width="96" stroke-linejoin="round" stroke-linecap="butt"/>
+  </g>
+  <!-- eyes: one bright, one narrowed in judgement -->
+  <ellipse cx="180" cy="232" rx="20" ry="25" fill="#1E2633"/>
+  <circle cx="187" cy="223" r="7" fill="#FFFFFF"/>
+  <path d="M302 236 Q326 220 352 236 Q326 250 302 236 Z" fill="#1E2633" stroke="#1E2633" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M154 190 Q178 178 204 186" fill="none" stroke="#1E2633" stroke-width="12" stroke-linecap="round"/>
+  <path d="M300 196 Q326 188 354 196" fill="none" stroke="#1E2633" stroke-width="12" stroke-linecap="round"/>
+  <!-- nose at the tick's vertex -->
+  <path d="M230 352 Q256 342 282 352 Q272 376 256 378 Q240 376 230 352 Z" fill="#1E2633" stroke="#1E2633" stroke-width="6" stroke-linejoin="round"/>
+</svg>

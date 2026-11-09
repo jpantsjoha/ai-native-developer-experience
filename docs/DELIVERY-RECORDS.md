@@ -62,6 +62,29 @@ those are routinely overclaimed and are worth defining hard:
   pass. A feature whose units pass and whose journey does not has been written, not delivered.
 - **`shipped`** — a person used it. Deployment is not shipping.
 
+### One state, four vocabularies
+
+The harness describes the same work in four places. Each answers a different question;
+this crosswalk keeps them from contradicting one another.
+
+| Record lifecycle | Tracker status (`validate_delivery.py`) | Operating-manual state | Changelog wording |
+|---|---|---|---|
+| `not started` | Proposed, Draft | INTAKE → AUTHORIZED | — |
+| `specified` | Accepted, Ready | PLANNED | — |
+| `built` | In progress, In review | ISOLATED → APPROVED (handoffs H1, H2) | — |
+| `gated` | Done (merged, user-path test walks it) | — | merged, under Unreleased |
+| `gated` (released, not yet used) | Done | DELIVERED (H3) | released / deployed |
+| `shipped` | Done (closed with evidence) | OBSERVED → COMPLETE | observed in use |
+| — | Blocked, Parked | BLOCKED (H4) | — |
+| — | Superseded | SUPERSEDED, ABORTED | — |
+
+A row never implies the next. Merged is not released, released is not deployed, and
+deployed is not used. COMPLETE also requires the lane's worktree and merged branch to be
+removed, or their retention recorded with an owner; the read-only lane hygiene report
+(`make hygiene` here, `python3 <plugin-root>/scripts/lane_hygiene.py` elsewhere) shows what is left.
+The full Definition of Done ladder lives in the delivery workflow template
+(`skills/operating-model-bootstrap/assets/DELIVERY-WORKFLOW.template.md`).
+
 ---
 
 ## STATUS: the live record, pruned
@@ -133,6 +156,7 @@ Six questions. Each has a command, so the answer is derived rather than asserted
 | Do the records contradict each other? | Grep the same fact in all four. Two answers is a drift |
 | Does the CHANGELOG match `git log`? | Spot-check the newest entries |
 | What no longer earns its place? | Superseded plans, dated snapshots, duplicated inventories |
+| Are merged lanes left behind? | `make hygiene` (read-only; add `HYGIENE_ARGS=--pr-state` for squash merges) |
 
 **Route the audit to a reviewer that did not write the records.** Self-auditing planning
 documents finds what you remember, not what you missed.

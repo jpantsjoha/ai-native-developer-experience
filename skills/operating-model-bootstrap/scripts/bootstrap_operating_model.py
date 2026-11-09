@@ -12,7 +12,7 @@ from datetime import date
 from pathlib import Path
 
 
-MANUAL_VERSION = "2.1.0"
+MANUAL_VERSION = "2.2.0"
 SURFACE_FILES = {
     "agents": "AGENTS.md",
     "claude": "CLAUDE.md",

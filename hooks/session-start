@@ -2,7 +2,8 @@
 # SessionStart hook for the devex-charter plugin (Claude Code).
 #
 # Injects a compact pointer by default, including adopted projects. Full orientation
-# is opt-in with JOIN_THE_TEAM_ORIENTATION=full; =off injects nothing.
+# is opt-in with DEVEX_CHARTER_ORIENTATION=full; =off injects nothing. The pre-0.6.0
+# name JOIN_THE_TEAM_ORIENTATION is still read when the new variable is unset.
 #
 # Extensionless on purpose: Claude Code's Windows auto-detection prepends
 # "bash" to commands containing .sh. Requires bash on PATH; if bash is absent
@@ -42,7 +43,7 @@ escape_for_json() {
 }
 
 # Full orientation is explicit; default context remains compact.
-orientation="${JOIN_THE_TEAM_ORIENTATION:-auto}"
+orientation="${DEVEX_CHARTER_ORIENTATION:-${JOIN_THE_TEAM_ORIENTATION:-auto}}"
 banner="Below is the full content of your 'devex-charter:using-the-harness' skill - your orientation to the operating contract and skill routing. For all other skills, use the 'Skill' tool:"
 profile=""
 for candidate in "docs/operating-model/PROJECT-OPERATING-PROFILE.md" "PROJECT-OPERATING-PROFILE.md"; do

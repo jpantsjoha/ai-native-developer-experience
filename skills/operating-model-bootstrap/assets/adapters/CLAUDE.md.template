@@ -9,7 +9,7 @@ outside the protected contract block.
 Read `docs/operating-model/OPERATING-MANUAL.md` and
 `docs/operating-model/PROJECT-OPERATING-PROFILE.md` before planning or mutating work.
 
-- Manual version: `2.1.0`
+- Manual version: `2.2.0`
 - Manual SHA-256: `<manual-sha256>`
 - The project profile supplies local authority, invariants, commands, and current facts.
 - Before selecting roadmap work, inspect current status, open issues/PRs and worktrees.

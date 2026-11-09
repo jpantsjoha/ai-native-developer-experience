@@ -94,9 +94,12 @@ For each unit of work:
 5. **Merge** using the project's authorised merge strategy after exact-candidate gates.
 6. **Prune** only this lane's clean worktree and merged local/remote branch after
    verifying merged PR state and integration on main. Squash/rebase changes commit IDs;
-   ancestry alone is insufficient. If integration or ownership is uncertain, preserve
-   the work and explain why. Fetch and fast-forward clean main safely; never reset
-   another lane's checkout or discard uncommitted/unintegrated changes.
+   ancestry alone is insufficient. Run the read-only
+   [lane hygiene report](../../scripts/lane_hygiene.py) (`--pr-state` where `gh` is
+   available) and act only on this lane's `remove-candidate` rows. If integration or
+   ownership is uncertain, preserve the work and explain why. Fetch and fast-forward
+   clean main safely; never reset another lane's checkout or discard
+   uncommitted/unintegrated changes.
 7. **Reconcile.** STATUS, CHANGELOG, ROADMAP, ADRs, issues. Findings that live
    only in a chat message evaporate; file them.
 
@@ -107,10 +110,23 @@ editing the same file is not parallelism, it is a merge conflict with extra
 steps** — and most "parallel" refactors of one subsystem collide. Say so rather
 than parallelising for appearances.
 
-## The handover
+Lanes reconcile only through a recorded handoff (H1 in the operating manual): the
+candidate SHA, the checks run with exit codes, and open conditions, acknowledged by
+the one integration owner, who re-runs the full gate on the assembled result.
+
+## Stop rules
+
+Activity is not progress. Respect the project's no-progress limit: attempts and
+elapsed time without a newly validated acceptance check. New commits, reviewer runs
+or a changed SHA do not reset it. At the limit, stop dependent work, keep every
+attempt and finding, and bank a replan decision in `STATUS.md` (handoff H4).
+Until the operator acknowledges it, the blocked item stays yours and stays stopped;
+carry on only with work it does not gate.
+
+## The handover to the operator (H4)
 
 `STATUS.md` is what they read when they return, so write it for someone who was
-not in the room. It carries:
+not in the room. It is the H4 handoff record, and it carries:
 
 - **What landed**, with evidence — a SHA, an exit code, an issue number.
 - **The decisions waiting on them**, each with: a recommendation (a verb and an

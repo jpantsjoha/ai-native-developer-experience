@@ -1,9 +1,9 @@
 # Operating Manual — Evidence-Bound Agent Work
 
-**Version:** 2.1.0
+**Version:** 2.2.0
 **Owner:** operating-model maintainers
-**Released:** 2026-07-12
-**Last verified:** 2026-07-12
+**Released:** 2026-11-09
+**Last verified:** 2026-11-09
 **Scope:** universal kernel for any project; each project supplies a versioned profile
 **Review trigger:** a material failure, a changed authority model, or 90 days without verification
 **Status:** released reference kernel; normative only when a project profile adopts this exact version and SHA-256 digest
@@ -77,6 +77,12 @@ Apply the full process to R2/R3. Do not spend an R3 ritual budget on a loud, rev
 Record a time/cost ceiling for expensive agents, network calls, datasets, or compute. If the ceiling
 would be exceeded, surface the trade-off before spending more.
 
+For R2/R3 also record a **no-progress limit**: the number of attempts and the elapsed time a work
+item may consume without a newly validated acceptance check or resolved discovery question. A new
+commit, message, reviewer run, or changed SHA is activity, not progress. When the limit is reached,
+stop dependent dispatch, preserve every attempt and finding, and replan with the accountable owner.
+Renewing a limit needs an owner, a reason, and a scope; it never resets the attempt record.
+
 ---
 
 ## 2. The operating state machine
@@ -113,11 +119,28 @@ Transition guards:
 - **APPROVED:** only final passing verdicts remain; every condition is closed.
 - **DELIVERED:** the authorized destination contains the verified artifact.
 - **OBSERVED:** health and expected behavior were checked after delivery.
-- **COMPLETE:** docs, status, changelog, evidence, open risks, and rollback are reconciled.
+- **COMPLETE:** docs, status, changelog, evidence, open risks, and rollback are reconciled, and each
+  lane's worktree and merged branch are removed or their retention is recorded with an owner.
 
 Any implementation change after verification returns to IMPLEMENTED. Any content, base, or
 environment change after review invalidates that review. A conditional or blocking verdict is not
 an approval.
+
+### Handoffs
+
+Work changes hands at four named points. Each handoff is a record, not a message:
+
+| Handoff | From → to | Transition |
+|---|---|---|
+| **H1** | lane worker → integration owner | LOCALLY_VERIFIED → INTEGRATED |
+| **H2** | integration owner → independent reviewer | CONVERGENCE_VERIFIED → INDEPENDENTLY_REVIEWED |
+| **H3** | approver → authorised operator | APPROVED → DELIVERED |
+| **H4** | agent → accountable human | any state → BLOCKED, or a decision only a human may take |
+
+Each record names the work item, sender, receiver, exact candidate (commit SHA or tree digest),
+checks run with their exit codes, open conditions, and the single next action. The receiver
+acknowledges before acting; an unacknowledged handoff leaves the work with the sender. A handoff
+never transfers authority the sender did not hold, and a changed candidate needs a new handoff.
 
 ---
 
@@ -153,6 +176,8 @@ task's evidence manifest.
 - Only the integration owner assembles lane commits. Integrate pinned commits, not “whatever is
   currently in that directory.”
 - After integration, rerun the whole gate. Local lane success is not convergence evidence.
+- Lanes reconcile only through H1: the integration owner admits pinned lane commits in the declared
+  merge order and records what was admitted, deferred, or quarantined.
 
 If two strands must edit the same logical interface, sequence them or assign the interface to one
 owner. “Disjoint lines” is not sufficient when behavior or state is shared.
@@ -292,6 +317,10 @@ The integration owner:
 6. Delivers only to the authorized destination.
 7. Observes health, outputs, alerts, and expected behavior.
 8. Reconciles documentation, changelog, status, evidence, remaining risk, and rollback.
+9. Cleans up, normally right after merge and no later than COMPLETE: confirms each lane's change
+   is integrated (squash and rebase merges change commit IDs, so ancestry alone is insufficient),
+   then removes that lane's clean worktree and merged branch. Uncommitted, unintegrated, or other owners' work is preserved and reported, never
+   discarded. A read-only hygiene report is the evidence; deletion stays a deliberate act.
 
 “Tests green” is not complete if delivery, observation, documentation, or open conditions remain.
 
@@ -385,6 +414,9 @@ For R2/R3, also:
 5. Did an independent qualified refuter review the exact candidate?
 6. Are all conditions closed and every blocking verdict cleared?
 7. Are secrets, external effects, rollback, docs, status, delivery, and observation reconciled?
+8. Was every handoff recorded and acknowledged against the candidate it describes?
+9. Was the no-progress limit respected, with any renewal owned and recorded?
+10. Are merged lanes cleaned up, or is their retention recorded with an owner?
 
 An honest “unknown” may be the correct answer. If it changes the decision, verify or escalate it.
 
@@ -392,6 +424,10 @@ An honest “unknown” may be the correct answer. If it changes the decision, v
 
 ## Change history
 
+- **2.2.0 — 2026-11-09:** named handoffs H1–H4 as acknowledged records on existing transitions
+  (no new states); added the R2/R3 no-progress limit (activity is not progress); added lane
+  cleanup to the COMPLETE guard, integration duties, and pre-merge checks. Additive: projects
+  adopted at 2.1.0 keep validating against their own pinned copy until they re-adopt.
 - **2.1.0 — 2026-07-12:** clarified risk-before-authority ordering, explicit unknown
   handling, local-service namespacing, immutable manual-digest adoption, lightweight
   surface adapters, and durable checkpoint/evidence-manifest assets.

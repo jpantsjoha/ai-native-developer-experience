@@ -18,7 +18,7 @@ Reinstall with the same command to update.
   at `GEMINI.md`, the always-on Rules primitive carrying the operating contract
   (design-before-generate, the Adversarial Gate, receipts-not-polish).
 - **Session start** — the plugin's session-start hook injects a compact pointer by default
-  (`JOIN_THE_TEAM_ORIENTATION=full` opts into the orientation skill); on non-Claude runners it emits the SDK-standard
+  (`DEVEX_CHARTER_ORIENTATION=full` opts into the orientation skill); on non-Claude runners it emits the SDK-standard
   `additionalContext` shape Antigravity consumes. Because the package ships a root
   `plugin.json`, `agy` loads it in Agent Plugins mode and reads the hook manifest from
   `hooks.json` at the **package root** — not the nested `hooks/hooks.json` Claude Code

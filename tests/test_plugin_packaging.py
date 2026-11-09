@@ -153,6 +153,49 @@ class PluginPackagingTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("name/version drift", result.stderr)
 
+    def marketplace_with(self, *extra: dict) -> None:
+        """Rewrite the fixture marketplace with the primary entry plus `extra` entries."""
+        path = self.root / ".claude-plugin" / "marketplace.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data["plugins"] = [data["plugins"][0], *extra]
+        path.write_text(json.dumps(data) + "\n", encoding="utf-8")
+
+    def test_declared_legacy_alias_passes(self) -> None:
+        primary = json.loads((self.root / ".claude-plugin" / "marketplace.json")
+                             .read_text(encoding="utf-8"))["plugins"][0]
+        self.marketplace_with({**primary, "name": "join-the-team"})
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_undeclared_extra_marketplace_entry_fails(self) -> None:
+        primary = json.loads((self.root / ".claude-plugin" / "marketplace.json")
+                             .read_text(encoding="utf-8"))["plugins"][0]
+        self.marketplace_with({**primary, "name": "something-else"})
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("not a declared legacy alias", result.stderr)
+
+    def test_malformed_or_duplicate_alias_fails_cleanly(self) -> None:
+        primary = json.loads((self.root / ".claude-plugin" / "marketplace.json")
+                             .read_text(encoding="utf-8"))["plugins"][0]
+        self.marketplace_with({**primary, "name": ["join-the-team"]})
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn("not a declared legacy alias", result.stderr)
+        alias = {**primary, "name": "join-the-team"}
+        self.marketplace_with(alias, alias)
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("listed twice", result.stderr)
+
+    def test_legacy_alias_with_drifted_version_fails(self) -> None:
+        primary = json.loads((self.root / ".claude-plugin" / "marketplace.json")
+                             .read_text(encoding="utf-8"))["plugins"][0]
+        self.marketplace_with({**primary, "name": "join-the-team", "version": "0.4.0"})
+        result = run_validator(self.root)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("must share source and version", result.stderr)
+
     def test_dead_session_start_skill_fails(self) -> None:
         path = self.root / ".kimi-plugin" / "plugin.json"
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -246,7 +289,7 @@ class SpecConformanceTests(unittest.TestCase):
         self.assert_spec_failure("$schema must be")
 
     def test_uppercase_name_fails(self) -> None:
-        self.mutate_manifest(name="Join-The-Team")
+        self.mutate_manifest(name="DevEx-Charter")
         self.assert_spec_failure("violates the spec name pattern")
 
     def test_leading_hyphen_name_fails(self) -> None:

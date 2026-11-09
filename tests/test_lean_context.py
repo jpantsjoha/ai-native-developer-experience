@@ -30,7 +30,8 @@ class LeanContextTests(unittest.TestCase):
                     for mode in ('auto', 'pointer', 'full', 'off'):
                         env = os.environ.copy()
                         env.pop('CLAUDE_PLUGIN_ROOT', None)
-                        env['JOIN_THE_TEAM_ORIENTATION'] = mode
+                        env.pop('JOIN_THE_TEAM_ORIENTATION', None)
+                        env['DEVEX_CHARTER_ORIENTATION'] = mode
                         if claude:
                             env['CLAUDE_PLUGIN_ROOT'] = str(ROOT)
                         result = subprocess.run(['bash', str(ROOT / 'hooks/session-start')], cwd=root, env=env, text=True, capture_output=True, check=True)
@@ -45,3 +46,19 @@ class LeanContextTests(unittest.TestCase):
                             self.assertLess(len(context.encode()), 1200)
                             self.assertEqual('Project contract:' in context, adopted)
                             self.assertNotIn('## Skill routing', context)
+
+    def test_legacy_orientation_variable_still_works_and_new_name_wins(self):
+        """Pre-0.6.0 installs keep their setting; the new variable takes precedence."""
+        def run(env_updates):
+            env = os.environ.copy()
+            for key in ('CLAUDE_PLUGIN_ROOT', 'JOIN_THE_TEAM_ORIENTATION', 'DEVEX_CHARTER_ORIENTATION'):
+                env.pop(key, None)
+            env.update(env_updates)
+            with tempfile.TemporaryDirectory() as tmp:
+                return subprocess.run(['bash', str(ROOT / 'hooks/session-start')], cwd=tmp,
+                                      env=env, text=True, capture_output=True, check=True).stdout
+        self.assertEqual(run({'JOIN_THE_TEAM_ORIENTATION': 'off'}), '')
+        self.assertNotEqual(run({'JOIN_THE_TEAM_ORIENTATION': 'off',
+                                 'DEVEX_CHARTER_ORIENTATION': 'auto'}), '')
+        self.assertEqual(run({'DEVEX_CHARTER_ORIENTATION': 'off',
+                              'JOIN_THE_TEAM_ORIENTATION': 'full'}), '')

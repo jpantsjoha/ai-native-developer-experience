@@ -16,6 +16,9 @@ BOOTSTRAP = SKILL_ROOT / "scripts" / "bootstrap_operating_model.py"
 VALIDATE = SKILL_ROOT / "scripts" / "validate_operating_model.py"
 
 
+MANUAL_VERSION_UNDER_TEST = "2.2.0"
+
+
 def run_script(script: Path, *arguments: str) -> subprocess.CompletedProcess[str]:
     """Run one skill script exactly as an adopter would from a shell."""
 
@@ -129,6 +132,31 @@ class OperatingModelBootstrapTests(unittest.TestCase):
         self.assertEqual(validation.returncode, 1)
         self.assertIn("semantic drift", validation.stderr)
 
+    def test_project_pinned_to_an_older_manual_still_validates(self) -> None:
+        """A plugin upgrade must not fail a project adopted at an earlier manual version."""
+        self.assertEqual(self.install().returncode, 0)
+        manual = self.target / "docs" / "operating-model" / "OPERATING-MANUAL.md"
+        old_digest = hashlib.sha256(manual.read_bytes()).hexdigest()
+        current = MANUAL_VERSION_UNDER_TEST
+        manual.write_text(
+            manual.read_text(encoding="utf-8").replace(
+                f"**Version:** {current}", "**Version:** 2.1.0", 1)
+            + "\nAdopted before the current release.\n",
+            encoding="utf-8",
+        )
+        new_digest = hashlib.sha256(manual.read_bytes()).hexdigest()
+        bound = [self.target / "docs/operating-model/PROJECT-OPERATING-PROFILE.md",
+                 *(self.target / name for name in ("AGENTS.md", "CLAUDE.md", "GEMINI.md"))]
+        for path in bound:
+            if path.is_file():
+                text = path.read_text(encoding="utf-8")
+                path.write_text(text.replace(old_digest, new_digest).replace(current, "2.1.0"),
+                                encoding="utf-8")
+
+        validation = run_script(VALIDATE, "--target", str(self.target))
+        self.assertEqual(validation.returncode, 0, validation.stderr)
+        self.assertIn("PASS operating-model validation", validation.stdout)
+
     def test_manual_change_invalidates_profile_and_adapters(self) -> None:
         self.assertEqual(self.install().returncode, 0)
         manual = self.target / "docs" / "operating-model" / "OPERATING-MANUAL.md"
@@ -209,7 +237,7 @@ class OperatingModelBootstrapTests(unittest.TestCase):
         evidence = self.target / "evidence.yaml"
         checkpoint.write_text(
             "operating_contract:\n"
-            "  manual_version: 2.1.0\n"
+            "  manual_version: 2.2.0\n"
             f"  manual_sha256: {digest}\n"
             "risk_tier: R2\n"
             "candidate_sha_or_tree_digest: candidate-a\n",
@@ -217,7 +245,7 @@ class OperatingModelBootstrapTests(unittest.TestCase):
         )
         evidence.write_text(
             "operating_contract:\n"
-            "  manual_version: 2.1.0\n"
+            "  manual_version: 2.2.0\n"
             f"  manual_sha256: {digest}\n"
             "candidate:\n"
             "  sha_or_digest: candidate-b\n",

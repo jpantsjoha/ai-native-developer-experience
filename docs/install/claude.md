@@ -1,7 +1,7 @@
 # Install — Claude Code
 
-The renamed package is an unreleased source candidate. For existing installations
-and release prerequisites, read [the migration guide](rebrand.md).
+Already running `join-the-team`? It keeps working; to move to the current name read
+[the migration guide](rebrand.md). Install one name, not both.
 
 
 Choose an installation scope from your shell:
@@ -28,7 +28,8 @@ What gets wired:
   which discover there natively. One skill set, zero copies.
 - **Session-start hook** — injects a short adoption pointer for unadopted projects, or the
   compact orientation pointer; full `using-the-harness` content is opt-in with
-  `JOIN_THE_TEAM_ORIENTATION=full`. Requires `bash` on PATH; without it
+  `DEVEX_CHARTER_ORIENTATION=full` (the pre-0.6.0 `JOIN_THE_TEAM_ORIENTATION` is still
+  read when the new variable is unset). Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.
 - **Slash commands** — `/devex-charter:bootstrap`, `/devex-charter:init`, and
   `/devex-charter:validate`.

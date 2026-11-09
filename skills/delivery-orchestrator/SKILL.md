@@ -128,7 +128,9 @@ not proof that a model or reviewer ran.
 
 - Task breakdown: tracks, atomic tasks, dependencies
 - Skill routing: task → skill mapping
-- Parallel execution plan with integration validation step
+- Parallel execution plan with integration validation step, naming the integration
+  owner, merge order and where each H1–H4 handoff is recorded
+- The no-progress limit for each R2/R3 work item
 - A brief orchestration summary for the human lead
 
 ## Guardrails
@@ -136,6 +138,12 @@ not proof that a model or reviewer ran.
 - **Atomic means independently validatable.** If you cannot describe how to verify a task in isolation, it is not atomic — split it further or merge it with its dependency.
 - **Parallel agents must not share mutable state without a coordination strategy.** If two tracks write to the same file or schema, they are not independent. Use worktrees or serialise them.
 - **Integration validation is not optional.** Parallel work that skips the post-merge regression check is not complete.
+- **Handoffs are records.** Work changes hands only through the manual's H1–H4 records:
+  candidate SHA, checks with exit codes, open conditions, receiver acknowledgement.
+- **Activity is not progress.** Count attempts against a newly validated check; a new
+  commit or reviewer run does not reset the no-progress limit.
+- **Clean up what you merged.** A merged lane left behind is not COMPLETE. Use the
+  read-only [lane hygiene report](../../scripts/lane_hygiene.py) as the evidence.
 - **Keep agent context lean.** Each agent gets its task spec and relevant ADRs, not the entire repo.
 
 ## Model choice at the delegation boundary

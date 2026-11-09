@@ -10,14 +10,64 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
-- Add `make planning`: offline required-document, ID/state, parent/dependency,
+Planned as 0.6.0: manifests declare 0.6.0; publication waits for the release cut.
+
+### Changed
+
+- Backward-compatible rename ([ADR-005](architecture/decisions/ADR-005-complete-devex-charter-rename.md)):
+  `devex-charter` is the name for new installs; the marketplace stays
+  `join-the-team-marketplace` and lists `join-the-team` as a legacy alias of the same
+  plugin, so every published `join-the-team` install command keeps working. The
+  orientation variable is `DEVEX_CHARTER_ORIENTATION`; `JOIN_THE_TEAM_ORIENTATION` is
+  still read when the new variable is unset (tested). The packaging validator accepts
+  only declared aliases that share the primary entry's source and version.
+- Operating manual 2.2.0: named handoffs H1–H4 as acknowledged records on existing
+  transitions (no new states); an R2/R3 no-progress limit (activity is not progress);
+  lane cleanup in the COMPLETE guard, integration duties and pre-merge checks. Projects
+  adopted at 2.1.0 keep validating against their pinned copy.
+- One Definition of Done ladder in the delivery workflow template and a crosswalk of
+  the four state vocabularies in `docs/DELIVERY-RECORDS.md`. The TypeScript gate table
+  in `DEVELOPER_EXPERIENCE.md` is now labelled as an example.
+- Workflow template: duplicate review-ceiling controls merged; no-progress limit,
+  handoff location and hygiene report added as project controls. Profile and checkpoint
+  templates gain optional `no_progress_limit`, `handoffs` and push-custody fields.
+- `get-it-done`, `delivery-orchestrator` and the Council loop-recovery reference use the
+  same handoff, limit and cleanup rules. `spec-first-delivery` offers an optional
+  `parking-lot.md` for unresolved items.
+
+### Added
+
+- `scripts/lane_hygiene.py` and `make hygiene`: a read-only report of removable worktrees,
+  merged local and remote branches, stale worktree metadata and plugin registrations for
+  deleted paths. It recognises merge, rebase and squash integration offline (`--pr-state`
+  also asks `gh`, and requires the PR to target the base), prints shell-quoted suggested
+  commands and never runs them. Lanes holding merge commits are never judged by
+  `git cherry` alone; lanes with no commits of their own (fresh or fast-forwarded) are
+  review-only; remote branches are judged against the same remote's base, on one remote,
+  and long-lived names are never candidates. Removal candidates name any ignored files
+  (such as `.env`) that removal would delete. Local long-lived branches are never
+  candidates either. Patch-id matching cannot see a later revert on the base, so the
+  report suggests and a person decides. Fixture tests include a no-mutation check of
+  refs, worktrees, status and stat-stale worktree indexes.
+- A plugin icon, `.claude-plugin/icon.svg`, which `claude plugin validate` looks for.
+
+- `make planning`: offline required-document, ID/state, parent/dependency,
   supersession, local-link and Done-evidence checks with negative CLI fixtures,
   wired into `make test`. Structural validation does not authenticate review or prove
   release.
-- Extend existing skills and the bootstrap workflow with outcome traceability,
-  evidence levels, task/model/effort routing, council failure semantics, maturity
-  exits, artifact promotion and commercial experiment feedback.
-- Correct per-call cost formula grouping in `cost-guardrail`.
+- Existing skills and the bootstrap workflow gain outcome traceability, evidence
+  levels, task/model/effort routing, council failure semantics, maturity exits,
+  artifact promotion and commercial experiment feedback.
+
+### Fixed
+
+- Per-call cost formula grouping in `cost-guardrail`.
+
+### Removed
+
+- The `contextFile: ./CLAUDE.md` entry under `com.anthropic.claude-code` in the root
+  `plugin.json` (shipped in v0.5.0): Claude Code does not load a plugin-root `CLAUDE.md`,
+  and that file is the maintainer adapter, not adopter context.
 
 ## [0.5.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.5.0) — 2026-11-06
 

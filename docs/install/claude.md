@@ -22,7 +22,7 @@ needed. Bootstrap creates the project contract, not a global authority policy.
 
 What gets wired:
 
-- **Skills** — the 25 `skills/` capabilities. `skills/` is a real directory at the
+- **Skills** — the 26 `skills/` capabilities. `skills/` is a real directory at the
   Agent Plugins fixed discovery location, so it survives installers that flatten
   symlinks; `.agents/skills/` is a relative symlink alias kept for Codex and Kimi,
   which discover there natively. One skill set, zero copies.
@@ -31,8 +31,8 @@ What gets wired:
   `DEVEX_CHARTER_ORIENTATION=full` (the pre-0.6.0 `JOIN_THE_TEAM_ORIENTATION` is still
   read when the new variable is unset). Requires `bash` on PATH; without it
   the plugin degrades to skill discovery without injection.
-- **Slash commands** — `/devex-charter:bootstrap`, `/devex-charter:init`, and
-  `/devex-charter:validate`.
+- **Slash commands** — `/devex-charter:bootstrap`, `:init`, `:validate`, `:get-it-done`,
+  `:sitrep` and `:wrap-it-up`.
 
 ## Verify
 

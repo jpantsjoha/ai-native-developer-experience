@@ -10,6 +10,8 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
+## [0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1) — 2026-11-09
+
 ### Added
 
 - `docs/HOST-CAPABILITIES.md`: how each host (Claude Code, Codex, Kimi, Antigravity,
@@ -21,6 +23,9 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 - Routing receipts record host/harness and version; comparisons pin it and may use
   repeated attempts with paired confidence intervals.
 - ClaudePluginHub badge in the README.
+- `wrap-it-up` skill (closes a frozen in-flight set to a clean baseline) and three
+  session commands: `/devex-charter:get-it-done`, `:sitrep` and `:wrap-it-up` (26 skills,
+  6 commands).
 
 ## [0.6.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.0) — 2026-11-09
 

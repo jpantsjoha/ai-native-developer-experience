@@ -12,6 +12,7 @@ The AI-native developer experience harness.
 
 [![Agent Plugins 1.0.0](https://img.shields.io/badge/Agent%20Plugins-1.0.0-blue)](https://agent-plugins.org/specification)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-conformant-blue)](https://agentskills.io/specification)
+[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/jpantsjoha-devex-charter)](https://www.claudepluginhub.com/plugins/jpantsjoha-devex-charter?ref=badge)
 
 **Shared ways of working for you, your team and your AI agents — from a new idea to a
 change running live.**
@@ -109,7 +110,11 @@ adapter and profile are loaded. Installation alone does not adopt project contro
 
 Full per-harness detail (session-start hooks, verification, update path):
 [Claude Code](docs/install/claude.md) · [Kimi Code](docs/install/kimi.md) ·
-[Codex](docs/install/codex.md) · [Antigravity](docs/install/antigravity.md)
+[Codex](docs/install/codex.md) · [Antigravity](docs/install/antigravity.md) ·
+[OpenCode (candidate)](docs/install/opencode.md). The
+[host capability matrix](docs/HOST-CAPABILITIES.md) shows how each host loads and
+enforces the contract, and why the best setup is the one tuned to your own team's ways
+of working.
 
 Antigravity is a first-class surface: this harness was built and battle-tested on
 Google Cloud's agent stack, and ships cloud guardrails (`cloud-expert`, with GCP, AWS, Azure and Alibaba Cloud references) plus `adk-expert` and

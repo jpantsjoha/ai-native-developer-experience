@@ -1,7 +1,6 @@
 # Install — Kimi Code
 
-The renamed package is an unreleased source candidate. For existing installations
-and release prerequisites, read [the migration guide](rebrand.md).
+Upgrading from `join-the-team`? It keeps working; see [the migration guide](rebrand.md).
 
 
 Install directly from the repository:

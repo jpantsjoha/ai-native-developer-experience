@@ -46,8 +46,8 @@ acceptance failure against the matched baseline suspends that family immediately
 
 Keep an append-only local receipt per attempt outside tracked source, at the location
 selected by the owner. Record task/source and acceptance identifiers, policy version,
-model/effort, timestamps, outcome, check result, retries and available usage. Include
-parent planning, review and repair, or disclose their absence. Exclude prompts, code,
+host/harness and its version, model/effort, timestamps, outcome, check result, retries and
+available usage. Include parent planning, review and repair, or disclose their absence. Exclude prompts, code,
 credentials, customer content and identifiable task text. Do not publish raw receipts.
 
 Unknown usage is unmeasured, not free. Never infer tokens from character counts. Cached
@@ -57,6 +57,9 @@ unless the adopting host supplies and verifies an integration.
 
 Compare predeclared matched task families against a fixed-baseline control, randomising
 assignment where practical. Track accepted outcomes, all attempts, cost coverage, total
-cost per accepted outcome and end-to-end latency. Rebaseline after model/effort or policy
-changes. Target at least 20% lower cost with no additional acceptance failures or material
+cost per accepted outcome and end-to-end latency. Pin the host/harness version in every
+comparison; the routing unit is a host and model pair, because the best harness varies by
+model (see `docs/HOST-CAPABILITIES.md`). Where samples allow, use repeated attempts per task
+and paired confidence intervals, and call a difference a tie when the interval spans zero.
+Rebaseline after model/effort, host/harness or policy changes. Target at least 20% lower cost with no additional acceptance failures or material
 slowdown; a small pilot is a learning signal, not proof. Do not promote on cost alone.

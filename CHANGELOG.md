@@ -10,7 +10,21 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
-Planned as 0.6.0: manifests declare 0.6.0; publication waits for the release cut.
+### Added
+
+- `docs/HOST-CAPABILITIES.md`: how each host (Claude Code, Codex, Kimi, Antigravity,
+  OpenCode as a candidate) loads and enforces the contract, with a dated citation of the
+  Harness Leaderboard and Harness Lens method: the best harness depends on the model, and
+  the most effective setup is the one tuned to your own team's ways of working.
+- `docs/install/opencode.md`: candidate support through existing skills and `AGENTS.md`
+  discovery; not yet verified by a live run.
+- Routing receipts record host/harness and version; comparisons pin it and may use
+  repeated attempts with paired confidence intervals.
+- ClaudePluginHub badge in the README.
+
+## [0.6.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.0) — 2026-11-09
+
+Released 2026-11-09 as [v0.6.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.0).
 
 ### Changed
 

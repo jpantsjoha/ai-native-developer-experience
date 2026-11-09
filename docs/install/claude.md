@@ -54,7 +54,8 @@ manifests must agree on name and version or CI fails.
 
 Use the host’s plugin update flow for your selected scope. The packaging drift validator
 (`python3 scripts/validate_plugin.py --root .`) and the conformance gate
-(`--spec-only`, wired as `make spec-conformance`) both run in this repository's own CI.
+(`--spec-only`, wired as `make spec-conformance`) both run in this repository's local
+`make check` gate (hosted CI is retired).
 
 Scope and package-path behaviour checked against the official
 [installation documentation](https://code.claude.com/docs/en/discover-plugins#choose-an-install-scope)

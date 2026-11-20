@@ -66,11 +66,10 @@ Planned as 0.7.0: manifests declare 0.7.0; publication waits for the release cut
   [reconciliation rule](docs/DELIVERY-RECORDS.md#reconciliation-one-records-task-per-merge-batch).
   Development pull request 1; the public pull request is assigned at the next cut.
 
-## 0.6.1 — merged 2026-11-09, release pending
+## [0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1) — 2026-11-09
 
-Merged to `main` in [PR #42](https://github.com/jpantsjoha/ai-native-developer-experience/pull/42).
-No `v0.6.1` tag or release exists yet; [v0.6.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.0)
-is the latest published release.
+Merged to `main` on 9 November 2026 in [PR #42](https://github.com/jpantsjoha/ai-native-developer-experience/pull/42)
+and released on 20 November 2026 as [v0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1).
 
 ### Added
 

@@ -10,7 +10,7 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
-Planned as 0.7.0: manifests declare 0.7.0; publication waits for the release cut.
+## [0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0) — 2026-11-20
 
 ### Added
 
@@ -32,7 +32,7 @@ Planned as 0.7.0: manifests declare 0.7.0; publication waits for the release cut
   skills in each, independent review PASS on each merged head. See the
   [operating model source](docs/diagrams/operating-model.c4x) and the
   [skills flow source](docs/diagrams/delivery-value-orchestration.c4x). Development pull
-  requests 12, 13 and 17; the public pull request is assigned at the next cut.
+  requests 12, 13 and 17; public pull request 43.
 
 - Specification [AMH-001](requirements/ADOPTION-MODES-HITL.md) and
   [ADR-006](architecture/decisions/ADR-006-adoption-modes-and-hitl-queue.md), both
@@ -40,7 +40,7 @@ Planned as 0.7.0: manifests declare 0.7.0; publication waits for the release cut
   `HITL/OPERATOR/`, and the rule that delivery work enters through the orchestrator.
   The routing rule is built (see Changed); the adoption modes and the queue are not.
   Proof: `make check` exit 0, independent review PASS.
-  Development pull request 14; the public pull request is assigned at the next cut.
+  Development pull request 14; public pull request 43.
 - A routing evaluation: 18 fixed prompts from six kinds of people, a headless runner
   (`scripts/routing_eval.py`) and recorded results. See
   [evals/routing](evals/routing/README.md). Development pull request 19.
@@ -58,13 +58,13 @@ Planned as 0.7.0: manifests declare 0.7.0; publication waits for the release cut
   expected role for 17 (9 before), one run per prompt, one host. See the
   [routing evaluation](evals/routing/README.md) and the
   [orchestrator skill](skills/delivery-orchestrator/SKILL.md). Development pull request
-  19; the public pull request is assigned at the next cut.
+  19; public pull request 43.
 - Delivery records: one records task after each merge batch updates `ROADMAP`, `STATUS`
   and `CHANGELOG` together; builders no longer edit them and every entry links its issue
   or pull request (`docs/DELIVERY-RECORDS.md`, `delivery-orchestrator`, `get-it-done`,
   `wrap-it-up`). Proof: `make check` exit 0. See the
   [reconciliation rule](docs/DELIVERY-RECORDS.md#reconciliation-one-records-task-per-merge-batch).
-  Development pull request 1; the public pull request is assigned at the next cut.
+  Development pull request 1; public pull request 43.
 
 ## [0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1) — 2026-11-09
 

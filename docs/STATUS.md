@@ -3,8 +3,8 @@
 ## Current release
 
 As of 20 November 2026 the latest published release is
-[v0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1)
-(merged 9 November, released 20 November 2026). The 0.6 line keeps the rename backward compatible: `devex-charter` for new
+[v0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0)
+(released 20 November 2026). The 0.6 line onward keeps the rename backward compatible: `devex-charter` for new
 installs, `join-the-team` as a legacy alias. Existing installations do not update
 automatically: follow the [migration guide](install/rebrand.md). The tag/release record
 owns publication state; a version in a manifest alone is not publication. See the
@@ -12,11 +12,10 @@ owns publication state; a version in a manifest alone is not publication. See th
 
 ## Merged, not yet released
 
-- **0.7.0** is planned: the manifests read 0.7.0 and its entries sit under Unreleased in
-  the CHANGELOG. No `v0.7.0` tag or release exists yet. It carries the orchestrator as
-  the default entry, the routing evaluation on two hosts, the accepted adoption-modes
-  specification, the records-task rule and the README additions (development pull requests
-  12 to 22). See the [CHANGELOG](../CHANGELOG.md).
+Nothing: 0.7.0 was released on 20 November 2026 (tag `v0.7.0`, public pull request 43).
+It carries the orchestrator as the default entry, the routing evaluation on two hosts,
+the accepted adoption-modes specification, the records-task rule and the README additions
+(development pull requests 12 to 22). See the [CHANGELOG](../CHANGELOG.md).
 
 ## In progress
 
@@ -26,7 +25,7 @@ owns publication state; a version in a manifest alone is not publication. See th
   accepted on 20 November 2026 (development pull request 14). Its routing rule is built,
   as the next entry says. The adoption modes and the queue are not built. Not yet a
   published roadmap milestone.
-- **The orchestrator as the default entry**: planned for 0.7.0, not yet released
+- **The orchestrator as the default entry**: released in 0.7.0
   (development pull requests 19 and 22). Each of the 24 specialist skills names
   `delivery-orchestrator` as its entry and the check that proves its output, or says there
   is none. Measured on Claude Code and Codex. See the

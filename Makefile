@@ -26,7 +26,9 @@ typecheck:
 		scripts/validate_delivery.py \
 		tests/test_delivery_validation.py \
 		scripts/lane_hygiene.py \
-		tests/test_lane_hygiene.py
+		tests/test_lane_hygiene.py \
+		scripts/routing_eval.py \
+		tests/test_orchestrator_entry.py
 
 planning:
 	$(PYTHON) scripts/validate_delivery.py --root .

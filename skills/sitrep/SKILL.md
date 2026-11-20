@@ -1,6 +1,6 @@
 ---
 name: sitrep
-description: Synthesise a status, standup, or situation-report from current work state. Trigger when a team member needs a concise summary of where things stand, what is blocked, and what is next.
+description: "A role that delivery-orchestrator brings in. Synthesise a status, standup, or situation-report from current work state. Trigger when a team member needs a concise summary of where things stand, what is blocked, and what is next. Trigger on \"where are we\", \"what is blocked\", \"what waits on me\", \"are we on track\", progress and the golden thread from goal to tickets."
 ---
 
 # Sitrep
@@ -72,3 +72,8 @@ declared generator, and distinguish offline results from live tracker reconcilia
 - **Blocked means blocked.** If something is moving slowly but not actually blocked, it belongs in "Next" with a note, not "Blocked."
 - **Done means done.** "95% done" is not done. If it is not verifiably complete, it is "Next."
 - **Length is not quality.** A five-line sitrep that answers the three questions is better than a twenty-line one that does not.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/validate_delivery.py` and `scripts/lane_hygiene.py`; every figure is re-derived from the repository and tracker, not recalled. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

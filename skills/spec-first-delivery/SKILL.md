@@ -1,6 +1,6 @@
 ---
 name: spec-first-delivery
-description: Force plan, HLD, ADRs, and constraints to exist BEFORE any code is generated. Trigger when starting a new feature, epic, or significant change.
+description: "A role that delivery-orchestrator brings in. Force plan, HLD, ADRs, and constraints to exist BEFORE any code is generated. Trigger when starting a new feature, epic, or significant change. Also trigger on \"plan it\", \"scope this\" and \"create a ticket\"."
 ---
 
 # Spec-First Delivery
@@ -38,7 +38,7 @@ a proposal until its accountable owner accepts it within scope.
 - `requirements/FEATURE_SPEC.md` (or equivalent per project structure)
 - `architecture/decisions/ADR-NNN-<short-title>.md` (one per decision)
 - `architecture/HLD-<feature>.md` (if not already covered)
-- Updated project roadmap (e.g. `docs/ROADMAP.md` or equivalent per project structure) with new tasks or milestones
+- Roadmap change (new tasks or milestones) noted in the spec PR body, for the records task to apply to the project roadmap (e.g. `docs/ROADMAP.md` or equivalent)
 - Optional `parking-lot.md` beside the spec: questions and ideas raised but not resolved,
   each with an owner and the trigger that brings it back. It is a holding list, not a
   backlog or a delivery record; promote an item by filing an issue, then remove it.
@@ -58,3 +58,8 @@ a proposal until its accountable owner accepts it within scope.
 | "The spec will slow us down" | A missing spec causes rewrites. Rewrites cost more than specs. |
 | "The requirements are obvious" | Obvious requirements are the ones most often wrong. Write them down and verify. |
 | "We can spec it after the prototype" | Prototypes become production. Spec it now. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/validate_delivery.py` (`make planning`). `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

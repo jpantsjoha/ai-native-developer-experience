@@ -1,6 +1,6 @@
 ---
 name: governance-guardrail
-description: Check proposed stack, data flows, cloud choices, and delivery controls against declared enterprise policies, compliance frameworks, and security controls. Trigger at R2/R3 risk classification, before locking architecture decisions, or when the operating profile names a governance pointer.
+description: A role that delivery-orchestrator brings in. Check proposed stack, data flows, cloud choices, and delivery controls against declared enterprise policies, compliance frameworks, and security controls. Trigger at R2/R3 risk classification, before locking architecture decisions, or when the operating profile names a governance pointer.
 ---
 
 # Governance Guardrail
@@ -121,3 +121,8 @@ Pass open R2/R3-blocking findings to `adversarial-gate` before those decisions a
 | "Security is the security team's job" | Security is the team's constraint. The security team approves; the team is responsible for alignment. |
 | "There's no policy document, so there's no policy" | Absence of a cited policy is the gap. Surface it with an owner and trigger. |
 | "We already did this for the last project" | Policy changes. Stack changes. Check against the current pointer for this project. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None is shipped. Each finding cites the policy clause it rests on.

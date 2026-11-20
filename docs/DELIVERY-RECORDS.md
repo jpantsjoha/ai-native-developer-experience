@@ -20,11 +20,11 @@ Neither establishes installed adoption or observed use.
 | Record | The one question it answers | Written when |
 |---|---|---|
 | **GitHub issues** | *What exactly is this piece of work, and how will we know it is done?* | Before the first line of code |
-| **`STATUS.md`** | *What is happening right now, and what is waiting on whom?* | One entry per working session |
-| **`ROADMAP.md`** | *What are we building toward, in what order?* | When a milestone or the plan changes |
-| **`CHANGELOG.md`** | *What shipped — proven, tested, delivered?* | When user-visible work merges |
+| **`STATUS.md`** | *What is happening right now, and what is waiting on whom?* | The records task, after each merge batch: one entry per working session, amended by later batches in that session |
+| **`ROADMAP.md`** | *What are we building toward, in what order?* | The records task, after each merge batch, when the batch changed what comes next or its order |
+| **`CHANGELOG.md`** | *What shipped — proven, tested, delivered?* | The records task, after each merge batch that merged user-visible work |
 
-Two rules keep them apart:
+Two rules keep them apart (the third, reconciliation, is [below](#reconciliation-one-records-task-per-merge-batch)):
 
 - **`ROADMAP` owns build order.** Where any other document disagrees about what comes next, the
   roadmap wins. Sequence from there and nowhere else.
@@ -120,8 +120,24 @@ and where the evidence lives. An item missing any of them has been dropped, not 
 Append-only, newest first, grouped by what the reader cares about — not by which branch it came
 from. Each entry names the change, the issue, and what proves it.
 
-**Write it when the work merges, not at release time.** A changelog reconstructed at tag time is
-reconstructed from memory, and memory flatters.
+**Write it in the records task that follows the merge batch, never at release time and never inside the feature PR.** A changelog reconstructed at tag time is reconstructed from memory, and memory flatters.
+
+---
+
+## Reconciliation: one records task per merge batch
+
+The three state files drift unless one owner writes them, so this applies to every project and every session, solo or parallel. The rule:
+
+- **Builders never edit `ROADMAP.md`, `STATUS.md` or `CHANGELOG.md`.** They describe the record
+  change their work implies in the PR body instead.
+- **After each batch of merges, one records task reconciles all three together** (it checks each one, and edits a file only where the batch changed its fact):
+  - `ROADMAP.md`: what is next, and in what order.
+  - `STATUS.md`: the issues and PRs in progress, and what waits on whom, including operator
+    decisions. A later batch in the same session amends that session's entry; it does not add a second one.
+  - `CHANGELOG.md`: user-visible work that merged or shipped, each entry with its PR number and what proves it.
+- **Every entry links its issue or PR**, so the three files can be cross-checked and never
+  disagree. An entry without a link is a claim, not a record.
+- The orchestrator owns the records task. In a solo session the person or agent leading the session is the orchestrator, and the batch is the merges since the last records task. The records task runs after the batch merges, as its own commit or PR, never per feature PR and never mixed into a feature PR. Its PR gets an independent review like any other.
 
 ---
 
@@ -130,13 +146,11 @@ reconstructed from memory, and memory flatters.
 ```
 issue filed (DoD, scope, thread)
    ↓
-branch → build → gate → independent review
+branch → build → gate → independent review (PR body notes the record changes)
    ↓
-merge → CHANGELOG entry → issue closed with evidence
+merge → issue closed with evidence
    ↓
-STATUS entry (what landed, what waits, the lesson)
-   ↓
-ROADMAP reconciled if the plan moved
+batch merged → one records task: CHANGELOG + STATUS + ROADMAP together, each entry linked
 ```
 
 Closing an issue means **closing it with evidence** — the command that proved it, the verdict

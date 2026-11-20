@@ -1,6 +1,7 @@
 ---
 name: cloud-checkup
 description: >-
+  A role that delivery-orchestrator brings in.
   Read-only SRE checkup of any GCP project: deterministic probes of the edge, Cloud Run
   services, 7-day error logs, Cloud Scheduler, alert policies and uptime checks, Secret
   Manager and IAM, the data stores and the machine's own scheduled jobs, audited into one
@@ -176,3 +177,8 @@ node pool health, pod restart counts, and pending or evicted pods.
 | `templates/checkup_prompt.md` | The layer 2 inspection prompt, manifest-parametrised. |
 | `templates/launchd.plist.tmpl`, `templates/cron.example` | Schedule scaffolds. |
 | `modules/mongodb_atlas.md` | Data-store module: what to assess, and the assess/plan/apply/rollback retention pattern. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/cloud_checkup.sh` in this skill runs the probes. The same manifest gives the same probe set; the readings are live and change with the platform.

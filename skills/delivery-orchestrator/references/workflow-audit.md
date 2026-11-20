@@ -28,10 +28,10 @@ artificial one-to-one mappings. Unknown coverage is a gap, not a zero or a pass.
 | ADR / engineering decision log | Why a durable choice was made, owner, status and consequences | Decision changes; supersede accepted records |
 | ROADMAP | Ordered outcome horizons and dependencies | Planning changes |
 | Issue system | Active task scope, ownership, dependencies, milestone and DoD | Before implementation and at each state transition |
-| STATUS | Dated, derived current state, blockers, next action and evidence | Meaningful delivery/review transition |
+| STATUS | Dated, derived current state, blockers, next action and evidence | Per the records task after each merge batch |
 | README | Current user entrypoint and supported capability | User-facing behaviour or setup changes |
 | Runbook | Actual operational commands, recovery and observation | Interface or operations changes |
-| CHANGELOG | Material changes; Unreleased candidate entries become release history only when delivered | Merge, then release cut |
+| CHANGELOG | Material changes; Unreleased candidate entries become release history only when delivered | Per the records task after each merge batch, then release cut |
 | Opportunity log | Customer/commercial hypothesis, evidence and next experiment | New market/user evidence; no automatic roadmap promotion |
 
 Record file paths and case in the profile (for example `docs/STATUS.md` versus

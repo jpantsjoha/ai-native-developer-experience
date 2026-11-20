@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "entry": "delivery-orchestrator",
+  "prompts": [
+    {"id": "solo-1", "persona": "Solo owner", "prompt": "Let's get the sign-up milestone finished. What's left and what do we do next?", "role": "sitrep", "direct_ok": false},
+    {"id": "solo-2", "persona": "Solo owner", "prompt": "Create a ticket for adding password reset to the sign-up flow.", "role": "spec-first-delivery", "direct_ok": false},
+    {"id": "solo-3", "persona": "Solo owner", "prompt": "I want to add billing with Stripe next. Plan it.", "role": "spec-first-delivery", "direct_ok": false},
+    {"id": "po-1", "persona": "Product owner", "prompt": "Users are dropping off at email verification. I want that fixed as the next priority.", "role": "product-owner", "direct_ok": false},
+    {"id": "po-2", "persona": "Product owner", "prompt": "Is the sign-up journey still aligned with our vision and acceptance criteria?", "role": "product-owner", "direct_ok": false},
+    {"id": "po-3", "persona": "Product owner", "prompt": "Change the requirement: sign-up must work with Google login as well.", "role": "product-owner", "direct_ok": false},
+    {"id": "dd-1", "persona": "Delivery director", "prompt": "Where are we on the sign-up milestone, and what's blocked?", "role": "sitrep", "direct_ok": false},
+    {"id": "dd-2", "persona": "Delivery director", "prompt": "What's waiting on me this week?", "role": "sitrep", "direct_ok": false},
+    {"id": "dd-3", "persona": "Delivery director", "prompt": "Are we on track to ship M1? Show me the golden thread from goal to tickets.", "role": "sitrep", "direct_ok": false},
+    {"id": "tl-1", "persona": "Technical lead", "prompt": "Should we move session storage from Postgres to Redis? I need a decision recorded.", "role": "the-architect", "direct_ok": false},
+    {"id": "tl-2", "persona": "Technical lead", "prompt": "Review the open pull request for the sign-up form before we merge.", "role": "pr-reviewer", "direct_ok": false},
+    {"id": "tl-3", "persona": "Technical lead", "prompt": "Break the billing epic into tasks the agents can run in parallel.", "role": "delivery-orchestrator", "direct_ok": false},
+    {"id": "qa-1", "persona": "QA lead", "prompt": "How do we prove the sign-up flow actually works before we call it done?", "role": "test-strategy", "direct_ok": false},
+    {"id": "qa-2", "persona": "QA lead", "prompt": "What's our definition of done for email verification, and what evidence do we have?", "role": "test-strategy", "direct_ok": false},
+    {"id": "qa-3", "persona": "QA lead", "prompt": "I don't trust the green test run. Try to break the sign-up flow.", "role": "adversarial-gate", "direct_ok": false},
+    {"id": "sre-1", "persona": "Data or SRE specialist", "prompt": "Is everything live in production? Any errors this week?", "role": "cloud-checkup", "direct_ok": true},
+    {"id": "sre-2", "persona": "Data or SRE specialist", "prompt": "Are we ready to release M1 to production on Friday?", "role": "release-readiness", "direct_ok": false},
+    {"id": "sre-3", "persona": "Data or SRE specialist", "prompt": "What will the LLM calls in the support bot cost us per month?", "role": "cost-guardrail", "direct_ok": true}
+  ]
+}

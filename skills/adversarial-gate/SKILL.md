@@ -1,6 +1,6 @@
 ---
 name: adversarial-gate
-description: JP's signature red-team pass — "how would I break this?" Argue against your own approach before proceeding. Trigger on any high-stakes decision, architecture choice, or before marking work complete.
+description: "A role that delivery-orchestrator brings in. JP's signature red-team pass — \"how would I break this?\" Argue against your own approach before proceeding. Trigger on any high-stakes decision, architecture choice, or before marking work complete. Also trigger on \"try to break it\" and \"I don't trust this result\"."
 ---
 
 # Adversarial Gate
@@ -63,3 +63,8 @@ This pattern converges with “doubt-driven development” in Addy Osmani's
 and “how would I break this?” framing are JP's #HarnessEngineering contribution. The
 anti-rationalisation table format was adopted after reviewing that MIT-licensed project;
 this repository does not claim the table format originated here.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None. The output is a recorded verdict with findings; the checks it demands are run by the project's test command.

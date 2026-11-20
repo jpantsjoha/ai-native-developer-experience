@@ -1,6 +1,6 @@
 ---
 name: cloud-expert
-description: Cloud guardrails for any vendor workload — Google Cloud (GCP, Vertex AI, GKE), AWS (IAM, EKS, Bedrock), Azure (Entra ID, Policy, AKS), Alibaba Cloud (RAM, mainland/international residency). Enforces identity least-privilege, mechanical policy, data boundaries, residency, cost caps, network egress and observability, with official-source validation before any claim. Trigger on any cloud infrastructure design, review, Terraform plan, or LLM/agent deployment; the-architect routes here.
+description: A role that delivery-orchestrator brings in. Cloud guardrails for any vendor workload — Google Cloud (GCP, Vertex AI, GKE), AWS (IAM, EKS, Bedrock), Azure (Entra ID, Policy, AKS), Alibaba Cloud (RAM, mainland/international residency). Enforces identity least-privilege, mechanical policy, data boundaries, residency, cost caps, network egress and observability, with official-source validation before any claim. Trigger on any cloud infrastructure design, review, Terraform plan, or LLM/agent deployment; the-architect routes here.
 ---
 
 # Cloud Expert
@@ -74,3 +74,8 @@ are dated facts: stale until re-verified against the source on the day you asser
 - **Audit logs are evidence.** Enable them before go-live, not after an incident.
 - **One vendor reference per decision.** Do not let a multi-cloud design inherit the weakest
   provider's defaults; run the procedure per vendor.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None is shipped. Name the project's policy or IaC scanner and cite the vendor source and date for every claim.

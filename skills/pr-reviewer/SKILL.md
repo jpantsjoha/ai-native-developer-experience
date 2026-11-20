@@ -1,6 +1,6 @@
 ---
 name: pr-reviewer
-description: Review gate for correctness, reuse, and simplification. Produces a structured verdict with actionable findings. Trigger on any PR before merge, or on any agent-generated code before it is committed.
+description: A role that delivery-orchestrator brings in. Review gate for correctness, reuse, and simplification. Produces a structured verdict with actionable findings. Trigger on any PR before merge, or on any agent-generated code before it is committed.
 ---
 
 # PR Reviewer
@@ -88,3 +88,8 @@ bounded escalation. It also documents the optional fail-closed local receipt hel
 ---
 
 See also: [`REFERENCE.md`](./REFERENCE.md) for a quick lookup of common patterns and their preferred alternatives.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/review-gate.sh` binds the verdict to the exact commit. The review itself is a judgement, not a deterministic check. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

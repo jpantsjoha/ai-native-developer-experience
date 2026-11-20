@@ -1,0 +1,56 @@
+%%{ c4: container }%%
+graph TB
+%% DevEx Charter operating model: people set goals, one entry point, roles do the work,
+%% deterministic checks prove it, records carry the state. Level 1; the skills flow in
+%% delivery-value-orchestration.c4x is level 2.
+%% Draw: node <c4x>/cli/c4x.cjs render --theme c4-model <this file> -o operating-model.svg
+
+Enterprise_Boundary(people, "People who set goals") {
+    Person(solo, "Solo owner", "Holds every role alone")
+    Person(owner, "Product owner", "Intent and acceptance")
+    Person(director, "Delivery director", "Scope, progress and value")
+    Person(tech, "Technical lead", "Design and build goals")
+    Person(qa, "QA lead", "Proof and quality goals")
+    Person(sme, "Data or SRE specialist", "Domain and platform goals")
+}
+
+System_Boundary(harness, "DevEx Charter: one AI delivery team") {
+    Container(setup, "Setup roles", "2 skills", "Orient and adopt the contract")
+    Container(orch, "delivery-orchestrator", "Entry point", "Plans, routes, tracks the goal")
+    Container(product, "Product roles", "2 skills", "Vision, scope, acceptance")
+    Container(oversight, "Oversight roles", "3 skills", "Value, policy and spend")
+    Container(design, "Architecture roles", "4 skills", "Decisions, cloud, agent design")
+    Container(build, "Build roles", "1 skill", "Builder lanes, one ticket each")
+    Container(quality, "Quality roles", "4 skills", "Checks, red team, review")
+    Container(ops, "Release and SRE roles", "7 skills", "Readiness, release, operations")
+    Container(record, "Record roles", "2 skills", "Status and session close")
+    Container(gates, "Deterministic checks", "Scripts, make, test suites", "Same result on the same commit")
+    ContainerDb(records, "Delivery records", "Markdown in the repository", "VISION ROADMAP STATUS CHANGELOG")
+    ContainerDb(queue, "Human queue (planned)", "Local file, not committed", "What waits on each person")
+}
+
+System_Ext(tracker, "Issue tracker", "GitHub or Jira: work and proof")
+System_Ext(outcome, "Value outcome", "The metric the project declared")
+
+solo ==>|Sets goals with| orch
+owner -->|Sets intent with| orch
+director -->|Asks progress of| orch
+tech -->|Plans and builds via| orch
+qa -->|Asks for proof via| orch
+sme -->|Pursues goals via| orch
+setup -.->|Orients sessions for| orch
+orch -->|Reads state from| records
+orch -->|Reads and files in| tracker
+orch -->|Lists waits in| queue
+orch ==>|Confirms scope with| product
+orch -->|Seeks oversight from| oversight
+orch -->|Seeks decisions from| design
+orch ==>|Dispatches tickets to| build
+build ==>|Submits work to| quality
+quality -->|Proves work with| gates
+quality ==>|Passes candidate to| ops
+ops -->|Checks release with| gates
+ops ==>|Reports release to| record
+record ==>|Writes entries in| records
+records ==>|Evidences movement of| outcome
+director -->|Judges movement of| outcome

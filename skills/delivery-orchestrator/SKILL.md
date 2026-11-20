@@ -1,24 +1,89 @@
 ---
 name: delivery-orchestrator
-description: Decompose an epic into atomic parallelizable tasks, route each to the right skill, and keep the four delivery records straight — issues, STATUS, ROADMAP, CHANGELOG. Use as a meta-router when several skills could apply, and as the baseline for how delivery state is recorded. Trigger at the start of any multi-track epic, when the skill count exceeds ~12, or when the records have drifted from reality.
+description: "Default entry point for every delivery ask, from any person: pursue or finish a goal, plan scope, create or change a ticket, ask where we are, what is blocked, what waits on me, are we on track, how do we prove it is done, is it ready to ship, or record a decision. Reads the project's records first, then brings in the role skills (product-owner, the-architect, test-strategy, pr-reviewer, release-readiness, sitrep and the rest) and keeps issues, STATUS, ROADMAP and CHANGELOG straight. Load this before any other skill; skip it only for a bounded read-only question. Also decomposes multi-track epics into parallel tasks."
 ---
 
 # Delivery Orchestrator
 
-> **A skill for choosing skills.** Once your harness grows past a handful of skills, the agent needs a way to select the right one. This is that skill.
+> **The default entry point.** A person states a goal; the orchestrator reads the records,
+> brings in the roles the goal needs, and keeps the records straight. The other skills are
+> roles it brings in, not tools to pick from a list.
 
-The orchestrator has three jobs: decompose work into the smallest independently executable units,
-route each unit to the skill that owns it, and **keep the delivery records honest** — because a
-plan nobody can trust is worse than no plan, and it takes longer to discover.
+The orchestrator has four jobs: ground the ask in the project's records, decompose work into
+the smallest independently executable units, bring in the role that owns each unit, and
+**keep the delivery records honest**, because a plan nobody can trust is worse than no plan
+and takes longer to discover.
 
 ## When to use
 
-- Starting a new epic or multi-track piece of work
-- When an agent is about to attempt everything in one context window
-- When parallel execution across multiple agents is needed
-- When you need to decide which skill applies to an incoming task
-- **When the records have drifted** — a status file that stops before today's work, a roadmap
-  asking for a decision already made, a tracker claiming `gated` with nothing that walks it
+Every delivery ask enters here, whoever makes it and however small:
+
+- pursuing or finishing a goal, milestone or epic
+- planning scope, or creating or changing a ticket
+- "where are we", "what is blocked", "what waits on me", "are we on track"
+- "how do we prove this works", "what is the definition of done", "what evidence do we have"
+- "is it ready to ship", "review this before merge", "record this decision"
+- work that needs several roles, or parallel agents
+- records that have drifted: a status file that stops before today's work, a roadmap asking
+  for a decision already made, a tracker claiming `gated` with nothing that walks it
+
+**Direct calls.** A specialist skill may be called without the orchestrator only for a
+bounded question that changes nothing: a cost estimate, a platform health check, a
+performance measurement, a read-only review. When such a call turns into a change, the
+skill hands the work here before continuing
+([AMH-001 FR-6](../../requirements/ADOPTION-MODES-HITL.md)). A skill the operator names
+(`get-it-done`, `wrap-it-up`, `sitrep`) still enters here: read the records, then load it.
+
+## Bring the role in
+
+After the reads, name the role that owns the ask and **load that role's skill before doing
+its work**. This file routes; it does not hold the role's procedure. Answering a progress
+question without `sitrep`, a proof question without `test-strategy`, or a design question
+without `the-architect` is doing the role's work from memory. One ask may need one role or
+several; say which and in what order.
+
+## Read first
+
+Before answering or dispatching, read what the project already says. Each record answers one
+question; do not answer it from memory.
+
+| Read | Why |
+|---|---|
+| `VISION` or the README | What the product is for and who it serves; the test of whether an ask belongs |
+| `ROADMAP.md` | What comes next and in what order; where the ask fits |
+| `STATUS.md` | What is in flight, who owns it and what waits on whom |
+| `CHANGELOG.md` | What has merged or released, so finished work is not redone |
+| The issue tracker | The scope and Definition of Done of each piece of work |
+| The human queue (`HITL/OPERATOR/`, where the project has adopted it) | Decisions and actions waiting on this person |
+| The project profile and `DELIVERY-WORKFLOW.md` | Authority, risk tiers and the checks this project runs |
+
+## Who asks, and which roles answer
+
+The same entry serves a solo owner and a team. In a team, a named lead is accountable for
+each domain; a solo owner holds every row.
+
+| Person | Words they use | Roles the orchestrator brings in |
+|---|---|---|
+| Solo owner | "get this done", "plan it", "create a ticket", "what next" | All, in the order the work needs |
+| Product owner | priority, requirement, user journey, adoption, "aligned with the vision" | `product-owner`, `spec-first-delivery`, `cxo-oversight` |
+| Delivery director | progress, blocked, "on track", "waits on me", golden thread | `sitrep`, `release-manager`, `wrap-it-up` |
+| Technical lead | decision, trade-off, design, review, "break this into tasks" | `the-architect`, `adversarial-gate`, `pr-reviewer`, `cloud-expert`, `adk-expert` |
+| QA lead | quality, proof, definition of done, evidence, "try to break it" | The quality sequence below |
+| Data or SRE specialist | live, errors, cost, performance, "ready to release" | `cloud-checkup`, `release-readiness`, `cost-guardrail`, `frontend-performance-audit`, `system-performance-guardrail` |
+
+## The quality sequence
+
+Quality has no separate entry role: the orchestrator sequences four roles, and a quality ask
+starts at the first one that has not been done.
+
+1. `test-strategy` maps each acceptance criterion to a runnable check, before code.
+2. `domain-validator` checks agent output against the project's declared rules.
+3. `adversarial-gate` argues against the work before it is called done.
+4. `pr-reviewer` gives an independent verdict bound to the exact commit.
+
+Each role names the deterministic check that proves its output, or says there is none
+(see the "Entry and proof" section of each skill). A judgement is never reported as a
+deterministic result.
 
 ## The delivery records — the baseline
 
@@ -28,11 +93,11 @@ question. Full doctrine, including the issue template and the audit: `docs/DELIV
 | Record | The one question it answers | Written when |
 |---|---|---|
 | **GitHub issues** | *What exactly is this work, and how will we know it is done?* | Before the first line of code |
-| **`STATUS.md`** | *What is happening now, and what waits on whom?* | One entry per working session |
-| **`ROADMAP.md`** | *What are we building toward, in what order?* | When a milestone or the plan changes |
-| **`CHANGELOG.md`** | *What merged or released, with checks and version links?* | When user-visible work merges |
+| **`STATUS.md`** | *What is happening now, and what waits on whom?* | The records task, after each merge batch: one entry per working session, amended by later batches in that session |
+| **`ROADMAP.md`** | *What are we building toward, in what order?* | The records task, after each merge batch, when the batch changed what comes next or its order |
+| **`CHANGELOG.md`** | *What merged or released, with checks and version links?* | The records task, after each merge batch that merged user-visible work |
 
-The four rules that keep them from drifting:
+The five rules that keep them from drifting:
 
 1. **`ROADMAP` owns build order.** Where another document disagrees about what is next, the
    roadmap wins.
@@ -44,6 +109,7 @@ The four rules that keep them from drifting:
 4. **`gated` means a test proves a user can reach it; `shipped` means a person used it.** These
    two are the ones routinely overclaimed. Code existing is `built`, and deployment is not
    shipping.
+5. **One records task per merge batch, solo or parallel.** Builders never edit `ROADMAP`, `STATUS` or `CHANGELOG`; they note the record change their work implies in the PR body. After each batch of merges, the orchestrator (in a solo session, whoever leads it) updates all three together in one records commit or PR. Every entry links its issue or PR, so the files can be cross-checked and never disagree.
 
 ## Golden-thread ownership
 
@@ -61,6 +127,7 @@ dependencies, status and delivery links. Check in-flight owners before selecting
 
 ### Part 1 — Decomposition
 
+0. **Read the records** in "Read first" and state where the ask fits. A small ask ends here, with one role's skill loaded.
 1. **Read the spec or brief** — confirm a feature spec or HLD exists. If not, invoke `spec-first-delivery` first.
 2. **Identify tracks** — group work into independent tracks (e.g. backend API, frontend, infrastructure, testing). Tracks can run in parallel. Dependencies between tracks must be explicit.
 3. **Break each track into atomic tasks** — an atomic task is one that:
@@ -105,7 +172,7 @@ dependencies, status and delivery links. Check in-flight owners before selecting
 | Developer-machine contention, orphaned automation browsers, cloud-sync stalls | `system-performance-guardrail` |
 | Read-only SRE checkup of a GCP project: probes, status table, one `OVERALL:` line | `cloud-checkup` |
 | Frontend performance measurement: Core Web Vitals, traces, Lighthouse, heap growth | `frontend-performance-audit` |
-| Routing this list | `delivery-orchestrator` (you are here) |
+| Entry for any delivery ask | `delivery-orchestrator` (you are here) |
 
 ## Adoption and review recovery
 

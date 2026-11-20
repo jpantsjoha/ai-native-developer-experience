@@ -1,6 +1,6 @@
 ---
 name: domain-validator
-description: Validate agent output against declared domain rules and ground truth before trusting it downstream. Trigger after any agent produces output that will be used in a decision, stored persistently, or passed to another agent.
+description: A role that delivery-orchestrator brings in. Validate agent output against declared domain rules and ground truth before trusting it downstream. Trigger after any agent produces output that will be used in a decision, stored persistently, or passed to another agent.
 ---
 
 # Domain Validator
@@ -61,3 +61,8 @@ An agent that produces output without validation is a system that produces hallu
 | "The model is reliable enough" | Reliability is a statistical claim. Domain validation is a deterministic check. Run it. |
 | "We'll catch errors in review" | Human review misses structured errors that automated validation catches. Both are needed. |
 | "The domain rules aren't defined yet" | Then the output cannot be trusted yet. Define the rules before relying on the output. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** The project's declared domain rules, run as executable checks. None is shipped here.

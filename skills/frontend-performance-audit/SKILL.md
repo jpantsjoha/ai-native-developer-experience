@@ -1,6 +1,6 @@
 ---
 name: frontend-performance-audit
-description: Measure real frontend performance — Core Web Vitals (LCP, CLS, INP), page-load traces, CPU and network throttling, Lighthouse accessibility/SEO scores, and heap growth — using chrome-devtools-mcp against a live browser. Trigger when asked "is the page fast enough", "measure Core Web Vitals", "why is this route slow", "run Lighthouse", "check for a memory leak", before any performance-gated certification (Built for Shopify, Core Web Vitals thresholds, store listing review), and before any launch or traffic-multiplier event. Measurement only — this skill never drives functional journeys.
+description: "A role that delivery-orchestrator brings in. Measure real frontend performance — Core Web Vitals (LCP, CLS, INP), page-load traces, CPU and network throttling, Lighthouse accessibility/SEO scores, and heap growth — using chrome-devtools-mcp against a live browser. Trigger when asked \"is the page fast enough\", \"measure Core Web Vitals\", \"why is this route slow\", \"run Lighthouse\", \"check for a memory leak\", before any performance-gated certification (Built for Shopify, Core Web Vitals thresholds, store listing review), and before any launch or traffic-multiplier event. Measurement only — this skill never drives functional journeys."
 ---
 
 # Frontend Performance Audit
@@ -193,3 +193,8 @@ Anything less is a screenshot of a score, not an audit.
 - Source: <https://github.com/ChromeDevTools/chrome-devtools-mcp>
 - Tool reference: `docs/tool-reference.md` in that repository.
 - Verified against v1.6.0. Re-check the tool reference before relying on any specific tool name; the surface has changed across minor versions.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** Traces and Lighthouse runs through `chrome-devtools-mcp`. These are measurements: record the throttling profile and run count, because readings vary between runs.

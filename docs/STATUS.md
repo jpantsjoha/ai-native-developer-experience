@@ -23,8 +23,8 @@ the accepted adoption-modes specification, the records-task rule and the README 
   [AMH-001](../requirements/ADOPTION-MODES-HITL.md) and
   [ADR-006](../architecture/decisions/ADR-006-adoption-modes-and-hitl-queue.md) were
   accepted on 20 November 2026 (development pull request 14). Its routing rule is built,
-  as the next entry says. The adoption modes and the queue are not built. Not yet a
-  published roadmap milestone.
+  as the next entry says. The adoption modes and the queue are not built. It is
+  milestone 5 on the [roadmap](ROADMAP.md).
 - **The orchestrator as the default entry**: released in 0.7.0
   (development pull requests 19 and 22). Each of the 24 specialist skills names
   `delivery-orchestrator` as its entry and the check that proves its output, or says there

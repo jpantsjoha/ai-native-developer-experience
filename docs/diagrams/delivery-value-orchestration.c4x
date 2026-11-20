@@ -1,0 +1,92 @@
+%%{ c4: container }%%
+graph TB
+%% DevEx Charter: how delivery work flows through the 26 skills, and where humans decide.
+%% Draw: node <c4x>/cli/c4x.cjs render --theme c4-model <this file> -o delivery-value-orchestration.svg
+
+Person(owner, "Product owner", "1 Intent and acceptance")
+Person(lead, "Lead architect", "2 Decisions and ADRs")
+Person(sme, "Domain lead", "3 Answers a halted lane")
+Person(operator, "Operator or SRE", "4 Release and rollback")
+Person(director, "Operator or director", "5 Did the outcome move?")
+
+System_Boundary(enter, "1 Enter") {
+    Container(harness, "using-the-harness", "AI skill", "Orients the session")
+    Container(boot, "operating-model-bootstrap", "AI skill", "Adopts the project contract")
+    Container(orch, "delivery-orchestrator", "AI skill", "Plans, routes, keeps records")
+}
+
+System_Boundary(agree, "2 Agree the work") {
+    Container(po, "product-owner", "AI skill", "Vision and requirements")
+    Container(cxo, "cxo-oversight", "AI skill", "Value, cost and risk")
+    Container(spec, "spec-first-delivery", "AI skill", "Plan and design before code")
+    Container(arch, "the-architect", "AI skill", "Trade-offs and ADRs")
+    Container(tests, "test-strategy", "AI skill", "Maps acceptance to checks")
+    Container(gov, "governance-guardrail", "AI skill", "Policy, before and after build")
+    Container(cost, "cost-guardrail", "AI skill", "Spend, before and after build")
+}
+
+System_Boundary(build, "3 Build") {
+    Container(cloud, "cloud-expert", "AI skill", "Cloud guardrails")
+    Container(checkup, "cloud-checkup", "AI skill", "Cloud estate review")
+    Container(adk, "adk-expert", "AI skill", "Agent composition patterns")
+    Container(mcp, "mcp-server-scaffold", "AI skill", "Bounded tool seams")
+    Container(fe, "frontend-performance-audit", "AI skill", "Measured page performance")
+    Container(perf, "system-performance-guardrail", "AI skill", "Machine load checks")
+    Container(lanes, "get-it-done", "AI skill", "Builder lanes, one ticket each")
+}
+
+System_Boundary(prove, "4 Prove") {
+    Container(domain, "domain-validator", "AI skill", "Domain rules and ground truth")
+    Container(gate, "adversarial-gate", "AI skill", "How would I break this?")
+    Container(review, "pr-reviewer", "AI skill", "Exact-candidate review")
+}
+
+System_Boundary(release, "5 Release") {
+    Container(ready, "release-readiness", "AI skill", "Go or no-go, with rollback")
+    Container(manager, "release-manager", "AI skill", "Versions, tags, changelog")
+    Container(github, "github-manager", "AI skill", "Repository operations")
+    Container(submit, "plugin-submission", "AI skill", "Directory listings")
+}
+
+System_Boundary(learn, "6 Record and learn") {
+    Container(sitrep, "sitrep", "AI skill", "Status from evidence")
+    Container(wrap, "wrap-it-up", "AI skill", "Closes the session cleanly")
+    ContainerDb(records, "Delivery records", "Markdown, GitHub", "ROADMAP, STATUS, CHANGELOG")
+}
+
+System_Ext(outcome, "Value outcome", "The metric the project declared")
+
+harness ==>|Routes work to| orch
+boot -.->|Adopts contract for| orch
+owner -->|Sets intent in| po
+orch ==>|Confirms scope with| po
+cxo -.->|Challenges value for| po
+po ==>|Hands requirements to| spec
+spec ==>|Requests design from| arch
+lead -->|Decides ADRs with| arch
+arch -->|Maps coverage with| tests
+arch -->|Checks policy with| gov
+arch -->|Checks spend with| cost
+arch -->|Returns design to| orch
+orch ==>|Dispatches tickets to| lanes
+cloud -->|Advises builders in| lanes
+checkup -->|Reports findings to| cloud
+adk -->|Advises builders in| lanes
+mcp -->|Provides seams to| lanes
+fe -->|Reports measures to| lanes
+perf -->|Guards load for| lanes
+sme -->|Answers halts in| lanes
+lanes ==>|Submits work to| domain
+tests -->|Supplies checks to| domain
+domain ==>|Passes work to| gate
+gate ==>|Sends candidate to| review
+review ==>|Passes candidate to| ready
+operator -->|Authorises release in| ready
+ready ==>|Approves cut by| manager
+manager -->|Publishes through| github
+manager -->|Lists plugin via| submit
+manager ==>|Reports release to| sitrep
+sitrep ==>|Writes entries in| records
+wrap -->|Reconciles entries in| records
+records ==>|Evidences movement of| outcome
+director -->|Judges movement of| outcome

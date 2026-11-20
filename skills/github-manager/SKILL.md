@@ -1,6 +1,6 @@
 ---
 name: github-manager
-description: Use when configuring or optimising GitHub repositories for cost-effective, consistent operations — CI triggers, Actions billing, issue tracking, labelling, branch protection, or release workflow.
+description: A role that delivery-orchestrator brings in. Use when configuring or optimising GitHub repositories for cost-effective, consistent operations — CI triggers, Actions billing, issue tracking, labelling, branch protection, or release workflow.
 ---
 
 # GitHub Manager
@@ -121,3 +121,8 @@ Adopt a namespaced taxonomy and avoid one-off labels:
 | "We'll clean up labels later" | Label debt compounds fast and breaks automation that depends on them. |
 | "Force-push is fine, we're a small team" | Force-push on `main` destroys recovery options. Protect the branch. |
 | "I'll build the release artifact locally" | The approved mode and evidence requirements decide whether that executor is allowed. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** Read the setting back with `gh` after changing it.

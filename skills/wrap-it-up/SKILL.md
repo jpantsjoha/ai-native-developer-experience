@@ -1,6 +1,7 @@
 ---
 name: wrap-it-up
 description: >-
+  A role that delivery-orchestrator brings in.
   End a long engineering session cleanly under token and attention pressure: freeze the in-flight set, delegate execution to subagents and judgement to an independent reviewer, and drive every item to one of three exits — merged, deferred with a record, or operator-blocked with a decision brief — then a clean baseline, a reconciled tracker, and a release-worthiness advisory. Use when the operator says "wrap it up", "clean baseline", "close out the session", "ready for the next iteration", or the context is filling. Not `get-it-done` (which grows the set); this closes a set frozen at invocation.
 ---
 
@@ -130,8 +131,7 @@ implementation task at that moment. Do not send a third patch. Instead:
    re-classify it as needing a **planning and objective-reasoning phase**, not another fix.
 2. **Comment on the ticket** with both review verdicts, the shape they share, and the invariant
    the next attempt must satisfy — a design brief, not a bug report.
-3. **Place it in `ROADMAP.md`** in the deferred priority queue, with its phase and priority, and
-   reference it from the status file with the ticket number.
+3. **Queue it for the records task**: deferred priority queue in `ROADMAP.md` with phase and priority, referenced from the status file by ticket number.
 4. **Leave the branch on the remote**, named in the ticket, so the next attempt starts from the
    evidence rather than from scratch.
 
@@ -185,8 +185,7 @@ been dropped, not deferred:
 
 1. **A comment on the ticket** with the evidence: what was attempted, what blocked it, the
    file and line, the review verdicts. Enough that the next attempt does not re-derive it.
-2. **A tracker entry** — `ROADMAP.md` and the status file — with a priority and the sprint or
-   milestone it now belongs to.
+2. **A tracker entry**, written by the records task in §3: `ROADMAP.md` and the status file, with a priority and the sprint or milestone it now belongs to.
 3. **A named next action**, shaped by the reason code. **C1**: the invariant the next attempt
    must satisfy, and why patching failed twice. **C2**: what the dedicated session should open
    with — the decomposition needed, the decisions it must reach, the architecture question it
@@ -197,8 +196,8 @@ been dropped, not deferred:
 ## 3. Hand the tracker to the delivery owner
 
 Do not reconcile the plan freehand. **Trigger the project's delivery owner** —
-`delivery-manager` where it exists, otherwise `delivery-orchestrator` — to own the reconcile
-and verify it against the Definition of Done. It re-derives, rather than inherits:
+`delivery-manager` where it exists, otherwise `delivery-orchestrator` — to run the records task:
+own the reconcile and verify it against the Definition of Done. It re-derives, rather than inherits:
 
 - milestone burndown and whether any milestone slipped enough to be re-planned rather than
   re-dated;
@@ -241,3 +240,8 @@ State, in order:
 
 Cutting the tag, publishing the release, accepting an ADR, spending money, one-way doors:
 draft and propose, never execute. `wrap-it-up` gets the work ready to tag; the operator tags.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/lane_hygiene.py` and the project's convergence command on the merged baseline. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

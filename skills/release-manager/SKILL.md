@@ -1,6 +1,6 @@
 ---
 name: release-manager
-description: Govern the SemVer release process — versioning discipline, tag-based GitHub releases, changelog hygiene, and the ADR that confirms the release strategy is agreed. Trigger when setting up a release process, before a first public release, or when release practice has become inconsistent. Owned by delivery-orchestrator.
+description: A role that delivery-orchestrator brings in. Govern the SemVer release process — versioning discipline, tag-based GitHub releases, changelog hygiene, and the ADR that confirms the release strategy is agreed. Trigger when setting up a release process, before a first public release, or when release practice has become inconsistent. Owned by delivery-orchestrator.
 ---
 
 # Release Manager
@@ -156,3 +156,8 @@ of breaking changes through the approved channel.
 | "I'll build the release locally, it's faster" | Use only the approved executor and retain provenance; speed does not approve an alternative. |
 | "We don't need an ADR for something this simple" | One page of ADR prevents months of inconsistency. Write it. |
 | "The tag was already pushed, I'll do the changelog after" | The changelog belongs before the tag. Reversing this loses the discipline. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/validate_delivery.py`, and the version and tag read back from the repository. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

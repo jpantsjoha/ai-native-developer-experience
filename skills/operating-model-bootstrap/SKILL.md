@@ -1,6 +1,6 @@
 ---
 name: operating-model-bootstrap
-description: Bootstrap or harden a project's operating model for mixed human and AI delivery teams. Use when starting a repository, adopting an agent harness, defining authority and risk tiers, coordinating parallel agents safely, binding evidence and review to an exact candidate, or correcting fragmented rules that prevent coherent, consistent, complete delivery.
+description: A role that delivery-orchestrator brings in. Bootstrap or harden a project's operating model for mixed human and AI delivery teams. Use when starting a repository, adopting an agent harness, defining authority and risk tiers, coordinating parallel agents safely, binding evidence and review to an exact candidate, or correcting fragmented rules that prevent coherent, consistent, complete delivery.
 ---
 
 # Operating Model Bootstrap
@@ -268,3 +268,8 @@ Before release, resolve the profile's declared mode against its approved ADR and
 [release-contract.md](references/release-contract.md) for the existing validator's
 release-preflight invocation and evidence format. Ordinary profile validation does
 not establish release readiness; adopter wiring and human verification remain required.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/validate_operating_model.py` in this skill.

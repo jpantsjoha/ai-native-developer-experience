@@ -45,6 +45,7 @@ machine; this project workflow maps that contract to the team's roles and work s
    releases, watches the declared signals, and rolls back when thresholds are crossed.
 9. **Reconcile, clean up and learn** — update roadmap gates, derived status, release
    changelog, evidence, risks, and reusable delivery learnings; remove merged lanes.
+   The integration owner is the orchestrator and runs the records task after each merge batch.
 
 Any step may hand off (H4) to an accountable human for a decision only they can take.
 The manual's no-progress limit applies throughout: activity is not progress, and a
@@ -142,7 +143,8 @@ do not create competing Status.md/STATUS.md or Roadmap.md/ROADMAP.md records.
 8. On completion, reconcile each ticket's delivered behaviour with its original and
    current accepted requirement. Partial coverage stays open or becomes an explicit
    linked remainder; an issue closure or a mentioned ID is not semantic acceptance.
-9. Record merged changes under Unreleased. On authorised release, link the version,
+9. Builders note record changes in the PR body; the records task records merged
+   user-visible changes under Unreleased after the merge batch. On authorised release, link the version,
    GitHub tag/release and included PRs/requirements in CHANGELOG. Distinguish merged,
    released, installed/deployed and observed use; none implies the next. STATUS owns
    in-flight work and blockers, ROADMAP owns remaining outcomes and sequence.

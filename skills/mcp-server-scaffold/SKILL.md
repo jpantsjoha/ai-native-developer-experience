@@ -1,6 +1,6 @@
 ---
 name: mcp-server-scaffold
-description: Scaffold and govern an MCP server as a bounded tool seam. Defines which tools the agent may call, enforces the principle that agents call tools and tools call infrastructure. Trigger when adding or reviewing an MCP server in an agent system.
+description: A role that delivery-orchestrator brings in. Scaffold and govern an MCP server as a bounded tool seam. Defines which tools the agent may call, enforces the principle that agents call tools and tools call infrastructure. Trigger when adding or reviewing an MCP server in an agent system.
 ---
 
 # MCP Server Scaffold
@@ -65,3 +65,8 @@ An MCP server is a contract between an agent and the capabilities it is allowed 
 - **Tool descriptions are part of the attack surface.** Vague descriptions invite misuse by the agent. Be precise.
 - **No secrets in tool outputs.** If a tool must return an identifier, return the identifier — not the credential.
 - **Scope creep is the default failure mode.** When in doubt, add a new tool rather than broadening an existing one.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None is shipped. The tool list and its permission boundary are reviewed by `pr-reviewer`.

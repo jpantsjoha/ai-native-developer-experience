@@ -1,6 +1,6 @@
 ---
 name: test-strategy
-description: Map requirement acceptance to proportionate executable checks and real user journeys before implementation and completion.
+description: "A role that delivery-orchestrator brings in. Map requirement acceptance to proportionate executable checks and real user journeys before implementation and completion. Trigger on quality, proof, definition of done, \"how do we prove it works\", \"what evidence do we have\", test coverage, or a green run nobody trusts."
 ---
 
 # Test Strategy
@@ -21,3 +21,8 @@ run candidate checks and record command, revision, environment, outcome and limi
 in an isolated fixture; do not damage a shared working tree. Avoid tests that merely
 repeat wording or implementation. Return uncovered acceptance to product-owner and
 delivery-orchestrator; never weaken a requirement to make a suite pass.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** The project's test command, named per acceptance criterion. A criterion with no runnable check is reported as unproven.

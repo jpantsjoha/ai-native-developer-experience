@@ -1,6 +1,6 @@
 ---
 name: product-owner
-description: Maintain vision, user journeys, evolving requirements and roadmap outcomes when intent or acceptance changes.
+description: "A role that delivery-orchestrator brings in. Maintain vision, user journeys, evolving requirements and roadmap outcomes when intent or acceptance changes. Trigger on a changed priority or requirement, users dropping off, adoption, and \"is this still aligned with the vision\"."
 ---
 
 # Product Owner
@@ -18,3 +18,8 @@ sizing, assignment and state tracking. Do not duplicate its backlog.
 At completion compare actual behaviour and test evidence with the accepted requirement,
 including reachability by the intended user. Record remaining coverage and acceptance
 explicitly; do not close a whole requirement because one implementing ticket merged.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/validate_delivery.py` (`make planning`) checks the planning records' structure. Acceptance is the Product Owner's decision. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

@@ -10,7 +10,66 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
+## [0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0) — 2026-11-20
+
+### Added
+
+- The routing evaluation also runs on Codex (`scripts/routing_eval.py --host codex`).
+  Codex, 18 prompts, one run each: the orchestrator loaded first for 17 (1 before) and the
+  expected role for 18 (17 before). See [evals/routing](evals/routing/README.md).
+  Development pull request 22.
+- README: an opening paragraph on the bottom-up journey to an agentic enterprise and the
+  two adoption modes; DevDash marked as coming soon. Proof: markdown lint exit 0,
+  independent review PASS. See [the adoption modes](README.md#two-adoption-modes) and
+  [DevDash companion](README.md#devdash-companion). Development pull request 22.
+- README: the operating model and the skills flow, both drawn in C4X (`c4-model` theme;
+  sources and SVGs in `docs/diagrams/`). The operating model shows who sets goals, the
+  orchestrator as the designed entry point, the role groups, what is read and the
+  deterministic checks, and says where today's routing is narrower than the design. The
+  skills flow shows all 26 skills in six stages with the five human decisions. Also the
+  solo and team adoption modes, and a comparison with nine widely used harness projects,
+  star counts read 20 November 2026. Proof: C4X render exit 0 for both diagrams, 26 of 26
+  skills in each, independent review PASS on each merged head. See the
+  [operating model source](docs/diagrams/operating-model.c4x) and the
+  [skills flow source](docs/diagrams/delivery-value-orchestration.c4x). Development pull
+  requests 12, 13 and 17; public pull request 43.
+
+- Specification [AMH-001](requirements/ADOPTION-MODES-HITL.md) and
+  [ADR-006](architecture/decisions/ADR-006-adoption-modes-and-hitl-queue.md), both
+  Accepted: solo and team adoption modes, a local uncommitted human-in-the-loop queue at
+  `HITL/OPERATOR/`, and the rule that delivery work enters through the orchestrator.
+  The routing rule is built (see Changed); the adoption modes and the queue are not.
+  Proof: `make check` exit 0, independent review PASS.
+  Development pull request 14; public pull request 43.
+- A routing evaluation: 18 fixed prompts from six kinds of people, a headless runner
+  (`scripts/routing_eval.py`) and recorded results. See
+  [evals/routing](evals/routing/README.md). Development pull request 19.
+
+### Changed
+
+- `delivery-orchestrator` is the default entry for every delivery ask. It reads the
+  records, then loads the role's skill. `using-the-harness` and the session-start pointer
+  send delivery asks there; one direct call remains, a bounded question that changes
+  nothing. Each of the 24 specialist skills names the orchestrator as its entry and the
+  check that proves its output, or says there is none. Quality has no separate entry
+  skill: the orchestrator sequences `test-strategy`, `domain-validator`,
+  `adversarial-gate` and `pr-reviewer`. Proof: `make check` exit 0 with 198 tests;
+  on Claude Code the orchestrator loaded first for 16 of 18 prompts (1 before) and the
+  expected role for 17 (9 before), one run per prompt, one host. See the
+  [routing evaluation](evals/routing/README.md) and the
+  [orchestrator skill](skills/delivery-orchestrator/SKILL.md). Development pull request
+  19; public pull request 43.
+- Delivery records: one records task after each merge batch updates `ROADMAP`, `STATUS`
+  and `CHANGELOG` together; builders no longer edit them and every entry links its issue
+  or pull request (`docs/DELIVERY-RECORDS.md`, `delivery-orchestrator`, `get-it-done`,
+  `wrap-it-up`). Proof: `make check` exit 0. See the
+  [reconciliation rule](docs/DELIVERY-RECORDS.md#reconciliation-one-records-task-per-merge-batch).
+  Development pull request 1; public pull request 43.
+
 ## [0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1) — 2026-11-09
+
+Merged to `main` on 9 November 2026 in [PR #42](https://github.com/jpantsjoha/ai-native-developer-experience/pull/42)
+and released on 20 November 2026 as [v0.6.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.6.1).
 
 ### Added
 

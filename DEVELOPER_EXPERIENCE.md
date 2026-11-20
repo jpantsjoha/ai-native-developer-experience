@@ -552,6 +552,8 @@ Meeting with product team - 2026-03-15
 4. **GitHub Issue** → Create issue #42 labeled `risk:high`, `api:integration`
 5. **STATUS.md** → Update "Decisions This Week" section
 
+Steps 3 and 5 run as an out-of-batch records task by the orchestrator, linked to the issue from step 4.
+
 **Benefits:**
 - **Traceability:** Every decision documented with date/context
 - **Automation:** Eliminates manual doc updates after meetings
@@ -1133,7 +1135,7 @@ Claude Code hooks enable **automated quality enforcement** and context managemen
 |-----------|--------------|---------------------|
 | **PreToolUse** | Before AI edits/writes files | Warns before modifying critical files (settings, CI workflows) |
 | **PostToolUse** | After AI edits/writes files | Auto-formats code (no manual cleanup needed) |
-| **Stop** | When session ends | Checks for missing doc updates (STATUS.md, CHANGELOG.md) |
+| **Stop** | When session ends | Checks that the records task ran (STATUS.md, CHANGELOG.md), not per-PR edits |
 | **SessionStart** | When session begins | Auto-loads project context (blockers, current sprint) |
 
 #### Example: SessionStart Context Loading
@@ -1709,7 +1711,7 @@ Related: Architecture Decision Records (ADRs) and GitHub Issues for tracking.
 1. **Folder References**: CLAUDE.md documents where each type of file belongs
 2. **Naming Conventions**: Enforces ADR-NNN, HLD-NNN patterns
 3. **Cross-Reference Rules**: Requires ADR for decisions, issue refs in commits
-4. **Definition of Done**: Mandates doc updates (STATUS.md, CHANGELOG.md)
+4. **Definition of Done**: Builders note record changes in the PR body; the records task updates STATUS.md and CHANGELOG.md
 
 ### Atomic Parallel Planning Directive
 
@@ -1865,7 +1867,7 @@ your project profile names its own convergence command.
 | **Builds** | Production build succeeds | `npm run build` |
 | **Secure** | No secrets, no vulns | `npm audit` |
 | **Coherent** | Aligns with ADRs | Manual check |
-| **Documented** | STATUS/CHANGELOG updated | Manual check |
+| **Documented** | Record changes noted in PR body; records task updates STATUS/CHANGELOG | Manual check |
 | **Handed off** | H1 record: candidate SHA, checks, open conditions | Checkpoint or issue |
 | **Cleaned up** | Merged worktree and branch removed | `scripts/lane_hygiene.py` (report only) |
 

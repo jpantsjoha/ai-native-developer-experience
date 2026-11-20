@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 2167.5 2180" role="img">
+  <rect x="0" y="0" width="2167.5" height="2180" fill="#FFFFFF" />
+  
+      <defs>
+        <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+          <feOffset in="blur" dx="3" dy="3" result="offsetBlur"/>
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="0.3"/>
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <marker id="c4x-arrow-uses" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L10,3.5 L0,7 z" fill="#444444" fill-opacity="1" />
+        </marker>
+        <marker id="c4x-arrow-async" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L10,3.5 L0,7 z" fill="#444444" fill-opacity="1" />
+        </marker>
+        <marker id="c4x-arrow-sync" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L10,3.5 L0,7 z" fill="#444444" fill-opacity="1" />
+        </marker>
+      </defs>
+  
+  <g class="diagram-content" transform="translate(0, 0)">
+    <g class="boundaries">
+<g class="boundary" data-id="people-who-set-goals-boundary-0" data-label-position="bottom-left" data-label-reserve="48" data-label-min-width="163">
+    <rect x="537.50" y="60.00" width="1580.00" height="268.00"
+          rx="8" ry="8"
+          fill="none"
+          stroke="#1168BD"
+          stroke-width="1"
+          opacity="1" />
+    <text x="547.50" y="302.00"
+          fill="#1168BD"
+          font-size="14"
+          font-family="Arial, sans-serif"
+          font-weight="bold">People who set goals</text>
+    <text class="boundary-type" x="547.50" y="318.00"
+          fill="#1168BD"
+          font-size="12"
+          font-family="Arial, sans-serif">[Enterprise]</text>
+  </g>
+<g class="boundary" data-id="devex-charter:-one-ai-delivery-team-boundary-1" data-label-position="bottom-left" data-label-reserve="48" data-label-min-width="262">
+    <rect x="40.00" y="433.50" width="1690.00" height="1484.50"
+          rx="8" ry="8"
+          fill="none"
+          stroke="#1168BD"
+          stroke-width="1"
+          opacity="1" />
+    <text x="50.00" y="1892.00"
+          fill="#1168BD"
+          font-size="14"
+          font-family="Arial, sans-serif"
+          font-weight="bold">DevEx Charter: one AI delivery team</text>
+    <text class="boundary-type" x="50.00" y="1908.00"
+          fill="#1168BD"
+          font-size="12"
+          font-family="Arial, sans-serif">[Software System]</text>
+  </g>
+    </g>
+    <g class="nodes">
+<g class="node" data-id="solo" data-shape="person" data-type-label="Person" >
+    <rect x="577.50" y="181.60" width="200.00" height="98.40" rx="36.00" ry="36.00" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+    <circle cx="677.50" cy="155.20" r="35.20" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+<text data-field="label" x="677.50" y="222.80" fill="#297E06" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Solo owner</text>
+    <text data-field="technology" x="677.50" y="238.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Person]</text>
+    <text data-field="description" x="677.50" y="254.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Holds every role alone</text>
+  </g>
+<g class="node" data-id="owner" data-shape="person" data-type-label="Person" >
+    <rect x="837.50" y="181.60" width="200.00" height="98.40" rx="36.00" ry="36.00" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+    <circle cx="937.50" cy="155.20" r="35.20" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+<text data-field="label" x="937.50" y="222.80" fill="#297E06" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Product owner</text>
+    <text data-field="technology" x="937.50" y="238.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Person]</text>
+    <text data-field="description" x="937.50" y="254.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Intent and acceptance</text>
+  </g>
+<g class="node" data-id="director" data-shape="person" data-type-label="Person" >
+    <rect x="1097.50" y="181.60" width="200.00" height="98.40" rx="36.00" ry="36.00" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+    <circle cx="1197.50" cy="155.20" r="35.20" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+<text data-field="label" x="1197.50" y="222.80" fill="#297E06" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Delivery director</text>
+    <text data-field="technology" x="1197.50" y="238.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Person]</text>
+    <text data-field="description" x="1197.50" y="254.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Scope, progress and value</text>
+  </g>
+<g class="node" data-id="tech" data-shape="person" data-type-label="Person" >
+    <rect x="1357.50" y="181.60" width="200.00" height="98.40" rx="36.00" ry="36.00" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+    <circle cx="1457.50" cy="155.20" r="35.20" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+<text data-field="label" x="1457.50" y="222.80" fill="#297E06" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Technical lead</text>
+    <text data-field="technology" x="1457.50" y="238.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Person]</text>
+    <text data-field="description" x="1457.50" y="254.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Design and build goals</text>
+  </g>
+<g class="node" data-id="qa" data-shape="person" data-type-label="Person" >
+    <rect x="1617.50" y="181.60" width="200.00" height="98.40" rx="36.00" ry="36.00" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+    <circle cx="1717.50" cy="155.20" r="35.20" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+<text data-field="label" x="1717.50" y="222.80" fill="#297E06" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">QA lead</text>
+    <text data-field="technology" x="1717.50" y="238.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Person]</text>
+    <text data-field="description" x="1717.50" y="254.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Proof and quality goals</text>
+  </g>
+<g class="node" data-id="sme" data-shape="person" data-type-label="Person" >
+    <rect x="1877.50" y="181.60" width="200.00" height="98.40" rx="36.00" ry="36.00" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+    <circle cx="1977.50" cy="155.20" r="35.20" fill="#FFFFFF" stroke="#297E06" stroke-width="2" />
+<text data-field="label" x="1977.50" y="222.80" fill="#297E06" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Data or SRE specialist</text>
+    <text data-field="technology" x="1977.50" y="238.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Person]</text>
+    <text data-field="description" x="1977.50" y="254.80" fill="#297E06" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Domain and platform goals</text>
+  </g>
+<g class="node" data-id="setup" data-type-label="Container" >
+    <rect x="760.00" y="493.50" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="880.00" y="550.50" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Setup roles</text>
+    <text data-field="technology" x="880.00" y="566.50" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 2 skills]</text>
+    <text data-field="description" x="880.00" y="582.50" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Orient and adopt the contract</text>
+  </g>
+<g class="node" data-id="orch" data-type-label="Container" >
+    <rect x="760.00" y="690.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="880.00" y="747.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">delivery-orchestrator</text>
+    <text data-field="technology" x="880.00" y="763.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: Entry point]</text>
+    <text data-field="description" x="880.00" y="779.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Plans, routes, tracks the goal</text>
+  </g>
+<g class="node" data-id="product" data-type-label="Container" >
+    <rect x="80.00" y="900.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="200.00" y="957.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Product roles</text>
+    <text data-field="technology" x="200.00" y="973.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 2 skills]</text>
+    <text data-field="description" x="200.00" y="989.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Vision, scope, acceptance</text>
+  </g>
+<g class="node" data-id="oversight" data-type-label="Container" >
+    <rect x="380.00" y="900.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="500.00" y="957.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Oversight roles</text>
+    <text data-field="technology" x="500.00" y="973.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 3 skills]</text>
+    <text data-field="description" x="500.00" y="989.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Value, policy and spend</text>
+  </g>
+<g class="node" data-id="design" data-type-label="Container" >
+    <rect x="680.00" y="900.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="800.00" y="957.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Architecture roles</text>
+    <text data-field="technology" x="800.00" y="973.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 4 skills]</text>
+    <text data-field="description" x="800.00" y="989.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Decisions, cloud, agent design</text>
+  </g>
+<g class="node" data-id="build" data-type-label="Container" >
+    <rect x="1300.00" y="900.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1420.00" y="957.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Build roles</text>
+    <text data-field="technology" x="1420.00" y="973.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 1 skill]</text>
+    <text data-field="description" x="1420.00" y="989.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Builder lanes, one ticket each</text>
+  </g>
+<g class="node" data-id="quality" data-type-label="Container" >
+    <rect x="1300.00" y="1146.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1420.00" y="1203.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Quality roles</text>
+    <text data-field="technology" x="1420.00" y="1219.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 4 skills]</text>
+    <text data-field="description" x="1420.00" y="1235.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Checks, red team, review</text>
+  </g>
+<g class="node" data-id="ops" data-type-label="Container" >
+    <rect x="1440.00" y="1320.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1560.00" y="1377.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Release and SRE roles</text>
+    <text data-field="technology" x="1560.00" y="1393.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 7 skills]</text>
+    <text data-field="description" x="1560.00" y="1409.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Readiness, release, operations</text>
+  </g>
+<g class="node" data-id="record" data-type-label="Container" >
+    <rect x="1450.00" y="1530.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1570.00" y="1587.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Record roles</text>
+    <text data-field="technology" x="1570.00" y="1603.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: 2 skills]</text>
+    <text data-field="description" x="1570.00" y="1619.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Status and session close</text>
+  </g>
+<g class="node" data-id="gates" data-type-label="Container" >
+    <rect x="1150.00" y="1530.00" width="240.00" height="130.00" rx="6" ry="6" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1270.00" y="1587.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Deterministic checks</text>
+    <text data-field="technology" x="1270.00" y="1603.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: Scripts, make, test suites]</text>
+    <text data-field="description" x="1270.00" y="1619.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Same result on the same commit</text>
+  </g>
+<g class="node database" data-id="records" data-type-label="Container" >
+    <path d="M 1070.00 1752.00 L 1070.00 1858.00 A 120.00 12 0 0 0 1310.00 1858.00 L 1310.00 1752.00 A 120.00 12 0 0 0 1070.00 1752.00 Z" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+    <path d="M 1070.00 1752.00 A 120.00 12 0 0 1 1310.00 1752.00" fill="none" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1190.00" y="1789.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Delivery records</text>
+    <text data-field="technology" x="1190.00" y="1805.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: Markdown in the repository]</text>
+    <text data-field="description" x="1190.00" y="1821.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif"><tspan x="1190.00" y="1821.00">VISION ROADMAP STATUS</tspan><tspan x="1190.00" y="1837.00">CHANGELOG</tspan></text>
+  </g>
+<g class="node database" data-id="queue" data-type-label="Container" >
+    <path d="M 1000.00 912.00 L 1000.00 1018.00 A 120.00 12 0 0 0 1240.00 1018.00 L 1240.00 912.00 A 120.00 12 0 0 0 1000.00 912.00 Z" fill="#FFFFFF" stroke="#1168BD" stroke-width="2" />
+    <path d="M 1000.00 912.00 A 120.00 12 0 0 1 1240.00 912.00" fill="none" stroke="#1168BD" stroke-width="2" />
+<text data-field="label" x="1120.00" y="957.00" fill="#1168BD" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Human queue (planned)</text>
+    <text data-field="technology" x="1120.00" y="973.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Container: Local file, not committed]</text>
+    <text data-field="description" x="1120.00" y="989.00" fill="#1168BD" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">What waits on each person</text>
+  </g>
+<g class="node" data-id="tracker" data-type-label="Software System" >
+    <rect x="745.00" y="1990.00" width="260.00" height="140.00" rx="6" ry="6" fill="#FFFFFF" stroke="#BF101D" stroke-width="2" />
+<text data-field="label" x="875.00" y="2052.00" fill="#BF101D" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Issue tracker</text>
+    <text data-field="technology" x="875.00" y="2068.00" fill="#BF101D" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Software System]</text>
+    <text data-field="description" x="875.00" y="2084.00" fill="#BF101D" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">GitHub or Jira: work and proof</text>
+  </g>
+<g class="node" data-id="outcome" data-type-label="Software System" >
+    <rect x="1630.00" y="1990.00" width="260.00" height="140.00" rx="6" ry="6" fill="#FFFFFF" stroke="#ED8609" stroke-width="2" />
+<text data-field="label" x="1760.00" y="2052.00" fill="#B35F00" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="bold">Value outcome</text>
+    <text data-field="technology" x="1760.00" y="2068.00" fill="#B35F00" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" font-style="italic">[Software System]</text>
+    <text data-field="description" x="1760.00" y="2084.00" fill="#B35F00" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">The metric the project declared</text>
+  </g>
+    </g>
+    <g class="edges">
+<g class="edge" data-id="rel-0">
+    <path class="edge-hit-area" d="M772.90,200.00 L807.50,200.00 L807.50,407.75 L718.49,407.75 L718.49,755.00 L760.00,755.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M772.90,200.00 L807.50,200.00 L807.50,407.75 L718.49,407.75 L718.49,755.00 L760.00,755.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="718.49" y="644.83" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Sets goals with</text>
+  </g>
+<g class="edge" data-id="rel-1">
+    <path class="edge-hit-area" d="M937.50,280.00 L937.50,407.75 L1024.00,407.75 L1024.00,755.00 L1000.00,755.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M937.50,280.00 L937.50,407.75 L1024.00,407.75 L1024.00,755.00 L1000.00,755.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1024.00" y="644.83" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Sets intent with</text>
+  </g>
+<g class="edge" data-id="rel-2">
+    <path class="edge-hit-area" d="M1197.50,280.00 L1197.50,755.00 L1000.00,755.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1197.50,280.00 L1197.50,755.00 L1000.00,755.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1197.50" y="511.50" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Asks progress of</text>
+  </g>
+<g class="edge" data-id="rel-3">
+    <path class="edge-hit-area" d="M1457.50,280.00 L1457.50,755.00 L1000.00,755.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1457.50,280.00 L1457.50,755.00 L1000.00,755.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1457.50" y="511.50" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Plans and builds via</text>
+  </g>
+<g class="edge" data-id="rel-4">
+    <path class="edge-hit-area" d="M1717.50,280.00 L880.00,690.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1717.50,280.00 L880.00,690.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1298.75" y="479.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Asks for proof via</text>
+  </g>
+<g class="edge" data-id="rel-5">
+    <path class="edge-hit-area" d="M1977.50,280.00 L880.00,690.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1977.50,280.00 L880.00,690.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1428.75" y="479.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Pursues goals via</text>
+  </g>
+<g class="edge" data-id="rel-6">
+    <path class="edge-hit-area" d="M880.00,623.50 L880.00,690.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,623.50 L880.00,690.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-async)" stroke-dasharray="8,4" />
+    <text x="880.00" y="650.75" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Orients sessions for</text>
+  </g>
+<g class="edge" data-id="rel-7">
+    <path class="edge-hit-area" d="M880.00,820.00 L880.00,860.00 L960.00,860.00 L960.00,1805.00 L1070.00,1805.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L880.00,860.00 L960.00,860.00 L960.00,1805.00 L1070.00,1805.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="960.00" y="1326.50" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Reads state from</text>
+  </g>
+<g class="edge" data-id="rel-8">
+    <path class="edge-hit-area" d="M880.00,820.00 L880.00,860.00 L960.00,860.00 L960.00,1951.00 L875.00,1951.00 L875.00,1990.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L880.00,860.00 L960.00,860.00 L960.00,1951.00 L875.00,1951.00 L875.00,1990.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="960.00" y="1399.50" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Reads and files in</text>
+  </g>
+<g class="edge" data-id="rel-9">
+    <path class="edge-hit-area" d="M880.00,820.00 L1120.00,900.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L1120.00,900.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1000.00" y="854.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Lists waits in</text>
+  </g>
+<g class="edge" data-id="rel-10">
+    <path class="edge-hit-area" d="M880.00,820.00 L200.00,900.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L200.00,900.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="540.00" y="854.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Confirms scope with</text>
+  </g>
+<g class="edge" data-id="rel-11">
+    <path class="edge-hit-area" d="M880.00,820.00 L500.00,900.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L500.00,900.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="690.00" y="854.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Seeks oversight from</text>
+  </g>
+<g class="edge" data-id="rel-12">
+    <path class="edge-hit-area" d="M880.00,820.00 L800.00,900.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L800.00,900.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="840.00" y="854.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Seeks decisions from</text>
+  </g>
+<g class="edge" data-id="rel-13">
+    <path class="edge-hit-area" d="M880.00,820.00 L1420.00,900.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M880.00,820.00 L1420.00,900.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="1150.00" y="854.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Dispatches tickets to</text>
+  </g>
+<g class="edge" data-id="rel-14">
+    <path class="edge-hit-area" d="M1420.00,1030.00 L1420.00,1146.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1420.00,1030.00 L1420.00,1146.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="1420.00" y="1082.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Submits work to</text>
+  </g>
+<g class="edge" data-id="rel-15">
+    <path class="edge-hit-area" d="M1420.00,1276.00 L1270.00,1530.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1420.00,1276.00 L1270.00,1530.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1345.00" y="1397.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Proves work with</text>
+  </g>
+<g class="edge" data-id="rel-16">
+    <path class="edge-hit-area" d="M1420.00,1276.00 L1560.00,1320.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1420.00,1276.00 L1560.00,1320.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="1490.00" y="1292.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Passes candidate to</text>
+  </g>
+<g class="edge" data-id="rel-17">
+    <path class="edge-hit-area" d="M1560.00,1450.00 L1270.00,1530.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1560.00,1450.00 L1270.00,1530.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1415.00" y="1484.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Checks release with</text>
+  </g>
+<g class="edge" data-id="rel-18">
+    <path class="edge-hit-area" d="M1560.00,1450.00 L1570.00,1530.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1560.00,1450.00 L1570.00,1530.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="1565.00" y="1484.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Reports release to</text>
+  </g>
+<g class="edge" data-id="rel-19">
+    <path class="edge-hit-area" d="M1570.00,1660.00 L1190.00,1740.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1570.00,1660.00 L1190.00,1740.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="1380.00" y="1694.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Writes entries in</text>
+  </g>
+<g class="edge" data-id="rel-20">
+    <path class="edge-hit-area" d="M1190.00,1870.00 L1760.00,1990.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1190.00,1870.00 L1760.00,1990.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-sync)" />
+    <text x="1475.00" y="1924.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Evidences movement of</text>
+  </g>
+<g class="edge" data-id="rel-21">
+    <path class="edge-hit-area" d="M1197.50,280.00 L1197.50,860.00 L1760.00,860.00 L1760.00,1990.00" fill="none" stroke="transparent" stroke-width="14" pointer-events="stroke" />
+    <path d="M1197.50,280.00 L1197.50,860.00 L1760.00,860.00 L1760.00,1990.00" fill="none" stroke="#444444" stroke-width="2" marker-end="url(#c4x-arrow-uses)" stroke-dasharray="8,4" />
+    <text x="1760.00" y="1419.00" fill="#444444" stroke="#FFFFFF" stroke-width="2" paint-order="stroke" text-anchor="middle" font-size="12" font-family="Arial, sans-serif">Judges movement of</text>
+  </g>
+    </g>
+  </g>
+</svg>

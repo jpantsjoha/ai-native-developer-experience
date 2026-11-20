@@ -1,6 +1,6 @@
 ---
 name: get-it-done
-description: "Pursue an agreed goal to a working outcome without waiting: decompose it, re-prioritise as evidence arrives, branch, gate, get an independent review (a different model or a fresh reviewer subagent — the writer never approves), merge, prune, and bank the operator's decisions in STATUS.md instead of blocking on them. Trigger on \"get it done\", \"don't wait for me\", \"proceed autonomously\", or when an epic or roadmap objective is handed over. Not a close-out: this work set is expected to grow."
+description: "A role that delivery-orchestrator brings in. Pursue an agreed goal to a working outcome without waiting: decompose it, re-prioritise as evidence arrives, branch, gate, get an independent review (a different model or a fresh reviewer subagent — the writer never approves), merge, prune, and bank the operator's decisions in STATUS.md instead of blocking on them. Trigger on \"get it done\", \"don't wait for me\", \"proceed autonomously\", or when an epic or roadmap objective is handed over. Not a close-out: this work set is expected to grow."
 ---
 
 # Get it done
@@ -100,8 +100,7 @@ For each unit of work:
    ownership is uncertain, preserve the work and explain why. Fetch and fast-forward
    clean main safely; never reset another lane's checkout or discard
    uncommitted/unintegrated changes.
-7. **Reconcile.** STATUS, CHANGELOG, ROADMAP, ADRs, issues. Findings that live
-   only in a chat message evaporate; file them.
+7. **Reconcile.** ADRs and issues for this unit now. Note the ROADMAP/STATUS/CHANGELOG change it implies in the PR body; do not edit those files here. After each batch of merges, the get-it-done runner, as orchestrator, runs one records task that updates all three together (see `docs/DELIVERY-RECORDS.md`). Findings that live only in a chat message evaporate; file them.
 
 ## Parallelism
 
@@ -119,7 +118,7 @@ the one integration owner, who re-runs the full gate on the assembled result.
 Activity is not progress. Respect the project's no-progress limit: attempts and
 elapsed time without a newly validated acceptance check. New commits, reviewer runs
 or a changed SHA do not reset it. At the limit, stop dependent work, keep every
-attempt and finding, and bank a replan decision in `STATUS.md` (handoff H4).
+attempt and finding, and bank a replan decision in `STATUS.md` (handoff H4) as an out-of-batch records task: a STATUS-only entry linked to the issue.
 Until the operator acknowledges it, the blocked item stays yours and stays stopped;
 carry on only with work it does not gate.
 
@@ -144,3 +143,8 @@ plainly — a phase that half-landed is reported as half-landed.
 
 Never claim a gate passed that you did not run, and never inherit a figure from
 an earlier session: **re-derive it, or label it unverified.**
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** The project's convergence command (`make check` here) on the exact commit, and `scripts/review-gate.sh` for the review record. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

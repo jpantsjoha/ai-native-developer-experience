@@ -21,7 +21,7 @@ Scope and exclusions:
 - [ ] Delivered behaviour satisfies the cited acceptance criteria
 - [ ] Checks exercise the actual user path and relevant failure cases
 - [ ] Exact candidate independently reviewed, including adversarial findings
-- [ ] Affected requirements, ADRs/workflows, STATUS and ROADMAP reconciled
+- [ ] Affected requirements and ADRs/workflows reconciled; the STATUS/ROADMAP/CHANGELOG change is noted in the PR body for the records task
 
 ## Validation and authority
 

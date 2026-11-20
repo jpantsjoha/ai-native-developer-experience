@@ -1,6 +1,6 @@
 ---
 name: cost-guardrail
-description: LLM and cloud cost awareness — model tiering, token budgets, right-sizing, and when a cheaper model suffices. Trigger before finalising any architecture that calls LLMs, before scaling a workload, or when a cost estimate is needed.
+description: "A role that delivery-orchestrator brings in. LLM and cloud cost awareness — model tiering, token budgets, right-sizing, and when a cheaper model suffices. Trigger before finalising any architecture that calls LLMs, before scaling a workload, or when a cost estimate is needed. Also trigger on \"what will this cost per month\"."
 ---
 
 # Cost Guardrail
@@ -90,3 +90,8 @@ on observed failure or ambiguity while preserving the quality and independence f
 | "We'll optimise later" | Cost optimisation is hardest after the architecture is set. Do it now. |
 | "The big model gives better results" | Verify with a test. Small models are often sufficient for structured tasks. |
 | "We don't know the volume yet" | Estimate a range. A 10x cost swing between low and high volume is a design risk. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None. The estimate shows its arithmetic and price sources so a reader can recompute it.

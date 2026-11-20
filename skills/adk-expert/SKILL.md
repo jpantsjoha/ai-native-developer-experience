@@ -1,6 +1,6 @@
 ---
 name: adk-expert
-description: "Google ADK (Agent Development Kit) orchestration patterns — boundaries, agent composition, and tool seams. Trigger when designing or reviewing multi-agent systems built on ADK. Authoritative source: adk.dev."
+description: "A role that delivery-orchestrator brings in. Google ADK (Agent Development Kit) orchestration patterns — boundaries, agent composition, and tool seams. Trigger when designing or reviewing multi-agent systems built on ADK. Authoritative source: adk.dev."
 ---
 
 # ADK Expert
@@ -61,3 +61,8 @@ This skill covers how to think about agent boundaries, orchestration topology, a
 - **No raw database access from agents.** Agents call tools; tools call infrastructure. This boundary is the governance seam.
 - **Context window is finite.** Design the graph so no single agent accumulates unbounded context. Summarise at synthesis points.
 - **Verify API surface before writing code.** ADK API changes. Always ground against [adk.dev](https://adk.dev) before implementing.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None is shipped. The design is argued through `adversarial-gate` and reviewed by `pr-reviewer`.

@@ -1,6 +1,7 @@
 ---
 name: system-performance-guardrail
 description: >-
+  A role that delivery-orchestrator brings in.
   Measure, root-cause, fix, verify and record performance contention on a developer machine: cloud-sync daemons (iCloud Drive, OneDrive, Dropbox, Google Drive), file indexers, AI-tool MCP server fleets, and automation browsers left behind by tests and browser skills. Trigger when the machine is slow, apps freeze, browser or MCP tool calls time out, load exceeds the core count, or before and after any UI/UX/performance test run. Includes the L0–L4 optimisation scale and the test-hygiene contract.
 ---
 
@@ -91,3 +92,8 @@ run commands should be given the script's output to reason over.
 Replace `memory_pressure` with `/proc/meminfo`, `sysctl vm.loadavg` with `/proc/loadavg`,
 hang reports with `journalctl -p err` and `coredumpctl`, `taskpolicy -b` with
 `renice 19` + `ionice -c3`, and the daemon names with the sync client in use.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/perf-guardrail.sh` in this skill, run before and after.

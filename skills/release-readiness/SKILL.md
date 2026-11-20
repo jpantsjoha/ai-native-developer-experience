@@ -1,6 +1,6 @@
 ---
 name: release-readiness
-description: Go / no-go gate before any deployment. Checks failure modes, rollback plan, cost, production bar, and definition of done. Trigger before releasing to any environment that carries real consequences.
+description: "A role that delivery-orchestrator brings in. Go / no-go gate before any deployment. Checks failure modes, rollback plan, cost, production bar, and definition of done. Trigger before releasing to any environment that carries real consequences. Also trigger on \"are we ready to release\" and \"can we ship on Friday\"."
 ---
 
 # Release Readiness
@@ -75,3 +75,8 @@ This skill enforces the production bar. It produces a go / no-go verdict with a 
 | "We'll monitor it after launch" | The first failure will be invisible. Add monitoring before go-live. |
 | "Rollback is just redeploy the previous version" | Untested. Run the rollback in staging first. |
 | "Cost is fine, it's low traffic" | Low traffic + an LLM loop bug = runaway spend. Cap it. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** The project's convergence command on the exact release candidate. The go or no-go is a human decision.

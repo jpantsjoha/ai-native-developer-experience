@@ -17,6 +17,14 @@ The AI-native developer experience harness.
 **Shared ways of working for you, your team and your AI agents — from a new idea to a
 change running live.**
 
+DevEx Charter is one step on a longer journey: building an agentic enterprise from the
+bottom up. It starts where the work is done, with one owner or one team and the way they
+plan, build, prove and release, and gives them the means to deliver value outcomes at pace
+and scale. There are [two ways to adopt it](#two-adoption-modes): solo, where one owner
+directs the whole AI team, and team, where a named lead is accountable for each domain.
+The workflow, gates and records are the same in both. More of the thinking behind it is at
+[jpantsjoha.com](https://jpantsjoha.com).
+
 `devex-charter` brings planning, delivery and ticket management, model selection,
 testing, independent review and release practices into one reusable plugin. Install it
 for a project or across your own projects, then give each project a shared operating
@@ -48,6 +56,122 @@ reports conflicting contracts before writing.
 
 [Current source status](docs/STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
 [Releases](https://github.com/jpantsjoha/ai-native-developer-experience/releases)
+
+## Delivery value orchestration
+
+This harness is for pursuing goals, not for prompting an assistant line by line. A person
+sets a goal. One role, `delivery-orchestrator`, takes it in, reads where the project
+stands, and brings in the other roles to get it done. The skills are those roles: one AI
+delivery team that works inside the same gates whoever is asking.
+
+### The operating model
+
+![DevEx Charter operating model, drawn in C4X: six kinds of people set goals through one entry point, delivery-orchestrator, which reads the delivery records, the issue tracker and the human queue, brings in product, oversight, architecture, build, quality, release and record roles, proves the work with deterministic checks and writes the records that evidence the value outcome.](docs/diagrams/operating-model.svg)
+
+Drawn with [C4X](https://github.com/jpantsjoha/c4x-vscode-extension) in the `c4-model`
+theme from [the diagram source](docs/diagrams/operating-model.c4x).
+
+**Who asks, and which roles answer.** A solo owner is every row at once.
+
+| Person | Typical ask | Roles the orchestrator brings in |
+| --- | --- | --- |
+| Product owner | "This is what we need and how we will accept it" | Product, then architecture |
+| Delivery director or manager | "Where are we, what is blocked, add this scope" | Record, oversight, product |
+| Technical lead | "Design and build this" | Architecture, build, quality |
+| QA lead | "Prove it works; what is covered?" | Quality, deterministic checks |
+| Data or SRE specialist | "Is the platform built and running as designed?" | Architecture, release and SRE, oversight |
+
+**The roles and their skills** (26 in all):
+
+| Role group | Skills |
+| --- | --- |
+| Entry point | `delivery-orchestrator` |
+| Setup | `using-the-harness`, `operating-model-bootstrap` |
+| Product | `product-owner`, `spec-first-delivery` |
+| Oversight | `cxo-oversight`, `governance-guardrail`, `cost-guardrail` |
+| Architecture | `the-architect`, `cloud-expert`, `adk-expert`, `mcp-server-scaffold` |
+| Build | `get-it-done` |
+| Quality | `test-strategy`, `domain-validator`, `adversarial-gate`, `pr-reviewer` |
+| Release and SRE | `release-readiness`, `release-manager`, `github-manager`, `plugin-submission`, `cloud-checkup`, `frontend-performance-audit`, `system-performance-guardrail` |
+| Record | `sitrep`, `wrap-it-up` |
+
+**What the orchestrator reads, and why:**
+
+| Source | The question it answers |
+| --- | --- |
+| `VISION.md` | Why the project exists and what it is for |
+| `ROADMAP.md` | What comes next, in what order |
+| `STATUS.md` | What is happening now and what waits on whom |
+| `CHANGELOG.md` | What has shipped, with its proof |
+| `README.md` | What the project is and how to run it |
+| Issues and tickets (GitHub, Jira or another tracker) | What each piece of work is and how it will be judged done |
+| The human queue (planned) | What waits on this person, and what each item unblocks |
+
+**Why the result is repeatable.** Which skill a model loads is not deterministic. The
+checks are: `make check`, the validators behind it and a project's own test suites give
+the same answer on the same commit, and a role's output counts only when its check
+passes. Access to outside data goes through MCP, which ships here as a governed template
+for a project to wire up; it is a controlled seam, not a deterministic check.
+
+**Where the implementation stands.** Every skill names the orchestrator as its entry, and
+on Claude Code the session-start pointer sends delivery asks there. Skill selection is a
+model decision, so this is measured, not asserted, with a fixed set of 18 prompts from the
+six kinds of people, two of them bounded read-only questions that may go straight to a
+specialist.
+
+| Host | Orchestrator loaded first | Read-only question straight to its specialist | Expected role loaded | No skill beyond orientation |
+| --- | --- | --- | --- | --- |
+| Claude Code, before | 1 | 1 | 9 | 9 |
+| Claude Code, after | 16 | 1 | 17 | 1 |
+| Codex, before | 1 | 2 | 17 | 0 |
+| Codex, after | 17 | 1 | 18 | 0 |
+
+Each figure is a count out of 18, from one run per prompt. Prompt set, method, results and
+limits: [evals/routing](evals/routing/README.md).
+
+### The skills flow
+
+The same model one level down: each skill, the stage it works in, and the five decisions
+that stay with a named person, numbered in the diagram. The outcome sets the next
+priorities.
+
+![DevEx Charter delivery value orchestration, drawn in C4X: six stages (Enter, Agree the work, Build, Prove, Release, Record and learn) holding the 26 skills, five people who each hold one decision, and the value outcome the project declared.](docs/diagrams/delivery-value-orchestration.svg)
+
+Drawn with [C4X](https://github.com/jpantsjoha/c4x-vscode-extension) in the `c4-model`
+theme from [the diagram source](docs/diagrams/delivery-value-orchestration.c4x).
+
+| # | The human decides | Typical owner |
+| --- | --- | --- |
+| 1 | Intent, priority and acceptance | Product owner |
+| 2 | Architecture and the decision record | Lead architect or domain lead |
+| 3 | The answer when evidence is missing or the risk is high (R2, R3); the lane waits | The roster role for that domain |
+| 4 | Release and rollback | Operator or SRE |
+| 5 | Whether the declared outcome moved | Operator or director |
+
+I have used this harness to deliver more than 12 projects, solo and with a team, and had
+a hand in each. Its opinions come from that work.
+
+## Two adoption modes
+
+The workflow, gates, records and release cadence are the same in both. What changes is
+who holds the decisions.
+
+| | Solo | Team |
+| --- | --- | --- |
+| Who decides | One owner holds every role | A named accountable lead for each domain: engineering, data, QA, SRE |
+| Skills | You direct the whole AI team | The same shared skills; a lead may own and improve a specialist skill |
+| Records | One set, kept by you | One set, shared; each entry links its issue or pull request |
+| Value | You deliver whole epics and milestones at pace | Leads work on different parts of the system and their output still fits together |
+| Human queue (planned) | `HITL/OPERATOR/Master-TODO.md` | `HITL/OPERATOR/<gh-id>-TODO.md` for each person |
+
+The human queue is planned, not yet shipped. It will list what waits on each person and
+what each item unblocks. It stays on that person's machine and is never committed;
+`STATUS.md` remains the shared record of what waits on whom.
+
+A lead who brings context from outside the repository, such as meeting notes, chat or
+shared documents, checks it against the project vision and records it as a requirement,
+a decision or an issue comment before it changes scope. That keeps every lead's work
+aligned with the same project.
 
 **DevEx Charter** was formerly **Join the Team**. Use `devex-charter` for new installs.
 The legacy name keeps working: the Claude marketplace is still `join-the-team-marketplace`,
@@ -179,53 +303,58 @@ commands cover the lifecycle and the working session.
 On skill-only hosts, ask `operating-model-bootstrap` to run the same sequence. It finds
 scripts in the selected installation and writes only the consumer project’s seed.
 
-**Typical sessions** — say the intent, and the router picks the skill:
+**Typical sessions**: say the intent. The orchestrator reads the records, then brings in the role:
 
-| You say | What fires | What you get |
+| You say | What loads | What you get |
 | --- | --- | --- |
-| "Design the ingestion service" | `spec-first-delivery` → `the-architect` | Spec and ADR *before* code |
-| "Is this safe to ship?" | `release-readiness` | Go/no-go against failure modes and rollback |
-| "Review this PR" | `pr-reviewer` | Structured verdict with findings |
-| "How would this break?" | `adversarial-gate` | Red-team pass argued against your own approach |
-| "We're on GCP, multi-tenant" | `cloud-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
-| "Where do things stand?" | `sitrep` | Status, blockers, next actions |
-| "Get it done, I'll be back later" | `get-it-done` | Pursues the agreed goal to a merged outcome; banks decisions instead of blocking |
-| "The Mac is slow / the tests left Chrome open" | `system-performance-guardrail` | Snapshot, owner attribution, bounded cleanup, before/after numbers |
+| "Design the ingestion service" | `delivery-orchestrator` → `spec-first-delivery` → `the-architect` | Spec and ADR *before* code |
+| "Is this safe to ship?" | `delivery-orchestrator` → `release-readiness` | Go/no-go against failure modes and rollback |
+| "Review this PR" | `delivery-orchestrator` → `pr-reviewer` | Structured verdict with findings |
+| "How would this break?" | `delivery-orchestrator` → `adversarial-gate` | Red-team pass argued against your own approach |
+| "How do we prove it works?" | `delivery-orchestrator` → `test-strategy` | Each acceptance criterion mapped to a runnable check |
+| "We're on GCP, multi-tenant" | `delivery-orchestrator` → `cloud-expert` + `governance-guardrail` | IAM, residency and policy guardrails |
+| "Where do things stand?" | `delivery-orchestrator` → `sitrep` | Status, blockers, next actions |
+| "Get it done, I'll be back later" | `delivery-orchestrator` → `get-it-done` | Pursues the agreed goal to a merged outcome; banks decisions instead of blocking |
+
+Bounded questions that change nothing go straight to the specialist:
+
+| You say | What loads | What you get |
+| --- | --- | --- |
 | "Is everything live? Any errors this week?" | `cloud-checkup` | Read-only GCP checkup: one status table, one `OVERALL:` line, in session or on a schedule |
 | "Is the page fast enough? Why is this route slow?" | `frontend-performance-audit` | Core Web Vitals and traces from the real authenticated page, not an estimate |
+| "What is eating the CPU?" | `system-performance-guardrail` | Snapshot and owner attribution; a cleanup goes through the orchestrator |
 
 **Worked example — a risk-touching change:**
 
 ```text
 You:   We need to let tenants export their own audit logs.
-Agent: [spec-first-delivery] Spec before code. Who is the actor, what is out of scope?
+Agent: [delivery-orchestrator] Read ROADMAP and STATUS: not yet planned, nothing in flight touches it.
+       [spec-first-delivery] Spec before code. Who is the actor, what is out of scope?
        [governance-guardrail] Multi-tenant export is R2 — data-boundary check required.
        [the-architect] ADR-00N drafted: signed URLs vs streamed export, trade-offs recorded.
        [adversarial-gate] How would I break this? Tenant A requesting tenant B's logs.
        → Named human approves the R2 classification before implementation starts.
 ```
 
-The point is the routing, not the vocabulary: you describe intent, the contract decides
-which gate applies.
+The point is the routing, not the vocabulary: you describe intent, the orchestrator
+decides which roles and gates apply.
 
 ## DevDash companion
 
-If you work across several repositories, **DevDash** is an optional native macOS desktop
-app for seeing which projects need attention. It collects delivery signals from
-GitHub and git, shows available signals and when they were checked, and keeps missing data
-visibly missing. Displayed metrics are deterministic. Optional AI proposes short explanations
-from available status and roadmap documents; it never supplies the displayed numbers.
-The core needs no AI subscription.
+**DevDash is coming soon.** It is a native macOS desktop app for anyone working across
+several repositories: it shows which projects need attention. It collects delivery signals
+from GitHub and git, shows which signals are available and when they were checked, and
+keeps missing data visibly missing. Displayed metrics are deterministic. Optional AI
+proposes short explanations from the status and roadmap documents; it never supplies the
+displayed numbers. The core needs no AI subscription.
 
 Used alongside `devex-charter`, clear status and roadmap records give DevDash more context
 for the work behind those signals. The harness is not required: ordinary GitHub repositories
-still provide available API and git signals, with less delivery context where documents are
-missing. See [the four delivery records](docs/DELIVERY-RECORDS.md) for the shared practice.
+still provide API and git signals, with less delivery context where documents are missing.
+See [the four delivery records](docs/DELIVERY-RECORDS.md) for the shared practice.
 
-[DevDash repository (`mac-control`) — private preview, access required](https://github.com/jpantsjoha/mac-control).
-DevDash is currently an internal MVP, with no public signed download or release. The link is
-accessible only to people granted repository access. Local AI is experimental and has not
-completed qualification.
+DevDash is in private preview today, with no public download or release yet, and its local
+AI is experimental. Follow [jpantsjoha.com](https://jpantsjoha.com) for the release.
 
 ## Configuration
 
@@ -259,7 +388,39 @@ with the client, version (`plugin.json`), and the output of `make spec-conforman
 
 ---
 
-## Is this the same as BMAD?
+## How it compares
+
+This harness is opinionated, and that is fine: each to their own. These are the projects
+most teams will weigh it against. Star counts were read from GitHub on 20 November 2026;
+each description is the project's own.
+
+| Project | Stars | In its own words |
+| --- | ---: | --- |
+| [obra/superpowers](https://github.com/obra/superpowers) | 322k | "An agentic skills framework & software development methodology that works." |
+| [github/spec-kit](https://github.com/github/spec-kit) | 151k | "Toolkit to help you get started with SDD or any other process!" |
+| [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | 82k | "Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems." |
+| [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) | 75k | "Spec-driven development (SDD) for AI coding assistants." |
+| [gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done) | 64k | "A light-weight and powerful meta-prompting, context engineering and spec-driven development system for Claude Code by TÂCHES." |
+| [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) | 56k | "Breakthrough Method for Agile Ai Driven Development" |
+| [wshobson/agents](https://github.com/wshobson/agents) | 43k | "Plugins, agents, skills, and commands for Claude Code, Codex CLI, Cursor, OpenCode" and other hosts |
+| [eyaltoledano/claude-task-master](https://github.com/eyaltoledano/claude-task-master) | 28k | "An AI-powered task-management system you can drop into Cursor, Lovable, Windsurf, Roo, and others." |
+| [SuperClaude-Org/SuperClaude_Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) | 24k | "A configuration framework that enhances Claude Code with specialized commands, cognitive personas, and development methodologies." |
+
+Most of these help an agent write the specification, plan the tasks or supply more
+skills. DevEx Charter starts from a different question: who is accountable, what is
+allowed and what counts as proof.
+
+| DevEx Charter puts first | In practice |
+| --- | --- |
+| Named human authority | A roster of accountable roles; a lane halts until its owner answers |
+| Gates by risk | Risk tiers R0 to R3 set how much review a change needs |
+| Proof, not test counts | Evidence bound to the exact commit; independent review before merge |
+| One set of delivery records | Issues, `ROADMAP`, `STATUS` and `CHANGELOG`, each answering one question |
+| The route to live | Release readiness, promotion authority, rollback and observation |
+
+It composes with a spec or workflow tool; it does not replace one.
+
+### Is this the same as BMAD?
 
 No — and the difference is the point. [BMAD](https://docs.bmad-method.org/) is a
 methodology engine: it drives an idea through phased workflows — analysis, planning,

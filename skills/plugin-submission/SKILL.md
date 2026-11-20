@@ -1,6 +1,6 @@
 ---
 name: plugin-submission
-description: Govern discovery, eligibility, and submission of a plugin or skill to official directories, registries, marketplaces, and curated GitHub lists. Use when preparing or sending plugin listings, marketplace forms, directory PRs, or repository recommendations; require current policy evidence and a final human confirmation before every external submission.
+description: A role that delivery-orchestrator brings in. Govern discovery, eligibility, and submission of a plugin or skill to official directories, registries, marketplaces, and curated GitHub lists. Use when preparing or sending plugin listings, marketplace forms, directory PRs, or repository recommendations; require current policy evidence and a final human confirmation before every external submission.
 ---
 
 # Plugin Submission
@@ -66,3 +66,8 @@ Do not send until all applicable checks pass:
 | “The user asked to submit, so the final click is implied.” | A final confirmation binds authority to the exact external payload. |
 | “A PR is harmless discovery.” | A public PR is a durable representation of the project and must follow the contributor policy. |
 | “We can automate a human-only form.” | Human-only and no-AI policies are hard stops. |
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** `scripts/validate_plugin.py` for packaging. Eligibility rests on the directory's current policy, cited with its date. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

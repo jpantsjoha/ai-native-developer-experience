@@ -1,6 +1,6 @@
 ---
 name: the-architect
-description: Architecture decisions, trade-off analysis, and ADR authoring. Trigger when a significant technical decision needs to be made, documented, and owned — not when an implementation detail needs a choice.
+description: "A role that delivery-orchestrator brings in. Architecture decisions, trade-off analysis, and ADR authoring. Trigger when a significant technical decision needs to be made, documented, and owned — not when an implementation detail needs a choice. Also trigger on \"should we move from X to Y\" and \"record the decision\"."
 ---
 
 # The Architect
@@ -87,3 +87,8 @@ decision without its guardrail checklist is an unreviewed decision.
 - **The ADR captures reasoning, not just the outcome.** "We chose Postgres" is not an ADR. "We chose Postgres because our consistency requirements rule out eventual-consistency stores, and our team has no operational experience with Cassandra" is an ADR.
 - **Architecture is not implementation.** An ADR about which ORM to use is implementation. An ADR about whether the service owns its own database is architecture.
 - **Supersede, do not edit.** When a decision changes, create a new ADR that supersedes the old one. History is the point.
+
+## Entry and proof
+
+- **Entry:** `delivery-orchestrator` brings this role in. Enter here directly only for a bounded read-only question.
+- **Proof:** None. The output is an ADR with a status; `scripts/validate_delivery.py` checks it is linked. `scripts/` here means the plugin root; a copy of this skill directory alone does not carry it, so name the project's equivalent there.

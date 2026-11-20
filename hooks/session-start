@@ -54,9 +54,9 @@ case "$orientation" in
     full) : ;;
     *) banner="devex-charter: load only the skills and records needed for this task."
        if [ -n "$profile" ]; then
-           skill_content="Project contract: $profile and its bound manual. Before selecting roadmap work, check current STATUS, open issues/PRs and worktrees. For delivery, load using-the-harness and the project's DELIVERY-WORKFLOW; route intent to product-owner, material oversight to cxo-oversight, acceptance checks to test-strategy and execution to delivery-orchestrator. Preserve authority and exact-candidate independent review."
+           skill_content="Project contract: $profile and its bound manual. Before selecting roadmap work, check current STATUS, open issues/PRs and worktrees. Enter every delivery ask through delivery-orchestrator, whoever asks: goal, plan, ticket, progress, proof, review, release. It reads the records and the project's DELIVERY-WORKFLOW, then brings in the roles (product-owner, cxo-oversight, test-strategy and the rest). Call a specialist directly only for a bounded read-only question. Preserve authority and exact-candidate independent review."
        else
-           skill_content="devex-charter skills are available. For delivery work load using-the-harness; use operating-model-bootstrap to adopt project-owned controls. Installation grants no authority. Load detailed procedures only when needed."
+           skill_content="devex-charter skills are available. Enter every delivery ask through delivery-orchestrator, whoever asks: goal, plan, ticket, progress, proof, review, release. It reads the records and brings in the other skills as roles. Call a specialist directly only for a bounded read-only question. Use operating-model-bootstrap to adopt project-owned controls. Installation grants no authority. Load detailed procedures only when needed."
        fi ;;
 
 esac

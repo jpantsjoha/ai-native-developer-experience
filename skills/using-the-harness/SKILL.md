@@ -1,6 +1,6 @@
 ---
 name: using-the-harness
-description: Session-start orientation for this team harness. Load first, before any work. Explains the operating contract, when each skill triggers, and how installed companion plugins supply agent-craft capabilities while this harness supplies the team contract. Trigger at the start of every session and whenever unsure which skill applies.
+description: Session-start orientation for this team harness. Load first, before any work. Explains the operating contract, that every delivery ask enters through delivery-orchestrator, and how installed companion plugins supply agent-craft capabilities while this harness supplies the team contract. Trigger at the start of every session.
 ---
 
 # Using the Harness
@@ -23,8 +23,8 @@ A skill supplies a repeatable procedure. It never supplies permission or account
 2. **Classify risk before acting.** Map the requested work to R0–R3. Round ambiguity
    upward. Confirm authority at that tier before any consequential, destructive,
    external, or credential-touching action.
-3. **Route before doing.** Check the routing table below. If a skill applies to the
-   work, use it. If you are unsure which applies, use `delivery-orchestrator`.
+3. **Enter through the orchestrator.** Load `delivery-orchestrator` for every delivery
+   ask. It reads the records and brings in the roles the work needs.
 
 The shared plugin is provider-neutral. Host adapters implement invocation; the project
 profile selects authorised reviewers, subscriptions and budgets. Independent Council
@@ -56,33 +56,20 @@ unadopted project needs orientation and an adoption path, not the full delivery 
 
 ## Skill routing
 
-| Work in front of you | Skill |
-|---|---|
-| New repo, or operating model install/repair | `operating-model-bootstrap` |
-| Multi-track epic, or "which skill applies?" | `delivery-orchestrator` |
-| An agreed goal to drive to a working, merged outcome while the operator is away | `get-it-done` |
-| Close out the in-flight set to a clean baseline (the set does not grow) | `wrap-it-up` |
-| The machine is slow, tests or browser skills left processes behind | `system-performance-guardrail` |
-| Is everything live, any errors this week, the weekly SRE checkup of a GCP project | `cloud-checkup` |
-| Is the page fast enough, Core Web Vitals, why is this route slow | `frontend-performance-audit` |
-| Vision, requirements, user journeys and product acceptance | `product-owner` |
-| Material strategic, cost/risk or operating ownership decision | `cxo-oversight` |
-| Acceptance coverage and executable user-path checks | `test-strategy` |
-| Significant technical decision or ADR | `the-architect` |
-| New feature, epic, or change — plan before code | `spec-first-delivery` |
-| High-stakes decision, or before claiming done | `adversarial-gate` |
-| Agent output feeding a decision, store, or another agent | `domain-validator` |
-| Any PR or agent-generated code before commit | `pr-reviewer` |
-| Anything about to ship to a real environment | `release-readiness` |
-| CI triggers, Actions billing, issues, labels, branch protection, or release-tag workflow | `github-manager` |
-| Release process governance: SemVer, ADR, changelog, release authority | `release-manager` |
-| Enterprise policy, compliance, governance, or approved-vendor alignment | `governance-guardrail` |
-| Status, standup, or situation report | `sitrep` |
-| Plugin-directory, marketplace, or curated-list submission | `plugin-submission` |
-| LLM/cloud cost estimate or architecture with LLM calls | `cost-guardrail` |
-| Google ADK multi-agent design | `adk-expert` |
-| Any cloud-vendor workload (GCP, AWS, Azure, Alibaba Cloud) | `cloud-expert` (`the-architect` routes) |
-| Adding or reviewing an MCP server | `mcp-server-scaffold` |
+**Every delivery ask enters through `delivery-orchestrator`**, whoever asks and however
+small: a goal, a plan, a ticket, a progress question, a review, a release. It reads the
+project's records, then brings in the other skills as roles. Its SKILL.md holds the role
+table, the persona map and the quality sequence.
+
+That holds when the operator names a skill or its command: the orchestrator reads the
+records, then loads the named skill. It holds for a project that has not adopted the
+operating model: the orchestrator sends it to `operating-model-bootstrap`.
+
+**One exception.** A specialist skill may be called directly for a bounded question that
+changes nothing: a cost estimate, a platform health check, a performance measurement, a
+read-only review. When such a call turns into a change, hand the work to the orchestrator
+before continuing. The rule is
+[AMH-001 FR-6](../../requirements/ADOPTION-MODES-HITL.md).
 
 ## Companion plugins
 

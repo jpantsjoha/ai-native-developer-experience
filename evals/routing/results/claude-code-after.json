@@ -1,0 +1,343 @@
+{
+  "label": "claude-code-after",
+  "host": "claude-code",
+  "model": "sonnet",
+  "max_turns": 10,
+  "date": "2026-11-20",
+  "commit": "042432456eaa13e5f78ae3f38c58f81c3ad7df1c",
+  "skills_tree": "18360154f373022feb6685210b1d667a4b9b574f",
+  "hooks_tree": "b346aeccb40bab5cb9dd07cf27860088bb54de7b",
+  "skills_dirty": false,
+  "prompt_set_version": 1,
+  "total": 18,
+  "valid_runs": 18,
+  "orchestrator_first": 16,
+  "direct_specialist": 1,
+  "role_reached": 17,
+  "no_skill_after_orientation": 1,
+  "no_skill_at_all": 1,
+  "results": [
+    {
+      "id": "solo-1",
+      "persona": "Solo owner",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "sitrep",
+        "sitrep"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "solo-2",
+      "persona": "Solo owner",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "spec-first-delivery"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "solo-3",
+      "persona": "Solo owner",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "spec-first-delivery"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "po-1",
+      "persona": "Product owner",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "product-owner"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "po-2",
+      "persona": "Product owner",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "product-owner"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "po-3",
+      "persona": "Product owner",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "product-owner"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "dd-1",
+      "persona": "Delivery director",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "sitrep"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "dd-2",
+      "persona": "Delivery director",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "sitrep",
+        "sitrep"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "dd-3",
+      "persona": "Delivery director",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "sitrep",
+        "sitrep"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "tl-1",
+      "persona": "Technical lead",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "the-architect"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "tl-2",
+      "persona": "Technical lead",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "pr-reviewer"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "tl-3",
+      "persona": "Technical lead",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "qa-1",
+      "persona": "QA lead",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "test-strategy"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "qa-2",
+      "persona": "QA lead",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "test-strategy"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "qa-3",
+      "persona": "QA lead",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "adversarial-gate"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "sre-1",
+      "persona": "Data or SRE specialist",
+      "direct_ok": true,
+      "loaded": [
+        "cloud-checkup"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "cloud-checkup",
+      "orchestrator_first": false,
+      "direct_specialist": true,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "sre-2",
+      "persona": "Data or SRE specialist",
+      "direct_ok": false,
+      "loaded": [
+        "delivery-orchestrator",
+        "release-readiness"
+      ],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": "delivery-orchestrator",
+      "orchestrator_first": true,
+      "direct_specialist": false,
+      "role_reached": true,
+      "no_skill_after_orientation": false,
+      "no_skill_at_all": false
+    },
+    {
+      "id": "sre-3",
+      "persona": "Data or SRE specialist",
+      "direct_ok": true,
+      "loaded": [],
+      "failed_loads": [],
+      "ending": "success",
+      "valid": true,
+      "first": null,
+      "orchestrator_first": false,
+      "direct_specialist": false,
+      "role_reached": false,
+      "no_skill_after_orientation": true,
+      "no_skill_at_all": true
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 description: Situation report: what landed, what is in flight, what is blocked, and the decisions waiting on the operator
 ---
 
-Load the `sitrep` skill from this plugin and follow it exactly. Scope: the current work state, derived from the repository and its records.
+Enter through `delivery-orchestrator` first to read the project's delivery records, then load the `sitrep` skill from this plugin and follow it exactly. Scope: the current work state, derived from the repository and its records.
 
 $ARGUMENTS
 

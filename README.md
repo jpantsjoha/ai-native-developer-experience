@@ -662,7 +662,7 @@ both decisions and the trade-offs behind them.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](skills/README.md)**
-  Twenty-two tracked capabilities for orchestration, architecture, specification, validation,
+  26 tracked capabilities for orchestration, architecture, specification, validation,
   review, release readiness, governance, plugin submission, status, cost, cloud operations,
   frontend performance, and selected platform work.
 - **[Plugin Submission](skills/plugin-submission/SKILL.md)**

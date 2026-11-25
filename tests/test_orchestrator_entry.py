@@ -50,6 +50,23 @@ class OrchestratorEntryTests(unittest.TestCase):
         hook = (ROOT / 'hooks/session-start').read_text()
         self.assertEqual(hook.count(f'Enter every delivery ask through {ENTRY}'), 2)
 
+    def test_session_commands_enter_through_orchestrator(self):
+        for cmd in ('get-it-done', 'sitrep', 'wrap-it-up'):
+            with self.subTest(command=cmd):
+                text = (ROOT / 'commands' / f'{cmd}.md').read_text()
+                self.assertIn(f'`{ENTRY}`', text)
+                self.assertIn(f'`{cmd}`', text)
+                self.assertLess(text.index(f'`{ENTRY}`'), text.index(f'`{cmd}`'))
+
+    def test_readme_and_skills_index_agree_on_skill_count(self):
+        count = len(SKILLS)
+        skills_readme = (ROOT / 'skills/README.md').read_text()
+        root_readme = (ROOT / 'README.md').read_text()
+        self.assertIn(f'## The {count} Skills', skills_readme)
+        self.assertIn(f'({count} in all)', root_readme)
+        self.assertIn(f'The library contains {count} skills.', root_readme)
+        self.assertIn(f'{count} tracked capabilities', root_readme)
+
     def test_routing_prompt_set_is_well_formed(self):
         spec = json.loads((ROOT / 'evals/routing/prompts.json').read_text())
         self.assertEqual(spec['entry'], ENTRY)

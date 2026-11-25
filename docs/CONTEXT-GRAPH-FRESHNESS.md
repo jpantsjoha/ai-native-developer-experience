@@ -100,9 +100,27 @@ any language via `CGF_EXTS`.
 **Reference pin, 2026-11-25:** the reference pin of graft `0.10.1` is now Trail-code
 `0.30.5` (npm `@trailhq/trail-code`, published 2026-11-17; the old `@nanonets/graft`
 package is at `0.30.1`). The guard script's default build command uses the new package
-with `DO_NOT_TRACK=1`. That default has not been run against 0.30.5 here; the build
-command and graph path come from the upstream README. Run the guard with `--force` on one
-project and check the graph is written before rolling the new pin out.
+with `DO_NOT_TRACK=1`.
+
+**Guard tested against 0.30.5, 2026-11-25,** on a copy of this repository (22 source
+files), with `CGF_BUILD_CMD="DO_NOT_TRACK=1 trail build"` and a global install of the same
+0.30.5, so the `npx` fetch in the default command was not exercised:
+
+| Run | Result |
+|---|---|
+| First run, no graph | Rebuilt; `graft/.graph/wiring.json` written (407 nodes, 989 edges) in 0.6 s |
+| Second run, nothing changed | `FRESH`, skipped in 0.05 s |
+| After touching a `.py` file | Rebuilt |
+| `--force` | Rebuilt; 22 of 22 files replayed from Trail-code's cache |
+
+The default graph path matches what 0.30.5 writes. Two things the test turned up:
+
+- `trail build` edits the repository on its first run: it appends `/graft/` to
+  `.gitignore` and creates a `.ignore` file that re-admits `graft/` to ripgrep. Both are
+  benign, but they show up as changes in `git status`; commit them once, deliberately.
+- Trail-code also indexes shell scripts, but the guard's default `CGF_EXTS` is
+  `py ts tsx js`, so editing only a `.sh` file leaves the graph stale. Add `sh` (and any
+  other indexed language) to `CGF_EXTS` in projects where it matters.
 
 ## Guardrails carried over from the graft security review
 
@@ -129,6 +147,9 @@ on 2026-11-25 for what Trail-code added; sources are its
   the indexer (shell, git hooks, the SessionStart hook), or run `trail telemetry disable`
   once per machine. The guard script's default build command sets `DO_NOT_TRACK=1`; a custom
   `CGF_BUILD_CMD` must set it itself. CI variables (`CI`, `GITHUB_ACTIONS`) turn it off.
+  Set it **before the first command**: on the 2026-11-25 test machine, the first `trail`
+  command had already queued a usage event before `trail telemetry disable` ran. Whether
+  that event was sent was not checked.
 - **The old `graft` command is not a way round these.** `graft` and `@nanonets/graft` run the
   same Trail-code, telemetry included.
 - Treat the graph as **derived, gitignored** state — never committed, always rebuildable.

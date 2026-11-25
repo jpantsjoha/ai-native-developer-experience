@@ -29,8 +29,17 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
   Trail-code and the reference pin moving from 0.10.1 to 0.30.5, and adds guardrails for
   `trail init` (it reads past Claude Code transcripts and PR review comments) and for
   telemetry being on by default. `scripts/context-graph-refresh.sh` now defaults to
-  `DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build`; that default has not been run
-  against 0.30.5.
+  `DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build`. The guard was then run
+  against a global install of 0.30.5 (build, `FRESH` skip, rebuild on change, `--force`);
+  the `npx` fetch itself was not exercised. The page now notes that `trail build` edits
+  `.gitignore` and adds `.ignore`, that the default `CGF_EXTS` misses shell scripts Trail-code
+  indexes, and that `DO_NOT_TRACK` must be set before the first `trail` command.
+- [INTEGRATIONS.md](INTEGRATIONS.md#tested-with-this-harness-2026-11-25): results of a
+  token-use test of Trail-code 0.30.5 and ponytail 5.3.3 on this repository (3 tasks, one
+  run per cell, Sonnet): all answers correct in every condition, no measurable gain. Also a
+  local Graphify 0.9.119 test: `GRAPHIFY_BACKEND=none` skips Markdown, and a failed Ollama
+  backend still exits 0. Recommendation: ponytail when bootstrapping a new repository,
+  Trail-code only for code-heavy repositories, Graphify as a personal tool.
 - [frontend-performance-audit](skills/frontend-performance-audit/SKILL.md) and the
   `.agents/mcp_config.json` template: `chrome-devtools-mcp` pinned to 1.14.0 (was 1.6.0),
   with `--no-performance-crux` beside `--no-usage-statistics` for client work. The skill

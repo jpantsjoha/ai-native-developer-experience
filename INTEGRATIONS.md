@@ -23,7 +23,8 @@ named fallback; absence never silently drops a capability.
 Versions below were re-verified on **2026-11-25** against primary sources: each
 repository's latest GitHub release, its `.claude-plugin/plugin.json`, its licence as
 GitHub detects it, and (for packages) the npm or PyPI registry. They are the current
-upstream releases, **not versions re-tested with this harness**. Re-verify before
+upstream releases, **not versions re-tested with this harness**, except ponytail 5.3.3,
+which was run once in the [2026-11-25 test](#tested-with-this-harness-2026-11-25). Re-verify before
 pinning into a project profile. The previous check was 2026-07-19.
 
 | Craft lane | Companion plugin | Provider capability | Upstream version (2026-11-25) | Licence |
@@ -63,6 +64,48 @@ needed by any skill here.
 |---|---|---|---|
 | [Trail-code](https://github.com/trailhq/Trail-Code), formerly graft | npm [`@trailhq/trail-code`](https://www.npmjs.com/package/@trailhq/trail-code) 0.30.5, published 2026-11-17 (the repository has no GitHub releases). The old package `@nanonets/graft` still runs the same code and is at 0.30.1. | MIT | The code map is built locally with tree-sitter; `trail build --deep` sends code to the model provider you configure. Anonymous telemetry is **on by default**; off with `DO_NOT_TRACK=1` or `trail telemetry disable`. `trail init` reads your own messages from the repo's past Claude Code transcripts (via your Claude Code, so they go to Anthropic) and, when `gh` is signed in, the review comments on the repo's last 50 merged PRs. It also adds hooks and a statusline to Claude Code, and with `--agents` it removes its wiring from unlisted agents' user-level files unless `--no-global` is passed. `trail init --dry-run` previews the wiring. |
 | [Graphify](https://github.com/Graphify-Labs/graphify) | PyPI [`graphifyy`](https://pypi.org/project/graphifyy/) 0.9.120, published 2026-11-25 (matching [GitHub release v0.9.120](https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.120)). It releases almost daily, so pin the exact version. | Apache-2.0 | Code is parsed locally with tree-sitter. Docs, PDFs and images go to an LLM: the assistant's model through the `/graphify` skill, or, for headless `graphify extract`, a backend auto-detected from whichever API key is in the environment. Set `GRAPHIFY_BACKEND=none` (code only, no LLM) or `GRAPHIFY_BACKEND=ollama` (local). `graphify install` writes a skill registration into `~/.claude/CLAUDE.md`; `graphify install --project` writes under the repository instead. |
+
+### Tested with this harness, 2026-11-25
+
+**Token use.** Three tasks were run headless (`claude -p`, Sonnet, one run per cell) on a
+copy of this repository: list the functions that bind evidence to the candidate commit,
+find every reference to the `Gate` class, and add a `--quiet` flag to
+`scripts/lane_hygiene.py` with a unit test. Three conditions: no companion (base),
+Trail-code 0.30.5 with a prebuilt map and a `CLAUDE.md` note telling the agent to use it,
+and ponytail 5.3.3 loaded with `--plugin-dir`.
+
+| Condition | Cost, 3 tasks (USD) | Total tokens | Answers | `--quiet` change |
+|---|---:|---:|---|---|
+| Base | 0.792 | 683k | All correct | 14 lines added, test passes |
+| Trail-code | 0.644 | 828k | All correct | 10 lines added, test passes |
+| ponytail | 0.618 | 698k | All correct | 13 lines added, test passes |
+
+**No measurable gain from either.** The cost gap is mostly run order: base ran first and
+paid the cache writes (78.9k tokens on its first task, about 45k on the later
+conditions' first tasks). Trail-code used 21% more tokens, because the map adds context.
+The repository is mostly Markdown (124 Markdown files, 22 code files), which is where a
+code map helps least. A test that could show a difference needs at least three runs per
+cell, interleaved, on a code-heavy repository.
+
+**Graphify 0.9.119** (one release behind the version listed above), run on a personal notes
+folder (13 Markdown documents):
+
+- With `GRAPHIFY_BACKEND=none` it skipped all 13 documents: that setting is code only.
+- With `GRAPHIFY_BACKEND=ollama` and no `openai` Python package, every document failed
+  and the command **still exited 0**, so a scheduled build would not notice. Install the
+  `graphifyy[ollama]` extra; the run also set `OLLAMA_API_KEY` to a placeholder value.
+- Fully local on a Qwen 3.6 35B-A3B (4-bit) model, it built 57 nodes, 60 edges and 11
+  communities from 37.9k input tokens in about 15 minutes, with the model holding about
+  half the machine's memory. A query returns the connected notes, not an answer.
+
+Recommendation:
+
+- **ponytail:** recommend it when bootstrapping a new repository, for the simplicity
+  discipline it adds while the codebase takes shape. Do not sell it on token savings; this
+  test found none. In an established repository it is optional.
+- **Trail-code:** only in a code-heavy repository, with the freshness guard wired in.
+- **Graphify:** a personal tool, for a corpus too large to read directly. Never through
+  `graphify install`.
 
 Listing a plugin or tool is an interoperability note, not an endorsement or a warranty.
 Each project profile names its own providers and fallbacks.

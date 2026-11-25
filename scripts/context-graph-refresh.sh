@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # context-graph-refresh.sh — keep a code-intelligence graph coherent, on demand.
 #
-# A semantic code graph (graft, or any indexer an agent queries for "where is X /
+# A semantic code graph (Trail-code, formerly graft, or any indexer an agent queries for "where is X /
 # who calls Y / what's this file's API") is a snapshot. It rots silently: the
 # agent keeps answering from a structure that no longer matches the tree, and
 # nothing errors. This guard makes the graph self-heal.
@@ -11,10 +11,10 @@
 # concurrent callers (git hook + SessionStart hook + manual) so a half-built graph
 # is never queried mid-write.
 #
-# Portable: configure via env, defaults target a graft graph.
+# Portable: configure via env, defaults target a Trail-code graft map.
 #   CGF_REPO       repo root                     (default: git toplevel of $PWD)
 #   CGF_GRAPH      file whose mtime = freshness   (default: $REPO/graft/.graph/wiring.json)
-#   CGF_BUILD_CMD  rebuild command                (default: npx -y @nanonets/graft@0.10.1 build)
+#   CGF_BUILD_CMD  rebuild command                (default: DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build)
 #   CGF_EXTS       source extensions, space-separated, no dot (default: py ts tsx js)
 #   CGF_LOCK       single-flight lock dir           (default: beside the graph)
 #   CGF_LOG        rebuild log                      (default: beside the graph)
@@ -29,7 +29,7 @@ set -uo pipefail
 
 REPO="${CGF_REPO:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")}"
 GRAPH="${CGF_GRAPH:-$REPO/graft/.graph/wiring.json}"
-BUILD_CMD="${CGF_BUILD_CMD:-npx -y @nanonets/graft@0.10.1 build}"
+BUILD_CMD="${CGF_BUILD_CMD:-DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build}"
 # Lock and log live beside the graph, so they are gitignored with it and never dirty the tree.
 LOCK="${CGF_LOCK:-$(dirname "$GRAPH")/.refresh.lock}"
 LOG="${CGF_LOG:-$(dirname "$GRAPH")/.refresh.log}"

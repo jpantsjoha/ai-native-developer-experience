@@ -8,6 +8,17 @@
 > context, because it is confidently wrong. This pattern makes the graph self-heal so an
 > agent never plans against a stale map.
 
+> **Graft is now Trail-code (checked 2026-11-25).** The indexer this pattern was built on,
+> graft (`@nanonets/graft`), was renamed Trail-code: repository
+> [`trailhq/Trail-Code`](https://github.com/trailhq/Trail-Code), npm package
+> [`@trailhq/trail-code`](https://www.npmjs.com/package/@trailhq/trail-code), command `trail`.
+> The code map is still called the graft map and is still built to
+> `graft/.graph/wiring.json`; the `graft` command and the old package still run the same
+> code. Trail-code also adds "learnings", read from your past sessions and PR reviews,
+> which brings new guardrails below. Mentions of graft in the reference-project story
+> are historical. See [INTEGRATIONS.md](../INTEGRATIONS.md#context-graph) for the
+> current version and licence.
+
 ## The failure it removes
 
 In the reference project the graph (graft: 13k nodes / 28k edges across Python + TS) was
@@ -60,7 +71,8 @@ after a large external change the mtime heuristic can't see.
 ## Wiring it into a bootstrapped project (the day-0 checklist)
 
 1. Drop `scripts/context-graph-refresh.sh` into the project (or point at a shared copy).
-   Set `CGF_GRAPH`, `CGF_BUILD_CMD`, `CGF_EXTS` if the project's indexer isn't the graft default.
+   Set `CGF_GRAPH`, `CGF_BUILD_CMD`, `CGF_EXTS` if the project's indexer isn't the Trail-code default
+   (`DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build`, writing `graft/.graph/wiring.json`).
 2. Install the three git hooks — each a one-liner backgrounding the guard:
    ```bash
    echo 'bash scripts/context-graph-refresh.sh >/dev/null 2>&1 &' >> .git/hooks/post-merge
@@ -85,10 +97,38 @@ SessionStart hook in `.claude/settings.local.json`, graft pinned to `0.10.1`. Gu
 FRESH→skip in <1s; a forced rebuild parsed 1,002 files clean. This portable copy generalises it: any indexer via `CGF_BUILD_CMD`,
 any language via `CGF_EXTS`.
 
+**Reference pin, 2026-11-25:** the reference pin of graft `0.10.1` is now Trail-code
+`0.30.5` (npm `@trailhq/trail-code`, published 2026-11-17; the old `@nanonets/graft`
+package is at `0.30.1`). The guard script's default build command uses the new package
+with `DO_NOT_TRACK=1`. That default has not been run against 0.30.5 here; the build
+command and graph path come from the upstream README. Run the guard with `--force` on one
+project and check the graph is written before rolling the new pin out.
+
 ## Guardrails carried over from the graft security review
+
+These came from the graft review and still apply to Trail-code. The last three were added
+on 2026-11-25 for what Trail-code added; sources are its
+[README](https://github.com/trailhq/Trail-Code#what-stays-on-your-machine) and
+[TELEMETRY.md](https://github.com/trailhq/Trail-Code/blob/main/TELEMETRY.md).
 
 - Do **not** run an indexer's `init` if it rewrites global agent settings, nor a `--deep` mode
   that ships source to a third-party LLM, nor a local `viz` server with an open network issue.
   Wire the index manually (project-scoped MCP + a build command) — same value, none of the risk.
 - Pin the indexer version; re-check on upgrade.
+- **Do not run `trail init` on client work without the client's agreement.** It does more
+  than build the index: it reads your own messages from the repo's past Claude Code
+  transcripts (through your Claude Code, so they go to Anthropic and count toward your
+  usage), and, when `gh` is signed in, the review comments on the repo's last 50 merged
+  PRs. It turns what it finds into learnings and writes them into the repo's `.trail/`
+  for committing, or to `~/.trail` in "just me" mode. It also adds hooks and a statusline to
+  Claude Code, and `--agents` removes its wiring from other agents' user-level files unless
+  `--no-global` is passed. If you do run it, run `trail init --dry-run` first and review
+  every learning before it is committed.
+- **Telemetry is on by default.** Trail-code sends anonymous usage events, posted at most
+  once a day by a background process. Set `DO_NOT_TRACK=1` in every environment that runs
+  the indexer (shell, git hooks, the SessionStart hook), or run `trail telemetry disable`
+  once per machine. The guard script's default build command sets `DO_NOT_TRACK=1`; a custom
+  `CGF_BUILD_CMD` must set it itself. CI variables (`CI`, `GITHUB_ACTIONS`) turn it off.
+- **The old `graft` command is not a way round these.** `graft` and `@nanonets/graft` run the
+  same Trail-code, telemetry included.
 - Treat the graph as **derived, gitignored** state — never committed, always rebuildable.

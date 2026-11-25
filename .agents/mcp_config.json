@@ -6,9 +6,10 @@
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@1.6.0",
+        "chrome-devtools-mcp@1.14.0",
         "--isolated",
-        "--no-usage-statistics"
+        "--no-usage-statistics",
+        "--no-performance-crux"
       ],
       "env": {}
     },

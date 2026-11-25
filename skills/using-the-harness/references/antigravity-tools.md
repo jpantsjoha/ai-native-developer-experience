@@ -16,7 +16,7 @@ translation layer. Do not edit canonical skills to fit Antigravity.
 | Read / write / edit files | Native file tools (`read_file`, `write_file`, `edit_file`) |
 | Search file contents / find files | Native workspace search tools or read-only shell commands via `run_command` (`rg`, `find`, `git`) |
 | Ask clarifying multiple-choice questions | `ask_question` |
-| Run commands, tests, validators | `run_command` — the operating-model scripts are stdlib Python 3.10+, no other dependency |
+| Run commands, tests, validators | `run_command` — the operating-model scripts are stdlib Python 3.9+, no other dependency |
 
 ## Task tracking and artifacts
 

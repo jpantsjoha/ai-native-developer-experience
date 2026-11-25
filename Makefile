@@ -15,32 +15,16 @@ lint:
 
 typecheck:
 	# Standard-library compile and shell syntax gate; projects may add a stricter static type checker.
-	$(PYTHON) -m py_compile \
-		$(SKILL_ROOT)/scripts/bootstrap_operating_model.py \
-		$(SKILL_ROOT)/scripts/inspect_repo.py \
-		$(SKILL_ROOT)/scripts/validate_operating_model.py \
-		scripts/validate_plugin.py \
-		scripts/validate_delivery.py \
-		scripts/lane_hygiene.py \
-		scripts/routing_eval.py \
-		tests/test_adoption_journey.py \
-		tests/test_delivery_validation.py \
-		tests/test_inspect_repo.py \
-		tests/test_lane_hygiene.py \
-		tests/test_lean_context.py \
-		tests/test_operating_model.py \
-		tests/test_orchestrator_entry.py \
-		tests/test_plugin_packaging.py \
-		tests/test_release_contract.py \
-		tests/test_review_gate.py
-	for s in \
-		.githooks/pre-commit \
-		hooks/session-start \
-		scripts/context-graph-refresh.sh \
-		scripts/review-gate.sh \
-		skills/cloud-checkup/scripts/cloud_checkup.sh \
-		skills/cloud-checkup/scripts/notify.sh \
-		skills/system-performance-guardrail/scripts/perf-guardrail.sh; do \
+	@set -eu; \
+	py_files=$$(find scripts tests skills -type f -name '*.py' | sort); \
+	[ -n "$$py_files" ] || { echo 'ERROR: no Python files found to compile' >&2; exit 1; }; \
+	printf '%s\n' "$$py_files" | while IFS= read -r f; do \
+		$(PYTHON) -m py_compile "$$f" || exit 1; \
+	done; \
+	sh_files=$$({ printf '%s\n' .githooks/pre-commit hooks/session-start; find scripts skills -type f -name '*.sh'; } | sort -u); \
+	[ -n "$$sh_files" ] || { echo 'ERROR: no shell scripts found to check' >&2; exit 1; }; \
+	printf '%s\n' "$$sh_files" | while IFS= read -r s; do \
+		[ -f "$$s" ] || { echo "ERROR: missing shell script: $$s" >&2; exit 1; }; \
 		bash -n "$$s" || exit 1; \
 	done
 

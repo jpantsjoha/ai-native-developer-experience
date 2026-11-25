@@ -264,7 +264,7 @@ observed.
 
 ## Release policy validation
 
-Before release, resolve the profile's declared mode against its approved ADR and use
+Before release, resolve the profile's declared mode against its accepted ADR and use
 [release-contract.md](references/release-contract.md) for the existing validator's
 release-preflight invocation and evidence format. Ordinary profile validation does
 not establish release readiness; adopter wiring and human verification remain required.

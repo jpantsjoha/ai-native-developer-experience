@@ -127,16 +127,18 @@ class PluginPackagingTests(unittest.TestCase):
             ]
         )
         expected = str(skill_count)
-        claims = {
-            "skills/README.md": f"## The {expected} Skills",
-            "README.md": f"The library contains {expected} skills",
-            "docs/install/claude.md": f"the {expected} `skills/` capabilities",
-            "docs/install/codex.md": f"the {expected} skills should be named",
-            "docs/install/kimi.md": f"to see the {expected} skills",
-            "docs/install/antigravity.md": f"the {expected} `skills/` capabilities",
-        }
-        for relative_path, claim in claims.items():
-            with self.subTest(path=relative_path):
+        claims = [
+            ("skills/README.md", f"## The {expected} Skills"),
+            ("README.md", f"({expected} in all)"),
+            ("README.md", f"The library contains {expected} skills"),
+            ("README.md", f"{expected} tracked capabilities"),
+            ("docs/install/claude.md", f"the {expected} `skills/` capabilities"),
+            ("docs/install/codex.md", f"the {expected} skills should be named"),
+            ("docs/install/kimi.md", f"to see the {expected} skills"),
+            ("docs/install/antigravity.md", f"the {expected} `skills/` capabilities"),
+        ]
+        for relative_path, claim in claims:
+            with self.subTest(path=relative_path, claim=claim):
                 text = (REPO_ROOT / relative_path).read_text(encoding="utf-8")
                 self.assertIn(claim, text)
 

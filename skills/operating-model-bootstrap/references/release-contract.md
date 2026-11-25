@@ -14,7 +14,7 @@ Use exactly one of each field in `docs/operating-model/PROJECT-OPERATING-PROFILE
 **Build executor:** ci
 **Promotion trigger:** separate-approval
 **Release owner:** release owner
-**Release decision:** architecture/decisions/ADR-release.md
+**Release decision:** architecture/decisions/ADR-001-release-mode.md
 ```
 
 | Field | Accepted values / meaning |
@@ -53,7 +53,7 @@ is needed. Copy the profile's values exactly, using the JSON keys shown here:
     "build_executor": "ci",
     "promotion_trigger": "separate-approval",
     "release_owner": "release owner",
-    "release_decision": "architecture/decisions/ADR-release.md"
+    "release_decision": "architecture/decisions/ADR-001-release-mode.md"
   },
   "decision_sha256": "<64 lowercase hexadecimal characters>",
   "candidate": "<full commit SHA or tree digest>",
@@ -72,7 +72,7 @@ is needed. Copy the profile's values exactly, using the JSON keys shown here:
 ```
 
 Replace placeholders with measured identities. Obtain `decision_sha256` by hashing
-the exact ADR bytes, e.g. `shasum -a 256 architecture/decisions/ADR-release.md`.
+the exact ADR bytes, e.g. `shasum -a 256 architecture/decisions/ADR-001-release-mode.md`.
 The expected candidate must come from the release owner or trusted pipeline, not from
 copying an unverified record's own value. Approved alternatives change the policy
 values, not the required receipt set. Unknown/duplicate JSON keys are rejected.

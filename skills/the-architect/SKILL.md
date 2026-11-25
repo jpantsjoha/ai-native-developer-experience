@@ -65,10 +65,12 @@ This skill is for decisions that persist — the ones that are expensive to reve
    reverses the `0.1.6` `ADR/` + `-DRAFT`/`-approved` convention to align with
    `validate_delivery.py` and `docs/DETERMINISTIC-GATES.md`):* `validate_delivery.py` scans
    every `*.md` file under the mapped decision root. Existing adopters using `ADR/` may keep
-   that directory by mapping `"decision": "ADR"` in `.delivery.json`, but must update every
-   tracked ADR's `## Status` value (`draft` → `Proposed`, `approved` → `Accepted`) and
-   `# ADR-NNN: Title` heading before enabling `validate_delivery.py`; legacy filename suffixes
-   do not fail the validator and can be dropped separately.
+   that directory by mapping `"decision": "ADR"` in `.delivery.json`, and must update every
+   tracked ADR's `## Status` value (`draft` → `Proposed`, `approved` → `Accepted`,
+   `superseded` → `Superseded` with `**Superseded by:** ADR-MMM`) before enabling
+   `validate_delivery.py`. Legacy YAML frontmatter and `-DRAFT`/`-approved` filename suffixes
+   do not fail the validator and may be removed separately (remove stale frontmatter `status:`
+   to avoid conflicting human-visible statuses).
 
 8. **Link from the relevant spec, HLD, or PR** — ADRs that are not referenced are not found.
 

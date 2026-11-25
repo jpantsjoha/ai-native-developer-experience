@@ -1,7 +1,7 @@
 # Antigravity (Gemini) Tool Mapping
 
-Last updated 2026-11-25. The Antigravity version these names were read from was not
-recorded: check them against your installed version before relying on them.
+Verified on 2026-11-25 against the Antigravity 2.0 desktop app declared tool schemas;
+check them against your installed version if you run another Antigravity surface.
 
 Skills in this harness speak in actions ("dispatch a subagent", "track tasks", "read a
 file"). On Antigravity — IDE, Agent Manager, and `agy` CLI — those actions resolve to
@@ -14,7 +14,7 @@ translation layer. Do not edit canonical skills to fit Antigravity.
 | Dispatch a subagent (implementer, reviewer) | `invoke_subagent` with a built-in `TypeName` — `self` for full-capability work, `research` for read-only review/exploration; `run_workflow` for multi-agent fan-out |
 | Track tasks ("create a todo", "mark complete") | `update_steps` for a live ordered checklist and `update_focus` for phase status; use a markdown artifact via `write_file` (with `ArtifactMetadata`) for persistent reports/plans. **Not** `manage_task` (that manages background processes) |
 | Read / write / edit files | Native file tools (`read_file`, `write_file`, `edit_file`) |
-| Search file contents / find files | Native workspace search tools or read-only shell commands via `run_command` (`rg`, `find`, `git`) |
+| Search file contents / find files | Native workspace search tools where exposed, or read-only shell commands via `run_command` (`grep`, `find`, `git`, or `rg` if installed) |
 | Ask clarifying multiple-choice questions | `ask_question` |
 | Run commands, tests, validators | `run_command` — the operating-model scripts are stdlib Python 3.9+, no other dependency |
 

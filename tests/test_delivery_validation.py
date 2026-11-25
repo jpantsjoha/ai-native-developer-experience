@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-import json
 import importlib.util
+import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
@@ -310,6 +311,44 @@ class DeliveryValidationTests(unittest.TestCase):
     def test_unreadable_encoding_is_a_finding(self) -> None:
         (self.root / "vision.md").write_bytes(b"\xff")
         self.run_gate(1, "FILE")
+
+    def test_architect_adr_template_passes_validator(self) -> None:
+        repo_root = VALIDATOR.parent.parent
+        architect = (repo_root / "skills/the-architect/SKILL.md").read_text(encoding="utf-8")
+        match = re.search(r"```markdown\n( *# ADR-NNN:.*?)\n *```", architect, re.S)
+        self.assertIsNotNone(match, "expected fenced ADR template in skills/the-architect/SKILL.md")
+        template = "\n".join(
+            line[3:] if line.startswith("   ") else line
+            for line in match.group(1).splitlines()
+        )
+        rendered = (
+            template.replace("ADR-NNN", "ADR-002")
+            .replace("<short title>", "Choose queue storage")
+            .replace("<YYYY-MM-DD>", "2026-11-25")
+            .replace("<handle>", "@owner")
+        )
+        self.put("decision/ADR-002-queue.md", rendered + "\n")
+        self.run_gate()
+
+    def test_legacy_016_adr_fails_and_migrated_adr_passes_in_mapped_root(self) -> None:
+        self.policy["records"]["decision"] = "ADR"
+        self.save_policy()
+        self.put("ADR/ADR-001-existing.md", "# ADR-001: Existing\n\n## Status\n\nAccepted — 2026-09-26\n")
+        self.put("ADR/ADR-0002-legacy-DRAFT.md", "---\nstatus: draft\nid: ADR-0002\n---\n\n# ADR-0002: Legacy\n\n## Status\n\ndraft\n")
+        self.run_gate(1, "STATUS")
+        self.put("ADR/ADR-0002-legacy-DRAFT.md", "# ADR-0002: Legacy\n\n## Status\n\nProposed — 2026-11-25.\n")
+        self.run_gate()
+
+    def test_no_stale_legacy_adr_convention_references(self) -> None:
+        repo_root = VALIDATOR.parent.parent
+        legacy = re.compile(r"ADR/ADR-\d{4}|-DRAFT\.md|-approved\.md")
+        for directory in ("skills", "docs"):
+            for path in sorted((repo_root / directory).rglob("*.md")):
+                rel = path.relative_to(repo_root).as_posix()
+                text = path.read_text(encoding="utf-8")
+                if rel == "skills/the-architect/SKILL.md":
+                    text = text.split("*Migration note", 1)[0]
+                self.assertIsNone(legacy.search(text), f"stale legacy ADR convention in {rel}")
 
 
 if __name__ == "__main__":

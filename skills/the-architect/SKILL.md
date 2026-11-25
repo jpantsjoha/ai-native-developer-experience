@@ -61,11 +61,14 @@ This skill is for decisions that persist — the ones that are expensive to reve
    Store under `architecture/decisions/ADR-NNN-<slug>.md` (or the project's mapped decision
    root in `.delivery.json`). Allowed `## Status` values are `Proposed`, `Accepted`,
    `Rejected`, or `Superseded` (with `**Superseded by:** ADR-MMM` when superseded).
-   *Migration note (reverses the `0.1.6` `ADR/` + `-DRAFT`/`-approved` convention to align
-   with `validate_delivery.py` and `docs/DETERMINISTIC-GATES.md`):* existing adopters using
-   `ADR/` do not need to move files if they map `"decision": "ADR"` in `.delivery.json`,
-   update `# ADR-NNN: Title` + `## Status` (`Proposed`/`Accepted`/`Rejected`/`Superseded`),
-   and drop the `-DRAFT`/`-approved` filename suffixes as decisions are touched.
+   *Migration note ([ADR-007](../../architecture/decisions/ADR-007-canonical-adr-format.md) —
+   reverses the `0.1.6` `ADR/` + `-DRAFT`/`-approved` convention to align with
+   `validate_delivery.py` and `docs/DETERMINISTIC-GATES.md`):* `validate_delivery.py` scans
+   every `*.md` file under the mapped decision root. Existing adopters using `ADR/` may keep
+   that directory by mapping `"decision": "ADR"` in `.delivery.json`, but must update every
+   tracked ADR's `## Status` value (`draft` → `Proposed`, `approved` → `Accepted`) and
+   `# ADR-NNN: Title` heading before enabling `validate_delivery.py`; legacy filename suffixes
+   do not fail the validator and can be dropped separately.
 
 8. **Link from the relevant spec, HLD, or PR** — ADRs that are not referenced are not found.
 

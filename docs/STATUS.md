@@ -19,6 +19,10 @@ owns publication state; a version in a manifest alone is not publication. See th
   Waits on JP: accept or amend
   [ADR-007](../architecture/decisions/ADR-007-canonical-adr-format.md) (Proposed).
   See the [CHANGELOG](../CHANGELOG.md).
+- **Companion and tool references** ([pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45),
+  merged 26 November 2026): companions re-verified on 25 November 2026, a context-graph
+  lane (Trail-code, Graphify), client-work data-egress notes, and `chrome-devtools-mcp`
+  1.14.0. See the [CHANGELOG](../CHANGELOG.md).
 
 0.7.0 was released on 20 November 2026 (tag `v0.7.0`, public pull request 43).
 

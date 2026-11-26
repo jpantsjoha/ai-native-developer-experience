@@ -10,6 +10,15 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
+### Added
+
+- [INTEGRATIONS.md](INTEGRATIONS.md#context-graph): a Context graph lane with Trail-code
+  (formerly graft; npm `@trailhq/trail-code` 0.30.5, MIT) and Graphify (PyPI `graphifyy`
+  0.9.120, Apache-2.0), each with what leaves the machine and what it writes. Also a source
+  and data-egress table for every companion, for recommending them on client work,
+  including content that caveman's routing sends and its telemetry opt-out does not stop.
+  [Pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45).
+
 ### Changed
 
 - ADR format: `the-architect` and `operating-model-bootstrap` now teach the format the
@@ -23,6 +32,36 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 - Python floor is now 3.9+ (stock macOS `/usr/bin/python3` is 3.9.6), down from 3.10+.
   Proof: `make typecheck test PYTHON=/usr/bin/python3`, 208 tests OK.
   [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+
+- [INTEGRATIONS.md](INTEGRATIONS.md#evaluated-companions): every companion re-verified on
+  2026-11-25 against its GitHub release, `plugin.json` and licence. superpowers 6.1.1 →
+  7.0.2, impeccable 3.9.1 → 4.11.0, ui-ux-pro-max 2.6.2 → 2.15.0 (MIT), caveman 1.9.0 →
+  4.2.0 (Apache-2.0), ponytail 5.3.3 (MIT). The column now says "upstream version", because
+  none of these was re-tested with this harness. ui-ux-pro-max and caveman link to their
+  repositories instead of a listing site. [Pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45).
+- [Context-graph freshness](docs/CONTEXT-GRAPH-FRESHNESS.md): records graft's rename to
+  Trail-code and the reference pin moving from 0.10.1 to 0.30.5, and adds guardrails for
+  `trail init` (it reads past Claude Code transcripts and PR review comments) and for
+  telemetry being on by default. `scripts/context-graph-refresh.sh` now defaults to
+  `DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build`. Proof: the guard ran against a
+  global install of 0.30.5 (build, `FRESH` skip, rebuild on change, `--force`); the `npx`
+  fetch itself was not exercised. The page also notes that `trail build` edits
+  `.gitignore` and adds `.ignore`, and that the default `CGF_EXTS` misses shell scripts.
+  [Pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45).
+- [INTEGRATIONS.md](INTEGRATIONS.md#tested-with-this-harness-2026-11-25): an exploratory
+  token-use test of Trail-code 0.30.5 and ponytail 5.3.3 on this repository (3 tasks, one
+  run per cell, Sonnet): all answers correct in every condition, no saving shown, and too
+  few runs to establish a gain or a loss. Also a local Graphify 0.9.119 test:
+  `GRAPHIFY_BACKEND=none` skips Markdown, and a failed Ollama backend still exits 0.
+  Recommendation: ponytail when bootstrapping a new repository, Trail-code only for
+  code-heavy repositories, Graphify as a personal tool. [Pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45).
+- [frontend-performance-audit](skills/frontend-performance-audit/SKILL.md) and the
+  `.agents/mcp_config.json` template: `chrome-devtools-mcp` pinned to 1.14.0 (was 1.6.0),
+  with `--no-performance-crux` beside `--no-usage-statistics` for client work. The skill
+  says the upstream Claude Code plugin sets neither opt-out, replaces the renamed
+  `--experimentalPageIdRouting` flag with `--pageIdRouting`, notes the required `pageId`,
+  traces cold loads with `ignoreCache: true`, and counts 14 heap tools (was 12), 13 of
+  which need `--memoryDebugging`. Checked against the upstream reference at 1.14.0. [Pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45).
 
 ### Fixed
 

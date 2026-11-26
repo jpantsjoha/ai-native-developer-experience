@@ -88,8 +88,9 @@ The script seeds structure; the agent records the decisions. As part of the boot
 workflow, capture the choices made during init as durable, referenceable authority:
 
 - **Baseline ADR** — author the project's first architecture decision record at its ADR
-  convention (`ADR/ADR-0000-baseline-structure-DRAFT.md`, approved to
-  `-approved.md`; see `the-architect`),
+  convention (`architecture/decisions/ADR-NNN-baseline-structure.md`, using the next free
+  ADR number such as `ADR-001` in a greenfield repo, with `## Status` starting at `Proposed`
+  until accepted; see `the-architect`),
   capturing every choice confirmed or deferred during init, with the owner and resolving
   trigger for each explicit unknown. This is the authority record for the starting
   structure.
@@ -246,7 +247,7 @@ Before completion:
 - Adopted universal manual with version/digest.
 - Completed, tracked project operating profile with all seven project-awareness areas
   recorded (verified fact or explicit unknown with owner and trigger).
-- `ADR/ADR-0000-baseline-structure-DRAFT.md` (approved to `-approved.md`) — baseline ADR
+- `architecture/decisions/ADR-NNN-baseline-structure.md` (next free number; `Proposed` until accepted) — baseline ADR
   capturing all init decisions and deferred unknowns.
 - Initializer-seeded `docs/VISION.md`, `docs/ROADMAP.md`, and `docs/STATUS.md`, grounded
   from evidence; the first `docs/STATUS.md` entry records the init event and open unknowns.
@@ -264,7 +265,7 @@ observed.
 
 ## Release policy validation
 
-Before release, resolve the profile's declared mode against its approved ADR and use
+Before release, resolve the profile's declared mode against its accepted ADR and use
 [release-contract.md](references/release-contract.md) for the existing validator's
 release-preflight invocation and evidence format. Ordinary profile validation does
 not establish release readiness; adopter wiring and human verification remain required.

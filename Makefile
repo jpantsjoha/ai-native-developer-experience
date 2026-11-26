@@ -14,21 +14,21 @@ lint:
 	fi
 
 typecheck:
-	# Standard-library compile gate; projects may add a stricter static type checker.
-	$(PYTHON) -m py_compile \
-		$(SKILL_ROOT)/scripts/bootstrap_operating_model.py \
-		$(SKILL_ROOT)/scripts/validate_operating_model.py \
-		scripts/validate_plugin.py \
-		tests/test_operating_model.py \
-		tests/test_plugin_packaging.py \
-		tests/test_adoption_journey.py \
-		tests/test_lean_context.py \
-		scripts/validate_delivery.py \
-		tests/test_delivery_validation.py \
-		scripts/lane_hygiene.py \
-		tests/test_lane_hygiene.py \
-		scripts/routing_eval.py \
-		tests/test_orchestrator_entry.py
+	# Standard-library compile and shell syntax gate; projects may add a stricter static type checker.
+	@set -eu; \
+	py_found=$$(find scripts tests skills -type f -name '*.py') || { echo 'ERROR: Python file discovery failed' >&2; exit 1; }; \
+	py_files=$$(printf '%s\n' "$$py_found" | sort); \
+	[ -n "$$py_files" ] || { echo 'ERROR: no Python files found to compile' >&2; exit 1; }; \
+	printf '%s\n' "$$py_files" | while IFS= read -r f; do \
+		$(PYTHON) -m py_compile "$$f" || exit 1; \
+	done; \
+	sh_found=$$(find scripts skills -type f -name '*.sh') || { echo 'ERROR: shell script discovery failed' >&2; exit 1; }; \
+	sh_files=$$(printf '%s\n' .githooks/pre-commit hooks/session-start "$$sh_found" | sort -u); \
+	printf '%s\n' "$$sh_files" | while IFS= read -r s; do \
+		[ -n "$$s" ] || continue; \
+		[ -f "$$s" ] || { echo "ERROR: missing shell script: $$s" >&2; exit 1; }; \
+		bash -n "$$s" || exit 1; \
+	done
 
 planning:
 	$(PYTHON) scripts/validate_delivery.py --root .

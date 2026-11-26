@@ -238,9 +238,9 @@ delete the section.
 **Build executor:** <ci|controlled-runner>
 **Promotion trigger:** <separate-approval|tag>
 **Release owner:** <accountable release owner>
-**Release decision:** <project-relative approved ADR file>
+**Release decision:** <project-relative accepted ADR file>
 
-Resolve these fields against the approved ADR before release preflight. A mode name
+Resolve these fields against the accepted ADR before release preflight. A mode name
 is a declaration, not authority. `tag-ci` requires tag-triggered CI builds. A
 `controlled-runner` or non-tag build requires `approved-alternative`. Tag-triggered
 promotion requires a tag-triggered build and a protected approval boundary after the

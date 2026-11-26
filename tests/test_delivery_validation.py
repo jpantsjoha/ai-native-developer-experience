@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-import json
 import importlib.util
+import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
@@ -310,6 +311,71 @@ class DeliveryValidationTests(unittest.TestCase):
     def test_unreadable_encoding_is_a_finding(self) -> None:
         (self.root / "vision.md").write_bytes(b"\xff")
         self.run_gate(1, "FILE")
+
+    def test_architect_adr_template_passes_validator(self) -> None:
+        repo_root = VALIDATOR.parent.parent
+        architect = (repo_root / "skills/the-architect/SKILL.md").read_text(encoding="utf-8")
+        match = re.search(r"```markdown\n( *# ADR-NNN:.*?)\n *```", architect, re.S)
+        self.assertIsNotNone(match, "expected fenced ADR template in skills/the-architect/SKILL.md")
+        template = "\n".join(
+            line[3:] if line.startswith("   ") else line
+            for line in match.group(1).splitlines()
+        )
+        rendered = (
+            template.replace("ADR-NNN", "ADR-002")
+            .replace("<short title>", "Choose queue storage")
+            .replace("<YYYY-MM-DD>", "2026-11-25")
+            .replace("<handle>", "@owner")
+        )
+        self.put("decision/ADR-002-queue.md", rendered + "\n")
+        self.run_gate()
+
+    def test_legacy_016_adr_fails_and_migrated_adr_passes_in_mapped_root(self) -> None:
+        self.policy["records"]["decision"] = "ADR"
+        self.save_policy()
+        self.put("ADR/ADR-001-existing.md", "# ADR-001: Existing\n\n## Status\n\nAccepted — 2026-09-26\n")
+        self.put(
+            "ADR/ADR-0002-legacy-DRAFT.md",
+            "---\nstatus: draft\nid: ADR-0002\n---\n\n# ADR-0002: Legacy\n\n## Status\n\ndraft\n",
+        )
+        legacy = self.run_gate(1, "STATUS")
+        self.assertEqual(
+            [(f["code"], f["path"]) for f in legacy["findings"]],
+            [("STATUS", "ADR/ADR-0002-legacy-DRAFT.md")],
+        )
+        # Keeping legacy YAML frontmatter and filename suffix while updating only ## Status passes.
+        self.put(
+            "ADR/ADR-0002-legacy-DRAFT.md",
+            "---\nstatus: draft\nid: ADR-0002\n---\n\n# ADR-0002: Legacy\n\n## Status\n\nProposed — 2026-11-25.\n",
+        )
+        self.run_gate()
+        # Migrating superseded requires **Superseded by:** pointing to a valid decision ID.
+        self.put(
+            "ADR/ADR-0002-legacy-DRAFT.md",
+            "---\nstatus: superseded\nid: ADR-0002\n---\n\n# ADR-0002: Legacy\n\n## Status\n\nSuperseded — 2026-11-25.\n",
+        )
+        self.run_gate(1, "SUPERSESSION")
+        self.put(
+            "ADR/ADR-0002-legacy-DRAFT.md",
+            "---\nstatus: superseded\nid: ADR-0002\n---\n\n# ADR-0002: Legacy\n\n## Status\n\nSuperseded — 2026-11-25.\n\n**Superseded by:** ADR-001\n",
+        )
+        self.run_gate()
+
+    def test_no_stale_legacy_adr_convention_references(self) -> None:
+        repo_root = VALIDATOR.parent.parent
+        legacy = re.compile(
+            r"ADR/ADR-(?:\d{4}|NNNN)|-DRAFT\.md|-approved\.md|draft \| approved \| superseded"
+        )
+        exts = {".md", ".py", ".sh", ".yaml", ".yml", ".json", ".template"}
+        for target in ("skills", "docs", "commands", "scripts", "README.md", "BOOTSTRAP.md"):
+            base = repo_root / target
+            paths = [base] if base.is_file() else [
+                p for p in sorted(base.rglob("*")) if p.is_file() and p.suffix in exts
+            ]
+            for path in paths:
+                rel = path.relative_to(repo_root).as_posix()
+                text = path.read_text(encoding="utf-8", errors="ignore")
+                self.assertIsNone(legacy.search(text), f"stale legacy ADR convention in {rel}")
 
 
 if __name__ == "__main__":

@@ -489,7 +489,7 @@ def main() -> int:
                 "checkpoint and evidence manifest counts differ",
             )
             for index, (checkpoint_candidate, evidence_candidate) in enumerate(
-                zip(checkpoint_candidates, evidence_candidates, strict=False), start=1
+                zip(checkpoint_candidates, evidence_candidates), start=1
             ):
                 findings.require(
                     checkpoint_candidate == evidence_candidate,

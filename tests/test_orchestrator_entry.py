@@ -50,6 +50,16 @@ class OrchestratorEntryTests(unittest.TestCase):
         hook = (ROOT / 'hooks/session-start').read_text()
         self.assertEqual(hook.count(f'Enter every delivery ask through {ENTRY}'), 2)
 
+    def test_session_commands_enter_through_orchestrator(self):
+        for cmd in ('get-it-done', 'sitrep', 'wrap-it-up'):
+            with self.subTest(command=cmd):
+                text = (ROOT / 'commands' / f'{cmd}.md').read_text()
+                expected = (
+                    f"Enter through `{ENTRY}` first to read the project's delivery records, "
+                    f"then load the `{cmd}` skill from this plugin"
+                )
+                self.assertIn(expected, text)
+
     def test_routing_prompt_set_is_well_formed(self):
         spec = json.loads((ROOT / 'evals/routing/prompts.json').read_text())
         self.assertEqual(spec['entry'], ENTRY)

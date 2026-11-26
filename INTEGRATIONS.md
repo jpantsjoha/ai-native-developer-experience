@@ -20,19 +20,97 @@ named fallback; absence never silently drops a capability.
 
 ## Evaluated companions
 
-Versions below were verified on 2026-07-19 against public listings; re-verify before
-pinning into a project profile.
+Versions below were re-verified on **2026-11-25** against primary sources: each
+repository's latest GitHub release, its `.claude-plugin/plugin.json`, its licence as
+GitHub detects it, and (for packages) the npm or PyPI registry. They are the current
+upstream releases, **not versions re-tested with this harness**, except ponytail 5.3.3,
+which was run once in the [2026-11-25 test](#tested-with-this-harness-2026-11-25). Re-verify before
+pinning into a project profile. The previous check was 2026-07-19.
 
-| Craft lane | Companion plugin | Provider capability | Tested version | Licence |
+| Craft lane | Companion plugin | Provider capability | Upstream version (2026-11-25) | Licence |
 |---|---|---|---|---|
-| Agent methodology (TDD, debugging, plan execution) | [superpowers](https://github.com/obra/superpowers) | `agent-methodology` | 6.1.1 | MIT |
-| Simplicity discipline / anti-over-engineering | [ponytail](https://github.com/DietrichGebert/ponytail) | `simplicity-review` | see repo | see repo |
-| Frontend design quality | [impeccable](https://github.com/pbakaus/impeccable) | `design-review` | 3.9.1 | Apache-2.0 |
-| UI generation (tokens, components) | [ui-ux-pro-max](https://www.claudepluginhub.com/) | `ui-generation` | 2.6.2 | see repo |
-| Token/compression economy | [caveman](https://www.claudepluginhub.com/) | complements `cost-guardrail` | 1.9.0 | see repo |
+| Agent methodology (TDD, debugging, plan execution) | [superpowers](https://github.com/obra/superpowers) | `agent-methodology` | 7.0.2 | MIT |
+| Simplicity discipline / anti-over-engineering | [ponytail](https://github.com/DietrichGebert/ponytail) | `simplicity-review` | 5.3.3 | MIT |
+| Frontend design quality | [impeccable](https://github.com/pbakaus/impeccable) | `design-review` | 4.11.0 | Apache-2.0 |
+| UI generation (tokens, components) | [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | `ui-generation` | 2.15.0 | MIT |
+| Token/compression economy | [caveman](https://github.com/JuliusBrussee/caveman) | complements `cost-guardrail` | 4.2.0 | Apache-2.0 |
 
-Listing a plugin is an interoperability note, not an endorsement or a warranty. Each
-project profile names its own providers and fallbacks.
+Three of these crossed a major version since July: superpowers 6.1.1 → 7.0.2, impeccable
+3.9.1 → 4.11.0 and caveman 1.9.0 → 4.2.0. ui-ux-pro-max moved 2.6.2 → 2.15.0. Treat a
+pinned profile on the July versions as unverified until its owner re-tests.
+
+### Sources and data leaving the machine
+
+Read this before recommending a companion for client work. "None documented" means the
+README says nothing either way; it is not a guarantee.
+
+| Companion | Version source (checked 2026-11-25) | Network and telemetry behaviour (from the upstream README) |
+|---|---|---|
+| superpowers | [v7.0.2 release](https://github.com/obra/superpowers/releases/tag/v7.0.2), published 2026-11-03; `plugin.json` 7.0.2 | The optional brainstorming visual companion loads a logo from the maintainer's site, sending the plugin version. Off with `SUPERPOWERS_DISABLE_TELEMETRY`, `DISABLE_TELEMETRY` or `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`. |
+| ponytail | [v5.3.3 release](https://github.com/DietrichGebert/ponytail/releases/tag/v5.3.3), published 2026-10-29; `plugin.json` 5.3.3 | None documented. |
+| impeccable | [skill-v4.11.0 release](https://github.com/pbakaus/impeccable/releases/tag/skill-v4.11.0), published 2026-11-24; `plugin.json` 4.11.0 | A new design fetches visual directions from impeccable.style, even with telemetry off. Anonymous telemetry is on by default; off with `DO_NOT_TRACK=1`, `npx impeccable telemetry off`, or `"telemetry": false` in `.impeccable/config.json`. |
+| ui-ux-pro-max | [v2.15.0 release](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/releases/tag/v2.15.0), published 2026-08-13; `plugin.json` 2.15.0 | README states the search scripts make no network calls. |
+| caveman | [v4.2.0 release](https://github.com/JuliusBrussee/caveman/releases/tag/v4.2.0), published 2026-11-22; `plugin.json` 4.2.0 | Now a skill plus a local proxy. The CLI sends usage stats by default (commands, token counts, install ID, OS, IP); off with `caveman telemetry off` or `DO_NOT_TRACK=1`. The skill-only install (`npx skills add JuliusBrussee/caveman`) has no proxy. Content can also leave the machine, and the telemetry opt-out does not stop it: `/caveman-compress` sends the file to your model provider; opt-in Auto routing (after sign-in) sends each ask, with whatever the agent attaches such as `CLAUDE.md`, memory or @-mentioned files, to Caveman Cloud, which may keep it on the Free plan (`caveman off routing` stops it); a request routed to a Caveman Cloud model passes through it whole (`caveman providers cloud off`). |
+
+## Context graph
+
+A code graph answers "where is X, who calls Y" from a prebuilt index instead of
+re-grepping. Keep it fresh with [the context-graph freshness pattern](docs/CONTEXT-GRAPH-FRESHNESS.md),
+and read its guardrails before running either tool's `init` or `install`. Both tools are
+indexers the project runs, not a provider of any harness capability, and neither is
+needed by any skill here.
+
+| Companion | Version source (checked 2026-11-25) | Licence | Data leaving the machine and files it writes |
+|---|---|---|---|
+| [Trail-code](https://github.com/trailhq/Trail-Code), formerly graft | npm [`@trailhq/trail-code`](https://www.npmjs.com/package/@trailhq/trail-code) 0.30.5, published 2026-11-17 (the repository has no GitHub releases). The old package `@nanonets/graft` still runs the same code and is at 0.30.1. | MIT | The code map is built locally with tree-sitter; `trail build --deep` sends code to the model provider you configure. Anonymous telemetry is **on by default**; off with `DO_NOT_TRACK=1` or `trail telemetry disable`. `trail init` reads your own messages from the repo's past Claude Code transcripts (via your Claude Code, so they go to Anthropic) and, when `gh` is signed in, the review comments on the repo's last 50 merged PRs. It also adds hooks and a statusline to Claude Code, and with `--agents` it removes its wiring from unlisted agents' user-level files unless `--no-global` is passed. `trail init --dry-run` previews the wiring. |
+| [Graphify](https://github.com/Graphify-Labs/graphify) | PyPI [`graphifyy`](https://pypi.org/project/graphifyy/) 0.9.120, published 2026-11-25 (matching [GitHub release v0.9.120](https://github.com/Graphify-Labs/graphify/releases/tag/v0.9.120)). It releases almost daily, so pin the exact version. | Apache-2.0 | Code is parsed locally with tree-sitter. Docs, PDFs and images go to an LLM: the assistant's model through the `/graphify` skill, or, for headless `graphify extract`, a backend auto-detected from whichever API key is in the environment. Set `GRAPHIFY_BACKEND=none` (code only, no LLM) or `GRAPHIFY_BACKEND=ollama` (local). `graphify install` writes a skill registration into `~/.claude/CLAUDE.md`; `graphify install --project` writes under the repository instead. |
+
+### Tested with this harness, 2026-11-25
+
+**Token use.** Three tasks were run headless (`claude -p`, Sonnet, one run per cell) on a
+copy of this repository: list the functions that bind evidence to the candidate commit,
+find every reference to the `Gate` class, and add a `--quiet` flag to
+`scripts/lane_hygiene.py` with a unit test. Three conditions: no companion (base),
+Trail-code 0.30.5 with a prebuilt map and a `CLAUDE.md` note telling the agent to use it,
+and ponytail 5.3.3 loaded with `--plugin-dir`.
+
+| Condition | Cost, 3 tasks (USD) | Total tokens | Answers | `--quiet` change |
+|---|---:|---:|---|---|
+| Base | 0.792 | 683k | All correct | 14 lines added, test passes |
+| Trail-code | 0.644 | 828k | All correct | 10 lines added, test passes |
+| ponytail | 0.618 | 698k | All correct | 13 lines added, test passes |
+
+**No saving shown.** This was one exploratory run per cell in a fixed order, so it cannot
+establish a gain or a loss: cache state, run order and agent variability confound it.
+Base ran first and paid the cache writes (78.9k tokens on its first task, about 45k on
+the later conditions' first tasks), which likely explains part of its higher cost.
+Trail-code used 21% more tokens; the map's added context is a plausible cause, not a
+measured one. The repository is mostly Markdown (124 Markdown files, 22 code files),
+where a code map should help least. A test that could show a difference needs at least
+three runs per cell, interleaved, on a code-heavy repository.
+
+**Graphify 0.9.119** (one release behind the version listed above), run on a personal notes
+folder (13 Markdown documents):
+
+- With `GRAPHIFY_BACKEND=none` it skipped all 13 documents: that setting is code only.
+- With `GRAPHIFY_BACKEND=ollama` and no `openai` Python package, every document failed
+  and the command **still exited 0**, so a scheduled build would not notice. Install the
+  `graphifyy[ollama]` extra; the run also set `OLLAMA_API_KEY` to a placeholder value.
+- Fully local on a Qwen 3.6 35B-A3B (4-bit) model, it built 57 nodes, 60 edges and 11
+  communities from 37.9k input tokens in about 15 minutes, with the model holding about
+  half the machine's memory. A query returns the connected notes, not an answer.
+
+Recommendation:
+
+- **ponytail:** recommend it when bootstrapping a new repository, for the simplicity
+  discipline it adds while the codebase takes shape. Do not sell it on token savings; this
+  test found none. In an established repository it is optional.
+- **Trail-code:** only in a code-heavy repository, with the freshness guard wired in.
+- **Graphify:** a personal tool, for a corpus too large to read directly. Never through
+  `graphify install`.
+
+Listing a plugin or tool is an interoperability note, not an endorsement or a warranty.
+Each project profile names its own providers and fallbacks.
 
 ## Adjacent plugins — different job, do not cite as companions
 

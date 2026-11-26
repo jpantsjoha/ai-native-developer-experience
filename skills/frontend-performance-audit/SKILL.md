@@ -52,7 +52,7 @@ One table. Read the job, pick the tool, do not improvise.
 | Page-load trace and time attribution | **chrome-devtools-mcp** | `performance_analyze_insight` explains the number |
 | CPU / network throttling, device emulation | **chrome-devtools-mcp** | `emulate` exposes both |
 | Lighthouse a11y / SEO / best practices | **chrome-devtools-mcp** | `lighthouse_audit` |
-| Heap snapshot, leak hunting, retainer paths | **chrome-devtools-mcp** | 12 heap tools; nothing else has them |
+| Heap snapshot, leak hunting, retainer paths | **chrome-devtools-mcp** | 14 heap tools; nothing else has them. All but `take_heapsnapshot` need `--memoryDebugging` |
 | Committed regression test, CI gate | **E2E framework (Playwright/Cypress specs)** | Must run headless, unattended, on every push |
 | Interactive journey validation in a logged-in session | **Existing MCP browser driver** | Already wired, already authenticated |
 | Scripted exploration, scraping, bulk HTTP | **Scripted CDP harness** | Cheapest per action, no MCP round-trip |
@@ -62,7 +62,13 @@ One table. Read the job, pick the tool, do not improvise.
 
 ## Configuration
 
-Pin the version. Do not use `@latest` in a checked-in config — this package ships roughly monthly and an unpinned upgrade will change tool behaviour underneath a working audit.
+Pin the version. Do not use `@latest` in a checked-in config — this package ships every one to three weeks (five minor releases between 23 September and 24 November 2026) and an unpinned upgrade will change tool behaviour underneath a working audit.
+
+The configs below are the ones to use for **client work**: both pass `--no-usage-statistics` (no Google usage telemetry) and `--no-performance-crux` (trace URLs are not sent to the CrUX API). On a public URL where you want real-user field data alongside the trace, you may drop `--no-performance-crux`; keep `--no-usage-statistics` in any client or regulated context.
+
+### The Claude Code plugin
+
+The upstream also ships a Claude Code plugin (`/plugin marketplace add ChromeDevTools/chrome-devtools-mcp`, then `/plugin install chrome-devtools-mcp@chrome-devtools-plugins`), which pins the server to its own version and adds upstream skills. Its launch arguments in v1.14.0 set **neither** opt-out flag, so usage statistics and CrUX lookups are on. Do not use the plugin for client work; use a pinned config below. Setting `CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS` turns off usage statistics under the plugin, but no environment variable is documented for CrUX.
 
 ### Launch its own browser (default; use for public URLs)
 
@@ -73,9 +79,10 @@ Pin the version. Do not use `@latest` in a checked-in config — this package sh
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@1.6.0",
+        "chrome-devtools-mcp@1.14.0",
         "--isolated",
-        "--no-usage-statistics"
+        "--no-usage-statistics",
+        "--no-performance-crux"
       ]
     }
   }
@@ -103,10 +110,11 @@ Log in once in that window, then point the server at it:
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@1.6.0",
+        "chrome-devtools-mcp@1.14.0",
         "--browserUrl",
         "http://127.0.0.1:9222",
-        "--no-usage-statistics"
+        "--no-usage-statistics",
+        "--no-performance-crux"
       ]
     }
   }
@@ -125,9 +133,13 @@ If your project already launches a CDP Chrome on 9222 for E2E testing, reuse it.
 | `--channel <stable\|beta\|dev\|canary>` | Pin a Chrome channel |
 | `--slim` | Cut to 3 tools (navigate, evaluate, screenshot) to save context |
 | `--no-usage-statistics` | Opt out of Google usage telemetry |
-| `--experimentalPageIdRouting` | Required if several agents share one server |
+| `--no-performance-crux` | Do not send trace URLs to the Google CrUX API for field data |
+| `--pageIdRouting` | On by default since v1.8.0 (renamed from `--experimentalPageIdRouting` in v1.10.0): page-scoped tools take a required `pageId`, which lets several agents share one server. `--no-page-id-routing` turns it off |
+| `--memoryDebugging` | Off by default. Enables 13 of the 14 heap tools (snapshot analysis, comparison, retainer and dominator chains); without it only `take_heapsnapshot` is available. Add it for leak hunting |
 
 ## Procedure: a Core Web Vitals audit
+
+The calls below omit `pageId` for readability. With page-ID routing on (the default since v1.8.0), every page-scoped tool needs one: get it from `list_pages`.
 
 1. **Fix the conditions before you measure.** Record device, throttle settings, and whether the run is warm or cold. A number without its conditions is not comparable to anything.
 
@@ -140,10 +152,10 @@ If your project already launches a CDP Chrome on 9222 for E2E testing, reuse it.
 2. **Trace a cold page load.**
 
    ```
-   performance_start_trace(reload: true, autoStop: true)
+   performance_start_trace(reload: true, ignoreCache: true, autoStop: true)
    ```
 
-   `reload: true` is what makes it a load trace rather than a snapshot of an already-warm page.
+   `reload: true` is what makes it a load trace rather than a snapshot of an already-warm page; `ignoreCache: true` bypasses the HTTP cache so the load is cold.
 
 3. **Read the insight set,** then attribute the largest contributor rather than reporting the score alone:
 
@@ -181,7 +193,7 @@ Anything less is a screenshot of a score, not an audit.
 ## Cautions
 
 - **Telemetry is on by default.** Google collects tool invocation statistics. Pass `--no-usage-statistics` (or set `CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS`) in any client or regulated context.
-- **Performance tools may call the Google CrUX API** with trace URLs to fetch real-user data. On an internal or unreleased URL, that transmits the URL off-machine. Confirm this is acceptable before auditing anything confidential.
+- **Performance tools may call the Google CrUX API** with trace URLs to fetch real-user data; this is on by default. On an internal or unreleased URL, that transmits the URL off-machine. Pass `--no-performance-crux` for client work, and confirm with the client before auditing anything confidential without it.
 - **The remote debugging port is unauthenticated.** Any local process can drive a browser listening on 9222. Use a dedicated debug profile, never your daily one, and close it when finished.
 - **The MCP client sees whatever the browser sees** — including session cookies and page contents of an authenticated app. Treat an attached session as a data-exposure surface.
 - **Headless and headed timings differ.** Pick one and hold it constant across a comparison.
@@ -192,7 +204,7 @@ Anything less is a screenshot of a score, not an audit.
 - Maintained by the ChromeDevTools organisation (Google), Apache-2.0.
 - Source: <https://github.com/ChromeDevTools/chrome-devtools-mcp>
 - Tool reference: `docs/tool-reference.md` in that repository.
-- Verified against v1.6.0. Re-check the tool reference before relying on any specific tool name; the surface has changed across minor versions.
+- Verified against v1.14.0 on 2026-11-25: npm `chrome-devtools-mcp` latest is 1.14.0, published 2026-11-24 ([release](https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v1.14.0)). The flags in this skill were checked against `docs/configuration.md`, and the tool names and parameters in the procedure against `docs/tool-reference.md`, at that version. Re-check the tool reference before relying on any specific tool name; the surface has changed across minor versions.
 
 ## Entry and proof
 

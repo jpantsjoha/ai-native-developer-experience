@@ -3,8 +3,9 @@
 ## Current release
 
 As of 26 November 2026 the latest published release is
-[v0.7.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.1)
-(released 26 November 2026). The 0.6 line onward keeps the rename backward compatible: `devex-charter` for new
+[v0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0)
+(released 20 November 2026). 0.7.1 is prepared for release ([release pull request 49](https://github.com/jpantsjoha/ai-native-developer-experience/pull/49));
+this page records it as published only after its tag and GitHub release are verified. The 0.6 line onward keeps the rename backward compatible: `devex-charter` for new
 installs, `join-the-team` as a legacy alias. Existing installations do not update
 automatically: follow the [migration guide](install/rebrand.md). The tag/release record
 owns publication state; a version in a manifest alone is not publication. See the
@@ -12,7 +13,7 @@ owns publication state; a version in a manifest alone is not publication. See th
 
 ## Merged, not yet released
 
-Nothing: 0.7.1 was released on 26 November 2026 (tag `v0.7.1`). It carries
+Prepared as release candidate 0.7.1 ([release pull request 49](https://github.com/jpantsjoha/ai-native-developer-experience/pull/49)), not yet tagged or published. It carries
 [pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46)
 (the three session commands enter through `delivery-orchestrator`, a fail-closed
 `make typecheck`, Python 3.9+, ADR skills aligned with the validator) and

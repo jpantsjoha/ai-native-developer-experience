@@ -61,7 +61,7 @@ This skill is for decisions that persist — the ones that are expensive to reve
    Store under `architecture/decisions/ADR-NNN-<slug>.md` (or the project's mapped decision
    root in `.delivery.json`). Allowed `## Status` values are `Proposed`, `Accepted`,
    `Rejected`, or `Superseded` (with `**Superseded by:** ADR-MMM` when superseded).
-   *Migration note ([ADR-007](../../architecture/decisions/ADR-007-canonical-adr-format.md) —
+   *Migration note ([ADR-007](https://github.com/jpantsjoha/ai-native-developer-experience/blob/main/architecture/decisions/ADR-007-canonical-adr-format.md) —
    reverses the `0.1.6` `ADR/` + `-DRAFT`/`-approved` convention to align with
    `validate_delivery.py` and `docs/DETERMINISTIC-GATES.md`):* `validate_delivery.py` scans
    every `*.md` file under the mapped decision root. Existing adopters using `ADR/` may keep

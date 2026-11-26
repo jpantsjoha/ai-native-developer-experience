@@ -18,9 +18,10 @@ Two contradictions existed between the repository's documentation, skills, and e
    - Canonical grammar: `# ADR-NNN: <short title>` with a `## Status` section whose first non-blank line begins with `Proposed`, `Accepted`, `Rejected`, or `Superseded` (with `**Superseded by:** ADR-MMM` when superseded).
    - Adopters already using `ADR/` from `0.1.6` may keep that directory by mapping `"decision": "ADR"` in `.delivery.json`, **and must update every tracked ADR's `## Status` value (`draft` → `Proposed`, `approved` → `Accepted`, `superseded` → `Superseded` with `**Superseded by:** ADR-MMM`) before enabling `validate_delivery.py`**, because the validator checks every `*.md` file under the mapped decision root. Legacy YAML frontmatter and `-DRAFT`/`-approved` filename suffixes do not fail `validate_delivery.py` and may be removed separately (removing stale frontmatter `status:` is recommended so human-visible status lines do not conflict).
    - `tests/test_delivery_validation.py` extracts and validates the documented template from `skills/the-architect/SKILL.md` so skill guidance and validator grammar cannot drift again.
-2. **Support Python `3.9+` as the practical runtime floor for stdlib scripts, backed by CI:**
+2. **Support Python `3.9+` as the practical runtime floor for stdlib scripts, proved by a local gate:**
    - Although upstream Python 3.9 reached end of life in October 2025, macOS Command Line Tools still ship Python `3.9.6` as default `/usr/bin/python3`.
-   - Remove the unnecessary `strict=False` keyword in `validate_operating_model.py`, align `BOOTSTRAP.md` and `antigravity-tools.md` to `Python 3.9+`, and add a dedicated `operating-model-py39` job in `.github/workflows/dx-validation.yml` (preserving the existing `Operating Model Contract` Python 3.11 check name) so runtime 3.9 compatibility is exercised in CI rather than assumed from `py_compile`.
+   - Remove the unnecessary `strict=False` keyword in `validate_operating_model.py` and align `BOOTSTRAP.md` and `antigravity-tools.md` to `Python 3.9+`.
+   - Prove runtime 3.9 compatibility locally, rather than assuming it from `py_compile`: `make typecheck test PYTHON=/usr/bin/python3` on stock macOS. GitHub Actions is disabled for this repository, so local gates are the record. An `operating-model-py39` job is also defined in `.github/workflows/dx-validation.yml` (beside the existing Python 3.11 `Operating Model Contract` job); it is dormant while Actions stays disabled and is not evidence.
 
 ## Alternatives considered
 
@@ -31,4 +32,4 @@ Two contradictions existed between the repository's documentation, skills, and e
 
 - One canonical ADR convention across skills, docs, repository decisions, and `make planning`, guarded by automated template and negative drift tests.
 - Adopters who followed `0.1.6` have an explicit, tested migration path before enabling `make planning`.
-- Stdlib scripts remain runnable on stock macOS Python 3.9.6 and verified in CI on both Python 3.9 and 3.11; contributors must avoid 3.10+ runtime-only stdlib APIs until this ADR is superseded.
+- Stdlib scripts remain runnable on stock macOS Python 3.9.6, verified by the local Python 3.9 gate above; contributors must avoid 3.10+ runtime-only stdlib APIs until this ADR is superseded.

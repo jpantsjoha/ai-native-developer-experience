@@ -10,6 +10,8 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
+## [0.7.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.1) — 2026-11-26
+
 ### Added
 
 - [INTEGRATIONS.md](INTEGRATIONS.md#context-graph): a Context graph lane with Trail-code

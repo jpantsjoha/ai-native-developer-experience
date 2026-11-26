@@ -2,9 +2,10 @@
 
 ## Current release
 
-As of 20 November 2026 the latest published release is
+As of 26 November 2026 the latest published release is
 [v0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0)
-(released 20 November 2026). The 0.6 line onward keeps the rename backward compatible: `devex-charter` for new
+(released 20 November 2026). 0.7.1 is prepared for release ([release pull request 49](https://github.com/jpantsjoha/ai-native-developer-experience/pull/49));
+this page records it as published only after its tag and GitHub release are verified. The 0.6 line onward keeps the rename backward compatible: `devex-charter` for new
 installs, `join-the-team` as a legacy alias. Existing installations do not update
 automatically: follow the [migration guide](install/rebrand.md). The tag/release record
 owns publication state; a version in a manifest alone is not publication. See the
@@ -12,19 +13,15 @@ owns publication state; a version in a manifest alone is not publication. See th
 
 ## Merged, not yet released
 
-- **Baseline hygiene** ([pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46),
-  merged 26 November 2026): the three session commands enter through
-  `delivery-orchestrator` (FR-6), `make typecheck` covers every Python and shell file and
-  fails closed, Python 3.9+ runs the gates, and the ADR skills match the validator.
-  Waits on JP: accept or amend
-  [ADR-007](../architecture/decisions/ADR-007-canonical-adr-format.md) (Proposed).
-  See the [CHANGELOG](../CHANGELOG.md).
-- **Companion and tool references** ([pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45),
-  merged 26 November 2026): companions re-verified on 25 November 2026, a context-graph
-  lane (Trail-code, Graphify), client-work data-egress notes, and `chrome-devtools-mcp`
-  1.14.0. See the [CHANGELOG](../CHANGELOG.md).
-
-0.7.0 was released on 20 November 2026 (tag `v0.7.0`, public pull request 43).
+Prepared as release candidate 0.7.1 ([release pull request 49](https://github.com/jpantsjoha/ai-native-developer-experience/pull/49)), not yet tagged or published. It carries
+[pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46)
+(the three session commands enter through `delivery-orchestrator`, a fail-closed
+`make typecheck`, Python 3.9+, ADR skills aligned with the validator) and
+[pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45)
+(companion and tool references re-verified, a context-graph lane, `chrome-devtools-mcp`
+1.14.0). Waits on JP: accept or amend
+[ADR-007](../architecture/decisions/ADR-007-canonical-adr-format.md) (Proposed).
+See the [CHANGELOG](../CHANGELOG.md).
 
 ## In progress
 

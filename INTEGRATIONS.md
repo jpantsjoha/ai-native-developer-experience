@@ -50,7 +50,7 @@ README says nothing either way; it is not a guarantee.
 | ponytail | [v5.3.3 release](https://github.com/DietrichGebert/ponytail/releases/tag/v5.3.3), published 2026-10-29; `plugin.json` 5.3.3 | None documented. |
 | impeccable | [skill-v4.11.0 release](https://github.com/pbakaus/impeccable/releases/tag/skill-v4.11.0), published 2026-11-24; `plugin.json` 4.11.0 | A new design fetches visual directions from impeccable.style, even with telemetry off. Anonymous telemetry is on by default; off with `DO_NOT_TRACK=1`, `npx impeccable telemetry off`, or `"telemetry": false` in `.impeccable/config.json`. |
 | ui-ux-pro-max | [v2.15.0 release](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/releases/tag/v2.15.0), published 2026-08-13; `plugin.json` 2.15.0 | README states the search scripts make no network calls. |
-| caveman | [v4.2.0 release](https://github.com/JuliusBrussee/caveman/releases/tag/v4.2.0), published 2026-11-22; `plugin.json` 4.2.0 | Now a skill plus a local proxy. The CLI sends usage stats by default (commands, token counts, install ID, OS, IP); off with `caveman telemetry off` or `DO_NOT_TRACK=1`. The skill-only install (`npx skills add JuliusBrussee/caveman`) has no proxy. |
+| caveman | [v4.2.0 release](https://github.com/JuliusBrussee/caveman/releases/tag/v4.2.0), published 2026-11-22; `plugin.json` 4.2.0 | Now a skill plus a local proxy. The CLI sends usage stats by default (commands, token counts, install ID, OS, IP); off with `caveman telemetry off` or `DO_NOT_TRACK=1`. The skill-only install (`npx skills add JuliusBrussee/caveman`) has no proxy. Content can also leave the machine, and the telemetry opt-out does not stop it: `/caveman-compress` sends the file to your model provider; opt-in Auto routing (after sign-in) sends each ask, with whatever the agent attaches such as `CLAUDE.md`, memory or @-mentioned files, to Caveman Cloud, which may keep it on the Free plan (`caveman off routing` stops it); a request routed to a Caveman Cloud model passes through it whole (`caveman providers cloud off`). |
 
 ## Context graph
 
@@ -80,12 +80,14 @@ and ponytail 5.3.3 loaded with `--plugin-dir`.
 | Trail-code | 0.644 | 828k | All correct | 10 lines added, test passes |
 | ponytail | 0.618 | 698k | All correct | 13 lines added, test passes |
 
-**No measurable gain from either.** The cost gap is mostly run order: base ran first and
-paid the cache writes (78.9k tokens on its first task, about 45k on the later
-conditions' first tasks). Trail-code used 21% more tokens, because the map adds context.
-The repository is mostly Markdown (124 Markdown files, 22 code files), which is where a
-code map helps least. A test that could show a difference needs at least three runs per
-cell, interleaved, on a code-heavy repository.
+**No saving shown.** This was one exploratory run per cell in a fixed order, so it cannot
+establish a gain or a loss: cache state, run order and agent variability confound it.
+Base ran first and paid the cache writes (78.9k tokens on its first task, about 45k on
+the later conditions' first tasks), which likely explains part of its higher cost.
+Trail-code used 21% more tokens; the map's added context is a plausible cause, not a
+measured one. The repository is mostly Markdown (124 Markdown files, 22 code files),
+where a code map should help least. A test that could show a difference needs at least
+three runs per cell, interleaved, on a code-heavy repository.
 
 **Graphify 0.9.119** (one release behind the version listed above), run on a personal notes
 folder (13 Markdown documents):

@@ -10,6 +10,36 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
+### Changed
+
+- ADR format: `the-architect` and `operating-model-bootstrap` now teach the format the
+  delivery validator enforces (`architecture/decisions/ADR-NNN-<slug>.md`, `## Status`
+  of Proposed, Accepted, Rejected or Superseded). This reverses the 0.1.6 convention
+  (`ADR/ADR-NNNN-<slug>-DRAFT.md`, lowercase `draft | approved | superseded`); adopters
+  who followed 0.1.6 have a migration note. Recorded in
+  [ADR-007](architecture/decisions/ADR-007-canonical-adr-format.md) (Proposed). Proof:
+  a test validates the skill's ADR template with `validate_delivery.py`; a repository-wide
+  guard fails on the old convention. [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+- Python floor is now 3.9+ (stock macOS `/usr/bin/python3` is 3.9.6), down from 3.10+.
+  Proof: `make typecheck test PYTHON=/usr/bin/python3`, 208 tests OK.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+
+### Fixed
+
+- `/devex-charter:get-it-done`, `:sitrep` and `:wrap-it-up` now enter through
+  `delivery-orchestrator` before loading their skill, as AMH-001 FR-6 requires; before,
+  they bypassed it. Proof: `tests/test_orchestrator_entry.py`.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+- `make typecheck` compiles every Python file under `scripts/`, `tests/` and `skills/`
+  (four were skipped) and runs `bash -n` on every shell script (none were checked). It
+  fails closed on a syntax error, a missing hook or a failed discovery. Proof:
+  `tests/test_typecheck_gate.py`.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+- `make test` crashed on Python 3.9 (`zip(..., strict=False)` in
+  `validate_operating_model.py`). README skill count corrected to 26. Antigravity tool
+  map and verify steps updated to current tool names.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+
 ## [0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0) — 2026-11-20
 
 ### Added

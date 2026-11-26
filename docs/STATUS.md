@@ -12,10 +12,15 @@ owns publication state; a version in a manifest alone is not publication. See th
 
 ## Merged, not yet released
 
-Nothing: 0.7.0 was released on 20 November 2026 (tag `v0.7.0`, public pull request 43).
-It carries the orchestrator as the default entry, the routing evaluation on two hosts,
-the accepted adoption-modes specification, the records-task rule and the README additions
-(development pull requests 12 to 22). See the [CHANGELOG](../CHANGELOG.md).
+- **Baseline hygiene** ([pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46),
+  merged 26 November 2026): the three session commands enter through
+  `delivery-orchestrator` (FR-6), `make typecheck` covers every Python and shell file and
+  fails closed, Python 3.9+ runs the gates, and the ADR skills match the validator.
+  Waits on JP: accept or amend
+  [ADR-007](../architecture/decisions/ADR-007-canonical-adr-format.md) (Proposed).
+  See the [CHANGELOG](../CHANGELOG.md).
+
+0.7.0 was released on 20 November 2026 (tag `v0.7.0`, public pull request 43).
 
 ## In progress
 

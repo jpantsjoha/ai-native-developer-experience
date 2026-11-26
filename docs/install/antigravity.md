@@ -30,7 +30,7 @@ Reinstall with the same command to update.
 - **MCP data seams** → `.agents/mcp_config.json` — the governed tool-access pattern;
   see the file before adding servers.
 - **Tool mapping** — `using-the-harness/references/antigravity-tools.md` translates
-  the skills' action vocabulary (subagent dispatch, task artifacts, file/search
+  the skills' action vocabulary (subagent dispatch, task tracking and artifacts, file/search
   actions) to Antigravity's native tools. The meta-skill points to it; canonical
   skill bodies never change per harness.
 - **Agent Manager lanes** — the operating model's lane discipline applies to
@@ -41,8 +41,9 @@ Reinstall with the same command to update.
 1. Start a session: the harness contract should be active from the first message.
 2. Ask "which skills are available?" — the 26 skills should be named, including
    `cloud-expert` and `adk-expert`.
-3. Ask the agent to track a small multi-step task — it should create a **task
-   artifact**, not reach for a todo tool.
+3. Ask the agent to track a small multi-step task — it should use live step tracking
+   (`update_steps` / `update_focus`) and use markdown artifacts (`write_file` with
+   `ArtifactMetadata`) for durable reports or plans, rather than reaching for `manage_task`.
 
 ## Standards
 

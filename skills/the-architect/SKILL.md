@@ -34,32 +34,43 @@ This skill is for decisions that persist — the ones that are expensive to reve
 
 6. **Record consequences** — what does this decision make easier? What does it make harder? What does it prevent?
 
-7. **Author the ADR** — format:
-   ```
-   ---
-   status: draft
-   id: ADR-NNNN
-   date: <date>
-   deciders: [<handle>]
-   ---
-
-   # ADR-NNNN: <short title>
+7. **Author the ADR** — match the deterministic delivery-record grammar (`docs/DETERMINISTIC-GATES.md`):
+   ```markdown
+   # ADR-NNN: <short title>
 
    ## Status
-   draft | approved | superseded
+
+   Proposed — <YYYY-MM-DD>. Decision owner: <handle>.
 
    ## Context
+
    <forces, constraints, why a decision is needed>
 
    ## Decision
+
    <the chosen option and reasoning>
 
+   ## Alternatives considered
+
+   <credible options rejected and why>
+
    ## Consequences
+
    <what becomes easier, harder, or foreclosed>
    ```
-   A decision's lifecycle is visible in **both** the filename postfix and the `status:`
-   field: `ADR/ADR-NNNN-<slug>-DRAFT.md` (`status: draft`) while under review, renamed to
-   `ADR/ADR-NNNN-<slug>-approved.md` (`status: approved`) on approval.
+   Store under `architecture/decisions/ADR-NNN-<slug>.md` (or the project's mapped decision
+   root in `.delivery.json`). Allowed `## Status` values are `Proposed`, `Accepted`,
+   `Rejected`, or `Superseded` (with `**Superseded by:** ADR-MMM` when superseded).
+   *Migration note ([ADR-007](https://github.com/jpantsjoha/ai-native-developer-experience/blob/main/architecture/decisions/ADR-007-canonical-adr-format.md) —
+   reverses the `0.1.6` `ADR/` + `-DRAFT`/`-approved` convention to align with
+   `validate_delivery.py` and `docs/DETERMINISTIC-GATES.md`):* `validate_delivery.py` scans
+   every `*.md` file under the mapped decision root. Existing adopters using `ADR/` may keep
+   that directory by mapping `"decision": "ADR"` in `.delivery.json`, and must update every
+   tracked ADR's `## Status` value (`draft` → `Proposed`, `approved` → `Accepted`,
+   `superseded` → `Superseded` with `**Superseded by:** ADR-MMM`) before enabling
+   `validate_delivery.py`. Legacy YAML frontmatter and `-DRAFT`/`-approved` filename suffixes
+   do not fail the validator and may be removed separately (remove stale frontmatter `status:`
+   to avoid conflicting human-visible statuses).
 
 8. **Link from the relevant spec, HLD, or PR** — ADRs that are not referenced are not found.
 
@@ -77,7 +88,7 @@ decision without its guardrail checklist is an unreviewed decision.
 
 ## Outputs
 
-- `ADR/ADR-NNNN-<slug>-DRAFT.md` → `ADR/ADR-NNNN-<slug>-approved.md` on approval
+- `architecture/decisions/ADR-NNN-<slug>.md` (`Proposed` until the accountable human accepts it)
 - Trade-off summary (can be included in the ADR or a separate HLD section)
 - Updated `architecture/HLD-<feature>.md` if the decision changes the HLD
 

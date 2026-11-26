@@ -10,43 +10,35 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
-### Added
-
-- [INTEGRATIONS.md](INTEGRATIONS.md#context-graph): a Context graph lane with Trail-code
-  (formerly graft; npm `@trailhq/trail-code` 0.30.5, MIT) and Graphify (PyPI `graphifyy`
-  0.9.120, Apache-2.0), each with what leaves the machine and what it writes. Also a source
-  and data-egress table for every companion, for recommending them on client work.
-
 ### Changed
 
-- [INTEGRATIONS.md](INTEGRATIONS.md#evaluated-companions): every companion re-verified on
-  2026-11-25 against its GitHub release, `plugin.json` and licence. superpowers 6.1.1 →
-  7.0.2, impeccable 3.9.1 → 4.11.0, ui-ux-pro-max 2.6.2 → 2.15.0 (MIT), caveman 1.9.0 →
-  4.2.0 (Apache-2.0), ponytail 5.3.3 (MIT). The column now says "upstream version", because
-  none of these was re-tested with this harness. ui-ux-pro-max and caveman link to their
-  repositories instead of a listing site.
-- [Context-graph freshness](docs/CONTEXT-GRAPH-FRESHNESS.md): records graft's rename to
-  Trail-code and the reference pin moving from 0.10.1 to 0.30.5, and adds guardrails for
-  `trail init` (it reads past Claude Code transcripts and PR review comments) and for
-  telemetry being on by default. `scripts/context-graph-refresh.sh` now defaults to
-  `DO_NOT_TRACK=1 npx -y @trailhq/trail-code@0.30.5 build`. The guard was then run
-  against a global install of 0.30.5 (build, `FRESH` skip, rebuild on change, `--force`);
-  the `npx` fetch itself was not exercised. The page now notes that `trail build` edits
-  `.gitignore` and adds `.ignore`, that the default `CGF_EXTS` misses shell scripts Trail-code
-  indexes, and that `DO_NOT_TRACK` must be set before the first `trail` command.
-- [INTEGRATIONS.md](INTEGRATIONS.md#tested-with-this-harness-2026-11-25): results of a
-  token-use test of Trail-code 0.30.5 and ponytail 5.3.3 on this repository (3 tasks, one
-  run per cell, Sonnet): all answers correct in every condition, no measurable gain. Also a
-  local Graphify 0.9.119 test: `GRAPHIFY_BACKEND=none` skips Markdown, and a failed Ollama
-  backend still exits 0. Recommendation: ponytail when bootstrapping a new repository,
-  Trail-code only for code-heavy repositories, Graphify as a personal tool.
-- [frontend-performance-audit](skills/frontend-performance-audit/SKILL.md) and the
-  `.agents/mcp_config.json` template: `chrome-devtools-mcp` pinned to 1.14.0 (was 1.6.0),
-  with `--no-performance-crux` beside `--no-usage-statistics` for client work. The skill
-  says the upstream Claude Code plugin sets neither opt-out, replaces the renamed
-  `--experimentalPageIdRouting` flag with `--pageIdRouting`, notes the required `pageId`,
-  traces cold loads with `ignoreCache: true`, and counts 14 heap tools (was 12). Tool names,
-  parameters and flags checked against the upstream reference at 1.14.0.
+- ADR format: `the-architect` and `operating-model-bootstrap` now teach the format the
+  delivery validator enforces (`architecture/decisions/ADR-NNN-<slug>.md`, `## Status`
+  of Proposed, Accepted, Rejected or Superseded). This reverses the 0.1.6 convention
+  (`ADR/ADR-NNNN-<slug>-DRAFT.md`, lowercase `draft | approved | superseded`); adopters
+  who followed 0.1.6 have a migration note. Recorded in
+  [ADR-007](architecture/decisions/ADR-007-canonical-adr-format.md) (Proposed). Proof:
+  a test validates the skill's ADR template with `validate_delivery.py`; a repository-wide
+  guard fails on the old convention. [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+- Python floor is now 3.9+ (stock macOS `/usr/bin/python3` is 3.9.6), down from 3.10+.
+  Proof: `make typecheck test PYTHON=/usr/bin/python3`, 208 tests OK.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+
+### Fixed
+
+- `/devex-charter:get-it-done`, `:sitrep` and `:wrap-it-up` now enter through
+  `delivery-orchestrator` before loading their skill, as AMH-001 FR-6 requires; before,
+  they bypassed it. Proof: `tests/test_orchestrator_entry.py`.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+- `make typecheck` compiles every Python file under `scripts/`, `tests/` and `skills/`
+  (four were skipped) and runs `bash -n` on every shell script (none were checked). It
+  fails closed on a syntax error, a missing hook or a failed discovery. Proof:
+  `tests/test_typecheck_gate.py`.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
+- `make test` crashed on Python 3.9 (`zip(..., strict=False)` in
+  `validate_operating_model.py`). README skill count corrected to 26. Antigravity tool
+  map and verify steps updated to current tool names.
+  [Pull request 46](https://github.com/jpantsjoha/ai-native-developer-experience/pull/46).
 
 ## [0.7.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.0) — 2026-11-20
 

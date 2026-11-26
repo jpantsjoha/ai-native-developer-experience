@@ -18,7 +18,7 @@ across your projects; project-level installation shares the chosen baseline with
 See the [host guides](README.md#install--two-ways-to-adopt) for scope and discovery.
 
 Keep references, assets and scripts with each skill. The initializer and validator need
-Python 3.10 or newer and use only the standard library. Let the initializer generate
+Python 3.9 or newer and use only the standard library. Let the initializer generate
 project adapters; do not copy this repository’s maintainer adapters or routing settings.
 
 ### 2. Preflight and initialise

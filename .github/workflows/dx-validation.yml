@@ -35,6 +35,19 @@ jobs:
       - name: Run operating-model regression tests
         run: make test
 
+  operating-model-py39:
+    name: Operating Model Contract (Python 3.9)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Compile bootstrap scripts
+        run: make typecheck
+      - name: Run operating-model regression tests
+        run: make test
+
   # ════════════════════════════════════════════════════
   # DETERMINISTIC: Agent Plugins 1.0.0 + Agent Skills conformance
   # https://agent-plugins.org/specification

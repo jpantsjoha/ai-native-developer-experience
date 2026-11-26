@@ -52,7 +52,7 @@ One table. Read the job, pick the tool, do not improvise.
 | Page-load trace and time attribution | **chrome-devtools-mcp** | `performance_analyze_insight` explains the number |
 | CPU / network throttling, device emulation | **chrome-devtools-mcp** | `emulate` exposes both |
 | Lighthouse a11y / SEO / best practices | **chrome-devtools-mcp** | `lighthouse_audit` |
-| Heap snapshot, leak hunting, retainer paths | **chrome-devtools-mcp** | 14 heap tools; nothing else has them |
+| Heap snapshot, leak hunting, retainer paths | **chrome-devtools-mcp** | 14 heap tools; nothing else has them. All but `take_heapsnapshot` need `--memoryDebugging` |
 | Committed regression test, CI gate | **E2E framework (Playwright/Cypress specs)** | Must run headless, unattended, on every push |
 | Interactive journey validation in a logged-in session | **Existing MCP browser driver** | Already wired, already authenticated |
 | Scripted exploration, scraping, bulk HTTP | **Scripted CDP harness** | Cheapest per action, no MCP round-trip |
@@ -135,6 +135,7 @@ If your project already launches a CDP Chrome on 9222 for E2E testing, reuse it.
 | `--no-usage-statistics` | Opt out of Google usage telemetry |
 | `--no-performance-crux` | Do not send trace URLs to the Google CrUX API for field data |
 | `--pageIdRouting` | On by default since v1.8.0 (renamed from `--experimentalPageIdRouting` in v1.10.0): page-scoped tools take a required `pageId`, which lets several agents share one server. `--no-page-id-routing` turns it off |
+| `--memoryDebugging` | Off by default. Enables 13 of the 14 heap tools (snapshot analysis, comparison, retainer and dominator chains); without it only `take_heapsnapshot` is available. Add it for leak hunting |
 
 ## Procedure: a Core Web Vitals audit
 

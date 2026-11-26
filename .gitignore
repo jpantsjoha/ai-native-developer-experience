@@ -14,3 +14,7 @@ __pycache__/
 
 # Local git worktrees (git worktree add .worktrees/<name>)
 /.worktrees/
+
+# Local human-in-the-loop queue (AMH-001): only the README is tracked
+/HITL/OPERATOR/*
+!/HITL/OPERATOR/README.md

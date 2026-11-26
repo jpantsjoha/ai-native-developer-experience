@@ -367,6 +367,14 @@ class DeliveryValidationTests(unittest.TestCase):
             r"ADR/ADR-(?:\d{4}|NNNN)|-DRAFT\.md|-approved\.md|draft \| approved \| superseded"
         )
         exts = {".md", ".py", ".sh", ".yaml", ".yml", ".json", ".template"}
+        # Paths in the_harness/PRIVATE-PATHS never reach the public cut (dated private audits).
+        private_list = repo_root / "the_harness" / "PRIVATE-PATHS"
+        private = set()
+        if private_list.is_file():
+            for line in private_list.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    private.add(line.rstrip("/"))
         for target in ("skills", "docs", "commands", "scripts", "README.md", "BOOTSTRAP.md"):
             base = repo_root / target
             paths = [base] if base.is_file() else [
@@ -374,6 +382,8 @@ class DeliveryValidationTests(unittest.TestCase):
             ]
             for path in paths:
                 rel = path.relative_to(repo_root).as_posix()
+                if any(rel == q or rel.startswith(q + "/") for q in private):
+                    continue
                 text = path.read_text(encoding="utf-8", errors="ignore")
                 self.assertIsNone(legacy.search(text), f"stale legacy ADR convention in {rel}")
 

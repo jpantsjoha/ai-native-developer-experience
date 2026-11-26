@@ -68,6 +68,7 @@ each domain; a solo owner holds every row.
 | Product owner | priority, requirement, user journey, adoption, "aligned with the vision" | `product-owner`, `spec-first-delivery`, `cxo-oversight` |
 | Delivery director | progress, blocked, "on track", "waits on me", golden thread | `sitrep`, `release-manager`, `wrap-it-up` |
 | Technical lead | decision, trade-off, design, review, "break this into tasks" | `the-architect`, `adversarial-gate`, `pr-reviewer`, `cloud-expert`, `adk-expert` |
+| Designer or UI lead | screen, panel, menu, widget, theme, "inconsistent UI", design language | `design-steward`, `test-strategy` |
 | QA lead | quality, proof, definition of done, evidence, "try to break it" | The quality sequence below |
 | Data or SRE specialist | live, errors, cost, performance, "ready to release" | `cloud-checkup`, `release-readiness`, `cost-guardrail`, `frontend-performance-audit`, `system-performance-guardrail` |
 
@@ -172,6 +173,7 @@ dependencies, status and delivery links. Check in-flight owners before selecting
 | Developer-machine contention, orphaned automation browsers, cloud-sync stalls | `system-performance-guardrail` |
 | Read-only SRE checkup of a GCP project: probes, status table, one `OVERALL:` line | `cloud-checkup` |
 | Frontend performance measurement: Core Web Vitals, traces, Lighthouse, heap growth | `frontend-performance-audit` |
+| Any UI/UX ask: new or changed screen, panel, menu, widget, theme; design language or consistency review | `design-steward` |
 | Entry for any delivery ask | `delivery-orchestrator` (you are here) |
 
 ## Adoption and review recovery

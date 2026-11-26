@@ -10,6 +10,38 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
 
 ## [Unreleased]
 
+## [0.8.0](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.8.0) — 2026-11-26
+
+### Added
+
+- Operator queue tooling and self-adoption: `scripts/hitl_queue.py validate` checks the
+  AMH-001 table, that each queue file is git-ignored and untracked, and real dates;
+  `migrate --source FILE [--yes]` is a dry run by default, idempotent, and never edits the
+  source. `HITL/OPERATOR/README.md`, the ignore rule and a `hitl` target in `make check`;
+  this repository's open operator items moved to its local queue. Development pull
+  request 35 (issue 11). First adopter: DevDash.
+- Adoption into existing repositories (development pull request 37, issue 32):
+  `operating-model-bootstrap --adopt-only` adds the harness without touching existing
+  records; `--register-settings`, `--install-precommit` and `--make-targets` wire the hooks,
+  a chaining pre-commit and the make targets. `bashwrites.py` resolves Bash writes (cd, globs,
+  variables, `bash -c`, interpreters, `git -C`) to the checkout that owns each path;
+  `records-guard` judges resolved writes by that checkout and falls back to its text
+  heuristic only without the resolver. `config-guard` protects harness config.
+  `literal_ratchet.py --check-raise BASE_REF` requires a listed raise note and exits 2 when
+  the base ref does not resolve. `registration_audit.py` and `gate_log.py` added.
+- `design-steward` role skill (27 skills): a project's design baseline is the authority for any
+  UI change; method, proof required and reviewer checklist; platform references (Apple HIG,
+  Material 3, GNOME HIG, KDE HIG) are fetched and quoted with a read date, never recalled.
+  Routed by `delivery-orchestrator`. Development pull request 29 (issue 28).
+- `scripts/literal_ratchet.py`: stack-neutral ratchet over hard-coded literals (JSON config,
+  standard library); a count may fall, never rise. Tests for Swift, CSS and TSX.
+  Development pull request 29.
+- Hook templates `records-guard`, `ui-context`, `post-edit-ratchet` (allow or deny, never ask),
+  adopted opt-in with `operating-model-bootstrap --adopt`. Development pull request 29;
+  follow-ups (redirect false positives, unborn branch, `preserved` wording, 27-skill count)
+  in development pull request 31 (issue 30). First adopter: DevDash; adoption gaps in
+  issue 32.
+
 ## [0.7.1](https://github.com/jpantsjoha/ai-native-developer-experience/releases/tag/v0.7.1) — 2026-11-26
 
 ### Added

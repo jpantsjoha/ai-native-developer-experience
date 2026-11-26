@@ -48,6 +48,15 @@ unknown rather than leaving it blank or fabricating a value.
 | 6 | Automation: CI/CD, branch policy, release process, deployment owner, rollback | Optional — default provided | GitHub SemVer + tag-based releases; invoke `release-manager` to document and confirm |
 | 7 | Delivery controls: source of truth, issue/PR conventions, DoD, escalation triggers | Optional — default provided | GitHub stack; this repository's issues, ADRs, and architecture docs are the source of truth |
 
+### Harness steps for a repo that already has a seed
+
+Run `bootstrap_operating_model.py --adopt-only --adopt all <repo>` for the opt-in guards
+only (no operating-model files; dry run until `--apply`; never overwrites). Add
+`--register-settings` (merge hook entries into `.claude/settings.json`, hooks key only),
+`--install-precommit` (clone-local git hook) and `--make-targets` (`.devex/harness.mk`) as
+needed; each lists its plan first. The chain contract for a global `core.hooksPath` is in
+`hooks/templates/README.md`.
+
 ### Backfill from an existing repo
 
 When adopting into a repo that already has code, do not present a blank seven-area form.

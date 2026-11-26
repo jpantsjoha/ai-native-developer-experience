@@ -159,6 +159,7 @@ never grants authority.
 | Durable team status | `sitrep` | <path or equivalent> | <owner / trigger> |
 | Cost/time limits | `cost-guardrail` | <path or equivalent> | <owner / trigger> |
 | Cloud-vendor guardrails | `cloud-expert` | <path or equivalent> | <owner / trigger> |
+| Design baseline (UI/UX language: decision record, design system, platform checklist, tokens) | `design-steward` | <decision record, design-system doc, checklist and token paths, or `not applicable — no user interface`> | <owner / trigger> |
 
 Routing order for consequential work: operating model → orchestration → architecture/spec
 → implementation → domain/adversarial validation → review → release readiness →

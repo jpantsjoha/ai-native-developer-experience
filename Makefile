@@ -1,7 +1,7 @@
 PYTHON ?= python3
 SKILL_ROOT := .agents/skills/operating-model-bootstrap
 
-.PHONY: lint typecheck planning test spec-conformance check hygiene
+.PHONY: lint typecheck planning hitl test spec-conformance check hygiene
 
 lint:
 	@if command -v markdownlint-cli2 >/dev/null 2>&1; then \
@@ -16,7 +16,7 @@ lint:
 typecheck:
 	# Standard-library compile and shell syntax gate; projects may add a stricter static type checker.
 	@set -eu; \
-	py_found=$$(find scripts tests skills -type f -name '*.py') || { echo 'ERROR: Python file discovery failed' >&2; exit 1; }; \
+	py_found=$$(find scripts tests skills hooks -type f -name '*.py') || { echo 'ERROR: Python file discovery failed' >&2; exit 1; }; \
 	py_files=$$(printf '%s\n' "$$py_found" | sort); \
 	[ -n "$$py_files" ] || { echo 'ERROR: no Python files found to compile' >&2; exit 1; }; \
 	printf '%s\n' "$$py_files" | while IFS= read -r f; do \
@@ -33,12 +33,17 @@ typecheck:
 planning:
 	$(PYTHON) scripts/validate_delivery.py --root .
 
+# Local HITL queue (AMH-001): validated when present, skipped when absent (fresh clone, CI).
+hitl:
+	$(PYTHON) scripts/hitl_queue.py validate --root .
+
 test:
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py'
 	$(PYTHON) $(SKILL_ROOT)/scripts/validate_operating_model.py \
 		--template-root $(SKILL_ROOT)
 	$(PYTHON) scripts/validate_plugin.py --root .
 	$(MAKE) planning
+	$(MAKE) hitl
 
 # Agent Plugins 1.0.0 + Agent Skills conformance, isolated from the drift checks so the
 # standard reports as its own signal. https://agent-plugins.org/specification

@@ -262,6 +262,14 @@ Behaviour, each shown by a worked scenario kept with the tests:
   tell. At the next session with the tracker reachable, an escalation issue is opened and
   the row's `Ref` becomes its number (FR-5).
 
+## Consumers
+
+DevDash reads the local queue to show a
+waiting-on-you flag. It is read-only and local: it reads the file on the machine where
+the person works, never writes it, and never sends it elsewhere. This repository adopts
+the contract itself: `HITL/OPERATOR/` is git-ignored with its README committed, and
+`make check` runs `scripts/hitl_queue.py validate`, which skips when no queue exists.
+
 ## Failure modes
 
 - **A queue file is committed.** The ignore rule and the validator check prevent it; the

@@ -22,7 +22,7 @@ needed. Bootstrap creates the project contract, not a global authority policy.
 
 What gets wired:
 
-- **Skills** — the 26 `skills/` capabilities. `skills/` is a real directory at the
+- **Skills** — the 27 `skills/` capabilities. `skills/` is a real directory at the
   Agent Plugins fixed discovery location, so it survives installers that flatten
   symlinks; `.agents/skills/` is a relative symlink alias kept for Codex and Kimi,
   which discover there natively. One skill set, zero copies.

@@ -14,7 +14,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 
 ---
 
-## The 26 Skills
+## The 27 Skills
 
 | Skill | One-line purpose |
 |---|---|
@@ -44,6 +44,7 @@ assistant expects a different location; do not maintain divergent skill constitu
 | [`plugin-submission`](./plugin-submission/SKILL.md) | Govern directory and marketplace listings: current policy, artifact eligibility, final confirmation, and receipts |
 | [`frontend-performance-audit`](./frontend-performance-audit/SKILL.md) | Measure Core Web Vitals, load traces, throttled conditions and heap growth via chrome-devtools-mcp — with the routing rule that keeps browser tools from overlapping |
 | [`cloud-checkup`](./cloud-checkup/SKILL.md) | Read-only SRE checkup of a GCP project — deterministic probes, one fixed status table (LIVE / WARNING / RED / INCONCLUSIVE), one `OVERALL:` notification; in-session or scheduled |
+| [`design-steward`](./design-steward/SKILL.md) | Own a project's design language: baseline records as authority, tokens-only method, platform guideline checklist with dated quotes, pixel and probe proof, reviewer checklist |
 
 ---
 

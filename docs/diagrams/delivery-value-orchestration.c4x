@@ -1,6 +1,6 @@
 %%{ c4: container }%%
 graph TB
-%% DevEx Charter: how delivery work flows through the 26 skills, and where humans decide.
+%% DevEx Charter: how delivery work flows through the 27 skills, and where humans decide.
 %% Draw: node <c4x>/cli/c4x.cjs render --theme c4-model <this file> -o delivery-value-orchestration.svg
 
 Person(owner, "Product owner", "1 Intent and acceptance")

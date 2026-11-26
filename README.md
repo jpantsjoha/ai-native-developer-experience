@@ -81,7 +81,7 @@ theme from [the diagram source](docs/diagrams/operating-model.c4x).
 | QA lead | "Prove it works; what is covered?" | Quality, deterministic checks |
 | Data or SRE specialist | "Is the platform built and running as designed?" | Architecture, release and SRE, oversight |
 
-**The roles and their skills** (26 in all):
+**The roles and their skills** (27 in all):
 
 | Role group | Skills |
 | --- | --- |
@@ -90,7 +90,7 @@ theme from [the diagram source](docs/diagrams/operating-model.c4x).
 | Product | `product-owner`, `spec-first-delivery` |
 | Oversight | `cxo-oversight`, `governance-guardrail`, `cost-guardrail` |
 | Architecture | `the-architect`, `cloud-expert`, `adk-expert`, `mcp-server-scaffold` |
-| Build | `get-it-done` |
+| Build | `get-it-done`, `design-steward` |
 | Quality | `test-strategy`, `domain-validator`, `adversarial-gate`, `pr-reviewer` |
 | Release and SRE | `release-readiness`, `release-manager`, `github-manager`, `plugin-submission`, `cloud-checkup`, `frontend-performance-audit`, `system-performance-guardrail` |
 | Record | `sitrep`, `wrap-it-up` |
@@ -135,7 +135,7 @@ The same model one level down: each skill, the stage it works in, and the five d
 that stay with a named person, numbered in the diagram. The outcome sets the next
 priorities.
 
-![DevEx Charter delivery value orchestration, drawn in C4X: six stages (Enter, Agree the work, Build, Prove, Release, Record and learn) holding the 26 skills, five people who each hold one decision, and the value outcome the project declared.](docs/diagrams/delivery-value-orchestration.svg)
+![DevEx Charter delivery value orchestration, drawn in C4X: six stages (Enter, Agree the work, Build, Prove, Release, Record and learn) holding the 27 skills, five people who each hold one decision, and the value outcome the project declared.](docs/diagrams/delivery-value-orchestration.svg)
 
 Drawn with [C4X](https://github.com/jpantsjoha/c4x-vscode-extension) in the `c4-model`
 theme from [the diagram source](docs/diagrams/delivery-value-orchestration.c4x).
@@ -266,7 +266,7 @@ These are maintained agent workflows, not an automatic requirements synchroniser
 measured efficiency claim. Existing adopters must deliberately reconcile their local
 adapters/workflow when upgrading; preserved project files are not silently overwritten.
 
-The library contains 26 skills. After installing, verify discovery and project adoption:
+The library contains 27 skills. After installing, verify discovery and project adoption:
 
 ```text
 which skills are available?
@@ -378,7 +378,7 @@ you control. See
 | --- | --- | --- |
 | Skills discovered but no orientation at session start | The session-start hook needs `bash` on `PATH` | Install `bash`; without it the plugin degrades to discovery without injection |
 | Antigravity reports `hooks: skipped (not found)` | The root `hooks.json` is missing from the install | Reinstall; `agy plugin install` must report `hooks: 1 processed` |
-| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 26 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
+| Codex-installed copy has no `.agents/skills/` | Codex's install cache flattens symlinks | Expected — all 27 skills are at `skills/`; use `.agents/skills/` only in a repo checkout |
 | `/devex-charter:validate` warns about unresolved fields | Profile is still a `seed` | Fine for R0/R1 work; resolve placeholders and promote to `active` before R2/R3 |
 | Slash commands missing after install | Client not restarted | Restart the client; Claude Code applies plugin updates on restart |
 | Agent ignores the contract mid-session | Context drift after a long session | `/clear`, then use the session-start pointer to reload the applicable contract |
@@ -662,7 +662,7 @@ both decisions and the trade-offs behind them.
 - **[DEVELOPER_EXPERIENCE.md](DEVELOPER_EXPERIENCE.md)** (DX-001)
   The main guide covering guardrails, workflows, validation, spec-driven delivery, and AI-agent integration — the mechanics.
 - **[Agent Skills Library](skills/README.md)**
-  26 tracked capabilities for orchestration, architecture, specification, validation,
+  27 tracked capabilities for orchestration, architecture, specification, validation,
   review, release readiness, governance, plugin submission, status, cost, cloud operations,
   frontend performance, and selected platform work.
 - **[Plugin Submission](skills/plugin-submission/SKILL.md)**

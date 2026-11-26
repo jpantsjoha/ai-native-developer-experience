@@ -96,6 +96,13 @@ It is a *working* document, so it gets pruned. When an entry stops being live, d
 git history hold it. A status file that only grows becomes an archive nobody reads, which is the
 same as having no status file, except it takes longer to discover.
 
+**Where operator items live.** An item that others must see or act on is a GitHub issue,
+and `STATUS.md` points to it by number. An item only the operator needs sits in the local,
+git-ignored queue `HITL/OPERATOR/` ([AMH-001](../requirements/ADOPTION-MODES-HITL.md)),
+which is a working list and never a record; an answer counts once it is recorded in an
+issue, an ADR or `STATUS.md`. A local dashboard may read the queue on the operator's own
+machine.
+
 **It ends with the decisions waiting on the operator** — a table with options, a recommendation
 and reversibility. See the `sitrep` skill for the format; that section is the one most operators
 read first.

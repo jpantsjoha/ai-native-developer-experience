@@ -1,0 +1,19 @@
+{
+  "baseline": ".devex/ratchet.baseline.json",
+  "globs": ["**/*.swift", "**/*.css", "**/*.tsx"],
+  "exempt": ["**/DesignTokens.swift", "**/tokens.css", "**/node_modules/**"],
+  "rules": [
+    {"id": "swift-literal-colour", "regex": "Color\\(red:", "globs": ["**/*.swift"],
+     "message": "use a colour token, not a literal"},
+    {"id": "swift-literal-size", "regex": "\\.font\\(\\.system\\(size:\\s*\\d", "globs": ["**/*.swift"],
+     "message": "use a type role token"},
+    {"id": "css-hex-colour", "regex": "#[0-9a-fA-F]{3,8}\\b", "globs": ["**/*.css"],
+     "message": "use var(--token)"},
+    {"id": "css-px-literal", "regex": "\\b\\d+px\\b", "globs": ["**/*.css"],
+     "message": "use a spacing or radius token"},
+    {"id": "tsx-inline-style", "regex": "style=\\{\\{", "globs": ["**/*.tsx"],
+     "message": "use a token-backed class"},
+    {"id": "tsx-hex-colour", "regex": "#[0-9a-fA-F]{6}\\b", "globs": ["**/*.tsx"],
+     "message": "use a theme token"}
+  ]
+}

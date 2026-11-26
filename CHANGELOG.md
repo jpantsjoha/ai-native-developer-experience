@@ -37,7 +37,8 @@ packaging version (originally `join-the-team`, now DevEx Charter) declared in th
   2026-11-25 against its GitHub release, `plugin.json` and licence. superpowers 6.1.1 →
   7.0.2, impeccable 3.9.1 → 4.11.0, ui-ux-pro-max 2.6.2 → 2.15.0 (MIT), caveman 1.9.0 →
   4.2.0 (Apache-2.0), ponytail 5.3.3 (MIT). The column now says "upstream version", because
-  none of these was re-tested with this harness. ui-ux-pro-max and caveman link to their
+  these are upstream releases, not re-tested pins; only ponytail 5.3.3 was run once, in the
+  exploratory test below. ui-ux-pro-max and caveman link to their
   repositories instead of a listing site. [Pull request 45](https://github.com/jpantsjoha/ai-native-developer-experience/pull/45).
 - [Context-graph freshness](docs/CONTEXT-GRAPH-FRESHNESS.md): records graft's rename to
   Trail-code and the reference pin moving from 0.10.1 to 0.30.5, and adds guardrails for
